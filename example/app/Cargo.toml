@@ -1,0 +1,27 @@
+[package]
+name = "example-app"
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+http = "1.1.0"
+leptos.workspace = true
+leptos_meta = { version = "0.6.9", features = ["nightly"] }
+leptos_router = { version = "0.6.9", features = ["nightly"] }
+leptos_axum = { version = "0.6.9", optional = true }
+log.workspace = true
+thiserror = "1.0.57"
+tailwind_fuse = { version = "0.1.0", features = ["variant"] }
+
+[features]
+default = []
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum"]

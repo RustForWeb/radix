@@ -1,0 +1,5 @@
+# Node.js E2E test tools and outputs
+node_modules/
+test-results/
+playwright-report/
+playwright/.cache/

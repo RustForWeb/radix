@@ -1,0 +1,19 @@
+{
+    "name": "@nixysoftware/leptos-radix",
+    "description": "Leptos port of Radix.",
+    "author": "Nixy <info@nixy.software>",
+    "repository": "github:NixySoftware/leptos-radix",
+    "license": "MIT",
+    "private": true,
+    "scripts": {},
+    "devDependencies": {
+        "@types/node": "^20.11.28",
+        "prettier": "^3.2.5",
+        "prettier-plugin-tailwindcss": "^0.5.12",
+        "tailwindcss": "^3.4.1",
+        "tailwindcss-animate": "^1.0.7"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}

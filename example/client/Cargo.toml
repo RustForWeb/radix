@@ -1,0 +1,21 @@
+[package]
+name = "example-client"
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+console_error_panic_hook = "0.1.7"
+console_log = "1.0.0"
+example-app = { path = "../app", default-features = false, features = [
+    "hydrate",
+] }
+leptos = { workspace = true, features = ["hydrate"] }
+log.workspace = true

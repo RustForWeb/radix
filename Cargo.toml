@@ -1,0 +1,50 @@
+[workspace]
+members = ["example/app", "example/client", "example/server", "primitives/*"]
+resolver = "2"
+
+[workspace.package]
+authors = ["Nixy <info@nixy.software>"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/NixySoftware/leptos-radix"
+version = "0.1.0"
+
+[workspace.dependencies]
+leptos = { version = "0.6.9", features = ["nightly"] }
+log = "0.4.21"
+# wasm-bindgen = "0.2.92"
+
+[[workspace.metadata.leptos]]
+name = "example"
+
+site-root = "target/site"
+site-pkg-dir = "pkg"
+assets-dir = "example/public"
+
+browserquery = "defaults"
+tailwind-input-file = "example/style/tailwind.css"
+tailwind-config-file = "example/tailwind.config.ts"
+
+site-addr = "127.0.0.1:3000"
+reload-port = 3001
+watch = false
+env = "DEV"
+
+end2end-cmd = "npx playwright test"
+end2end-dir = "end2end"
+
+bin-package = "example-server"
+bin-features = []
+bin-default-features = false
+
+lib-package = "example-client"
+lib-features = []
+lib-default-features = false
+lib-profile-release = "wasm-release"
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = "abort"
