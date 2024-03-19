@@ -10,7 +10,9 @@ pub fn Layout(children: Children) -> impl IntoView {
         </header>
 
         <main class="container h-screen w-screen pt-16">
-            {children()}
+            <div class="pt-8">
+                {children()}
+            </div>
         </main>
 
         <footer />

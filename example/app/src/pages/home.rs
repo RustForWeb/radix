@@ -1,12 +1,13 @@
 use leptos::*;
+use leptos_router::A;
 
 #[component]
 pub fn HomePage() -> impl IntoView {
-    let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
-
     view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <h1 class="text-xl pb-3">Leptos Radix Example</h1>
+
+        <ul class="list-disc list-inside">
+            <li><A class="underline hover:text-primary" href="/popper">Popper</A></li>
+        </ul>
     }
 }

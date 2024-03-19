@@ -12,6 +12,7 @@ use leptos_router::*;
 use crate::components::layout::Layout;
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::pages::home::HomePage;
+use crate::pages::popper::PopperPage;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -33,6 +34,7 @@ pub fn App() -> impl IntoView {
             <Layout>
                 <Routes>
                     <Route path="" view=HomePage />
+                    <Route path="/popper" view=PopperPage />
                 </Routes>
             </Layout>
         </Router>
