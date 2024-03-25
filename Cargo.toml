@@ -6,7 +6,7 @@ resolver = "2"
 authors = ["Nixy <info@nixy.software>"]
 edition = "2021"
 license = "MIT"
-repository = "https://github.com/NixySoftware/leptos-radix"
+repository = "https://github.com/NixySoftware/radix"
 version = "0.1.0"
 
 [workspace.dependencies]
