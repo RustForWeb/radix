@@ -1,5 +1,5 @@
 [package]
-name = "leptos-radix-popper"
+name = "radix-leptos-popper"
 
 authors.workspace = true
 edition.workspace = true

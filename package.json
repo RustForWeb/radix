@@ -1,8 +1,8 @@
 {
-    "name": "@nixysoftware/leptos-radix",
-    "description": "Leptos port of Radix.",
+    "name": "@nixysoftware/radix",
+    "description": "Rust port of Radix.",
     "author": "Nixy <info@nixy.software>",
-    "repository": "github:NixySoftware/leptos-radix",
+    "repository": "github:NixySoftware/radix",
     "license": "MIT",
     "private": true,
     "scripts": {},
