@@ -1,5 +1,5 @@
 [workspace]
-members = ["packages/primitives/*/*"]
+members = ["packages/primitives/*/*", "packages/primitives/*/*/example"]
 resolver = "2"
 
 [workspace.package]
@@ -10,6 +10,9 @@ repository = "https://github.com/NixySoftware/radix"
 version = "0.1.0"
 
 [workspace.dependencies]
-leptos = { version = "0.6.9", features = ["nightly"] }
+console_log = "1.0.0"
+console_error_panic_hook = "0.1.7"
+leptos = { version = "0.6.9", features = ["csr", "nightly"] }
 log = "0.4.21"
-# wasm-bindgen = "0.2.92"
+tailwind_fuse = "0.3.0"
+web-sys = "0.3.69"

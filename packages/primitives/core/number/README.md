@@ -1,4 +1,4 @@
-# radix-primitive
+# radix-number
 
 This is an internal utility, not intended for public usage.
 

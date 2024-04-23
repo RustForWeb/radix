@@ -1,0 +1,19 @@
+[package]
+name = "radix-leptos-popper-example"
+description = "Example for Radix Leptos Popper."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+console_log.workspace = true
+console_error_panic_hook.workspace = true
+leptos.workspace = true
+log.workspace = true
+radix-leptos-popper = { path = ".." }
+tailwind_fuse.workspace = true
+web-sys.workspace = true

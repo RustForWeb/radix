@@ -1,5 +1,6 @@
 [package]
 name = "radix-leptos-popper"
+description = "Leptos port of Radix Popper."
 
 authors.workspace = true
 edition.workspace = true
@@ -8,4 +9,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+floating-ui-leptos = "0.0.6"
 leptos.workspace = true
+serde = "1.0.198"
+serde_json = "1.0.116"
