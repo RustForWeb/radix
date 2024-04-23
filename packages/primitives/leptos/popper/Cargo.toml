@@ -11,5 +11,8 @@ version.workspace = true
 [dependencies]
 floating-ui-leptos = "0.0.6"
 leptos.workspace = true
+log.workspace = true                                              # TODO: remove
+radix-leptos-arrow = { path = "../arrow", version = "0.0.1" }
+radix-leptos-context = { path = "../context", version = "0.0.1" }
 serde = "1.0.198"
 serde_json = "1.0.116"

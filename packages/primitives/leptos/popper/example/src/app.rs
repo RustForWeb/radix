@@ -29,8 +29,7 @@ fn Styled() -> impl IntoView {
                 </PopperAnchor>
 
                 <Show when=open>
-                    // sideOffset={5}
-                    <PopperContent class=content_class>
+                    <PopperContent class=content_class side_offset={5.0}>
                         <button on:click=move |_| set_open(false)>close</button>
                         // width={20} height={10}
                         <PopperArrow class=arrow_class />
@@ -58,7 +57,7 @@ pub struct AnchorClass {
     pub size: AnchorSize,
 }
 
-#[derive(TwVariant, Clone, Copy)]
+#[derive(TwVariant)]
 pub enum AnchorSize {
     #[tw(class = "size-[50px]")]
     Small,
@@ -69,14 +68,14 @@ pub enum AnchorSize {
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "bg-[#ccc] p-[10px] rounded-[10px]")]
 pub struct ContentClass {
-    pub size: AnchorSize,
+    pub size: ContentSize,
 }
 
-#[derive(TwVariant, Clone, Copy)]
+#[derive(TwVariant)]
 pub enum ContentSize {
     #[tw(class = "w-[100px] h-[50px]")]
     Small,
-    #[tw(default, class = "w-[300px] h-[100px]")]
+    #[tw(default, class = "w-[300px] h-[150px]")]
     Large,
 }
 
