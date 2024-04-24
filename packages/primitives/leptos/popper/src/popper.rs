@@ -6,10 +6,11 @@ use floating_ui_leptos::{
     SizeOptions, Strategy, UseFloatingOptions, UseFloatingReturn, ARROW_NAME, HIDE_NAME,
 };
 use leptos::{
-    html::{Div, Span},
+    html::{AnyElement, Div},
     *,
 };
 use radix_leptos_arrow::Arrow as ArrowPrimitive;
+use radix_leptos_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsCast;
 
@@ -83,7 +84,7 @@ pub fn PopperAnchor(
 #[derive(Clone)]
 struct PopperContentContextValue {
     pub placed_side: Signal<Side>,
-    pub arrow_ref: NodeRef<Span>,
+    pub arrow_ref: NodeRef<AnyElement>,
     pub arrow_x: Signal<Option<f64>>,
     pub arrow_y: Signal<Option<f64>>,
     pub should_hide_arrow: Signal<bool>,
@@ -120,10 +121,18 @@ pub fn PopperContent(
 
     let desired_placement = Signal::derive(move || Placement::from((side(), align().alignment())));
 
-    let arrow_ref = create_node_ref::<Span>();
-    let arrow_size = move || Some(0.0);
-    let arrow_width = move || arrow_size().unwrap_or(0.0);
-    let arrow_height = move || arrow_size().unwrap_or(0.0);
+    let arrow_ref = create_node_ref::<AnyElement>();
+    let arrow_size = use_size(arrow_ref);
+    let arrow_width = move || {
+        arrow_size()
+            .map(|arrow_size| arrow_size.width)
+            .unwrap_or(0.0)
+    };
+    let arrow_height = move || {
+        arrow_size()
+            .map(|arrow_size| arrow_size.height)
+            .unwrap_or(0.0)
+    };
 
     let boundary = move || vec![0];
     let has_explicit_boundaries = move || !boundary().is_empty();
@@ -322,6 +331,8 @@ pub fn PopperContent(
 
 #[component]
 pub fn PopperArrow(
+    #[prop(into, optional)] width: MaybeProp<f64>,
+    #[prop(into, optional)] height: MaybeProp<f64>,
     #[prop(into, optional)] class: MaybeProp<String>,
     #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
@@ -336,7 +347,6 @@ pub fn PopperArrow(
 
     view! {
         <span
-            _ref={arrow_ref}
             style:position="absolute"
             style:left=move || match base_side() {
                 Side::Left => Some("0px".into()),
@@ -371,9 +381,11 @@ pub fn PopperArrow(
                 false => None
             }
         >
-            <ArrowPrimitive class={class} {..attributes} />
+            <ArrowPrimitive width=width height=height class={class} {..attributes} />
         </span>
     }
+    .into_any()
+    .node_ref(arrow_ref)
 }
 
 const TRANSFORM_ORIGIN_NAME: &str = "transformOrigin";
