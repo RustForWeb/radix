@@ -9,7 +9,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-floating-ui-leptos = "0.0.6"
+floating-ui-leptos = "0.0.8"
 leptos.workspace = true
 log.workspace = true                                                # TODO: remove
 radix-leptos-arrow = { path = "../arrow", version = "0.0.1" }

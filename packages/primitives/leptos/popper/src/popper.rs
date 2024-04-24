@@ -1,9 +1,10 @@
 use floating_ui_leptos::{
-    use_floating, Alignment, ApplyState, Arrow, ArrowData, ArrowOptions, DetectOverflowOptions,
-    Flip, FlipOptions, Hide, HideData, HideOptions, HideStrategy, IntoReference, LimitShift,
-    LimitShiftOptions, Middleware, MiddlewareReturn, MiddlewareState, MiddlewareVec, Offset,
-    OffsetOptions, OffsetOptionsValues, Padding, Placement, Shift, ShiftOptions, Side, Size,
-    SizeOptions, Strategy, UseFloatingOptions, UseFloatingReturn, ARROW_NAME, HIDE_NAME,
+    use_floating, Alignment, ApplyState, Arrow, ArrowData, ArrowOptions, AutoUpdateOptions,
+    Boundary, DetectOverflowOptions, Flip, FlipOptions, Hide, HideData, HideOptions, HideStrategy,
+    IntoReference, LimitShift, LimitShiftOptions, Middleware, MiddlewareReturn, MiddlewareState,
+    MiddlewareVec, Offset, OffsetOptions, OffsetOptionsValues, Padding, Placement, Shift,
+    ShiftOptions, Side, Size, SizeOptions, Strategy, UseFloatingOptions, UseFloatingReturn,
+    ARROW_NAME, HIDE_NAME,
 };
 use leptos::{
     html::{AnyElement, Div},
@@ -44,6 +45,12 @@ impl From<Option<Alignment>> for Align {
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum Sticky {
     Partial,
+    Always,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub enum UpdatePositionStrategy {
+    Optimized,
     Always,
 }
 
@@ -98,10 +105,11 @@ pub fn PopperContent(
     #[prop(into, optional)] align_offset: MaybeProp<f64>,
     #[prop(into, optional)] arrow_padding: MaybeProp<f64>,
     #[prop(into, optional)] avoid_collisions: MaybeProp<bool>,
-    // collision_boundary
+    #[prop(into, optional)] collision_boundary: MaybeProp<Vec<web_sys::Element>>,
     #[prop(into, optional)] collision_padding: MaybeProp<Padding>,
     #[prop(into, optional)] sticky: MaybeProp<Sticky>,
     #[prop(into, optional)] hide_when_detached: MaybeProp<bool>,
+    #[prop(into, optional)] update_position_strategy: MaybeProp<UpdatePositionStrategy>,
     #[prop(into, optional)] class: MaybeSignal<String>,
     #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
     children: Children,
@@ -112,10 +120,12 @@ pub fn PopperContent(
     let align_offset = move || align_offset().unwrap_or(0.0);
     let arrow_padding = move || arrow_padding().unwrap_or(0.0);
     let avoid_collisions = move || avoid_collisions().unwrap_or(true);
-    // collision_boundary
+    let collision_boundary = move || collision_boundary().unwrap_or_default();
     let collision_padding = move || collision_padding().unwrap_or(Padding::All(0.0));
     let sticky = move || sticky().unwrap_or(Sticky::Partial);
     let hide_when_detached = move || hide_when_detached().unwrap_or(false);
+    let update_position_strategy =
+        move || update_position_strategy().unwrap_or(UpdatePositionStrategy::Optimized);
 
     let context: PopperContextValue = expect_context();
 
@@ -134,9 +144,6 @@ pub fn PopperContent(
             .unwrap_or(0.0)
     };
 
-    let boundary = move || vec![0];
-    let has_explicit_boundaries = move || !boundary().is_empty();
-
     let floating_ref = create_node_ref::<Div>();
 
     let UseFloatingReturn {
@@ -151,11 +158,15 @@ pub fn PopperContent(
         UseFloatingOptions::default()
             .strategy(Strategy::Fixed.into())
             .placement(desired_placement.into())
+            .while_elements_mounted_auto_update_with_options(MaybeSignal::derive(move || {
+                AutoUpdateOptions::default()
+                    .animation_frame(update_position_strategy() == UpdatePositionStrategy::Always)
+            }))
             .middleware(MaybeProp::derive(move || {
                 let detect_overflow_options = DetectOverflowOptions::default()
                     .padding(collision_padding())
-                    // TODO: .boundary(value)
-                    .alt_boundary(has_explicit_boundaries());
+                    .boundary(Boundary::Elements(collision_boundary()))
+                    .alt_boundary(!collision_boundary().is_empty());
 
                 let mut middleware: MiddlewareVec =
                     vec![Box::new(Offset::new(OffsetOptions::Values(
@@ -248,7 +259,7 @@ pub fn PopperContent(
     );
 
     let placed_side = Signal::derive(move || placement().side());
-    let _placed_align = move || Align::from(placement().alignment());
+    let placed_align = move || Align::from(placement().alignment());
 
     // TODO: handlePlaced
 
@@ -275,6 +286,10 @@ pub fn PopperContent(
             .and_then(|hide_data| hide_data.reference_hidden)
             .unwrap_or(false)
     };
+
+    let dir = attributes
+        .iter()
+        .find_map(|(key, value)| (*key == "dir").then_some(value.clone()));
 
     let content_context = PopperContentContextValue {
         placed_side,
@@ -305,23 +320,24 @@ pub fn PopperContent(
 
             // Hide the content if using the hide middleware and should be hidden set visibility to hidden
             // and disable pointer events so the UI behaves as if the PopperContent isn't there at all.
-            style:visibility=move || match reference_hidden() {
-                true => Some("hidden"),
-                false => None,
-            }
-            style:pointer-events=move || match reference_hidden() {
-                true => Some("none"),
-                false => None,
-            }
+            style:visibility=move || reference_hidden().then_some("hidden")
+            style:pointer-events=move || reference_hidden().then_some("none")
 
             // Floating UI interally calculates logical alignment based the `dir` attribute on
             // the reference/floating node, we must add this attribute here to ensure
             // this is calculated when portalled as well as inline.
-            // TODO
-            // dir={dir}
+            dir={dir}
         >
             <Provider value={content_context}>
-                <div class=move || class() {..attributes}>
+                <div
+                    prop:data-side=move || format!("{:?}", placed_side()).to_lowercase()
+                    prop:data-align=move || format!("{:?}", placed_align()).to_lowercase()
+                    class=move || class()
+                    // If the PopperContent hasn't been placed yet (not all measurements done),
+                    // we prevent animations so that users's animation don't kick in too early referring wrong sides.
+                    style:animation=move || is_positioned().then_some("none")
+                    {..attributes}
+                >
                     {children()}
                 </div>
             </Provider>
@@ -376,10 +392,7 @@ pub fn PopperArrow(
                 Side::Bottom => "rotate(180deg)",
                 Side::Left => "translateY(50%) rotate(-90deg) translateX(50%)",
             }
-            style:visibility=move || match (content_context.should_hide_arrow)() {
-                true => Some("hidden"),
-                false => None
-            }
+            style:visibility=move || (content_context.should_hide_arrow)().then_some("hidden")
         >
             <ArrowPrimitive width=width height=height class={class} {..attributes} />
         </span>
