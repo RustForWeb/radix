@@ -2,6 +2,8 @@ use leptos::*;
 use radix_leptos_popper::*;
 use tailwind_fuse::*;
 
+// TODO: add router and separate pages for each component, similar to Storybook
+
 #[component]
 pub fn App() -> impl IntoView {
     view! {
@@ -37,6 +39,31 @@ fn Styled() -> impl IntoView {
             </Popper>
         </Scrollable>
     }
+}
+
+#[component]
+fn WithCustomArrow() -> impl IntoView {
+    view! {}
+}
+
+#[component]
+fn Animated() -> impl IntoView {
+    view! {}
+}
+
+#[component]
+fn WithPortal() -> impl IntoView {
+    view! {}
+}
+
+#[component]
+fn WithUpdatePositionStrategyAlways() -> impl IntoView {
+    view! {}
+}
+
+#[component]
+fn Chromatic() -> impl IntoView {
+    view! {}
 }
 
 #[component]

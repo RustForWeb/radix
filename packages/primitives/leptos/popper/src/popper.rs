@@ -302,18 +302,15 @@ pub fn PopperContent(
     view! {
         <div
             _ref={floating_ref}
-            style:position=move || match floating_styles().position {
-                Strategy::Absolute => "absolute",
-                Strategy::Fixed => "fixed",
-            }
-            style:top=move || floating_styles().top
-            style:left=move || floating_styles().left
+            style:position=move || floating_styles().style_position()
+            style:top=move || floating_styles().style_top()
+            style:left=move || floating_styles().style_left()
             style:transform=move || match is_positioned() {
-                true => floating_styles().transform,
+                true => floating_styles().style_transform(),
                 // Keep off the page when measuring
                 false => Some("translate(0, -200%)".into())
             }
-            style:will-change=move || floating_styles().will_change
+            style:will-change=move || floating_styles().style_will_change()
             style:min-width="max-content"
             style:z-index=content_z_index
             style=("--radix-popper-transform-origin", transform_origin)
