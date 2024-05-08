@@ -1,5 +1,6 @@
 [package]
 name = "radix-primitive"
+description = "Rust port of Radix Core Primitive."
 
 authors.workspace = true
 edition.workspace = true

@@ -1,5 +1,6 @@
 [package]
 name = "radix-rect"
+description = "Rust port of Radix Core Rect."
 
 authors.workspace = true
 edition.workspace = true

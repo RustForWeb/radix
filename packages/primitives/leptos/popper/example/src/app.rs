@@ -86,6 +86,7 @@ pub struct AnchorClass {
 #[derive(TwVariant)]
 pub enum AnchorSize {
     #[tw(class = "size-[50px]")]
+    #[allow(dead_code)]
     Small,
     #[tw(default, class = "size-[100px]")]
     Large,
@@ -100,6 +101,7 @@ pub struct ContentClass {
 #[derive(TwVariant)]
 pub enum ContentSize {
     #[tw(class = "w-[100px] h-[50px]")]
+    #[allow(dead_code)]
     Small,
     #[tw(default, class = "w-[300px] h-[150px]")]
     Large,

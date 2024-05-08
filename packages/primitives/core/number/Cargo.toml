@@ -1,5 +1,6 @@
 [package]
 name = "radix-number"
+description = "Rust port of Radix Core Number."
 
 authors.workspace = true
 edition.workspace = true
