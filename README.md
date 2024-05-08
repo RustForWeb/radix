@@ -10,9 +10,25 @@ Rust port of [Radix](https://www.radix-ui.com).
 
 [Radix](https://www.radix-ui.com) is a library of components, icons, colors, and templates for building high-quality, accessible UI.
 
-## Documentation
+## Frameworks
+
+Rust Radix is available for these Rust frameworks:
+
+-   [Leptos](./packages/primitives/leptos)
+
+## Examples
 
 TODO
+
+## Documentation
+
+Documentation for the crates is available on [Docs.rs](https://docs.rs/):
+
+-   [`radix-colors`](https://docs.rs/radix-colors/latest/radix_colors/)
+-   [`radix-leptos-arrow`](https://docs.rs/radix-leptos-arrow/latest/radix_leptos_arrow/)
+-   [`radix-leptos-popper`](https://docs.rs/radix-leptos-popper/latest/radix_leptos_popper/)
+-   [`radix-leptos-use-size`](https://docs.rs/radix-leptos-use-size/latest/radix_leptos_use_size/)
+-   [`radix-rect`](https://docs.rs/radix-rect/latest/radix_rect/)
 
 ## Credits
 
