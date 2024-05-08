@@ -16,9 +16,9 @@ pub fn Arrow(
         <svg
             width=width
             height=height
+            class=class
             viewBox="0 0 30 10"
             preserveAspectRatio="none"
-            class=move || class()
             {..attributes}
         >
             <polygon points="0,0 30,0 15,10" />

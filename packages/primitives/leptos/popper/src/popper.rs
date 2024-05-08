@@ -329,7 +329,7 @@ pub fn PopperContent(
                 <div
                     prop:data-side=move || format!("{:?}", placed_side()).to_lowercase()
                     prop:data-align=move || format!("{:?}", placed_align()).to_lowercase()
-                    class=move || class()
+                    class=class
                     // If the PopperContent hasn't been placed yet (not all measurements done),
                     // we prevent animations so that users's animation don't kick in too early referring wrong sides.
                     style:animation=move || is_positioned().then_some("none")
