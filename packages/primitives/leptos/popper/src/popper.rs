@@ -74,7 +74,7 @@ pub fn Popper(children: Children) -> impl IntoView {
 
 #[component]
 pub fn PopperAnchor(
-    #[prop(into, optional)] class: MaybeSignal<String>,
+    #[prop(into, optional)] class: MaybeProp<String>,
     #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
@@ -110,7 +110,7 @@ pub fn PopperContent(
     #[prop(into, optional)] sticky: MaybeProp<Sticky>,
     #[prop(into, optional)] hide_when_detached: MaybeProp<bool>,
     #[prop(into, optional)] update_position_strategy: MaybeProp<UpdatePositionStrategy>,
-    #[prop(into, optional)] class: MaybeSignal<String>,
+    #[prop(into, optional)] class: MaybeProp<String>,
     #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
