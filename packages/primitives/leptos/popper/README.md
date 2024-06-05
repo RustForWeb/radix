@@ -6,8 +6,6 @@
 
 <h1 align="center">radix-leptos-popper</h1>
 
-# radix-leptos-popper
-
 This is an internal utility, not intended for public usage.
 
 ## Rust Radix
