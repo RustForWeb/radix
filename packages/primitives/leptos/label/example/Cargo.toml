@@ -1,0 +1,19 @@
+[package]
+name = "radix-leptos-label-example"
+description = "Example for Radix Leptos Label."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+console_log.workspace = true
+console_error_panic_hook.workspace = true
+leptos = { workspace = true, features = ["csr"] }
+log.workspace = true
+radix-leptos-label = { path = ".." }
+tailwind_fuse.workspace = true
+web-sys.workspace = true
