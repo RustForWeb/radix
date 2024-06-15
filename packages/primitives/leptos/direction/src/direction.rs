@@ -22,8 +22,9 @@ pub fn use_direction(local_dir: MaybeProp<Direction>) -> Signal<Direction> {
     let global_dir = use_context::<DirectionContextValue>();
 
     Signal::derive(move || {
-        local_dir()
-            .or(global_dir.map(|global_dir| global_dir()))
+        local_dir
+            .get()
+            .or(global_dir.map(|global_dir| global_dir.get()))
             .unwrap_or(Direction::Ltr)
     })
 }

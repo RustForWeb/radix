@@ -28,8 +28,8 @@ pub fn Menu(
     // TODO: onOpenChange
     children: Children,
 ) -> impl IntoView {
-    let open = Signal::derive(move || open().unwrap_or(false));
-    let modal = Signal::derive(move || modal().unwrap_or(true));
+    let open = Signal::derive(move || open.get().unwrap_or(false));
+    let modal = Signal::derive(move || modal.get().unwrap_or(true));
 
     // TODO: popper scope
     let content_ref = create_node_ref::<AnyElement>();

@@ -9,8 +9,8 @@ pub fn Arrow(
 ) -> impl IntoView {
     // TODO: support asChild
 
-    let width = move || width().unwrap_or(10.0);
-    let height = move || height().unwrap_or(5.0);
+    let width = move || width.get().unwrap_or(10.0);
+    let height = move || height.get().unwrap_or(5.0);
 
     view! {
         <svg

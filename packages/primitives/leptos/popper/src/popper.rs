@@ -114,18 +114,21 @@ pub fn PopperContent(
     #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
-    let side = move || side().unwrap_or(Side::Bottom);
-    let side_offset = move || side_offset().unwrap_or(0.0);
-    let align = move || align().unwrap_or(Align::Center);
-    let align_offset = move || align_offset().unwrap_or(0.0);
-    let arrow_padding = move || arrow_padding().unwrap_or(0.0);
-    let avoid_collisions = move || avoid_collisions().unwrap_or(true);
-    let collision_boundary = move || collision_boundary().unwrap_or_default();
-    let collision_padding = move || collision_padding().unwrap_or(Padding::All(0.0));
-    let sticky = move || sticky().unwrap_or(Sticky::Partial);
-    let hide_when_detached = move || hide_when_detached().unwrap_or(false);
-    let update_position_strategy =
-        move || update_position_strategy().unwrap_or(UpdatePositionStrategy::Optimized);
+    let side = move || side.get().unwrap_or(Side::Bottom);
+    let side_offset = move || side_offset.get().unwrap_or(0.0);
+    let align = move || align.get().unwrap_or(Align::Center);
+    let align_offset = move || align_offset.get().unwrap_or(0.0);
+    let arrow_padding = move || arrow_padding.get().unwrap_or(0.0);
+    let avoid_collisions = move || avoid_collisions.get().unwrap_or(true);
+    let collision_boundary = move || collision_boundary.get().unwrap_or_default();
+    let collision_padding = move || collision_padding.get().unwrap_or(Padding::All(0.0));
+    let sticky = move || sticky.get().unwrap_or(Sticky::Partial);
+    let hide_when_detached = move || hide_when_detached.get().unwrap_or(false);
+    let update_position_strategy = move || {
+        update_position_strategy
+            .get()
+            .unwrap_or(UpdatePositionStrategy::Optimized)
+    };
 
     let context: PopperContextValue = expect_context();
 
@@ -134,12 +137,14 @@ pub fn PopperContent(
     let arrow_ref = create_node_ref::<AnyElement>();
     let arrow_size = use_size(arrow_ref);
     let arrow_width = move || {
-        arrow_size()
+        arrow_size
+            .get()
             .map(|arrow_size| arrow_size.width)
             .unwrap_or(0.0)
     };
     let arrow_height = move || {
-        arrow_size()
+        arrow_size
+            .get()
             .map(|arrow_size| arrow_size.height)
             .unwrap_or(0.0)
     };
@@ -258,12 +263,12 @@ pub fn PopperContent(
             })),
     );
 
-    let placed_side = Signal::derive(move || placement().side());
-    let placed_align = move || Align::from(placement().alignment());
+    let placed_side = Signal::derive(move || placement.get().side());
+    let placed_align = move || Align::from(placement.get().alignment());
 
     // TODO: handlePlaced
 
-    let arrow_data = move || -> Option<ArrowData> { middleware_data().get_as(ARROW_NAME) };
+    let arrow_data = move || -> Option<ArrowData> { middleware_data.get().get_as(ARROW_NAME) };
     let arrow_x = Signal::derive(move || arrow_data().and_then(|arrow_data| arrow_data.x));
     let arrow_y = Signal::derive(move || arrow_data().and_then(|arrow_data| arrow_data.y));
     let cannot_center_arrow = Signal::derive(move || {
@@ -273,14 +278,15 @@ pub fn PopperContent(
     // TODO
     let content_z_index = move || "0";
 
-    let transform_origin_data =
-        move || -> Option<TransformOriginData> { middleware_data().get_as(TRANSFORM_ORIGIN_NAME) };
+    let transform_origin_data = move || -> Option<TransformOriginData> {
+        middleware_data.get().get_as(TRANSFORM_ORIGIN_NAME)
+    };
     let transform_origin = move || {
         transform_origin_data().map(|transform_origin_data| {
             format!("{} {}", transform_origin_data.x, transform_origin_data.y)
         })
     };
-    let hide_data = move || -> Option<HideData> { middleware_data().get_as(HIDE_NAME) };
+    let hide_data = move || -> Option<HideData> { middleware_data.get().get_as(HIDE_NAME) };
     let reference_hidden = move || {
         hide_data()
             .and_then(|hide_data| hide_data.reference_hidden)
@@ -302,15 +308,15 @@ pub fn PopperContent(
     view! {
         <div
             _ref={floating_ref}
-            style:position=move || floating_styles().style_position()
-            style:top=move || floating_styles().style_top()
-            style:left=move || floating_styles().style_left()
-            style:transform=move || match is_positioned() {
-                true => floating_styles().style_transform(),
+            style:position=move || floating_styles.get().style_position()
+            style:top=move || floating_styles.get().style_top()
+            style:left=move || floating_styles.get().style_left()
+            style:transform=move || match is_positioned.get() {
+                true => floating_styles.get().style_transform(),
                 // Keep off the page when measuring
                 false => Some("translate(0, -200%)".into())
             }
-            style:will-change=move || floating_styles().style_will_change()
+            style:will-change=move || floating_styles.get().style_will_change()
             style:min-width="max-content"
             style:z-index=content_z_index
             style=("--radix-popper-transform-origin", transform_origin)
@@ -327,12 +333,12 @@ pub fn PopperContent(
         >
             <Provider value={content_context}>
                 <div
-                    prop:data-side=move || format!("{:?}", placed_side()).to_lowercase()
+                    prop:data-side=move || format!("{:?}", placed_side.get()).to_lowercase()
                     prop:data-align=move || format!("{:?}", placed_align()).to_lowercase()
                     class=class
                     // If the PopperContent hasn't been placed yet (not all measurements done),
                     // we prevent animations so that users's animation don't kick in too early referring wrong sides.
-                    style:animation=move || is_positioned().then_some("none")
+                    style:animation=move || is_positioned.get().then_some("none")
                     {..attributes}
                 >
                     {children()}
@@ -349,11 +355,11 @@ pub fn PopperArrow(
     #[prop(into, optional)] class: MaybeProp<String>,
     #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
-    let class = Signal::derive(class);
+    let class = Signal::derive(move || class.get());
 
     let content_context: PopperContentContextValue = expect_context();
     let arrow_ref = content_context.arrow_ref;
-    let base_side = move || (content_context.placed_side)().opposite();
+    let base_side = move || content_context.placed_side.get().opposite();
 
     let mut attributes = attributes.clone();
     attributes.extend(vec![("style:display", "block".into_attribute())]);
@@ -363,11 +369,11 @@ pub fn PopperArrow(
             style:position="absolute"
             style:left=move || match base_side() {
                 Side::Left => Some("0px".into()),
-                _ => (content_context.arrow_x)().map(|arrow_x| format!("{}px", arrow_x))
+                _ => content_context.arrow_x.get().map(|arrow_x| format!("{}px", arrow_x))
             }
             style:top=move || match base_side() {
                 Side::Top => Some("0px".into()),
-                _ => (content_context.arrow_y)().map(|arrow_y| format!("{}px", arrow_y))
+                _ => content_context.arrow_y.get().map(|arrow_y| format!("{}px", arrow_y))
             }
             style:right=move || match base_side() {
                 Side::Right => Some("0px"),
@@ -377,21 +383,21 @@ pub fn PopperArrow(
                 Side::Bottom => Some("0px"),
                 _ => None
             }
-            style:transform-origin=move || match (content_context.placed_side)() {
+            style:transform-origin=move || match content_context.placed_side.get() {
                 Side::Top => "",
                 Side::Right => "0 0",
                 Side::Bottom => "center 0",
                 Side::Left => "100% 0",
             }
-            style:transform=move || match (content_context.placed_side)() {
+            style:transform=move || match content_context.placed_side.get() {
                 Side::Top => "translateY(100%)",
                 Side::Right => "translateY(50%) rotate(90deg) translateX(-50%)",
                 Side::Bottom => "rotate(180deg)",
                 Side::Left => "translateY(50%) rotate(-90deg) translateX(50%)",
             }
-            style:visibility=move || (content_context.should_hide_arrow)().then_some("hidden")
+            style:visibility=move || content_context.should_hide_arrow.get().then_some("hidden")
         >
-            <ArrowPrimitive width=width height=height class={class} {..attributes} />
+            <ArrowPrimitive width=width height=height class={class} attributes=attributes />
         </span>
     }
     .into_any()

@@ -76,7 +76,7 @@ fn MenuWithAnchor(
     #[prop(into, optional)] open: MaybeProp<bool>,
     children: Children,
 ) -> impl IntoView {
-    let open = Signal::derive(move || open().unwrap_or(true));
+    let open = Signal::derive(move || open.get().unwrap_or(true));
 
     let content_class = create_memo(move |_| ContentClass::default().to_class());
 

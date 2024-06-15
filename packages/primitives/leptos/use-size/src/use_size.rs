@@ -1,6 +1,8 @@
 use std::{cell::RefCell, rc::Rc};
 
-use leptos::{create_effect, create_signal, html::AnyElement, on_cleanup, NodeRef, ReadSignal};
+use leptos::{
+    create_effect, create_signal, html::AnyElement, on_cleanup, NodeRef, ReadSignal, SignalSet,
+};
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry, ResizeObserverOptions,
@@ -20,9 +22,9 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
     let cleanup_resize_observer = resize_observer.clone();
 
     create_effect(move |_| {
-        if let Some(element) = element_ref() {
+        if let Some(element) = element_ref.get() {
             // Provide size as early as possible.
-            set_size(Some(Size {
+            set_size.set(Some(Size {
                 width: element.offset_width() as f64,
                 height: element.offset_height() as f64,
             }));
@@ -35,7 +37,7 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
                         if let Some(border_size_entry) =
                             border_size_entry.dyn_ref::<ResizeObserverSize>()
                         {
-                            set_size(Some(Size {
+                            set_size.set(Some(Size {
                                 width: border_size_entry.inline_size(),
                                 height: border_size_entry.block_size(),
                             }));
@@ -58,7 +60,7 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
                 );
         } else {
             // We only want to reset to `None` when the element becomes `None`, not if it changes to another element.
-            set_size(None);
+            set_size.set(None);
         }
     });
 

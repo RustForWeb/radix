@@ -26,13 +26,13 @@ fn Styled() -> impl IntoView {
     view! {
         <Scrollable>
             <Popper>
-                <PopperAnchor class=anchor_class on:click=move |_| set_open(true)>
+                <PopperAnchor class=anchor_class on:click=move |_| set_open.set(true)>
                     open
                 </PopperAnchor>
 
-                <Show when=open>
+                <Show when=move || open.get()>
                     <PopperContent class=content_class side_offset=5.0>
-                        <button on:click=move |_| set_open(false)>close</button>
+                        <button on:click=move |_| set_open.set(false)>close</button>
                         <PopperArrow class=arrow_class width=20.0 height=10.0 />
                     </PopperContent>
                 </Show>
