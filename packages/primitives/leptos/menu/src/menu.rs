@@ -64,12 +64,12 @@ pub fn Menu(
 
 #[component]
 pub fn MenuAnchor(
-    // #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     // TODO: popper scope
     view! {
-        // {..attributes}
+        // {..attrs}
         <PopperAnchor >
             {children()}
         </PopperAnchor>
@@ -85,8 +85,7 @@ pub fn MenuPortal(children: Children) -> impl IntoView {
 
 #[component]
 pub fn MenuContent(
-    #[prop(into, optional)] class: MaybeProp<String>,
-    #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     let root_context = expect_context::<MenuRootContextValue>();
@@ -97,12 +96,12 @@ pub fn MenuContent(
         // <div>
         //     {move || match (root_context.modal)() {
         //         true => view! {
-        //             <MenuRootContentModal {..attributes} class=class>
+        //             <MenuRootContentModal {..attrs}>
         //                 {children()}
         //             </MenuRootContentModal>
         //         },
         //         false => view! {
-        //             <MenuRootContentNonModal {..attributes} class=class>
+        //             <MenuRootContentNonModal {..attrs}>
         //                 {children()}
         //             </MenuRootContentNonModal>
         //         }
@@ -113,8 +112,7 @@ pub fn MenuContent(
 
 #[component]
 fn MenuRootContentModal(
-    #[prop(into, optional)] class: MaybeProp<String>,
-    #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     view! {}
@@ -122,8 +120,7 @@ fn MenuRootContentModal(
 
 #[component]
 fn MenuRootContentNonModal(
-    #[prop(into, optional)] class: MaybeProp<String>,
-    #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     view! {}
@@ -145,10 +142,7 @@ pub fn MenuLabel() -> impl IntoView {
 }
 
 #[component]
-pub fn MenuItem(
-    #[prop(into, optional)] class: MaybeProp<String>,
-    children: Children,
-) -> impl IntoView {
+pub fn MenuItem(children: Children) -> impl IntoView {
     view! {}
 }
 

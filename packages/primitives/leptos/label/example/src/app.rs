@@ -54,9 +54,9 @@ fn WithInputNumber() -> impl IntoView {
 }
 
 #[component]
-fn Control(#[prop(attrs)] attributes: Vec<(&'static str, Attribute)>) -> impl IntoView {
+fn Control(#[prop(attrs)] attrs: Vec<(&'static str, Attribute)>) -> impl IntoView {
     view! {
-        <button {..attributes} on:click=move |_| window().alert_with_message("clicked").expect("Alert should be successful.")>
+        <button {..attrs} on:click=move |_| window().alert_with_message("clicked").expect("Alert should be successful.")>
             Control
         </button>
     }

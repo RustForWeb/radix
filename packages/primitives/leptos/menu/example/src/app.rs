@@ -21,20 +21,20 @@ fn Styled() -> impl IntoView {
 
     view! {
         <MenuWithAnchor>
-            <MenuItem class=item_class>
+            <MenuItem attr:class=item_class>
                 Undo
             </MenuItem>
-            <MenuItem class=item_class>
+            <MenuItem attr:class=item_class>
                 Redo
             </MenuItem>
             <MenuSeparator />
-            <MenuItem class=item_class>
+            <MenuItem attr:class=item_class>
                 Cut
             </MenuItem>
-            <MenuItem class=item_class>
+            <MenuItem attr:class=item_class>
                 Copy
             </MenuItem>
-            <MenuItem class=item_class>
+            <MenuItem attr:class=item_class>
                 Paste
             </MenuItem>
         </MenuWithAnchor>
@@ -85,7 +85,7 @@ fn MenuWithAnchor(
         <Menu open=open modal=false>
             <MenuAnchor>{""}</MenuAnchor>
             <MenuPortal>
-                <MenuContent class=content_class>
+                <MenuContent attr:class=content_class>
                     {children()}
                 </MenuContent>
             </MenuPortal>
