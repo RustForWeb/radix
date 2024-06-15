@@ -74,15 +74,14 @@ pub fn Popper(children: Children) -> impl IntoView {
 
 #[component]
 pub fn PopperAnchor(
-    #[prop(into, optional)] class: MaybeProp<String>,
-    #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     let context: PopperContextValue = expect_context();
     let anchor_ref = context.anchor_ref;
 
     view! {
-        <div _ref=anchor_ref class=move || class.get() {..attributes}>
+        <div {..attrs} _ref=anchor_ref>
             {children()}
         </div>
     }
@@ -110,8 +109,7 @@ pub fn PopperContent(
     #[prop(into, optional)] sticky: MaybeProp<Sticky>,
     #[prop(into, optional)] hide_when_detached: MaybeProp<bool>,
     #[prop(into, optional)] update_position_strategy: MaybeProp<UpdatePositionStrategy>,
-    #[prop(into, optional)] class: MaybeProp<String>,
-    #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     let side = move || side.get().unwrap_or(Side::Bottom);
@@ -293,7 +291,7 @@ pub fn PopperContent(
             .unwrap_or(false)
     };
 
-    let dir = attributes
+    let dir = attrs
         .iter()
         .find_map(|(key, value)| (*key == "dir").then_some(value.clone()));
 
@@ -335,11 +333,10 @@ pub fn PopperContent(
                 <div
                     prop:data-side=move || format!("{:?}", placed_side.get()).to_lowercase()
                     prop:data-align=move || format!("{:?}", placed_align()).to_lowercase()
-                    class=class
                     // If the PopperContent hasn't been placed yet (not all measurements done),
                     // we prevent animations so that users's animation don't kick in too early referring wrong sides.
                     style:animation=move || is_positioned.get().then_some("none")
-                    {..attributes}
+                    {..attrs}
                 >
                     {children()}
                 </div>
@@ -352,19 +349,21 @@ pub fn PopperContent(
 pub fn PopperArrow(
     #[prop(into, optional)] width: MaybeProp<f64>,
     #[prop(into, optional)] height: MaybeProp<f64>,
-    #[prop(into, optional)] class: MaybeProp<String>,
-    #[prop(attrs)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
 ) -> impl IntoView {
-    let class = Signal::derive(move || class.get());
-
     let content_context: PopperContentContextValue = expect_context();
     let arrow_ref = content_context.arrow_ref;
     let base_side = move || content_context.placed_side.get().opposite();
 
-    let mut attributes = attributes.clone();
-    attributes.extend(vec![("style:display", "block".into_attribute())]);
+    let mut attrs = attrs.clone();
+    attrs.extend(vec![("style", "display: block".into_attribute())]);
 
     view! {
+        // We have to use an extra wrapper, because `ResizeObserver` (used by `useSize`)
+        // doesn't report size as we'd expect on SVG elements.
+        // It reports their bounding box, which is effectively the largest path inside the SVG.
         <span
             style:position="absolute"
             style:left=move || match base_side() {
@@ -397,7 +396,9 @@ pub fn PopperArrow(
             }
             style:visibility=move || content_context.should_hide_arrow.get().then_some("hidden")
         >
-            <ArrowPrimitive width=width height=height class={class} attributes=attributes />
+            <ArrowPrimitive width=width height=height as_child=as_child attrs=attrs>
+                {children()}
+            </ArrowPrimitive>
         </span>
     }
     .into_any()
