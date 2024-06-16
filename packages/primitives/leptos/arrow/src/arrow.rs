@@ -24,6 +24,7 @@ pub fn Arrow(
     view! {
         <Primitive
             element=svg::svg
+            as_child=as_child
             attrs=attrs
         >
             <Show
