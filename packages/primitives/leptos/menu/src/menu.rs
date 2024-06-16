@@ -3,7 +3,7 @@
 
 use leptos::{html::AnyElement, *};
 use radix_leptos_direction::{use_direction, Direction};
-use radix_leptos_popper::{Popper, PopperAnchor, PopperContent};
+use radix_leptos_popper::{Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_leptos_primitive::Primitive;
 
 #[derive(Clone)]
@@ -117,7 +117,7 @@ fn MenuRootContentModal(
 ) -> impl IntoView {
     // TODO
     view! {
-        <MenuContentImpl>
+        <MenuContentImpl attrs=attrs>
             {children()}
         </MenuContentImpl>
     }
@@ -130,17 +130,20 @@ fn MenuRootContentNonModal(
 ) -> impl IntoView {
     // TODO
     view! {
-        <MenuContentImpl>
+        <MenuContentImpl attrs=attrs>
             {children()}
         </MenuContentImpl>
     }
 }
 
 #[component]
-fn MenuContentImpl(children: Children) -> impl IntoView {
+fn MenuContentImpl(
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: Children,
+) -> impl IntoView {
     // TODO
     view! {
-        <PopperContent>
+        <PopperContent attrs=attrs>
             {children()}
         </PopperContent>
     }
@@ -262,8 +265,19 @@ pub fn MenuSeparator(
 }
 
 #[component]
-pub fn MenuArrow() -> impl IntoView {
-    view! {}
+pub fn MenuArrow(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
+) -> impl IntoView {
+    view! {
+        <PopperArrow
+            as_child=as_child
+            attrs=attrs
+        >
+            {children()}
+        </PopperArrow>
+    }
 }
 
 #[component]
