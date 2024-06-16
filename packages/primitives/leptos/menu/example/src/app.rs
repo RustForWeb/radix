@@ -74,7 +74,7 @@ fn Animated() -> impl IntoView {
 #[component]
 fn MenuWithAnchor(
     #[prop(into, optional)] open: MaybeProp<bool>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     let open = Signal::derive(move || open.get().unwrap_or(true));
 

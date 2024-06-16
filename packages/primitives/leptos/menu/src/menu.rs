@@ -3,7 +3,8 @@
 
 use leptos::{html::AnyElement, *};
 use radix_leptos_direction::{use_direction, Direction};
-use radix_leptos_popper::{Popper, PopperAnchor};
+use radix_leptos_popper::{Popper, PopperAnchor, PopperContent};
+use radix_leptos_primitive::Primitive;
 
 #[derive(Clone)]
 struct MenuContextValue {
@@ -64,13 +65,12 @@ pub fn Menu(
 
 #[component]
 pub fn MenuAnchor(
-    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
     // TODO: popper scope
     view! {
-        // {..attrs}
-        <PopperAnchor >
+        <PopperAnchor attrs=attrs>
             {children()}
         </PopperAnchor>
     }
@@ -86,27 +86,27 @@ pub fn MenuPortal(children: Children) -> impl IntoView {
 #[component]
 pub fn MenuContent(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
+    let attrs: StoredValue<Vec<(&str, Attribute)>> = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
+
     let root_context = expect_context::<MenuRootContextValue>();
 
     view! {
         // TODO: wrapper components
-        // TODO: fix this
-        // <div>
-        //     {move || match (root_context.modal)() {
-        //         true => view! {
-        //             <MenuRootContentModal {..attrs}>
-        //                 {children()}
-        //             </MenuRootContentModal>
-        //         },
-        //         false => view! {
-        //             <MenuRootContentNonModal {..attrs}>
-        //                 {children()}
-        //             </MenuRootContentNonModal>
-        //         }
-        //     }}
-        // </div>
+        <Show
+            when=move || root_context.modal.get()
+            fallback=move || view!{
+                <MenuRootContentNonModal attrs=attrs.get_value()>
+                    {children.with_value(|children| children())}
+                </MenuRootContentNonModal>
+            }
+        >
+            <MenuRootContentModal attrs=attrs.get_value()>
+                {children.with_value(|children| children())}
+            </MenuRootContentModal>
+        </Show>
     }
 }
 
@@ -115,7 +115,12 @@ fn MenuRootContentModal(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
-    view! {}
+    // TODO
+    view! {
+        <MenuContentImpl>
+            {children()}
+        </MenuContentImpl>
+    }
 }
 
 #[component]
@@ -123,22 +128,59 @@ fn MenuRootContentNonModal(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
 ) -> impl IntoView {
-    view! {}
+    // TODO
+    view! {
+        <MenuContentImpl>
+            {children()}
+        </MenuContentImpl>
+    }
 }
 
 #[component]
-fn MenuContentImpl() -> impl IntoView {
-    view! {}
+fn MenuContentImpl(children: Children) -> impl IntoView {
+    // TODO
+    view! {
+        <PopperContent>
+            {children()}
+        </PopperContent>
+    }
 }
 
 #[component]
-pub fn MenuGroup() -> impl IntoView {
-    view! {}
+pub fn MenuGroup(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
+) -> impl IntoView {
+    let mut attrs = attrs.clone();
+    attrs.extend([("role", "group".into_attribute())]);
+
+    view! {
+        <Primitive
+            element=html::div
+            as_child=as_child
+            attrs=attrs
+        >
+            {children()}
+        </Primitive>
+    }
 }
 
 #[component]
-pub fn MenuLabel() -> impl IntoView {
-    view! {}
+pub fn MenuLabel(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
+) -> impl IntoView {
+    view! {
+        <Primitive
+            element=html::div
+            as_child=as_child
+            attrs=attrs
+        >
+            {children()}
+        </Primitive>
+    }
 }
 
 #[component]

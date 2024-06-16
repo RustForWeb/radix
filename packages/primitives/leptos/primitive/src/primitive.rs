@@ -19,12 +19,12 @@ pub fn Primitive<El: ElementDescriptor + 'static>(
             when=move || as_child.get().unwrap_or_default()
             fallback=move || element()
                 .attrs(attrs.get_value())
-                .child(children.get_value().into_view())
+                .child(children.with_value(|children| children()).into_view())
                 .into_any()
                 .node_ref(node_ref)
                 .into_view()
         >
-            {map_children(children.get_value()().as_children(), node_ref, attrs.get_value())}
+            {map_children(children.with_value(|children| children()).as_children(), node_ref, attrs.get_value())}
         </Show>
     }
 }
