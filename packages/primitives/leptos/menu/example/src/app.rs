@@ -18,6 +18,7 @@ pub fn App() -> impl IntoView {
 #[component]
 fn Styled() -> impl IntoView {
     let item_class = create_memo(move |_| ItemClass::default().to_class());
+    let separator_class = create_memo(move |_| SeparatorClass::default().to_class());
 
     view! {
         <MenuWithAnchor>
@@ -27,7 +28,7 @@ fn Styled() -> impl IntoView {
             <MenuItem attr:class=item_class>
                 Redo
             </MenuItem>
-            <MenuSeparator />
+            <MenuSeparator attr:class=separator_class>{None::<View>}</MenuSeparator>
             <MenuItem attr:class=item_class>
                 Cut
             </MenuItem>

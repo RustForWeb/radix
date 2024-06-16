@@ -184,13 +184,38 @@ pub fn MenuLabel(
 }
 
 #[component]
-pub fn MenuItem(children: Children) -> impl IntoView {
-    view! {}
+pub fn MenuItem(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
+) -> impl IntoView {
+    view! {
+        <MenuItemImpl as_child=as_child attrs=attrs>
+            {children()}
+        </MenuItemImpl>
+    }
 }
 
 #[component]
-fn MenuItemImpl() -> impl IntoView {
-    view! {}
+fn MenuItemImpl(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
+) -> impl IntoView {
+    let mut attrs = attrs.clone();
+    attrs.extend([("role", "menuitem".into_attribute())]);
+
+    // TODO
+
+    view! {
+        <Primitive
+            element=html::div
+            as_child=as_child
+            attrs=attrs
+        >
+            {children()}
+        </Primitive>
+    }
 }
 
 #[component]
@@ -214,8 +239,26 @@ pub fn MenuItemIndicator() -> impl IntoView {
 }
 
 #[component]
-pub fn MenuSeparator() -> impl IntoView {
-    view! {}
+pub fn MenuSeparator(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: ChildrenFn,
+) -> impl IntoView {
+    let mut attrs = attrs.clone();
+    attrs.extend([
+        ("role", "separator".into_attribute()),
+        ("aria-orientation", "horizontal".into_attribute()),
+    ]);
+
+    view! {
+        <Primitive
+            element=html::div
+            as_child=as_child
+            attrs=attrs
+        >
+            {children()}
+        </Primitive>
+    }
 }
 
 #[component]
