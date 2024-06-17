@@ -10,5 +10,13 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
+once_cell = "1.19.0"
 radix-leptos-primitive = { path = "../primitive", version = "0.0.1" }
-web-sys = { workspace = true, features = ["NodeFilter"] }
+web-sys = { workspace = true, features = [
+    "CustomEvent",
+    "CustomEventInit",
+    "MutationObserver",
+    "MutationObserverInit",
+    "MutationRecord",
+    "NodeFilter",
+] }
