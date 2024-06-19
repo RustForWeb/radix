@@ -1,6 +1,3 @@
-// TODO: remove
-#![allow(unused)]
-
 use std::cell::RefCell;
 use std::ops::Deref;
 use std::rc::Rc;
@@ -12,21 +9,29 @@ use once_cell::sync::Lazy;
 use radix_leptos_primitive::Primitive;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
-    CustomEvent, FocusEvent, MutationObserver, NodeFilter,
+    CustomEvent, CustomEventInit, Event, FocusEvent, KeyboardEvent, MutationObserver, NodeFilter,
 };
 use web_sys::{MutationObserverInit, MutationRecord};
 
+const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
+const AUTOFOCUS_ON_UNMOUNT: &str = "focusScope.autoFocusOnUnmount";
+
 #[component]
 pub fn FocusScope(
-    #[prop(into, optional)] r#loop: MaybeProp<bool>,
-    #[prop(into, optional)] trapped: MaybeProp<bool>,
-    // TODO: event handlers
-    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    /// When `true`, tabbing from last item will focus first tabbable and shift+tab from first item will focus last tababble. Defaults to `false`.
+    #[prop(into, optional)]
+    r#loop: MaybeProp<bool>,
+    /// When `true`, focus cannot escape the focus scope via keyboard, pointer, or a programmatic focus. Defaults to `false`.
+    #[prop(into, optional)]
+    trapped: MaybeProp<bool>,
+    #[prop(into, optional)] on_mount_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    #[prop(into, optional)] on_unmount_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    as_child: MaybeProp<bool>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
-    // let r#loop = move || r#loop.get().unwrap_or(false);
-    let trapped = move || trapped.get().unwrap_or(false);
+    let r#loop = Signal::derive(move || r#loop.get().unwrap_or(false));
+    let trapped = Signal::derive(move || trapped.get().unwrap_or(false));
 
     let container_ref = create_node_ref::<AnyElement>();
     let last_focused_element = create_rw_signal::<Option<web_sys::HtmlElement>>(None);
@@ -98,8 +103,9 @@ pub fn FocusScope(
     let cleanup_handle_focus_out = handle_focus_out.clone();
     let cleanup_mutation_observer = mutation_observer.clone();
 
+    // Takes care of trapping focus if focus is moved outside programmatically for example
     create_effect(move |_| {
-        if trapped() {
+        if trapped.get() {
             document()
                 .add_event_listener_with_callback(
                     "focusin",
@@ -116,7 +122,7 @@ pub fn FocusScope(
     });
 
     create_effect(move |_| {
-        if trapped() {
+        if trapped.get() {
             if let Some(container) = container_ref.get() {
                 if let Some(mutation_observer) = mutation_observer.take() {
                     mutation_observer.disconnect();
@@ -159,7 +165,15 @@ pub fn FocusScope(
         }
     });
 
+    type AutoFocusEndFn = Box<dyn Fn()>;
+    let auto_focus_end: Rc<RefCell<Option<AutoFocusEndFn>>> = Rc::new(RefCell::new(None));
+    let cleanup_auto_focus_end = auto_focus_end.clone();
+
     create_effect(move |_| {
+        if let Some(on_mount_auto_focus_cleanup) = auto_focus_end.take() {
+            on_mount_auto_focus_cleanup();
+        }
+
         if let Some(container) = container_ref.get() {
             {
                 let mut focus_scope_stack = FOCUS_SCOPE_STACK
@@ -178,8 +192,95 @@ pub fn FocusScope(
             );
 
             if !has_focused_candidate {
-                // let mount_event = CustomEvent::new_with_event_init_dict();
-                // TODO
+                let on_mount_auto_focus_inner = on_mount_auto_focus.clone();
+                let closure: Closure<dyn Fn(Event)> = Closure::new(move |event: Event| {
+                    if let Some(on_mount_auto_focus) = on_mount_auto_focus_inner.get_untracked() {
+                        on_mount_auto_focus(event);
+                    }
+                });
+
+                let mount_event = CustomEvent::new_with_event_init_dict(
+                    AUTOFOCUS_ON_MOUNT,
+                    CustomEventInit::new().bubbles(false).cancelable(true),
+                )
+                .expect("Auto focus on mount event should be instantiated.");
+
+                container
+                    .add_event_listener_with_callback(
+                        AUTOFOCUS_ON_MOUNT,
+                        closure.as_ref().unchecked_ref(),
+                    )
+                    .expect("Auto focus on mount event listener should be added.");
+                container
+                    .dispatch_event(&mount_event)
+                    .expect("Auto focus on mount event should be dispatched.");
+
+                if !mount_event.default_prevented() {
+                    focus_first(
+                        remove_links(get_tabbable_candidates(&container)),
+                        Some(FocusOptions { select: true }),
+                    );
+                    if document().active_element().as_ref() == previously_focused_element.as_deref()
+                    {
+                        focus(Some(container.deref().clone()), None);
+                    }
+                }
+
+                let on_unmount_auto_focus = on_unmount_auto_focus.clone();
+                auto_focus_end.replace(Some(Box::new(move || {
+                    container
+                        .remove_event_listener_with_callback(
+                            AUTOFOCUS_ON_MOUNT,
+                            closure.as_ref().unchecked_ref(),
+                        )
+                        .expect("Auto focus on mount event listener should be removed.");
+
+                    let on_unmount_auto_focus_inner = on_unmount_auto_focus.clone();
+                    let closure: Closure<dyn Fn(Event)> = Closure::new(move |event: Event| {
+                        if let Some(on_unmount_auto_focus) =
+                            on_unmount_auto_focus_inner.get_untracked()
+                        {
+                            on_unmount_auto_focus(event);
+                        }
+                    });
+
+                    let unmount_event = CustomEvent::new_with_event_init_dict(
+                        AUTOFOCUS_ON_UNMOUNT,
+                        CustomEventInit::new().bubbles(false).cancelable(true),
+                    )
+                    .expect("Auto focus on unmount event should be instantiated.");
+
+                    container
+                        .add_event_listener_with_callback(
+                            AUTOFOCUS_ON_UNMOUNT,
+                            closure.as_ref().unchecked_ref(),
+                        )
+                        .expect("Auto focus on unmount event listener should be added.");
+                    container
+                        .dispatch_event(&unmount_event)
+                        .expect("Auto focus on unmount event should be dispatched.");
+
+                    if !unmount_event.default_prevented() {
+                        focus(
+                            previously_focused_element.clone().or(document().body()),
+                            Some(FocusOptions { select: true }),
+                        );
+                    }
+
+                    container
+                        .remove_event_listener_with_callback(
+                            AUTOFOCUS_ON_UNMOUNT,
+                            closure.as_ref().unchecked_ref(),
+                        )
+                        .expect("Auto focus on unmount event listener should be removed.");
+
+                    {
+                        let mut focus_scope_stack = FOCUS_SCOPE_STACK
+                            .lock()
+                            .expect("Focus scope stack mutex should lock.");
+                        focus_scope_stack.remove(&focus_scope.get_untracked());
+                    }
+                })));
             }
         }
     });
@@ -201,7 +302,65 @@ pub fn FocusScope(
         if let Some(mutation_observer) = cleanup_mutation_observer.take() {
             mutation_observer.disconnect();
         }
+
+        if let Some(auto_focus_cleanup) = cleanup_auto_focus_end.take() {
+            auto_focus_cleanup();
+        }
     });
+
+    // Takes care of looping focus (when tabbing whilst at the edges).
+    let handle_key_down = move |event: KeyboardEvent| {
+        let r#loop = r#loop.get_untracked();
+
+        if r#loop && !trapped.get_untracked() {
+            return;
+        }
+        if focus_scope.get_untracked().paused {
+            return;
+        }
+
+        let is_tab_key =
+            event.key() == "Tab" && !event.alt_key() && !event.ctrl_key() && !event.meta_key();
+        let focused_element = document()
+            .active_element()
+            .map(|element| element.unchecked_into::<web_sys::HtmlElement>());
+
+        if is_tab_key {
+            if let Some(focused_element) = focused_element {
+                let container = event
+                    .current_target()
+                    .expect("Event should have current target.")
+                    .unchecked_into::<web_sys::HtmlElement>();
+                let (first, last) = get_tabbable_edges(&container);
+                let has_tabbable_elements_inside = first.is_some() && last.is_some();
+
+                if !has_tabbable_elements_inside {
+                    if focused_element == container {
+                        event.prevent_default();
+                    }
+                } else {
+                    #[allow(clippy::collapsible_else_if)]
+                    if !event.shift_key()
+                        && &focused_element == last.as_ref().expect("Last option checked above.")
+                    {
+                        event.prevent_default();
+
+                        if r#loop {
+                            focus(first, Some(FocusOptions { select: true }));
+                        }
+                    } else if event.shift_key()
+                        && &focused_element == first.as_ref().expect("First option checked above.")
+                    {
+                        event.prevent_default();
+
+                        if r#loop {
+                            focus(last, Some(FocusOptions { select: true }));
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     let mut attrs = attrs.clone();
     attrs.extend(vec![("tabindex", "-1".into_attribute())]);
@@ -210,6 +369,7 @@ pub fn FocusScope(
         <Primitive
             element=html::div
             as_child=as_child
+            on:keydown=handle_key_down
             attrs=attrs
         >
             {children()}
@@ -395,6 +555,13 @@ fn focus(element: Option<web_sys::HtmlElement>, options: Option<FocusOptions>) {
                 .select();
         }
     }
+}
+
+fn remove_links(items: Vec<web_sys::HtmlElement>) -> Vec<web_sys::HtmlElement> {
+    items
+        .into_iter()
+        .filter(|item| item.tag_name() != "A")
+        .collect()
 }
 
 static FOCUS_SCOPE_STACK: Lazy<Mutex<FocusScopeStack>> =
