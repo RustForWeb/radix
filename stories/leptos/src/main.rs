@@ -1,4 +1,5 @@
 mod app;
+mod primitives;
 
 use crate::app::App;
 

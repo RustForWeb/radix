@@ -2,21 +2,8 @@ use leptos::*;
 use radix_leptos_popper::*;
 use tailwind_fuse::*;
 
-// TODO: add router and separate pages for each component, similar to Storybook
-
 #[component]
-pub fn App() -> impl IntoView {
-    view! {
-        <h1 class="text-xl pb-3">Styled</h1>
-
-        <div class="h-[400px] overflow-y-auto">
-            <Styled />
-        </div>
-    }
-}
-
-#[component]
-fn Styled() -> impl IntoView {
+pub fn Styled() -> impl IntoView {
     let (open, set_open) = create_signal(false);
 
     let anchor_class = create_memo(move |_| AnchorClass::default().to_class());
@@ -44,27 +31,27 @@ fn Styled() -> impl IntoView {
 }
 
 #[component]
-fn WithCustomArrow() -> impl IntoView {
+pub fn WithCustomArrow() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn Animated() -> impl IntoView {
+pub fn Animated() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn WithPortal() -> impl IntoView {
+pub fn WithPortal() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn WithUpdatePositionStrategyAlways() -> impl IntoView {
+pub fn WithUpdatePositionStrategyAlways() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn Chromatic() -> impl IntoView {
+pub fn Chromatic() -> impl IntoView {
     view! {}
 }
 

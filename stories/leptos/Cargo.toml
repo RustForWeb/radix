@@ -1,6 +1,6 @@
 [package]
-name = "radix-leptos-popper-example"
-description = "Example for Radix Leptos Popper."
+name = "radix-leptos-stories"
+description = "Stories for Radix Leptos."
 publish = false
 
 authors.workspace = true
@@ -13,7 +13,10 @@ version.workspace = true
 console_log.workspace = true
 console_error_panic_hook.workspace = true
 leptos = { workspace = true, features = ["csr"] }
+leptos_router = { workspace = true, features = ["csr"] }
 log.workspace = true
-radix-leptos-popper = { path = ".." }
+radix-leptos-label = { path = "../../packages/primitives/leptos/label" }
+radix-leptos-menu = { path = "../../packages/primitives/leptos/menu" }
+radix-leptos-popper = { path = "../../packages/primitives/leptos/popper" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true

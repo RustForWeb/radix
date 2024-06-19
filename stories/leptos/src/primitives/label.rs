@@ -2,24 +2,8 @@ use leptos::*;
 use radix_leptos_label::*;
 use tailwind_fuse::*;
 
-// TODO: add router and separate pages for each component, similar to Storybook
-
 #[component]
-pub fn App() -> impl IntoView {
-    view! {
-        <h1 class="text-xl pb-3">Styled</h1>
-        <Styled />
-
-        <h1 class="text-xl pb-3">With Control</h1>
-        <WithControl />
-
-        <h1 class="text-xl pb-3">With Input Number</h1>
-        <WithInputNumber />
-    }
-}
-
-#[component]
-fn Styled() -> impl IntoView {
+pub fn Styled() -> impl IntoView {
     let root_class = create_memo(move |_| RootClass::default().to_class());
 
     view! {
@@ -28,7 +12,7 @@ fn Styled() -> impl IntoView {
 }
 
 #[component]
-fn WithControl() -> impl IntoView {
+pub fn WithControl() -> impl IntoView {
     let control_class = create_memo(move |_| ControlClass::default().to_class());
 
     view! {
@@ -44,7 +28,7 @@ fn WithControl() -> impl IntoView {
 }
 
 #[component]
-fn WithInputNumber() -> impl IntoView {
+pub fn WithInputNumber() -> impl IntoView {
     view! {
         <Label>
             <span>Name:</span>

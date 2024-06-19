@@ -2,21 +2,8 @@ use leptos::*;
 use radix_leptos_menu::*;
 use tailwind_fuse::*;
 
-// TODO: add router and separate pages for each component, similar to Storybook
-
 #[component]
-pub fn App() -> impl IntoView {
-    view! {
-        <h1 class="text-xl pb-3">Styled</h1>
-
-        <div class="h-[400px] overflow-y-auto">
-            <Styled />
-        </div>
-    }
-}
-
-#[component]
-fn Styled() -> impl IntoView {
+pub fn Styled() -> impl IntoView {
     let item_class = create_memo(move |_| ItemClass::default().to_class());
     let separator_class = create_memo(move |_| SeparatorClass::default().to_class());
 
@@ -43,32 +30,32 @@ fn Styled() -> impl IntoView {
 }
 
 #[component]
-fn Submenus() -> impl IntoView {
+pub fn Submenus() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn WithLabels() -> impl IntoView {
+pub fn WithLabels() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn Typeahead() -> impl IntoView {
+pub fn Typeahead() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn CheckboxItems() -> impl IntoView {
+pub fn CheckboxItems() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn RadioItems() -> impl IntoView {
+pub fn RadioItems() -> impl IntoView {
     view! {}
 }
 
 #[component]
-fn Animated() -> impl IntoView {
+pub fn Animated() -> impl IntoView {
     view! {}
 }
 
