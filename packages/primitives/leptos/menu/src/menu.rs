@@ -174,7 +174,7 @@ fn MenuContentImpl(
             on_unmount_auto_focus=on_close_auto_focus
         >
             <PopperContent attrs=attrs.get_value()>
-                {children.with_value(|children| children()).into_view()}
+                {children.with_value(|children| children())}
             </PopperContent>
         </FocusScope>
     }

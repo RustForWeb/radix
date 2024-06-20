@@ -64,6 +64,8 @@ fn MenuWithAnchor(
     #[prop(into, optional)] open: MaybeProp<bool>,
     children: ChildrenFn,
 ) -> impl IntoView {
+    let children = StoredValue::new(children);
+
     let open = Signal::derive(move || open.get().unwrap_or(true));
 
     let content_class = create_memo(move |_| ContentClass::default().to_class());
@@ -74,7 +76,7 @@ fn MenuWithAnchor(
             <MenuAnchor>{""}</MenuAnchor>
             <MenuPortal>
                 <MenuContent attr:class=content_class>
-                    {children()}
+                    {children.with_value(|children| children())}
                 </MenuContent>
             </MenuPortal>
         </Menu>

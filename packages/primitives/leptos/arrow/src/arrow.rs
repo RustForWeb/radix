@@ -33,7 +33,7 @@ pub fn Arrow(
                     <polygon points="0,0 30,0 15,10" />
                 }
             >
-                {children.with_value(|children| children()).into_view()}
+                {children.with_value(|children| children())}
             </Show>
         </Primitive>
     }
