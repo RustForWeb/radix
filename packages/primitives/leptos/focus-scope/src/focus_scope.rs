@@ -1,8 +1,8 @@
-use std::cell::RefCell;
 use std::ops::Deref;
 use std::rc::Rc;
-use std::sync::atomic::AtomicU64;
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Mutex;
+use std::{cell::RefCell, sync::Arc};
 
 use leptos::{html::AnyElement, *};
 use once_cell::sync::Lazy;
@@ -26,7 +26,7 @@ pub fn FocusScope(
     trapped: MaybeProp<bool>,
     #[prop(into, optional)] on_mount_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
     #[prop(into, optional)] on_unmount_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
-    as_child: MaybeProp<bool>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
@@ -39,8 +39,8 @@ pub fn FocusScope(
 
     let handle_focus_in: Rc<Closure<dyn Fn(FocusEvent)>> =
         Rc::new(Closure::new(move |event: FocusEvent| {
-            let focus_scope = focus_scope.get_untracked();
-            if focus_scope.paused {
+            log::info!("focus out {:?}", focus_scope.get_untracked());
+            if focus_scope.get_untracked().paused() {
                 return;
             }
 
@@ -62,8 +62,8 @@ pub fn FocusScope(
 
     let handle_focus_out: Rc<Closure<dyn Fn(FocusEvent)>> =
         Rc::new(Closure::new(move |event: FocusEvent| {
-            let focus_scope = focus_scope.get_untracked();
-            if focus_scope.paused {
+            log::info!("focus out {:?}", focus_scope.get_untracked());
+            if focus_scope.get_untracked().paused() {
                 return;
             }
 
@@ -88,7 +88,7 @@ pub fn FocusScope(
 
                 // If the focus has moved to an actual legitimate element (`related_target != None`)
                 // that is outside the container, we move focus to the last valid focused element inside.
-                if container.contains(related_target.as_ref().map(|e| e.unchecked_ref())) {
+                if !container.contains(related_target.as_ref().map(|e| e.unchecked_ref())) {
                     focus(
                         last_focused_element.get_untracked(),
                         Some(FocusOptions { select: true }),
@@ -175,6 +175,7 @@ pub fn FocusScope(
         }
 
         if let Some(container) = container_ref.get() {
+            log::info!("start {:?}", focus_scope.get_untracked());
             {
                 let mut focus_scope_stack = FOCUS_SCOPE_STACK
                     .lock()
@@ -190,6 +191,8 @@ pub fn FocusScope(
                     .as_ref()
                     .map(|element| element.unchecked_ref()),
             );
+
+            log::info!("has focused candidate {}", has_focused_candidate);
 
             if !has_focused_candidate {
                 let on_mount_auto_focus_inner = on_mount_auto_focus.clone();
@@ -228,6 +231,8 @@ pub fn FocusScope(
 
                 let on_unmount_auto_focus = on_unmount_auto_focus.clone();
                 auto_focus_end.replace(Some(Box::new(move || {
+                    log::info!("end {:?}", focus_scope);
+
                     container
                         .remove_event_listener_with_callback(
                             AUTOFOCUS_ON_MOUNT,
@@ -315,7 +320,7 @@ pub fn FocusScope(
         if r#loop && !trapped.get_untracked() {
             return;
         }
-        if focus_scope.get_untracked().paused {
+        if focus_scope.get_untracked().paused() {
             return;
         }
 
@@ -370,6 +375,7 @@ pub fn FocusScope(
             element=html::div
             as_child=as_child
             on:keydown=handle_key_down
+            node_ref=container_ref
             attrs=attrs
         >
             {children()}
@@ -570,24 +576,28 @@ static FOCUS_SCOPE_STACK: Lazy<Mutex<FocusScopeStack>> =
 #[derive(Clone, Debug)]
 struct FocusScopeAPI {
     id: u64,
-    paused: bool,
+    paused: Arc<AtomicBool>,
 }
 
 impl FocusScopeAPI {
-    pub fn new() -> Self {
+    fn new() -> Self {
         static COUNTER: AtomicU64 = AtomicU64::new(1);
         Self {
-            id: COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed),
-            paused: false,
+            id: COUNTER.fetch_add(1, Ordering::Relaxed),
+            paused: Arc::new(AtomicBool::new(false)),
         }
     }
 
-    pub fn pause(&mut self) {
-        self.paused = true;
+    fn paused(&self) -> bool {
+        self.paused.load(Ordering::Relaxed)
     }
 
-    pub fn resume(&mut self) {
-        self.paused = false;
+    fn pause(&mut self) {
+        self.paused.store(true, Ordering::Relaxed)
+    }
+
+    fn resume(&mut self) {
+        self.paused.store(false, Ordering::Relaxed);
     }
 }
 
@@ -604,15 +614,20 @@ struct FocusScopeStack {
 }
 
 impl FocusScopeStack {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self { stack: vec![] }
     }
 
-    pub fn add(&mut self, focus_scope: FocusScopeAPI) {
+    fn add(&mut self, focus_scope: FocusScopeAPI) {
+        println!("add {:?}", focus_scope);
+
         // Pause the currently active focus scope (at the top of the stack).
         if let Some(active_focus_scope) = self.stack.first_mut() {
+            println!("add active {:?}", active_focus_scope);
+
             if focus_scope != *active_focus_scope {
                 active_focus_scope.pause();
+                println!("add pause {:?}", active_focus_scope);
             }
         }
 
@@ -621,11 +636,14 @@ impl FocusScopeStack {
         self.stack.insert(0, focus_scope);
     }
 
-    pub fn remove(&mut self, focus_scope: &FocusScopeAPI) {
+    fn remove(&mut self, focus_scope: &FocusScopeAPI) {
+        println!("remove {:?}", focus_scope);
+
         self.remove_without_resume(focus_scope);
 
-        if let Some(active_focus_scope) = self.stack.first_mut() {
-            active_focus_scope.resume();
+        if let Some(first_focus_scope) = self.stack.first_mut() {
+            first_focus_scope.resume();
+            println!("remove resume {:?}", first_focus_scope);
         }
     }
 
@@ -643,6 +661,31 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_focus_scope_api() {
+        let mut a = FocusScopeAPI::new();
+        let mut b = a.clone();
+
+        assert!(!a.paused());
+        assert!(!b.paused());
+
+        a.pause();
+        assert!(a.paused());
+        assert!(b.paused());
+
+        a.resume();
+        assert!(!a.paused());
+        assert!(!b.paused());
+
+        b.pause();
+        assert!(a.paused());
+        assert!(b.paused());
+
+        b.resume();
+        assert!(!a.paused());
+        assert!(!b.paused());
+    }
+
+    #[test]
     fn test_focus_scope_stack() {
         let mut stack = FocusScopeStack::new();
 
@@ -652,38 +695,38 @@ mod tests {
 
         stack.add(a.clone());
         assert_eq!(vec![a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
+        assert!(!stack.stack[0].paused());
 
         stack.add(b.clone());
         assert_eq!(vec![b.clone(), a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
-        assert!(stack.stack[1].paused);
+        assert!(!stack.stack[0].paused());
+        assert!(stack.stack[1].paused());
 
         stack.add(c.clone());
         assert_eq!(vec![c.clone(), b.clone(), a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
-        assert!(stack.stack[1].paused);
-        assert!(stack.stack[2].paused);
+        assert!(!stack.stack[0].paused());
+        assert!(stack.stack[1].paused());
+        assert!(stack.stack[2].paused());
 
         stack.add(b.clone());
         assert_eq!(vec![b.clone(), c.clone(), a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
-        assert!(stack.stack[1].paused);
-        assert!(stack.stack[2].paused);
+        assert!(!stack.stack[0].paused());
+        assert!(stack.stack[1].paused());
+        assert!(stack.stack[2].paused());
 
         stack.remove(&c);
         assert_eq!(vec![b.clone(), a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
-        assert!(stack.stack[1].paused);
+        assert!(!stack.stack[0].paused());
+        assert!(stack.stack[1].paused());
 
         stack.remove(&c);
         assert_eq!(vec![b.clone(), a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
-        assert!(stack.stack[1].paused);
+        assert!(!stack.stack[0].paused());
+        assert!(stack.stack[1].paused());
 
         stack.remove(&b);
         assert_eq!(vec![a.clone()], stack.stack);
-        assert!(!stack.stack[0].paused);
+        assert!(!stack.stack[0].paused());
 
         stack.remove(&a);
         assert!(stack.stack.is_empty());
