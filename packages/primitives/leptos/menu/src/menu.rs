@@ -1,8 +1,11 @@
 // TODO: remove
 #![allow(dead_code, unused_variables)]
 
-use leptos::{html::AnyElement, *};
+use std::rc::Rc;
+
+use leptos::{ev::Event, html::AnyElement, *};
 use radix_leptos_direction::{use_direction, Direction};
+use radix_leptos_focus_scope::FocusScope;
 use radix_leptos_popper::{Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_leptos_primitive::Primitive;
 
@@ -27,7 +30,7 @@ pub fn Menu(
     #[prop(into, optional)] dir: MaybeProp<Direction>,
     #[prop(into, optional)] modal: MaybeProp<bool>,
     // TODO: onOpenChange
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     let open = Signal::derive(move || open.get().unwrap_or(false));
     let modal = Signal::derive(move || modal.get().unwrap_or(true));
@@ -66,7 +69,7 @@ pub fn Menu(
 #[component]
 pub fn MenuAnchor(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     // TODO: popper scope
     view! {
@@ -77,7 +80,7 @@ pub fn MenuAnchor(
 }
 
 #[component]
-pub fn MenuPortal(children: Children) -> impl IntoView {
+pub fn MenuPortal(children: ChildrenFn) -> impl IntoView {
     // TODO: portal
     // view! {}
     children()
@@ -113,7 +116,7 @@ pub fn MenuContent(
 #[component]
 fn MenuRootContentModal(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     // TODO
     view! {
@@ -126,7 +129,7 @@ fn MenuRootContentModal(
 #[component]
 fn MenuRootContentNonModal(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     // TODO
     view! {
@@ -138,14 +141,44 @@ fn MenuRootContentNonModal(
 
 #[component]
 fn MenuContentImpl(
+    /// Event handler called when auto-focusing on open. Can be prevented.
+    #[prop(into, optional)]
+    on_open_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    /// Event handler called when auto-focusing on close. Can be prevented.
+    #[prop(into, optional)]
+    on_close_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    /// Whether scrolling outside the `MenuContent` should be prevented. Defaults to `false`.
+    #[prop(into, optional)]
+    disable_outside_scroll: MaybeProp<bool>,
+    /// Whether focus should be trapped within the `MenuContent`. Defaults to `false`.
+    #[prop(into, optional)]
+    trap_focus: MaybeProp<bool>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
+    let attrs = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
+
+    // TODO: compose with on_open_auto_focus
+    // TODO: consider if Rc is need, does fn(Event) work?
+    let handle_mount_auto_focus: Rc<dyn Fn(Event)> = Rc::new(move |event: Event| {
+        // When opening, explicitly focus the content area only and leave `onEntryFocus` in  control of focusing first item.
+        event.prevent_default();
+        // TODO: content ref focus
+    });
+
     // TODO
     view! {
-        <PopperContent attrs=attrs>
-            {children()}
-        </PopperContent>
+        <FocusScope
+            as_child=true
+            trapped=trap_focus
+            on_mount_auto_focus=handle_mount_auto_focus
+            on_unmount_auto_focus=on_close_auto_focus
+        >
+            <PopperContent attrs=attrs.get_value()>
+                {children.with_value(|children| children()).into_view()}
+            </PopperContent>
+        </FocusScope>
     }
 }
 

@@ -39,7 +39,6 @@ pub fn FocusScope(
 
     let handle_focus_in: Rc<Closure<dyn Fn(FocusEvent)>> =
         Rc::new(Closure::new(move |event: FocusEvent| {
-            log::info!("focus out {:?}", focus_scope.get_untracked());
             if focus_scope.get_untracked().paused() {
                 return;
             }
@@ -62,7 +61,6 @@ pub fn FocusScope(
 
     let handle_focus_out: Rc<Closure<dyn Fn(FocusEvent)>> =
         Rc::new(Closure::new(move |event: FocusEvent| {
-            log::info!("focus out {:?}", focus_scope.get_untracked());
             if focus_scope.get_untracked().paused() {
                 return;
             }
@@ -175,7 +173,6 @@ pub fn FocusScope(
         }
 
         if let Some(container) = container_ref.get() {
-            log::info!("start {:?}", focus_scope.get_untracked());
             {
                 let mut focus_scope_stack = FOCUS_SCOPE_STACK
                     .lock()
@@ -191,8 +188,6 @@ pub fn FocusScope(
                     .as_ref()
                     .map(|element| element.unchecked_ref()),
             );
-
-            log::info!("has focused candidate {}", has_focused_candidate);
 
             if !has_focused_candidate {
                 let on_mount_auto_focus_inner = on_mount_auto_focus.clone();
@@ -231,8 +226,6 @@ pub fn FocusScope(
 
                 let on_unmount_auto_focus = on_unmount_auto_focus.clone();
                 auto_focus_end.replace(Some(Box::new(move || {
-                    log::info!("end {:?}", focus_scope);
-
                     container
                         .remove_event_listener_with_callback(
                             AUTOFOCUS_ON_MOUNT,
