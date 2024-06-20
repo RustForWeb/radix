@@ -24,8 +24,8 @@ pub fn FocusScope(
     /// When `true`, focus cannot escape the focus scope via keyboard, pointer, or a programmatic focus. Defaults to `false`.
     #[prop(into, optional)]
     trapped: MaybeProp<bool>,
-    #[prop(into, optional)] on_mount_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
-    #[prop(into, optional)] on_unmount_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    #[prop(into, optional)] on_mount_auto_focus: MaybeProp<Callback<Event>>,
+    #[prop(into, optional)] on_unmount_auto_focus: MaybeProp<Callback<Event>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
@@ -190,10 +190,9 @@ pub fn FocusScope(
             );
 
             if !has_focused_candidate {
-                let on_mount_auto_focus_inner = on_mount_auto_focus.clone();
                 let closure: Closure<dyn Fn(Event)> = Closure::new(move |event: Event| {
-                    if let Some(on_mount_auto_focus) = on_mount_auto_focus_inner.get_untracked() {
-                        on_mount_auto_focus(event);
+                    if let Some(on_mount_auto_focus) = on_mount_auto_focus.get_untracked() {
+                        on_mount_auto_focus.call(event);
                     }
                 });
 
@@ -224,7 +223,6 @@ pub fn FocusScope(
                     }
                 }
 
-                let on_unmount_auto_focus = on_unmount_auto_focus.clone();
                 auto_focus_end.replace(Some(Box::new(move || {
                     container
                         .remove_event_listener_with_callback(
@@ -233,12 +231,9 @@ pub fn FocusScope(
                         )
                         .expect("Auto focus on mount event listener should be removed.");
 
-                    let on_unmount_auto_focus_inner = on_unmount_auto_focus.clone();
                     let closure: Closure<dyn Fn(Event)> = Closure::new(move |event: Event| {
-                        if let Some(on_unmount_auto_focus) =
-                            on_unmount_auto_focus_inner.get_untracked()
-                        {
-                            on_unmount_auto_focus(event);
+                        if let Some(on_unmount_auto_focus) = on_unmount_auto_focus.get_untracked() {
+                            on_unmount_auto_focus.call(event);
                         }
                     });
 

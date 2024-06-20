@@ -1,8 +1,6 @@
 // TODO: remove
 #![allow(dead_code, unused_variables)]
 
-use std::rc::Rc;
-
 use leptos::{ev::Event, html::AnyElement, *};
 use radix_leptos_direction::{use_direction, Direction};
 use radix_leptos_focus_scope::FocusScope;
@@ -143,10 +141,10 @@ fn MenuRootContentNonModal(
 fn MenuContentImpl(
     /// Event handler called when auto-focusing on open. Can be prevented.
     #[prop(into, optional)]
-    on_open_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    on_open_auto_focus: MaybeProp<Callback<Event>>,
     /// Event handler called when auto-focusing on close. Can be prevented.
     #[prop(into, optional)]
-    on_close_auto_focus: MaybeProp<Rc<dyn Fn(Event)>>,
+    on_close_auto_focus: MaybeProp<Callback<Event>>,
     /// Whether scrolling outside the `MenuContent` should be prevented. Defaults to `false`.
     #[prop(into, optional)]
     disable_outside_scroll: MaybeProp<bool>,
@@ -161,7 +159,7 @@ fn MenuContentImpl(
 
     // TODO: compose with on_open_auto_focus
     // TODO: consider if Rc is need, does fn(Event) work?
-    let handle_mount_auto_focus: Rc<dyn Fn(Event)> = Rc::new(move |event: Event| {
+    let handle_mount_auto_focus = Callback::new(move |event: Event| {
         // When opening, explicitly focus the content area only and leave `onEntryFocus` in  control of focusing first item.
         event.prevent_default();
         // TODO: content ref focus
