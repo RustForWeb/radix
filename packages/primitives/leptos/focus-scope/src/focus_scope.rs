@@ -619,31 +619,28 @@ impl FocusScopeStack {
     }
 
     fn add(&mut self, focus_scope: FocusScopeAPI) {
-        println!("add {:?}", focus_scope);
-
         // Pause the currently active focus scope (at the top of the stack).
         if let Some(active_focus_scope) = self.stack.first_mut() {
-            println!("add active {:?}", active_focus_scope);
-
             if focus_scope != *active_focus_scope {
                 active_focus_scope.pause();
-                println!("add pause {:?}", active_focus_scope);
             }
         }
 
         // Remove in case it already exists (because we'll re-add it at the top of the stack).
         self.remove_without_resume(&focus_scope);
         self.stack.insert(0, focus_scope);
+
+        // This is not in the React implementation, but without the unit tests could never pass.
+        if let Some(first_focus_scope) = self.stack.first_mut() {
+            first_focus_scope.resume();
+        }
     }
 
     fn remove(&mut self, focus_scope: &FocusScopeAPI) {
-        println!("remove {:?}", focus_scope);
-
         self.remove_without_resume(focus_scope);
 
         if let Some(first_focus_scope) = self.stack.first_mut() {
             first_focus_scope.resume();
-            println!("remove resume {:?}", first_focus_scope);
         }
     }
 
