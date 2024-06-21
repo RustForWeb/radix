@@ -1,3 +1,4 @@
+use html::AnyElement;
 use leptos::*;
 use radix_leptos_primitive::Primitive;
 
@@ -6,6 +7,7 @@ pub fn Arrow(
     #[prop(into, optional)] width: MaybeProp<f64>,
     #[prop(into, optional)] height: MaybeProp<f64>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
@@ -14,7 +16,7 @@ pub fn Arrow(
     let children = StoredValue::new(children);
 
     let mut attrs = attrs.clone();
-    attrs.extend(vec![
+    attrs.extend([
         ("width", width.into_attribute()),
         ("height", height.into_attribute()),
         ("viewBox", "0 0 30 10".into_attribute()),
@@ -25,6 +27,7 @@ pub fn Arrow(
         <Primitive
             element=svg::svg
             as_child=as_child
+            node_ref=node_ref
             attrs=attrs
         >
             <Show

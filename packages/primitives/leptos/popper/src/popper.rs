@@ -11,6 +11,8 @@ use leptos::{
     *,
 };
 use radix_leptos_arrow::Arrow as ArrowPrimitive;
+use radix_leptos_compose_refs::use_composed_refs;
+use radix_leptos_primitive::Primitive;
 use radix_leptos_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsCast;
@@ -56,12 +58,12 @@ pub enum UpdatePositionStrategy {
 
 #[derive(Clone)]
 struct PopperContextValue {
-    pub anchor_ref: NodeRef<Div>,
+    pub anchor_ref: NodeRef<AnyElement>,
 }
 
 #[component]
-pub fn Popper(children: Children) -> impl IntoView {
-    let anchor_ref = create_node_ref::<Div>();
+pub fn Popper(children: ChildrenFn) -> impl IntoView {
+    let anchor_ref = create_node_ref::<AnyElement>();
 
     let context_value = PopperContextValue { anchor_ref };
 
@@ -74,16 +76,23 @@ pub fn Popper(children: Children) -> impl IntoView {
 
 #[component]
 pub fn PopperAnchor(
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     let context: PopperContextValue = expect_context();
-    let anchor_ref = context.anchor_ref;
+    let anchor_ref = use_composed_refs(vec![node_ref, context.anchor_ref]);
 
     view! {
-        <div {..attrs} _ref=anchor_ref>
+        <Primitive
+            element=html::div
+            as_child=as_child
+            node_ref=anchor_ref
+            attrs=attrs
+        >
             {children()}
-        </div>
+        </Primitive>
     }
 }
 
@@ -109,8 +118,11 @@ pub fn PopperContent(
     #[prop(into, optional)] sticky: MaybeProp<Sticky>,
     #[prop(into, optional)] hide_when_detached: MaybeProp<bool>,
     #[prop(into, optional)] update_position_strategy: MaybeProp<UpdatePositionStrategy>,
+    #[prop(into, optional)] on_placed: MaybeProp<Callback<()>>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: Children,
+    children: ChildrenFn,
 ) -> impl IntoView {
     let side = move || side.get().unwrap_or(Side::Bottom);
     let side_offset = move || side_offset.get().unwrap_or(0.0);
@@ -129,6 +141,9 @@ pub fn PopperContent(
     };
 
     let context: PopperContextValue = expect_context();
+
+    let content_ref = create_node_ref::<AnyElement>();
+    let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
 
     let desired_placement = Signal::derive(move || Placement::from((side(), align().alignment())));
 
@@ -264,7 +279,13 @@ pub fn PopperContent(
     let placed_side = Signal::derive(move || placement.get().side());
     let placed_align = move || Align::from(placement.get().alignment());
 
-    // TODO: handlePlaced
+    create_effect(move |_| {
+        if is_positioned.get() {
+            if let Some(on_placed) = on_placed.get() {
+                on_placed.call(());
+            }
+        }
+    });
 
     let arrow_data = move || -> Option<ArrowData> { middleware_data.get().get_as(ARROW_NAME) };
     let arrow_x = Signal::derive(move || arrow_data().and_then(|arrow_data| arrow_data.x));
@@ -273,8 +294,19 @@ pub fn PopperContent(
         arrow_data().map_or(true, |arrow_data| arrow_data.center_offset != 0.0)
     });
 
-    // TODO
-    let content_z_index = move || "0";
+    let (content_z_index, set_content_z_index) = create_signal::<Option<String>>(None);
+    create_effect(move |_| {
+        if let Some(content) = content_ref.get() {
+            set_content_z_index.set(Some(
+                window()
+                    .get_computed_style(&content)
+                    .expect("Element is valid.")
+                    .expect("Element should have computed style.")
+                    .get_property_value("z-index")
+                    .expect("Computed style should have z-index."),
+            ));
+        }
+    });
 
     let transform_origin_data = move || -> Option<TransformOriginData> {
         middleware_data.get().get_as(TRANSFORM_ORIGIN_NAME)
@@ -303,6 +335,24 @@ pub fn PopperContent(
         should_hide_arrow: cannot_center_arrow,
     };
 
+    let mut attrs = attrs.clone();
+    attrs.extend([
+        (
+            "data-side",
+            (move || format!("{:?}", placed_side.get()).to_lowercase()).into_attribute(),
+        ),
+        (
+            "data-align",
+            (move || format!("{:?}", placed_align()).to_lowercase()).into_attribute(),
+        ),
+        // If the PopperContent hasn't been placed yet (not all measurements done),
+        // we prevent animations so that users's animation don't kick in too early referring wrong sides.
+        (
+            "style",
+            (move || (!is_positioned.get()).then_some("animation: none;")).into_attribute(),
+        ),
+    ]);
+
     view! {
         <div
             _ref={floating_ref}
@@ -330,16 +380,14 @@ pub fn PopperContent(
             dir={dir}
         >
             <Provider value={content_context}>
-                <div
-                    prop:data-side=move || format!("{:?}", placed_side.get()).to_lowercase()
-                    prop:data-align=move || format!("{:?}", placed_align()).to_lowercase()
-                    // If the PopperContent hasn't been placed yet (not all measurements done),
-                    // we prevent animations so that users's animation don't kick in too early referring wrong sides.
-                    style:animation=move || is_positioned.get().then_some("none")
-                    {..attrs}
+                <Primitive
+                    element=html::div
+                    as_child=as_child
+                    node_ref=composed_refs
+                    attrs=attrs
                 >
                     {children()}
-                </div>
+                </Primitive>
             </Provider>
         </div>
     }
@@ -350,6 +398,7 @@ pub fn PopperArrow(
     #[prop(into, optional)] width: MaybeProp<f64>,
     #[prop(into, optional)] height: MaybeProp<f64>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
@@ -358,7 +407,7 @@ pub fn PopperArrow(
     let base_side = move || content_context.placed_side.get().opposite();
 
     let mut attrs = attrs.clone();
-    attrs.extend(vec![("style", "display: block".into_attribute())]);
+    attrs.extend([("style", "display: block".into_attribute())]);
 
     view! {
         // We have to use an extra wrapper, because `ResizeObserver` (used by `useSize`)
@@ -396,7 +445,7 @@ pub fn PopperArrow(
             }
             style:visibility=move || content_context.should_hide_arrow.get().then_some("hidden")
         >
-            <ArrowPrimitive width=width height=height as_child=as_child attrs=attrs>
+            <ArrowPrimitive width=width height=height as_child=as_child node_ref=node_ref attrs=attrs>
                 {children()}
             </ArrowPrimitive>
         </span>

@@ -1,6 +1,6 @@
 [package]
-name = "radix-primitive"
-description = "Rust port of Radix Core Primitive."
+name = "radix-leptos-focus-guards"
+description = "Leptos port of Radix Focus Guards."
 
 authors.workspace = true
 edition.workspace = true
@@ -9,4 +9,5 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+leptos.workspace = true
 web-sys.workspace = true

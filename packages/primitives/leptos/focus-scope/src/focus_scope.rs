@@ -356,7 +356,7 @@ pub fn FocusScope(
     };
 
     let mut attrs = attrs.clone();
-    attrs.extend(vec![("tabindex", "-1".into_attribute())]);
+    attrs.extend([("tabindex", "-1".into_attribute())]);
 
     view! {
         <Primitive
@@ -536,7 +536,7 @@ fn focus(element: Option<web_sys::HtmlElement>, options: Option<FocusOptions>) {
 
         // NOTE: We prevent scrolling on focus, to minimize jarring transitions for users.
         // TODO: web_sys does not support passing options. JS: element.focus({ preventScroll: true })
-        element.focus().expect("Focus should be successful.");
+        element.focus().expect("Element should be focused.");
 
         // Only select if its not the same element, it supports selection and we need to select.
         let el: &web_sys::Element = &element;

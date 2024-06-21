@@ -1,6 +1,6 @@
 [package]
-name = "radix-primitive"
-description = "Rust port of Radix Core Primitive."
+name = "radix-leptos-compose-refs"
+description = "Leptos port of Radix Compose Refs."
 
 authors.workspace = true
 edition.workspace = true
@@ -9,4 +9,4 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-web-sys.workspace = true
+leptos.workspace = true
