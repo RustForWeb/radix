@@ -20,9 +20,7 @@ pub fn Styled() -> impl IntoView {
                 <Show when=move || open.get()>
                     <PopperContent attr:class=content_class side_offset=5.0>
                         <button on:click=move |_| set_open.set(false)>close</button>
-                        <PopperArrow attr:class=arrow_class width=20.0 height=10.0>
-                            {None::<View>}
-                        </PopperArrow>
+                        <PopperArrow attr:class=arrow_class width=20.0 height=10.0 />
                     </PopperContent>
                 </Show>
             </Popper>

@@ -4,6 +4,7 @@
 use leptos::{
     ev::{Event, FocusEvent, PointerEvent},
     html::AnyElement,
+    wasm_bindgen::JsCast,
     *,
 };
 use radix_leptos_compose_refs::use_composed_refs;
@@ -314,15 +315,15 @@ fn MenuItemImpl(
             as_child=as_child
             node_ref=node_ref
             attrs=attrs
-            on:pointermove=compose_callbacks(on_pointer_move, Some(Callback::new(move |event| {
+            on:pointermove=compose_callbacks(on_pointer_move, Some(when_mouse(move |event| {
                 if disabled.get() {
                     content_context.on_item_leave.call(event);
                 } else {
                     content_context.on_item_enter.call(event.clone());
                     if !event.default_prevented() {
-                        let item = event.current_target().map(|target| target.unchecked_into::<web_sys::HtmlElement>());
+                        let item = event.current_target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Current target should exist.");
                         // TODO: focus options
-                        item.focus();
+                        item.focus().expect("Element should be focused.");
                     }
                 }
             })), None)
@@ -366,8 +367,10 @@ pub fn MenuSeparator(
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: ChildrenFn,
+    #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
+    let children = StoredValue::new(children);
+
     let mut attrs = attrs.clone();
     attrs.extend([
         ("role", "separator".into_attribute()),
@@ -381,7 +384,7 @@ pub fn MenuSeparator(
             node_ref=node_ref
             attrs=attrs
         >
-            {children()}
+            {children.with_value(|children| children.as_ref().map(|children| children()))}
         </Primitive>
     }
 }

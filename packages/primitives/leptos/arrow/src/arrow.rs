@@ -9,7 +9,7 @@ pub fn Arrow(
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: ChildrenFn,
+    #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
     let width = move || width.get().unwrap_or(10.0);
     let height = move || height.get().unwrap_or(5.0);
@@ -36,7 +36,7 @@ pub fn Arrow(
                     <polygon points="0,0 30,0 15,10" />
                 }
             >
-                {children.with_value(|children| children())}
+                {children.with_value(|children| children.as_ref().map(|children| children()))}
             </Show>
         </Primitive>
     }

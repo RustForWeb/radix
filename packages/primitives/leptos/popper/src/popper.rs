@@ -400,8 +400,10 @@ pub fn PopperArrow(
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: ChildrenFn,
+    #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
+    let children = StoredValue::new(children);
+
     let content_context: PopperContentContextValue = expect_context();
     let arrow_ref = content_context.arrow_ref;
     let base_side = move || content_context.placed_side.get().opposite();
@@ -446,7 +448,7 @@ pub fn PopperArrow(
             style:visibility=move || content_context.should_hide_arrow.get().then_some("hidden")
         >
             <ArrowPrimitive width=width height=height as_child=as_child node_ref=node_ref attrs=attrs>
-                {children()}
+                {children.with_value(|children| children.as_ref().map(|children| children()))}
             </ArrowPrimitive>
         </span>
     }

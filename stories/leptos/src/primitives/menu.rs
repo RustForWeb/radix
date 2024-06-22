@@ -15,7 +15,7 @@ pub fn Styled() -> impl IntoView {
             <MenuItem attr:class=item_class>
                 Redo
             </MenuItem>
-            <MenuSeparator attr:class=separator_class>{None::<View>}</MenuSeparator>
+            <MenuSeparator attr:class=separator_class />
             <MenuItem attr:class=item_class>
                 Cut
             </MenuItem>
