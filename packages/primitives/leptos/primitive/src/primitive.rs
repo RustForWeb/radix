@@ -53,14 +53,14 @@ fn map_children(
 }
 
 pub fn compose_callbacks<E: Clone + Into<Event>>(
-    original_event_handler: MaybeProp<Callback<E>>,
+    original_event_handler: Option<Callback<E>>,
     our_event_handler: Option<Callback<E>>,
     check_for_default_prevented: Option<bool>,
 ) -> impl Fn(E) {
     let check_for_default_prevented = check_for_default_prevented.unwrap_or(true);
 
     move |event: E| {
-        if let Some(original_event_handler) = original_event_handler.get_untracked() {
+        if let Some(original_event_handler) = original_event_handler {
             original_event_handler.call(event.clone());
         }
 

@@ -24,8 +24,9 @@ pub fn FocusScope(
     /// When `true`, focus cannot escape the focus scope via keyboard, pointer, or a programmatic focus. Defaults to `false`.
     #[prop(into, optional)]
     trapped: MaybeProp<bool>,
-    #[prop(into, optional)] on_mount_auto_focus: MaybeProp<Callback<Event>>,
-    #[prop(into, optional)] on_unmount_auto_focus: MaybeProp<Callback<Event>>,
+    #[prop(into, optional)] on_mount_auto_focus: Option<Callback<Event>>,
+    // TODO: hopefully remove the double option
+    #[prop(into, optional)] on_unmount_auto_focus: Option<Option<Callback<Event>>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
@@ -191,7 +192,7 @@ pub fn FocusScope(
 
             if !has_focused_candidate {
                 let closure: Closure<dyn Fn(Event)> = Closure::new(move |event: Event| {
-                    if let Some(on_mount_auto_focus) = on_mount_auto_focus.get_untracked() {
+                    if let Some(on_mount_auto_focus) = on_mount_auto_focus {
                         on_mount_auto_focus.call(event);
                     }
                 });
@@ -232,7 +233,7 @@ pub fn FocusScope(
                         .expect("Auto focus on mount event listener should be removed.");
 
                     let closure: Closure<dyn Fn(Event)> = Closure::new(move |event: Event| {
-                        if let Some(on_unmount_auto_focus) = on_unmount_auto_focus.get_untracked() {
+                        if let Some(on_unmount_auto_focus) = on_unmount_auto_focus.flatten() {
                             on_unmount_auto_focus.call(event);
                         }
                     });

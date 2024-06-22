@@ -4,7 +4,7 @@ use radix_leptos_primitive::Primitive;
 #[component]
 pub fn Label(
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(into, optional)] on_mouse_down: MaybeProp<Callback<MouseEvent>>,
+    #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
@@ -19,7 +19,7 @@ pub fn Label(
                     return
                 }
 
-                if let Some(on_mouse_down) = on_mouse_down.get() {
+                if let Some(on_mouse_down) = on_mouse_down {
                     Callable::call(&on_mouse_down, event.clone());
                 }
 

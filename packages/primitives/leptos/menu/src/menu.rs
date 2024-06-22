@@ -164,10 +164,10 @@ fn MenuRootContentNonModal(
 fn MenuContentImpl(
     /// Event handler called when auto-focusing on open. Can be prevented.
     #[prop(into, optional)]
-    on_open_auto_focus: MaybeProp<Callback<Event>>,
+    on_open_auto_focus: Option<Callback<Event>>,
     /// Event handler called when auto-focusing on close. Can be prevented.
     #[prop(into, optional)]
-    on_close_auto_focus: MaybeProp<Callback<Event>>,
+    on_close_auto_focus: Option<Callback<Event>>,
     /// Whether scrolling outside the `MenuContent` should be prevented. Defaults to `false`.
     #[prop(into, optional)]
     disable_outside_scroll: MaybeProp<bool>,
@@ -276,10 +276,10 @@ pub fn MenuItem(
 #[component]
 fn MenuItemImpl(
     #[prop(into, optional)] disabled: MaybeProp<bool>,
-    #[prop(into, optional)] on_pointer_move: MaybeProp<Callback<PointerEvent>>,
-    #[prop(into, optional)] on_pointer_leave: MaybeProp<Callback<PointerEvent>>,
-    #[prop(into, optional)] on_focus: MaybeProp<Callback<FocusEvent>>,
-    #[prop(into, optional)] on_blur: MaybeProp<Callback<FocusEvent>>,
+    #[prop(into, optional)] on_pointer_move: Option<Callback<PointerEvent>>,
+    #[prop(into, optional)] on_pointer_leave: Option<Callback<PointerEvent>>,
+    #[prop(into, optional)] on_focus: Option<Callback<FocusEvent>>,
+    #[prop(into, optional)] on_blur: Option<Callback<FocusEvent>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
@@ -288,7 +288,17 @@ fn MenuItemImpl(
     let disabled = Signal::derive(move || disabled.get().unwrap_or(true));
 
     let content_context = expect_context::<MenuContentContextValue>();
+    let item_ref = create_node_ref::<AnyElement>();
+    let composed_ref = use_composed_refs(vec![node_ref, item_ref]);
     let (is_focused, set_is_focused) = create_signal(false);
+
+    // Get the item's `.textContent` as default strategy for typeahead `textValue`.
+    let (text_content, set_text_content) = create_signal("".to_string());
+    create_effect(move |_| {
+        if let Some(item) = item_ref.get() {
+            set_text_content.set(item.text_content().unwrap_or("".into()).trim().into());
+        }
+    });
 
     let mut attrs = attrs.clone();
     attrs.extend([
@@ -307,14 +317,25 @@ fn MenuItemImpl(
         ),
     ]);
 
-    // TODO
+    // TODO: Collection.ItemSlot and RovingFocusGroup.Item
 
     view! {
         <Primitive
             element=html::div
             as_child=as_child
-            node_ref=node_ref
+            node_ref=composed_ref
             attrs=attrs
+            /*
+             * We focus items on `pointermove` to achieve the following:
+             *
+             * - Mouse over an item (it focuses)
+             * - Leave mouse where it is and use keyboard to focus a different item
+             * - Wiggle mouse without it leaving previously focused item
+             * - Previously focused item should re-focus
+             *
+             * If we used `mouseover`/`mouseenter` it would not re-focus when the mouse
+             * wiggles. This is to match native menu implementation.
+             */
             on:pointermove=compose_callbacks(on_pointer_move, Some(when_mouse(move |event| {
                 if disabled.get() {
                     content_context.on_item_leave.call(event);

@@ -118,7 +118,7 @@ pub fn PopperContent(
     #[prop(into, optional)] sticky: MaybeProp<Sticky>,
     #[prop(into, optional)] hide_when_detached: MaybeProp<bool>,
     #[prop(into, optional)] update_position_strategy: MaybeProp<UpdatePositionStrategy>,
-    #[prop(into, optional)] on_placed: MaybeProp<Callback<()>>,
+    #[prop(into, optional)] on_placed: Option<Callback<()>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
@@ -281,7 +281,7 @@ pub fn PopperContent(
 
     create_effect(move |_| {
         if is_positioned.get() {
-            if let Some(on_placed) = on_placed.get() {
+            if let Some(on_placed) = on_placed {
                 on_placed.call(());
             }
         }
