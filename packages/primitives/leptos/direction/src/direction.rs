@@ -6,6 +6,26 @@ pub enum Direction {
     Rtl,
 }
 
+impl From<Direction> for String {
+    fn from(value: Direction) -> Self {
+        match value {
+            Direction::Ltr => "ltr".into(),
+            Direction::Rtl => "rtl".into(),
+        }
+    }
+}
+
+impl IntoAttribute for Direction {
+    fn into_attribute(self) -> Attribute {
+        let s: String = self.into();
+        Attribute::String(s.into())
+    }
+
+    fn into_attribute_boxed(self: Box<Self>) -> Attribute {
+        self.into_attribute()
+    }
+}
+
 type DirectionContextValue = MaybeSignal<Direction>;
 
 #[component]

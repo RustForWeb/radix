@@ -1,6 +1,7 @@
 // TODO: remove
 #![allow(dead_code, unused_variables)]
 
+use ev::KeyboardEvent;
 use leptos::{
     ev::{Event, FocusEvent, PointerEvent},
     html::AnyElement,
@@ -9,6 +10,9 @@ use leptos::{
 };
 use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_direction::{use_direction, Direction};
+use radix_leptos_dismissable_layer::{
+    FocusOutsideEvent, InteractOutsideEvent, PointerDownOutsideEvent,
+};
 use radix_leptos_focus_guards::use_focus_guards;
 use radix_leptos_focus_scope::FocusScope;
 use radix_leptos_popper::{Popper, PopperAnchor, PopperArrow, PopperContent};
@@ -18,7 +22,7 @@ use radix_leptos_primitive::{compose_callbacks, Primitive};
 struct MenuContextValue {
     open: Signal<bool>,
     content_ref: NodeRef<AnyElement>,
-    // TODO: onOpenChange
+    on_open_change: Callback<bool>,
 }
 
 #[derive(Clone)]
@@ -34,7 +38,7 @@ pub fn Menu(
     #[prop(into, optional)] open: MaybeProp<bool>,
     #[prop(into, optional)] dir: MaybeProp<Direction>,
     #[prop(into, optional)] modal: MaybeProp<bool>,
-    // TODO: onOpenChange
+    #[prop(into, optional)] on_open_change: Option<Callback<bool>>,
     children: ChildrenFn,
 ) -> impl IntoView {
     let children = StoredValue::new(children);
@@ -47,7 +51,11 @@ pub fn Menu(
     let is_using_keyboard = create_rw_signal(false);
     let direction = use_direction(dir);
 
-    let context_value = StoredValue::new(MenuContextValue { open, content_ref });
+    let context_value = StoredValue::new(MenuContextValue {
+        open,
+        content_ref,
+        on_open_change: on_open_change.unwrap_or(Callback::new(|_| {})),
+    });
     let root_context_value = StoredValue::new(MenuRootContextValue {
         is_using_keyboard: is_using_keyboard.into(),
         dir: direction,
@@ -99,6 +107,7 @@ pub fn MenuPortal(children: ChildrenFn) -> impl IntoView {
 struct MenuContentContextValue {
     on_item_enter: Callback<PointerEvent>,
     on_item_leave: Callback<PointerEvent>,
+    on_trigger_leave: Callback<PointerEvent>,
 }
 
 #[component]
@@ -132,14 +141,40 @@ pub fn MenuContent(
 
 #[component]
 fn MenuRootContentModal(
+    #[prop(into, optional)] on_focus_outside: Option<Callback<FocusOutsideEvent>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
-    // TODO
+    let context = expect_context::<MenuContextValue>();
+    let content_ref = create_node_ref::<AnyElement>();
+    let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
+
+    // Hide everything from ARIA except the `MenuContent`.
+    create_effect(move |_| {
+        if let Some(content) = content_ref.get() {
+            // TODO: imported from `aria-hidden` in JS.
+            // hide_others(content);
+        }
+    });
+
     view! {
-        <MenuContentImpl as_child=as_child node_ref=node_ref attrs=attrs>
+        <MenuContentImpl
+            // We make sure we're not trapping once it's been closed (closed !== unmounted when animating out).
+            trap_focus=context.open
+            // Make sure to only disable pointer events when open. This avoids blocking interactions while animating out.
+            disable_outside_pointer_events=context.open
+            disable_outside_scroll=true
+            // When focus is trapped, a `focusout` event may still happen. We make sure we don't trigger our `onDismiss` in such case.
+            on_focus_outside=compose_callbacks(on_focus_outside, Some(Callback::new(move |event: FocusOutsideEvent| {
+                event.prevent_default();
+            })), Some(false))
+            on_dismiss=move |_| context.on_open_change.call(false)
+            as_child=as_child
+            node_ref=composed_refs
+            attrs=attrs
+        >
             {children()}
         </MenuContentImpl>
     }
@@ -152,9 +187,18 @@ fn MenuRootContentNonModal(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
-    // TODO
+    let context = expect_context::<MenuContextValue>();
+
     view! {
-        <MenuContentImpl as_child=as_child node_ref=node_ref attrs=attrs>
+        <MenuContentImpl
+            trap_focus=false
+            disable_outside_pointer_events=false
+            disable_outside_scroll=false
+            on_dismiss=move |_| context.on_open_change.call(false)
+            as_child=as_child
+            node_ref=node_ref
+            attrs=attrs
+        >
             {children()}
         </MenuContentImpl>
     }
@@ -168,6 +212,12 @@ fn MenuContentImpl(
     /// Event handler called when auto-focusing on close. Can be prevented.
     #[prop(into, optional)]
     on_close_auto_focus: Option<Callback<Event>>,
+    #[prop(into, optional)] disable_outside_pointer_events: MaybeProp<bool>,
+    #[prop(into, optional)] on_escape_key_down: Option<Callback<KeyboardEvent>>,
+    #[prop(into, optional)] on_pointer_down_outside: Option<Callback<PointerDownOutsideEvent>>,
+    #[prop(into, optional)] on_focus_outside: Option<Callback<FocusOutsideEvent>>,
+    #[prop(into, optional)] on_interact_outside: Option<Callback<InteractOutsideEvent>>,
+    #[prop(into, optional)] on_dismiss: Option<Callback<()>>,
     /// Whether scrolling outside the `MenuContent` should be prevented. Defaults to `false`.
     #[prop(into, optional)]
     disable_outside_scroll: MaybeProp<bool>,
@@ -179,9 +229,9 @@ fn MenuContentImpl(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
-    let attrs = StoredValue::new(attrs);
-    let children = StoredValue::new(children);
-
+    let context = expect_context::<MenuContextValue>();
+    let root_context = expect_context::<MenuRootContextValue>();
+    let (current_item_id, set_current_item_id) = create_signal::<Option<String>>(None);
     let content_ref = create_node_ref::<AnyElement>();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
 
@@ -189,32 +239,78 @@ fn MenuContentImpl(
     // the last element in the DOM (beacuse of the `Portal`).
     use_focus_guards();
 
-    let handle_mount_auto_focus = Callback::new(compose_callbacks(
-        on_open_auto_focus,
-        Some(Callback::new(move |event: Event| {
-            // When opening, explicitly focus the content area only and leave `onEntryFocus` in  control of focusing first item.
-            event.prevent_default();
+    let is_pointer_moving_to_submenu = move |event: &PointerEvent| -> bool {
+        // TODO
+        false
+    };
 
-            if let Some(content) = content_ref.get_untracked() {
-                // TODO: focus with options doesn't exist in web-sys
-                content.focus().expect("Element should be focused");
+    let content_context_value = StoredValue::new(MenuContentContextValue {
+        on_item_enter: Callback::new(move |event| {
+            if is_pointer_moving_to_submenu(&event) {
+                event.prevent_default();
             }
-        })),
-        None,
-    ));
+        }),
+        on_item_leave: Callback::new(move |event| {
+            if is_pointer_moving_to_submenu(&event) {
+                return;
+            }
+            if let Some(content) = content_ref.get() {
+                content.focus().expect("Element should be focused.");
+            }
+            set_current_item_id.set(None);
+        }),
+        on_trigger_leave: Callback::new(move |event| {
+            if is_pointer_moving_to_submenu(&event) {
+                event.prevent_default();
+            }
+        }),
+    });
+
+    let mut attrs = attrs.clone();
+    attrs.extend([
+        ("role", "menu".into_attribute()),
+        ("aria-orientation", "vertical".into_attribute()),
+        (
+            "data-state",
+            (move || get_open_state(context.open.get())).into_attribute(),
+        ),
+        ("data-radix-menu-content", "".into_attribute()),
+        ("dir", (move || root_context.dir.get()).into_attribute()),
+    ]);
+
+    let attrs = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
 
     // TODO
     view! {
-        <FocusScope
-            as_child=true
-            trapped=trap_focus
-            on_mount_auto_focus=handle_mount_auto_focus
-            on_unmount_auto_focus=on_close_auto_focus
-        >
-            <PopperContent as_child=as_child node_ref=composed_refs attrs=attrs.get_value()>
-                {children.with_value(|children| children())}
-            </PopperContent>
-        </FocusScope>
+        <Provider value=content_context_value>
+            <FocusScope
+                as_child=true
+                trapped=trap_focus
+                on_mount_auto_focus=compose_callbacks(
+                    on_open_auto_focus,
+                    Some(Callback::new(move |event: Event| {
+                        // When opening, explicitly focus the content area only and leave `onEntryFocus` in  control of focusing first item.
+                        event.prevent_default();
+
+                        if let Some(content) = content_ref.get_untracked() {
+                            // TODO: focus with options doesn't exist in web-sys
+                            content.focus().expect("Element should be focused");
+                        }
+                    })),
+                    None,
+                )
+                on_unmount_auto_focus=on_close_auto_focus
+            >
+                <PopperContent
+                    as_child=as_child
+                    node_ref=composed_refs
+                    attrs=attrs.get_value()
+                >
+                    {children.with_value(|children| children())}
+                </PopperContent>
+            </FocusScope>
+        </Provider>
     }
 }
 
@@ -441,6 +537,13 @@ pub fn MenuSubTrigger() -> impl IntoView {
 #[component]
 pub fn MenuSubContent() -> impl IntoView {
     view! {}
+}
+
+fn get_open_state(open: bool) -> String {
+    match open {
+        true => "open".into(),
+        false => "closed".into(),
+    }
 }
 
 fn when_mouse<H: Fn(PointerEvent) + 'static>(handler: H) -> Callback<PointerEvent> {
