@@ -1,0 +1,16 @@
+[package]
+name = "radix-leptos-roving-focus"
+description = "Leptos port of Radix Roving Focus."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.1" }
+radix-leptos-direction = { path = "../direction", version = "0.0.1" }
+radix-leptos-primitive = { path = "../primitive", version = "0.0.1" }
+web-sys.workspace = true
