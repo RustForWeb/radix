@@ -2,6 +2,7 @@
 #![allow(dead_code, unused_variables)]
 
 use std::collections::HashMap;
+use std::marker::PhantomData;
 
 use leptos::{
     html::{AnyElement, ElementDescriptor},
@@ -9,15 +10,17 @@ use leptos::{
 };
 
 #[derive(Clone)]
-struct CollectionContextValue<ItemElement: ElementDescriptor + 'static, ItemData: 'static> {
+struct CollectionContextValue<ItemElement: ElementDescriptor + 'static, ItemData: Clone + 'static> {
     collection_ref: NodeRef<AnyElement>,
     item_map: RwSignal<HashMap<String, (NodeRef<ItemElement>, ItemData)>>,
 }
 
 #[component]
-pub fn CollectionProvider(children: ChildrenFn) -> impl IntoView {
-    // TODO: generics
-    let context_value = CollectionContextValue::<AnyElement, ()> {
+pub fn CollectionProvider<ItemData: Clone + 'static>(
+    children: ChildrenFn,
+    #[prop(into, optional)] item_data: Option<PhantomData<ItemData>>,
+) -> impl IntoView {
+    let context_value = CollectionContextValue::<AnyElement, ItemData> {
         collection_ref: create_node_ref(),
         item_map: create_rw_signal(HashMap::new()),
     };

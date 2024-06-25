@@ -1,6 +1,7 @@
 // TODO: remove
 #![allow(dead_code, unused_variables)]
 
+use std::marker::PhantomData;
 use std::rc::Rc;
 
 use leptos::{
@@ -8,6 +9,7 @@ use leptos::{
     html::AnyElement,
     *,
 };
+use radix_leptos_collection::CollectionProvider;
 use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_direction::{use_direction, Direction};
 use radix_leptos_primitive::{compose_callbacks, Primitive};
@@ -18,7 +20,16 @@ use web_sys::{
 
 const ENTRY_FOCUS: &str = "rovingFocusGroup.onEntryFocus";
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug)]
+struct ItemData {
+    id: String,
+    focusable: Signal<bool>,
+    active: Signal<bool>,
+}
+
+const ITEM_DATA_PHANTHOM: PhantomData<ItemData> = PhantomData;
+
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Orientation {
     Horizontal,
     Vertical,
@@ -69,20 +80,26 @@ pub fn RovingFocusGroup(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
+    let attrs = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
+
     // TODO: Collection.Provider, Collection.Slot
+
     view! {
-        <RovingFocusGroupImpl
-            orientation=orientation
-            dir=dir
-            r#loop=r#loop
-            on_mouse_down=on_mouse_down
-            on_focus=on_focus
-            as_child=as_child
-            node_ref=node_ref
-            attrs=attrs
-        >
-            {children()}
-        </RovingFocusGroupImpl>
+        <CollectionProvider item_data=ITEM_DATA_PHANTHOM>
+            <RovingFocusGroupImpl
+                orientation=orientation
+                dir=dir
+                r#loop=r#loop
+                on_mouse_down=on_mouse_down
+                on_focus=on_focus
+                as_child=as_child
+                node_ref=node_ref
+                attrs=attrs.get_value()
+            >
+                {children.with_value(|children| children())}
+            </RovingFocusGroupImpl>
+        </CollectionProvider>
     }
 }
 
