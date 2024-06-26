@@ -3,10 +3,10 @@ members = ["packages/colors", "packages/primitives/*/*", "scripts", "stories/*"]
 resolver = "2"
 
 [workspace.package]
-authors = ["Nixy <info@nixy.software>"]
+authors = ["Rust For Web <info@rustforweb.org>"]
 edition = "2021"
 license = "MIT"
-repository = "https://github.com/NixySoftware/radix"
+repository = "https://github.com/RustForWeb/radix"
 version = "0.0.1"
 
 [workspace.dependencies]

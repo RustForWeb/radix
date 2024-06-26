@@ -1,8 +1,8 @@
 {
-    "name": "@nixysoftware/radix",
+    "name": "@rustforweb/radix",
     "description": "Rust port of Radix.",
-    "author": "Nixy <info@nixy.software>",
-    "repository": "github:NixySoftware/radix",
+    "author": "Rust For Web <info@rustforweb.org>",
+    "repository": "github:RustForWeb/radix",
     "license": "MIT",
     "private": true,
     "scripts": {},

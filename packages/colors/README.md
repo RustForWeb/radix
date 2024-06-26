@@ -10,4 +10,4 @@ A gorgeous, accessible color system.
 
 ## Rust Radix
 
-[Rust Radix](https://github.com/NixySoftware/radix) is a Rust port of [Radix](https://www.radix-ui.com/colors).
+[Rust Radix](https://github.com/RustForWeb/radix) is a Rust port of [Radix](https://www.radix-ui.com/colors).

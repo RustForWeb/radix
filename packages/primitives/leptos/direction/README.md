@@ -10,4 +10,4 @@ Wraps your app to provide global reading direction.
 
 ## Rust Radix
 
-[Rust Radix](https://github.com/NixySoftware/radix) is a Rust port of [Radix](https://www.radix-ui.com/primitives).
+[Rust Radix](https://github.com/RustForWeb/radix) is a Rust port of [Radix](https://www.radix-ui.com/primitives).
