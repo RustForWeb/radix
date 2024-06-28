@@ -1,6 +1,6 @@
 [package]
-name = "radix-leptos-collection"
-description = "Leptos port of Radix Collection."
+name = "radix-leptos-slot"
+description = "Leptos port of Radix Slot."
 
 authors.workspace = true
 edition.workspace = true
@@ -10,6 +10,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-nanoid = "0.4.0"
 radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.1" }
-radix-leptos-slot = { path = "../slot", version = "0.0.1" }

@@ -20,6 +20,14 @@ pub fn App() -> impl IntoView {
                         <A href="/">Index</A>
                     </li>
                     <li>
+                        Collection
+
+                        <ul class="ms-4">
+                            <li><A href="/collection/basic">Basic</A></li>
+                            // TODO
+                        </ul>
+                    </li>
+                    <li>
                         Focus Scope
 
                         <ul class="ms-4">

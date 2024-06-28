@@ -15,9 +15,11 @@ console_error_panic_hook.workspace = true
 leptos = { workspace = true, features = ["csr"] }
 leptos_router = { workspace = true, features = ["csr"] }
 log.workspace = true
+radix-leptos-collection = { path = "../../packages/primitives/leptos/collection" }
 radix-leptos-focus-scope = { path = "../../packages/primitives/leptos/focus-scope" }
 radix-leptos-label = { path = "../../packages/primitives/leptos/label" }
 radix-leptos-menu = { path = "../../packages/primitives/leptos/menu" }
 radix-leptos-popper = { path = "../../packages/primitives/leptos/popper" }
+radix-leptos-slot = { path = "../../packages/primitives/leptos/slot" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true
