@@ -1,7 +1,7 @@
 use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
-use crate::primitives::{arrow, collection, focus_scope, label, menu, popper, slot};
+use crate::primitives::{arrow, avatar, collection, focus_scope, label, menu, popper, slot};
 
 #[component]
 fn Index() -> impl IntoView {
@@ -26,6 +26,14 @@ pub fn App() -> impl IntoView {
                             <li><A href="/arrow/styled">Styled</A></li>
                             <li><A href="/arrow/custom-sizes">Custom Sizes</A></li>
                             <li><A href="/arrow/custom-arrow">Custom Arrow</A></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Avatar
+
+                        <ul class="ms-4">
+                            <li><A href="/avatar/styled">Styled</A></li>
+                            <li><A href="/avatar/chromatic">Chromatic</A></li>
                         </ul>
                     </li>
                     <li>
@@ -90,6 +98,9 @@ pub fn App() -> impl IntoView {
                     <Route path="/arrow/styled" view=arrow::Styled />
                     <Route path="/arrow/custom-sizes" view=arrow::CustomSizes />
                     <Route path="/arrow/custom-arrow" view=arrow::CustomArrow />
+
+                    <Route path="/avatar/styled" view=avatar::Styled />
+                    <Route path="/avatar/chromatic" view=avatar::Chromatic />
 
                     <Route path="/collection/basic" view=collection::Basic />
                     <Route path="/collection/with-element-in-between" view=collection::WithElementsInBetween />
