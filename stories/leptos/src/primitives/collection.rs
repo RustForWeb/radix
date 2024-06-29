@@ -171,7 +171,7 @@ fn Item(#[prop(into, optional)] disabled: MaybeProp<bool>, children: ChildrenFn)
 
     view! {
         <CollectionItemSlot item_data_type=ITEM_DATA_PHANTHOM item_data=item_data>
-            <li style:opacity=move || disabled.get().map(|_| "0.3")>
+            <li style:opacity=move || disabled.get().unwrap_or(false).then_some("0.3")>
                 {children()}
             </li>
         </CollectionItemSlot>
