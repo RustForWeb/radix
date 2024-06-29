@@ -137,8 +137,8 @@ pub fn Menu(
 
     view! {
         <Popper>
-            <Provider value=context_value>
-                <Provider value=root_context_value>
+            <Provider value=context_value.get_value()>
+                <Provider value=root_context_value.get_value()>
                     {children.with_value(|children| children())}
                 </Provider>
             </Provider>
@@ -395,7 +395,7 @@ fn MenuContentImpl(
 
     // TODO: ScrollLockWrapper, DismissableLayer, RovingFocusGroup.Root
     view! {
-        <Provider value=content_context_value>
+        <Provider value=content_context_value.get_value()>
             <FocusScope
                 as_child=true
                 trapped=trap_focus
