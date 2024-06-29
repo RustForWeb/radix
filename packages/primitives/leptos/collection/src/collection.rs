@@ -1,4 +1,5 @@
 use std::marker::PhantomData;
+use std::rc::Rc;
 use std::{collections::HashMap, fmt::Debug};
 
 use leptos::{html::AnyElement, *};
@@ -132,8 +133,8 @@ fn node_list_to_vec(node_list: web_sys::NodeList) -> Vec<web_sys::Node> {
     nodes
 }
 
-pub fn use_collection<ItemData: Clone + 'static>() -> impl Fn() -> Vec<CollectionItemValue<ItemData>>
-{
+pub fn use_collection<ItemData: Clone + 'static>(
+) -> Rc<dyn Fn() -> Vec<CollectionItemValue<ItemData>>> {
     let context = expect_context::<CollectionContextValue<ItemData>>();
 
     let get_items = move || {
@@ -165,5 +166,5 @@ pub fn use_collection<ItemData: Clone + 'static>() -> impl Fn() -> Vec<Collectio
         }
     };
 
-    get_items
+    Rc::new(get_items)
 }

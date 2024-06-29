@@ -9,7 +9,9 @@ use leptos::{
     html::AnyElement,
     *,
 };
-use radix_leptos_collection::CollectionProvider;
+use radix_leptos_collection::{
+    use_collection, CollectionItemSlot, CollectionProvider, CollectionSlot,
+};
 use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_direction::{use_direction, Direction};
 use radix_leptos_primitive::{compose_callbacks, Primitive};
@@ -23,8 +25,8 @@ const ENTRY_FOCUS: &str = "rovingFocusGroup.onEntryFocus";
 #[derive(Clone, Debug)]
 struct ItemData {
     id: String,
-    focusable: Signal<bool>,
-    active: Signal<bool>,
+    focusable: bool,
+    active: bool,
 }
 
 const ITEM_DATA_PHANTHOM: PhantomData<ItemData> = PhantomData;
@@ -83,22 +85,22 @@ pub fn RovingFocusGroup(
     let attrs = StoredValue::new(attrs);
     let children = StoredValue::new(children);
 
-    // TODO: Collection.Provider, Collection.Slot
-
     view! {
         <CollectionProvider item_data_type=ITEM_DATA_PHANTHOM>
-            <RovingFocusGroupImpl
-                orientation=orientation
-                dir=dir
-                r#loop=r#loop
-                on_mouse_down=on_mouse_down
-                on_focus=on_focus
-                as_child=as_child
-                node_ref=node_ref
-                attrs=attrs.get_value()
-            >
-                {children.with_value(|children| children())}
-            </RovingFocusGroupImpl>
+            <CollectionSlot item_data_type=ITEM_DATA_PHANTHOM>
+                <RovingFocusGroupImpl
+                    orientation=orientation
+                    dir=dir
+                    r#loop=r#loop
+                    on_mouse_down=on_mouse_down
+                    on_focus=on_focus
+                    as_child=as_child
+                    node_ref=node_ref
+                    attrs=attrs.get_value()
+                >
+                    {children.with_value(|children| children())}
+                </RovingFocusGroupImpl>
+            </CollectionSlot>
         </CollectionProvider>
     }
 }
@@ -109,6 +111,7 @@ fn RovingFocusGroupImpl(
     #[prop(into, optional)] dir: MaybeProp<Direction>,
     #[prop(into, optional)] r#loop: MaybeProp<bool>,
     #[prop(into, optional)] on_entry_focus: Option<Callback<Event>>,
+    #[prop(into, optional)] prevent_scroll_on_entry_focus: MaybeProp<bool>,
     #[prop(into, optional)] on_mouse_down: Option<Option<Callback<MouseEvent>>>,
     #[prop(into, optional)] on_focus: Option<Option<Callback<FocusEvent>>>,
     #[prop(into, optional)] on_blur: Option<Option<Callback<FocusEvent>>>,
@@ -126,6 +129,7 @@ fn RovingFocusGroupImpl(
     // TODO: replace with use_controllable_state
     let (current_tab_stop_id, set_current_tab_stop_id) = create_signal::<Option<String>>(None);
     let (is_tabbing_back_out, set_is_tabbing_back_out) = create_signal(false);
+    let get_items = StoredValue::new(use_collection::<ItemData>());
     let is_click_focus = create_rw_signal(false);
     let (focusable_items_count, set_focusable_items_count) = create_signal(0);
 
@@ -213,7 +217,20 @@ fn RovingFocusGroupImpl(
                         event.current_target().expect("Event should have current target.").dispatch_event(&entry_focus_event).expect("Entry focus event should be dispatched.");
 
                         if !entry_focus_event.default_prevented() {
-                            // TODO
+                            let items = get_items.with_value(|get_items| get_items());
+                            let items = items.iter().filter(|item| item.data.focusable).collect::<Vec<_>>();
+                            let active_item = items.iter().find(|item| item.data.active);
+                            let current_item = items.iter().find(|item| current_tab_stop_id.get().is_some_and(|current_id| current_id == item.data.id));
+
+                            let mut candidate_items = items.clone();
+                            if let Some(active_item) = active_item {
+                                candidate_items.insert(0, active_item);
+                            }
+                            if let Some(current_item) = current_item {
+                                candidate_items.insert(0, current_item);
+                            }
+                            let candidate_items = candidate_items.iter().filter_map(|item| item.r#ref.get().as_deref().cloned()).collect::<Vec<web_sys::HtmlElement>>();
+                            focus_first(candidate_items, prevent_scroll_on_entry_focus.get());
                         }
                     }
 
@@ -256,7 +273,7 @@ pub fn RovingFocusGroupItem(
             .get()
             .is_some_and(|current_tab_stop_id| current_tab_stop_id == id.get())
     });
-    // TODO: let getItems =
+    let get_items = StoredValue::new(use_collection::<ItemData>());
 
     let added = create_rw_signal(false);
     create_effect(move |_| {
@@ -269,6 +286,12 @@ pub fn RovingFocusGroupItem(
         if added.get() {
             context.on_focusable_item_remove.call(());
         }
+    });
+
+    let item_data = Signal::derive(move || ItemData {
+        id: id.get(),
+        focusable: focusable.get(),
+        active: active.get(),
     });
 
     let mut attrs = attrs.clone();
@@ -287,50 +310,78 @@ pub fn RovingFocusGroupItem(
         ),
     ]);
 
-    // TODO: Collection.ItemSlot
+    let attrs = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
+
     view! {
-        <Primitive
-            element=html::span
-            as_child=as_child
-            node_ref=node_ref
-            attrs=attrs
-            on:mousedown=compose_callbacks(on_mouse_down, Some(Callback::new(move |event: MouseEvent| {
-                // We prevent focusing non-focusable items on `mousedown`.
-                // Even though the item has `tab-index="-1"``, that only means take it out of the tab order.
-                if !focusable.get() {
-                    event.prevent_default();
-                } else {
-                    // Safari doesn't focus a button when clicked, so we run our logic on mousedown also.
+        <CollectionItemSlot item_data_type=ITEM_DATA_PHANTHOM item_data=item_data>
+            <Primitive
+                element=html::span
+                as_child=as_child
+                node_ref=node_ref
+                attrs=attrs.get_value()
+                on:mousedown=compose_callbacks(on_mouse_down, Some(Callback::new(move |event: MouseEvent| {
+                    // We prevent focusing non-focusable items on `mousedown`.
+                    // Even though the item has `tab-index="-1"``, that only means take it out of the tab order.
+                    if !focusable.get() {
+                        event.prevent_default();
+                    } else {
+                        // Safari doesn't focus a button when clicked, so we run our logic on mousedown also.
+                        context.on_item_focus.call(id.get());
+                    }
+                })), None)
+                on:focus=compose_callbacks(on_focus, Some(Callback::new(move |_: FocusEvent| {
                     context.on_item_focus.call(id.get());
-                }
-            })), None)
-            on:focus=compose_callbacks(on_focus, Some(Callback::new(move |_: FocusEvent| {
-                context.on_item_focus.call(id.get());
-            })), None)
-            on:keydown=compose_callbacks(on_key_down, Some(Callback::new(move |event: KeyboardEvent| {
-                if event.key() == "Tab" && event.shift_key() {
-                    context.on_item_shift_tab.call(());
-                    return;
-                }
-
-                if event.target() != event.current_target() {
-                    return;
-                }
-
-                let focus_intent = get_focus_intent(&event, context.orientation.get(), Some(context.dir.get()));
-                if let Some(focus_intent) = focus_intent {
-                    if event.meta_key() || event.ctrl_key() || event.alt_key() || event.shift_key() {
+                })), None)
+                on:keydown=compose_callbacks(on_key_down, Some(Callback::new(move |event: KeyboardEvent| {
+                    if event.key() == "Tab" && event.shift_key() {
+                        context.on_item_shift_tab.call(());
                         return;
                     }
 
-                    event.prevent_default();
+                    if event.target() != event.current_target() {
+                        return;
+                    }
 
-                    // TODO
-                }
-            })), None)
-        >
-            {children()}
-        </Primitive>
+                    let focus_intent = get_focus_intent(&event, context.orientation.get(), Some(context.dir.get()));
+                    if let Some(focus_intent) = focus_intent {
+                        if event.meta_key() || event.ctrl_key() || event.alt_key() || event.shift_key() {
+                            return;
+                        }
+
+                        event.prevent_default();
+
+                        let items = get_items.with_value(|get_items| get_items());
+                        let items = items.into_iter().filter(|item| item.data.focusable);
+                        let mut candidate_nodes = items.filter_map(|item| item.r#ref.get().as_deref().cloned()).collect::<Vec<web_sys::HtmlElement>>();
+
+                        if focus_intent == FocusIntent::Last {
+                            candidate_nodes.reverse();
+                        } else if focus_intent == FocusIntent::Prev || focus_intent == FocusIntent::Next {
+                            if focus_intent == FocusIntent::Prev {
+                                candidate_nodes.reverse();
+                            }
+
+                            let current_index = candidate_nodes
+                                .iter()
+                                .position(|node| *node == event.current_target()
+                                    .expect("Event should have current target.")
+                                    .unchecked_into::<web_sys::HtmlElement>())
+                                .map(|index| index + 1)
+                                .unwrap_or(0);
+                            candidate_nodes = match context.r#loop.get() {
+                                true => wrap_array(&mut candidate_nodes, current_index).to_vec(),
+                                false => candidate_nodes[current_index..].to_vec()
+                            }
+                        }
+
+                        focus_first(candidate_nodes, None);
+                    }
+                })), None)
+            >
+                {children.with_value(|children| children())}
+            </Primitive>
+        </CollectionItemSlot>
     }
 }
 
@@ -347,7 +398,7 @@ fn get_direction_aware_key(key: String, dir: Option<Direction>) -> String {
     .into()
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum FocusIntent {
     First,
     Last,
