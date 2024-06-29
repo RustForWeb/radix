@@ -1,6 +1,3 @@
-// TODO: remove
-#![allow(dead_code, unused_variables)]
-
 use std::marker::PhantomData;
 use std::rc::Rc;
 
@@ -94,6 +91,7 @@ pub fn RovingFocusGroup(
                     r#loop=r#loop
                     on_mouse_down=on_mouse_down
                     on_focus=on_focus
+                    on_blur=on_blur
                     as_child=as_child
                     node_ref=node_ref
                     attrs=attrs.get_value()
@@ -437,7 +435,7 @@ fn get_focus_intent(
     }
 }
 
-fn focus_first(candidates: Vec<web_sys::HtmlElement>, prevent_scroll: Option<bool>) {
+fn focus_first(candidates: Vec<web_sys::HtmlElement>, _prevent_scroll: Option<bool>) {
     let previously_focused_element = document().active_element();
 
     for candidate in candidates {
