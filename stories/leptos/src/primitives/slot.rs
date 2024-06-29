@@ -22,7 +22,7 @@ pub fn WithSlottable() -> impl IntoView {
 #[component]
 fn SlotWithoutSlottable(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: ChildrenFn,
+    children: Children,
 ) -> impl IntoView {
     view! {
         <Slot attrs=attrs>
@@ -34,13 +34,14 @@ fn SlotWithoutSlottable(
 #[component]
 fn SlotWithSlottable(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: ChildrenFn,
+    children: Children,
 ) -> impl IntoView {
-    let children = StoredValue::new(children);
+    // let children = StoredValue::new(children);
 
     view! {
         <Slot attrs=attrs>
-            <Slottable>{children.with_value(|children| children())}</Slottable>
+            // <Slottable>{children.with_value(|children| children())}</Slottable>
+            <Slottable>{children()}</Slottable>
             <span>world</span>
         </Slot>
     }

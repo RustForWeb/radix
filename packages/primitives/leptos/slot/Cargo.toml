@@ -10,4 +10,5 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
+log.workspace = true
 radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.1" }

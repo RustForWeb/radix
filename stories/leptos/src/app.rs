@@ -1,7 +1,7 @@
 use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
-use crate::primitives::{focus_scope, label, menu, popper};
+use crate::primitives::{collection, focus_scope, label, menu, popper, slot};
 
 #[component]
 fn Index() -> impl IntoView {
@@ -58,11 +58,22 @@ pub fn App() -> impl IntoView {
                             <li><A href="/popper/styled">Styled</A></li>
                         </ul>
                     </li>
+                    <li>
+                        Slot
+
+                        <ul class="ms-4">
+                            <li><A href="/slot/without-slottable">Without Slottable</A></li>
+                            <li><A href="/slot/with-slottable">With Slottable</A></li>
+                            // TODO
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <main class="ms-64 p-4">
                 <Routes>
                     <Route path="/" view=Index />
+
+                    <Route path="/collection/basic" view=collection::Basic />
 
                     <Route path="/focus-scope/basic" view=focus_scope::Basic />
                     <Route path="/focus-scope/multiple" view=focus_scope::Multiple />
@@ -74,6 +85,9 @@ pub fn App() -> impl IntoView {
                     <Route path="/menu/styled" view=menu::Styled />
 
                     <Route path="/popper/styled" view=popper::Styled />
+
+                    <Route path="/slot/without-slottable" view=slot::WithoutSlottable />
+                    <Route path="/slot/with-slottable" view=slot::WithSlottable />
                 </Routes>
             </main>
         </Router>
