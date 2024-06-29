@@ -1,6 +1,3 @@
-// TODO: remove
-#![allow(dead_code, unused_variables)]
-
 use leptos::{html::AnyElement, *};
 use leptos_dom::{ComponentRepr, Text};
 
@@ -78,7 +75,7 @@ pub fn Slot(
 
             let slottable_child = remove_nameless_component(&slottable.children[0]).clone();
             let new_element = StoredValue::new(match slottable_child {
-                View::Element(element) => {
+                View::Element(_element) => {
                     log::info!("old is element");
 
                     // TODO: Actually use the tag name, instead of hardcoding the story example.
@@ -134,7 +131,14 @@ pub fn SlotClone(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    children.map(|children| children())
+    if let Some(children) = children {
+        let children_fragment = children();
+        if children_fragment.as_children().len() == 1 {
+            return map_children(children_fragment.as_children(), node_ref, attrs);
+        }
+    }
+
+    view! {}.into_view()
 }
 
 #[component]
@@ -144,4 +148,26 @@ pub fn Slottable(children: Children) -> impl IntoView {
 
 fn is_slottable(child: &View) -> bool {
     matches!(child, View::Component(c) if c.name() == "Slottable")
+}
+
+fn map_children(
+    children: &[View],
+    node_ref: NodeRef<AnyElement>,
+    attrs: Vec<(&'static str, Attribute)>,
+) -> View {
+    children
+        .iter()
+        .map(|child| match child {
+            View::Element(element) => element
+                .clone()
+                .into_html_element()
+                .node_ref(node_ref)
+                .attrs(attrs.clone())
+                .into_view(),
+            View::Component(component) => {
+                map_children(&component.children, node_ref, attrs.clone())
+            }
+            _ => child.into_view(),
+        })
+        .collect_view()
 }

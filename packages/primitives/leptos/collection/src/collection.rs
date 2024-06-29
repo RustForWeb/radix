@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use std::marker::PhantomData;
+use std::{collections::HashMap, fmt::Debug};
 
 use leptos::{html::AnyElement, *};
 use nanoid::nanoid;
@@ -21,6 +21,14 @@ pub struct CollectionItemValue<ItemData> {
     pub data: ItemData,
 }
 
+impl<ItemData: Debug> Debug for CollectionItemValue<ItemData> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CollectionItemValue")
+            .field("data", &self.data)
+            .finish()
+    }
+}
+
 #[derive(Clone)]
 struct CollectionContextValue<ItemData: Clone + 'static> {
     collection_ref: NodeRef<AnyElement>,
@@ -31,7 +39,7 @@ struct CollectionContextValue<ItemData: Clone + 'static> {
 pub fn CollectionProvider<ItemData: Clone + 'static>(
     #[allow(unused_variables)]
     #[prop(into, optional)]
-    item_data: Option<PhantomData<ItemData>>,
+    item_data_type: Option<PhantomData<ItemData>>,
     children: ChildrenFn,
 ) -> impl IntoView {
     let context_value = CollectionContextValue::<ItemData> {
@@ -50,7 +58,7 @@ pub fn CollectionProvider<ItemData: Clone + 'static>(
 pub fn CollectionSlot<ItemData: Clone + 'static>(
     #[allow(unused_variables)]
     #[prop(into, optional)]
-    item_data: Option<PhantomData<ItemData>>,
+    item_data_type: Option<PhantomData<ItemData>>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
@@ -68,7 +76,10 @@ pub fn CollectionSlot<ItemData: Clone + 'static>(
 const ITEM_DATA_ATTR: &str = "data-radix-collection-item";
 
 #[component]
-pub fn CollectionItemSlot<ItemData: Clone + 'static>(
+pub fn CollectionItemSlot<ItemData: Clone + Debug + 'static>(
+    #[allow(unused_variables)]
+    #[prop(into, optional)]
+    item_data_type: Option<PhantomData<ItemData>>,
     #[allow(unused_variables)]
     #[prop(into, optional)]
     item_data: MaybeProp<ItemData>,
@@ -82,8 +93,8 @@ pub fn CollectionItemSlot<ItemData: Clone + 'static>(
     let context = expect_context::<CollectionContextValue<ItemData>>();
 
     create_effect(move |_| {
-        context.item_map.update(|item_map| {
-            if let Some(item_data) = item_data.get() {
+        if let Some(item_data) = item_data.get() {
+            context.item_map.update(|item_map| {
                 item_map.insert(
                     id.get(),
                     CollectionItemValue {
@@ -91,8 +102,8 @@ pub fn CollectionItemSlot<ItemData: Clone + 'static>(
                         data: item_data,
                     },
                 );
-            }
-        });
+            });
+        }
     });
 
     on_cleanup(move || {

@@ -86,7 +86,7 @@ pub fn RovingFocusGroup(
     // TODO: Collection.Provider, Collection.Slot
 
     view! {
-        <CollectionProvider item_data=ITEM_DATA_PHANTHOM>
+        <CollectionProvider item_data_type=ITEM_DATA_PHANTHOM>
             <RovingFocusGroupImpl
                 orientation=orientation
                 dir=dir

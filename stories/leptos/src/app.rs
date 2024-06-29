@@ -24,7 +24,12 @@ pub fn App() -> impl IntoView {
 
                         <ul class="ms-4">
                             <li><A href="/collection/basic">Basic</A></li>
-                            // TODO
+                            <li><A href="/collection/with-element-in-between">With Element In Between</A></li>
+                            <li><A href="/collection/with-wrapped-item">With Wrapped Item</A></li>
+                            <li><A href="/collection/with-fragment">With Fragment</A></li>
+                            <li><A href="/collection/dynamic-insertion">Dynamic Insertion</A></li>
+                            <li><A href="/collection/with-changing-item">With Changing Item</A></li>
+                            <li><A href="/collection/nested">Nested</A></li>
                         </ul>
                     </li>
                     <li>
@@ -74,6 +79,12 @@ pub fn App() -> impl IntoView {
                     <Route path="/" view=Index />
 
                     <Route path="/collection/basic" view=collection::Basic />
+                    <Route path="/collection/with-element-in-between" view=collection::WithElementsInBetween />
+                    <Route path="/collection/with-wrapped-item" view=collection::WithWrappedItem />
+                    <Route path="/collection/with-fragment" view=collection::WithFragment />
+                    <Route path="/collection/dynamic-insertion" view=collection::DynamicInsertion />
+                    <Route path="/collection/with-changing-item" view=collection::WithChangingItem />
+                    <Route path="/collection/nested" view=collection::Nested />
 
                     <Route path="/focus-scope/basic" view=focus_scope::Basic />
                     <Route path="/focus-scope/multiple" view=focus_scope::Multiple />
