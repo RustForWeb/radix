@@ -12,6 +12,7 @@ use radix_leptos_collection::{
 use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_direction::{use_direction, Direction};
 use radix_leptos_primitive::{compose_callbacks, Primitive};
+use radix_leptos_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     CustomEvent, CustomEventInit,
@@ -71,6 +72,11 @@ pub fn RovingFocusGroup(
     #[prop(into, optional)] orientation: MaybeProp<Orientation>,
     #[prop(into, optional)] dir: MaybeProp<Direction>,
     #[prop(into, optional)] r#loop: MaybeProp<bool>,
+    #[prop(into, optional)] current_tab_stop_id: MaybeProp<String>,
+    #[prop(into, optional)] default_current_tab_stop_id: MaybeProp<String>,
+    #[prop(into, optional)] on_current_tab_stop_id_change: Option<Callback<Option<String>>>,
+    #[prop(into, optional)] on_entry_focus: Option<Callback<Event>>,
+    #[prop(into, optional)] prevent_scroll_on_entry_focus: MaybeProp<bool>,
     #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
     #[prop(into, optional)] on_focus: Option<Callback<FocusEvent>>,
     #[prop(into, optional)] on_blur: Option<Callback<FocusEvent>>,
@@ -79,6 +85,8 @@ pub fn RovingFocusGroup(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
+    let current_tab_stop_id = StoredValue::new(current_tab_stop_id);
+    let default_current_tab_stop_id = StoredValue::new(default_current_tab_stop_id);
     let attrs = StoredValue::new(attrs);
     let children = StoredValue::new(children);
 
@@ -89,6 +97,11 @@ pub fn RovingFocusGroup(
                     orientation=orientation
                     dir=dir
                     r#loop=r#loop
+                    current_tab_stop_id=current_tab_stop_id.get_value()
+                    default_current_tab_stop_id=default_current_tab_stop_id.get_value()
+                    on_current_tab_stop_id_change=on_current_tab_stop_id_change
+                    on_entry_focus=on_entry_focus
+                    prevent_scroll_on_entry_focus=prevent_scroll_on_entry_focus
                     on_mouse_down=on_mouse_down
                     on_focus=on_focus
                     on_blur=on_blur
@@ -108,7 +121,10 @@ fn RovingFocusGroupImpl(
     #[prop(into, optional)] orientation: MaybeProp<Orientation>,
     #[prop(into, optional)] dir: MaybeProp<Direction>,
     #[prop(into, optional)] r#loop: MaybeProp<bool>,
-    #[prop(into, optional)] on_entry_focus: Option<Callback<Event>>,
+    #[prop(into, optional)] current_tab_stop_id: MaybeProp<String>,
+    #[prop(into, optional)] default_current_tab_stop_id: MaybeProp<String>,
+    #[prop(into, optional)] on_current_tab_stop_id_change: Option<Option<Callback<Option<String>>>>,
+    #[prop(into, optional)] on_entry_focus: Option<Option<Callback<Event>>>,
     #[prop(into, optional)] prevent_scroll_on_entry_focus: MaybeProp<bool>,
     #[prop(into, optional)] on_mouse_down: Option<Option<Callback<MouseEvent>>>,
     #[prop(into, optional)] on_focus: Option<Option<Callback<FocusEvent>>>,
@@ -124,8 +140,12 @@ fn RovingFocusGroupImpl(
     let group_ref = create_node_ref::<AnyElement>();
     let composed_refs = use_composed_refs(vec![node_ref, group_ref]);
     let direction = use_direction(dir);
-    // TODO: replace with use_controllable_state
-    let (current_tab_stop_id, set_current_tab_stop_id) = create_signal::<Option<String>>(None);
+    let (current_tab_stop_id, set_current_tab_stop_id) =
+        use_controllable_state(UseControllableStateParams {
+            prop: current_tab_stop_id,
+            default_prop: default_current_tab_stop_id,
+            on_change: on_current_tab_stop_id_change.flatten(),
+        });
     let (is_tabbing_back_out, set_is_tabbing_back_out) = create_signal(false);
     let get_items = StoredValue::new(use_collection::<ItemData>());
     let is_click_focus = create_rw_signal(false);
@@ -133,7 +153,7 @@ fn RovingFocusGroupImpl(
 
     let handle_entry_focus: Rc<Closure<dyn Fn(Event)>> =
         Rc::new(Closure::new(move |event: Event| {
-            if let Some(on_entry_focus) = on_entry_focus {
+            if let Some(on_entry_focus) = on_entry_focus.flatten() {
                 on_entry_focus.call(event);
             }
         }));
@@ -163,9 +183,9 @@ fn RovingFocusGroupImpl(
         orientation,
         dir: direction,
         r#loop,
-        current_tab_stop_id: current_tab_stop_id.into(),
+        current_tab_stop_id,
         on_item_focus: Callback::new(move |tab_stop_id| {
-            set_current_tab_stop_id.set(Some(tab_stop_id))
+            set_current_tab_stop_id.call(Some(tab_stop_id))
         }),
         on_item_shift_tab: Callback::new(move |_| set_is_tabbing_back_out.set(true)),
         on_focusable_item_add: Callback::new(move |_| {
