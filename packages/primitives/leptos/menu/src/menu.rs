@@ -7,8 +7,6 @@ use ev::CustomEvent;
 use leptos::{
     ev::{Event, FocusEvent, KeyboardEvent, MouseEvent, PointerEvent},
     html::AnyElement,
-    wasm_bindgen::{closure::Closure, JsCast},
-    web_sys::AddEventListenerOptions,
     *,
 };
 use radix_leptos_compose_refs::use_composed_refs;
@@ -20,7 +18,10 @@ use radix_leptos_focus_guards::use_focus_guards;
 use radix_leptos_focus_scope::FocusScope;
 use radix_leptos_popper::{Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_leptos_primitive::{compose_callbacks, Primitive};
-use web_sys::CustomEventInit;
+use web_sys::{
+    wasm_bindgen::{closure::Closure, JsCast},
+    AddEventListenerOptions, CustomEventInit, EventListenerOptions,
+};
 
 const SELECTION_KEYS: [&str; 2] = ["Enter", " "];
 const FIRST_KEYS: [&str; 3] = ["ArrowDown", "PageUp", "Home"];
@@ -111,26 +112,26 @@ pub fn Menu(
 
     on_cleanup(move || {
         document()
-            .remove_event_listener_with_callback_and_bool(
+            .remove_event_listener_with_callback_and_event_listener_options(
                 "keydown",
                 (*cleanup_handle_key_down).as_ref().unchecked_ref(),
-                true,
+                EventListenerOptions::new().capture(true),
             )
             .expect("Key down event listener should be removed.");
 
         document()
-            .remove_event_listener_with_callback_and_bool(
+            .remove_event_listener_with_callback_and_event_listener_options(
                 "pointerdown",
                 (*cleanup_handle_pointer).as_ref().unchecked_ref(),
-                true,
+                EventListenerOptions::new().capture(true),
             )
             .expect("Pointer down event listener should be removed.");
 
         document()
-            .remove_event_listener_with_callback_and_bool(
+            .remove_event_listener_with_callback_and_event_listener_options(
                 "pointermove",
                 (*cleanup_handle_pointer).as_ref().unchecked_ref(),
-                true,
+                EventListenerOptions::new().capture(true),
             )
             .expect("Pointer move event listener should be removed.");
     });

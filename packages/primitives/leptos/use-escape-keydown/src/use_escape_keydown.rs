@@ -1,14 +1,11 @@
 use std::rc::Rc;
 
 use leptos::{
-    create_effect, document,
-    ev::KeyboardEvent,
-    on_cleanup,
-    web_sys::{
-        wasm_bindgen::{closure::Closure, JsCast},
-        AddEventListenerOptions, Document,
-    },
-    Callable, Callback, StoredValue,
+    create_effect, document, ev::KeyboardEvent, on_cleanup, Callable, Callback, StoredValue,
+};
+use web_sys::{
+    wasm_bindgen::{closure::Closure, JsCast},
+    AddEventListenerOptions, Document, EventListenerOptions,
 };
 
 /// Listens for when the escape key is down.
@@ -40,13 +37,12 @@ pub fn use_escape_keydown(
     });
 
     on_cleanup(move || {
-        // TODO: change to options once web_sys supports it
         owner_document
             .get_value()
-            .remove_event_listener_with_callback_and_bool(
+            .remove_event_listener_with_callback_and_event_listener_options(
                 "keydown",
                 (*cleanup_handle_key_down).as_ref().unchecked_ref(),
-                true,
+                EventListenerOptions::new().capture(true),
             )
             .expect("Key down event listener should be removed.");
     });
