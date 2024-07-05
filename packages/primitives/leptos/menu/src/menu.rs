@@ -2,12 +2,16 @@
 #![allow(dead_code, unused_variables)]
 
 use std::rc::Rc;
+use std::{marker::PhantomData, ops::Deref};
 
 use ev::CustomEvent;
 use leptos::{
     ev::{Event, FocusEvent, KeyboardEvent, MouseEvent, PointerEvent},
     html::AnyElement,
     *,
+};
+use radix_leptos_collection::{
+    use_collection, CollectionItemSlot, CollectionProvider, CollectionSlot,
 };
 use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_direction::{use_direction, Direction};
@@ -18,6 +22,7 @@ use radix_leptos_focus_guards::use_focus_guards;
 use radix_leptos_focus_scope::FocusScope;
 use radix_leptos_popper::{Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_leptos_primitive::{compose_callbacks, Primitive};
+use radix_leptos_roving_focus::{Orientation, RovingFocusGroup, RovingFocusGroupItem};
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     AddEventListenerOptions, CustomEventInit, EventListenerOptions,
@@ -27,6 +32,14 @@ const SELECTION_KEYS: [&str; 2] = ["Enter", " "];
 const FIRST_KEYS: [&str; 3] = ["ArrowDown", "PageUp", "Home"];
 const LAST_KEYS: [&str; 3] = ["ArrowUp", "PageDown", "End"];
 const FIRST_LAST_KEYS: [&str; 6] = ["ArrowDown", "PageUp", "Home", "ArrowUp", "PageDown", "End"];
+
+#[derive(Clone, Debug)]
+struct ItemData {
+    disabled: bool,
+    text_value: String,
+}
+
+const ITEM_DATA_PHANTHOM: PhantomData<ItemData> = PhantomData;
 
 #[derive(Clone)]
 struct MenuContextValue {
@@ -198,20 +211,24 @@ pub fn MenuContent(
 
     let root_context = expect_context::<MenuRootContextValue>();
 
+    // TODO: Presence
     view! {
-        // TODO: wrapper components
-        <Show
-            when=move || root_context.modal.get()
-            fallback=move || view!{
-                <MenuRootContentNonModal attrs=attrs.get_value()>
-                    {children.with_value(|children| children())}
-                </MenuRootContentNonModal>
-            }
-        >
-            <MenuRootContentModal as_child=as_child node_ref=node_ref attrs=attrs.get_value()>
-                {children.with_value(|children| children())}
-            </MenuRootContentModal>
-        </Show>
+        <CollectionProvider item_data_type=ITEM_DATA_PHANTHOM>
+            <CollectionSlot item_data_type=ITEM_DATA_PHANTHOM>
+                <Show
+                    when=move || root_context.modal.get()
+                    fallback=move || view!{
+                        <MenuRootContentNonModal attrs=attrs.get_value()>
+                            {children.with_value(|children| children())}
+                        </MenuRootContentNonModal>
+                    }
+                >
+                    <MenuRootContentModal as_child=as_child node_ref=node_ref attrs=attrs.get_value()>
+                        {children.with_value(|children| children())}
+                    </MenuRootContentModal>
+                </Show>
+            </CollectionSlot>
+        </CollectionProvider>
     }
 }
 
@@ -303,13 +320,20 @@ fn MenuContentImpl(
     /// Whether focus should be trapped within the `MenuContent`. Defaults to `false`.
     #[prop(into, optional)]
     trap_focus: MaybeProp<bool>,
+    #[prop(into, optional)]
+    /// Whether keyboard navigation should loop around. Defaults to `false`.
+    r#loop: MaybeProp<bool>,
+    #[prop(into, optional)] on_entry_focus: Option<Callback<Event>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
+    let r#loop = Signal::derive(move || r#loop.get().unwrap_or(false));
+
     let context = expect_context::<MenuContextValue>();
     let root_context = expect_context::<MenuRootContextValue>();
+    let get_items = StoredValue::new(use_collection::<ItemData>());
     let (current_item_id, set_current_item_id) = create_signal::<Option<String>>(None);
     let content_ref = create_node_ref::<AnyElement>();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
@@ -320,15 +344,66 @@ fn MenuContentImpl(
     let pointer_dir = create_rw_signal(Side::Right);
     let last_pointer_x = create_rw_signal(0);
 
-    let handle_typeahead_search = move |key: String| {
-        let search = search.get() + &key;
-        // TODO
-        // let items = get_items().filter();
-        let current_item = document().active_element();
-        // let current_match =
+    let clear_search: Closure<dyn Fn()> = Closure::new(move || {
+        search.set("".into());
+        window().clear_timeout_with_handle(timer.get());
+    });
 
-        // TODO
-    };
+    let handle_typeahead_search = Callback::new(move |key: String| {
+        let search_value = search.get() + &key;
+        let items = get_items.with_value(|get_items| get_items());
+        let items = items
+            .iter()
+            .filter(|item| !item.data.disabled)
+            .collect::<Vec<_>>();
+        let current_item = document().active_element();
+        let current_match = items
+            .iter()
+            .find(|item| {
+                item.r#ref.get().map(|html_element| {
+                    let element: &web_sys::Element = html_element.deref();
+                    element.clone()
+                }) == current_item
+            })
+            .map(|item| item.data.text_value.clone());
+        let values = items
+            .iter()
+            .map(|item| item.data.text_value.clone())
+            .collect::<Vec<_>>();
+        let next_match = get_next_match(values, search_value.clone(), current_match);
+        let new_item = items
+            .iter()
+            .find(|item| {
+                next_match
+                    .as_ref()
+                    .is_some_and(|next_match| item.data.text_value == *next_match)
+            })
+            .and_then(|item| item.r#ref.get());
+
+        search.set(search_value.clone());
+        window().clear_timeout_with_handle(timer.get());
+        if !search_value.is_empty() {
+            // Reset search 1 second after it was last updated.
+            timer.set(
+                window()
+                    .set_timeout_with_callback_and_timeout_and_arguments_0(
+                        clear_search.as_ref().unchecked_ref(),
+                        1000,
+                    )
+                    .expect("Timeout should be set"),
+            );
+        }
+
+        if let Some(new_item) = new_item {
+            window()
+                .set_timeout_with_callback(
+                    Closure::once(move || new_item.deref().focus())
+                        .as_ref()
+                        .unchecked_ref(),
+                )
+                .expect("Timeout should be set.");
+        }
+    });
 
     on_cleanup(move || {
         window().clear_timeout_with_handle(timer.get());
@@ -394,7 +469,7 @@ fn MenuContentImpl(
     let attrs = StoredValue::new(attrs);
     let children = StoredValue::new(children);
 
-    // TODO: ScrollLockWrapper, DismissableLayer, RovingFocusGroup.Root
+    // TODO: ScrollLockWrapper, DismissableLayer
     view! {
         <Provider value=content_context_value.get_value()>
             <FocusScope
@@ -415,73 +490,88 @@ fn MenuContentImpl(
                 )
                 on_unmount_auto_focus=on_close_auto_focus
             >
-                <PopperContent
-                    as_child=as_child
-                    node_ref=composed_refs
-                    attrs=attrs.get_value()
-                    on:keydown=compose_callbacks(on_key_down, Some(Callback::new(move |event: KeyboardEvent| {
-                        // Submenu key events bubble through portals. We only care about keys in this menu.
-                        let target = event.target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Event should have target.");
-                        let is_key_down_inside = target.closest("[data-radix-menu-content]").expect("Element should be able to query closest.") ==
-                            event.current_target().and_then(|current_target| current_target.dyn_into::<web_sys::Element>().ok());
-                        let is_modifier_key = event.ctrl_key() || event.alt_key() || event.meta_key();
-                        let is_character_key = event.key().len() == 1;
-
-                        if is_key_down_inside {
-                            // Menus should not be navigated using tab key so we prevent it.
-                            if event.key() == "Tab" {
-                                event.prevent_default();
-                            }
-                            if !is_modifier_key && is_character_key {
-                                handle_typeahead_search(event.key());
-                            }
-                        }
-
-                        // Focus first/last item based on key pressed.
-                        if content_ref.get().is_some_and(|content| *content == target) {
-                            if !FIRST_LAST_KEYS.contains(&event.key().as_str()) {
-                                return;
-                            }
-
+                <RovingFocusGroup
+                    as_child=true
+                    dir=root_context.dir
+                    orientation=Orientation::Vertical
+                    r#loop=r#loop
+                    current_tab_stop_id=current_item_id
+                    on_current_tab_stop_id_change=move |value| set_current_item_id.set(value)
+                    on_entry_focus=compose_callbacks(on_entry_focus, Some(Callback::new(move |event: Event| {
+                        if !root_context.is_using_keyboard.get() {
                             event.prevent_default();
-
-                            // TODO: get_items().filter()
-                            // let items = vec![];
-                            let candidate_nodes: Vec<web_sys::HtmlElement> = vec![];
-                            if LAST_KEYS.contains(&event.key().as_str()) {
-                                // TODO
-                            }
-                            focus_first(candidate_nodes);
-                        }
-
-                    })), None)
-                    on:blur=compose_callbacks(on_blur, Some(Callback::new(move |event: FocusEvent| {
-                        // Clear search buffer when leaving the menu.
-                        let target = event.target().map(|target| target.unchecked_into::<web_sys::Node>()).expect("Event should have target.");
-                        let current_target = event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Node>()).expect("Event should have current target.");
-                        if !current_target.contains(Some(&target)) {
-                            window().clear_timeout_with_handle(timer.get());
-                            search.set("".into());
                         }
                     })), None)
-                    on:pointermove=compose_callbacks(on_pointer_move, Some(when_mouse(move |event: PointerEvent| {
-                        let target = event.target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Event should have target.");
-                        let current_target = event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Node>()).expect("Event should have current target.");
-                        let pointer_x_has_changed = last_pointer_x.get() != event.client_x();
-
-                        // We don't use `event.movementX` for this check because Safari will always return `0` on a pointer event.
-                        if current_target.contains(Some(&target)) && pointer_x_has_changed {
-                            let new_dir = match event.client_x() > last_pointer_x.get() {
-                                true => Side::Right,
-                                false => Side::Left
-                            };
-                            pointer_dir.set(new_dir);
-                            last_pointer_x.set(event.client_x());
-                        }
-                    })), None)
+                    prevent_scroll_on_entry_focus=true
                 >
-                    {children.with_value(|children| children())}
-                </PopperContent>
+                    <PopperContent
+                        as_child=as_child
+                        node_ref=composed_refs
+                        attrs=attrs.get_value()
+                        on:keydown=compose_callbacks(on_key_down, Some(Callback::new(move |event: KeyboardEvent| {
+                            // Submenu key events bubble through portals. We only care about keys in this menu.
+                            let target = event.target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Event should have target.");
+                            let is_key_down_inside = target.closest("[data-radix-menu-content]").expect("Element should be able to query closest.") ==
+                                event.current_target().and_then(|current_target| current_target.dyn_into::<web_sys::Element>().ok());
+                            let is_modifier_key = event.ctrl_key() || event.alt_key() || event.meta_key();
+                            let is_character_key = event.key().len() == 1;
+
+                            if is_key_down_inside {
+                                // Menus should not be navigated using tab key so we prevent it.
+                                if event.key() == "Tab" {
+                                    event.prevent_default();
+                                }
+                                if !is_modifier_key && is_character_key {
+                                    handle_typeahead_search.call(event.key());
+                                }
+                            }
+
+                            // Focus first/last item based on key pressed.
+                            if content_ref.get().is_some_and(|content| *content == target) {
+                                if !FIRST_LAST_KEYS.contains(&event.key().as_str()) {
+                                    return;
+                                }
+
+                                event.prevent_default();
+
+                                let items = get_items.with_value(|get_items| get_items());
+                                let items = items.iter().filter(|item| !item.data.disabled);
+                                let mut candidate_nodes: Vec<web_sys::HtmlElement> = items.map(|item| item.r#ref.get().expect("Item ref should have element.").deref().clone()).collect();
+                                if LAST_KEYS.contains(&event.key().as_str()) {
+                                    candidate_nodes.reverse();
+                                }
+                                focus_first(candidate_nodes);
+                            }
+
+                        })), None)
+                        on:blur=compose_callbacks(on_blur, Some(Callback::new(move |event: FocusEvent| {
+                            // Clear search buffer when leaving the menu.
+                            let target = event.target().map(|target| target.unchecked_into::<web_sys::Node>()).expect("Event should have target.");
+                            let current_target = event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Node>()).expect("Event should have current target.");
+                            if !current_target.contains(Some(&target)) {
+                                window().clear_timeout_with_handle(timer.get());
+                                search.set("".into());
+                            }
+                        })), None)
+                        on:pointermove=compose_callbacks(on_pointer_move, Some(when_mouse(move |event: PointerEvent| {
+                            let target = event.target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Event should have target.");
+                            let current_target = event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Node>()).expect("Event should have current target.");
+                            let pointer_x_has_changed = last_pointer_x.get() != event.client_x();
+
+                            // We don't use `event.movementX` for this check because Safari will always return `0` on a pointer event.
+                            if current_target.contains(Some(&target)) && pointer_x_has_changed {
+                                let new_dir = match event.client_x() > last_pointer_x.get() {
+                                    true => Side::Right,
+                                    false => Side::Left
+                                };
+                                pointer_dir.set(new_dir);
+                                last_pointer_x.set(event.client_x());
+                            }
+                        })), None)
+                    >
+                        {children.with_value(|children| children())}
+                    </PopperContent>
+                </RovingFocusGroup>
             </FocusScope>
         </Provider>
     }
@@ -633,6 +723,7 @@ pub fn MenuItem(
 #[component]
 fn MenuItemImpl(
     #[prop(into, optional)] disabled: MaybeProp<bool>,
+    #[prop(into, optional)] text_value: MaybeProp<String>,
     #[prop(into, optional)] on_pointer_move: Option<Callback<PointerEvent>>,
     #[prop(into, optional)] on_pointer_leave: Option<Callback<PointerEvent>>,
     #[prop(into, optional)] on_focus: Option<Callback<FocusEvent>>,
@@ -657,6 +748,11 @@ fn MenuItemImpl(
         }
     });
 
+    let item_data = Signal::derive(move || ItemData {
+        disabled: disabled.get(),
+        text_value: text_value.get().unwrap_or(text_content.get()),
+    });
+
     let mut attrs = attrs.clone();
     attrs.extend([
         ("role", "menuitem".into_attribute()),
@@ -674,49 +770,54 @@ fn MenuItemImpl(
         ),
     ]);
 
-    // TODO: Collection.ItemSlot and RovingFocusGroup.Item
+    let attrs = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
 
     view! {
-        <Primitive
-            element=html::div
-            as_child=as_child
-            node_ref=composed_ref
-            attrs=attrs
-            /*
-             * We focus items on `pointermove` to achieve the following:
-             *
-             * - Mouse over an item (it focuses)
-             * - Leave mouse where it is and use keyboard to focus a different item
-             * - Wiggle mouse without it leaving previously focused item
-             * - Previously focused item should re-focus
-             *
-             * If we used `mouseover`/`mouseenter` it would not re-focus when the mouse
-             * wiggles. This is to match native menu implementation.
-             */
-            on:pointermove=compose_callbacks(on_pointer_move, Some(when_mouse(move |event| {
-                if disabled.get() {
-                    content_context.on_item_leave.call(event);
-                } else {
-                    content_context.on_item_enter.call(event.clone());
-                    if !event.default_prevented() {
-                        let item = event.current_target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Current target should exist.");
-                        // TODO: focus options
-                        item.focus().expect("Element should be focused.");
-                    }
-                }
-            })), None)
-            on:pointerleave=compose_callbacks(on_pointer_leave, Some(when_mouse(move |event| {
-                content_context.on_item_leave.call(event);
-            })), None)
-            on:focus=compose_callbacks(on_focus, Some(Callback::new(move |_| {
-                set_is_focused.set(true);
-            })), None)
-            on:blur=compose_callbacks(on_focus, Some(Callback::new(move |_| {
-                set_is_focused.set(false);
-            })), None)
-        >
-            {children()}
-        </Primitive>
+        <CollectionItemSlot item_data_type=ITEM_DATA_PHANTHOM item_data=item_data>
+            <RovingFocusGroupItem as_child=true focusable=Signal::derive(move || !disabled.get())>
+                <Primitive
+                    element=html::div
+                    as_child=as_child
+                    node_ref=composed_ref
+                    attrs=attrs.get_value()
+                    /*
+                    * We focus items on `pointermove` to achieve the following:
+                    *
+                    * - Mouse over an item (it focuses)
+                    * - Leave mouse where it is and use keyboard to focus a different item
+                    * - Wiggle mouse without it leaving previously focused item
+                    * - Previously focused item should re-focus
+                    *
+                    * If we used `mouseover`/`mouseenter` it would not re-focus when the mouse
+                    * wiggles. This is to match native menu implementation.
+                    */
+                    on:pointermove=compose_callbacks(on_pointer_move, Some(when_mouse(move |event| {
+                        if disabled.get() {
+                            content_context.on_item_leave.call(event);
+                        } else {
+                            content_context.on_item_enter.call(event.clone());
+                            if !event.default_prevented() {
+                                let item = event.current_target().map(|target| target.unchecked_into::<web_sys::HtmlElement>()).expect("Current target should exist.");
+                                // TODO: focus options
+                                item.focus().expect("Element should be focused.");
+                            }
+                        }
+                    })), None)
+                    on:pointerleave=compose_callbacks(on_pointer_leave, Some(when_mouse(move |event| {
+                        content_context.on_item_leave.call(event);
+                    })), None)
+                    on:focus=compose_callbacks(on_focus, Some(Callback::new(move |_| {
+                        set_is_focused.set(true);
+                    })), None)
+                    on:blur=compose_callbacks(on_focus, Some(Callback::new(move |_| {
+                        set_is_focused.set(false);
+                    })), None)
+                >
+                    {children.with_value(|children| children())}
+                </Primitive>
+            </RovingFocusGroupItem>
+        </CollectionItemSlot>
     }
 }
 
@@ -819,6 +920,68 @@ fn focus_first(candidates: Vec<web_sys::HtmlElement>) {
         if document().active_element() != previously_focused_element {
             return;
         }
+    }
+}
+
+/// Wraps an array around itself at a given start index.
+fn wrap_array<T: Clone>(array: &mut [T], start_index: usize) -> &[T] {
+    array.rotate_right(start_index);
+    array
+}
+
+/// This is the "meat" of the typeahead matching logic. It takes in all the values,
+/// the search and the current match, and returns the next match (or `None`).
+///
+/// We normalize the search because if a user has repeatedly pressed a character,
+/// we want the exact same behavior as if we only had that one character
+/// (ie. cycle through options starting with that character)
+///
+/// We also reorder the values by wrapping the array around the current match.
+/// This is so we always look forward from the current match, and picking the first
+/// match will always be the correct one.
+///
+/// Finally, if the normalized search is exactly one character, we exclude the
+/// current match from the values because otherwise it would be the first to match always
+/// and focus would never move. This is as opposed to the regular case, where we
+/// don't want focus to move if the current match still matches.
+fn get_next_match(
+    values: Vec<String>,
+    search: String,
+    current_match: Option<String>,
+) -> Option<String> {
+    let is_repeated =
+        search.chars().count() > 1 && search.chars().all(|c| c == search.chars().next().unwrap());
+    let normilized_search = match is_repeated {
+        true => search.chars().take(1).collect(),
+        false => search,
+    };
+    let current_match_index = match current_match.as_ref() {
+        Some(current_match) => values.iter().position(|value| value == current_match),
+        None => None,
+    };
+    let mut wrapped_values =
+        wrap_array(&mut values.clone(), current_match_index.unwrap_or(0)).to_vec();
+    let exclude_current_match = normilized_search.chars().count() == 1;
+    if exclude_current_match {
+        wrapped_values = wrapped_values
+            .into_iter()
+            .filter(|v| {
+                current_match.is_none()
+                    || current_match
+                        .as_ref()
+                        .is_some_and(|current_match| v != current_match)
+            })
+            .collect::<Vec<_>>();
+    }
+    let next_match = wrapped_values.into_iter().find(|value| {
+        value
+            .to_lowercase()
+            .starts_with(&normilized_search.to_lowercase())
+    });
+
+    match next_match != current_match {
+        true => next_match,
+        false => None,
     }
 }
 
