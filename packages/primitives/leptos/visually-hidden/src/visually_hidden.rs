@@ -11,6 +11,7 @@ pub fn VisuallyHidden(
     // TODO: replace with style:<name> attributes once they work properly in Leptos (probably in 0.7?)
     let mut attrs = attrs.clone();
     attrs.extend([
+        // See: https://github.com/twbs/bootstrap/blob/master/scss/mixins/_screen-reader.scss
         ("style", "position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; word-wrap: normal;".into_attribute()
     )]);
 

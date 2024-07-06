@@ -1,0 +1,13 @@
+[package]
+name = "radix-leptos-accessible-icon"
+description = "Leptos port of Radix Accessible Icon."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+radix-leptos-visually-hidden = { path = "../visually-hidden", version = "0.0.1" }

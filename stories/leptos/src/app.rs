@@ -2,7 +2,8 @@ use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
-    arrow, avatar, collection, focus_scope, label, menu, popper, slot, visually_hidden,
+    accessible_icon, arrow, avatar, collection, focus_scope, label, menu, popper, slot,
+    visually_hidden,
 };
 
 #[component]
@@ -20,6 +21,14 @@ pub fn App() -> impl IntoView {
                 <ul>
                     <li>
                         <A href="/">Index</A>
+                    </li>
+                    <li>
+                        Accessible Icon
+
+                        <ul class="ms-4">
+                            <li><A href="/accessible-icon/styled">Styled</A></li>
+                            <li><A href="/accessible-icon/chromatic">Chromatic</A></li>
+                        </ul>
                     </li>
                     <li>
                         Arrow
@@ -103,6 +112,9 @@ pub fn App() -> impl IntoView {
             <main class="ms-64 p-4">
                 <Routes>
                     <Route path="/" view=Index />
+
+                    <Route path="/accessible-icon/styled" view=accessible_icon::Styled />
+                    <Route path="/accessible-icon/chromatic" view=accessible_icon::Chromatic />
 
                     <Route path="/arrow/styled" view=arrow::Styled />
                     <Route path="/arrow/custom-sizes" view=arrow::CustomSizes />

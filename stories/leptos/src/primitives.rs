@@ -1,3 +1,4 @@
+pub mod accessible_icon;
 pub mod arrow;
 pub mod avatar;
 pub mod collection;
