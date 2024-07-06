@@ -46,7 +46,32 @@ pub fn Styled() -> impl IntoView {
 
 #[component]
 pub fn Chromatic() -> impl IntoView {
-    view! {}
+    let root_class = create_memo(move |_| RootClass::default().to_class());
+    let image_class = create_memo(move |_| ImageClass::default().to_class());
+    let fallback_class = create_memo(move |_| FallbackClass::default().to_class());
+
+    view! {
+        <h1>Without image & with fallback</h1>
+        <Avatar attr:class=root_class>
+            <AvatarFallback attr:class=fallback_class>JS</AvatarFallback>
+        </Avatar>
+
+        <h1>With image & with fallback</h1>
+        <Avatar attr:class=root_class>
+            <AvatarImage src=SRC attr:alt="John Smith" attr:class=image_class />
+            <AvatarFallback delay_ms=300 attr:class=fallback_class>
+                JS
+            </AvatarFallback>
+        </Avatar>
+
+        <h1>With image & with fallback (but broken src)</h1>
+        <Avatar attr:class=root_class>
+            <AvatarImage src=SRC_BROKEN attr:alt="John Smith" attr:class=image_class />
+            <AvatarFallback attr:class=fallback_class>
+                <AvatarIcon />
+            </AvatarFallback>
+        </Avatar>
+    }
 }
 
 #[component]
