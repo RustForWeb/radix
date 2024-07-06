@@ -70,8 +70,8 @@ pub fn Menu(
     let modal = Signal::derive(move || modal.get().unwrap_or(true));
     let on_open_change = on_open_change.unwrap_or(Callback::new(|_| {}));
 
-    let content_ref = create_node_ref::<AnyElement>();
-    let is_using_keyboard = create_rw_signal(false);
+    let content_ref: NodeRef<AnyElement> = NodeRef::new();
+    let is_using_keyboard = RwSignal::new(false);
     let direction = use_direction(dir);
 
     let context_value = StoredValue::new(MenuContextValue {
@@ -111,7 +111,7 @@ pub fn Menu(
     }));
     let cleanup_handle_key_down = handle_key_down.clone();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         // Capture phase ensures we set the boolean before any side effects execute
         // in response to the key or pointer event as they might depend on this value.
         document()
@@ -241,11 +241,11 @@ fn MenuRootContentModal(
     children: ChildrenFn,
 ) -> impl IntoView {
     let context = expect_context::<MenuContextValue>();
-    let content_ref = create_node_ref::<AnyElement>();
+    let content_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
 
     // Hide everything from ARIA except the `MenuContent`.
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(content) = content_ref.get() {
             // TODO: imported from `aria-hidden` in JS.
             // hide_others(content);
@@ -335,14 +335,14 @@ fn MenuContentImpl(
     let root_context = expect_context::<MenuRootContextValue>();
     let get_items = StoredValue::new(use_collection::<ItemData>());
     let (current_item_id, set_current_item_id) = create_signal::<Option<String>>(None);
-    let content_ref = create_node_ref::<AnyElement>();
+    let content_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
-    let timer = create_rw_signal(0);
-    let search = create_rw_signal("".to_string());
-    let pointer_grace_timer = create_rw_signal(0);
-    let pointer_grace_intent = create_rw_signal::<Option<GraceIntent>>(None);
-    let pointer_dir = create_rw_signal(Side::Right);
-    let last_pointer_x = create_rw_signal(0);
+    let timer = RwSignal::new(0);
+    let search = RwSignal::new("".to_string());
+    let pointer_grace_timer = RwSignal::new(0);
+    let pointer_grace_intent: RwSignal<Option<GraceIntent>> = RwSignal::new(None);
+    let pointer_dir = RwSignal::new(Side::Right);
+    let last_pointer_x = RwSignal::new(0);
 
     let clear_search: Closure<dyn Fn()> = Closure::new(move || {
         search.set("".into());
@@ -635,11 +635,11 @@ pub fn MenuItem(
 ) -> impl IntoView {
     let disabled = Signal::derive(move || disabled.get().unwrap_or(false));
 
-    let item_ref = create_node_ref::<AnyElement>();
+    let item_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, item_ref]);
     let root_context = expect_context::<MenuRootContextValue>();
     let content_context = expect_context::<MenuContentContextValue>();
-    let is_pointer_down = create_rw_signal(false);
+    let is_pointer_down = RwSignal::new(false);
 
     let handle_select = Callback::new(move |_: MouseEvent| {
         if disabled.get() {
@@ -736,13 +736,13 @@ fn MenuItemImpl(
     let disabled = Signal::derive(move || disabled.get().unwrap_or(false));
 
     let content_context = expect_context::<MenuContentContextValue>();
-    let item_ref = create_node_ref::<AnyElement>();
+    let item_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_ref = use_composed_refs(vec![node_ref, item_ref]);
     let (is_focused, set_is_focused) = create_signal(false);
 
     // Get the item's `.textContent` as default strategy for typeahead `textValue`.
     let (text_content, set_text_content) = create_signal("".to_string());
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(item) = item_ref.get() {
             set_text_content.set(item.text_content().unwrap_or("".into()).trim().into());
         }

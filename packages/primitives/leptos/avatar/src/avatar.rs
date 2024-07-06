@@ -72,7 +72,7 @@ pub fn AvatarImage(
         context.on_image_loading_status_change.call(status);
     };
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         let image_loading_status = image_loading_status.get();
         if image_loading_status != ImageLoadingStatus::Idle {
             handle_loading_status_change(image_loading_status);
@@ -116,7 +116,7 @@ pub fn AvatarFallback(
     });
 
     let timer_id = StoredValue::new(None::<i32>);
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(timer_id) = timer_id.get_value() {
             window().clear_timeout_with_handle(timer_id);
         }
@@ -168,7 +168,7 @@ fn use_image_loading_status(src: MaybeProp<String>) -> ReadSignal<ImageLoadingSt
         }
     });
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(src) = src.get() {
             let image = document()
                 .create_element("img")

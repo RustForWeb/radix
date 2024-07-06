@@ -137,7 +137,7 @@ fn RovingFocusGroupImpl(
     let orientation = Signal::derive(move || orientation.get());
     let r#loop = Signal::derive(move || r#loop.get().unwrap_or(false));
 
-    let group_ref = create_node_ref::<AnyElement>();
+    let group_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, group_ref]);
     let direction = use_direction(dir);
     let (current_tab_stop_id, set_current_tab_stop_id) =
@@ -148,7 +148,7 @@ fn RovingFocusGroupImpl(
         });
     let (is_tabbing_back_out, set_is_tabbing_back_out) = create_signal(false);
     let get_items = StoredValue::new(use_collection::<ItemData>());
-    let is_click_focus = create_rw_signal(false);
+    let is_click_focus = RwSignal::new(false);
     let (focusable_items_count, set_focusable_items_count) = create_signal(0);
 
     let handle_entry_focus: Rc<Closure<dyn Fn(Event)>> =
@@ -159,7 +159,7 @@ fn RovingFocusGroupImpl(
         }));
     let cleanup_hanle_entry_focus = handle_entry_focus.clone();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(node) = group_ref.get() {
             node.add_event_listener_with_callback(
                 ENTRY_FOCUS,
@@ -293,8 +293,8 @@ pub fn RovingFocusGroupItem(
     });
     let get_items = StoredValue::new(use_collection::<ItemData>());
 
-    let added = create_rw_signal(false);
-    create_effect(move |_| {
+    let added = RwSignal::new(false);
+    Effect::new(move |_| {
         if focusable.get() {
             context.on_focusable_item_add.call(());
             added.set(true);

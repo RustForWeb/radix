@@ -4,8 +4,8 @@ use tailwind_fuse::*;
 
 #[component]
 pub fn Styled() -> impl IntoView {
-    let item_class = create_memo(move |_| ItemClass::default().to_class());
-    let separator_class = create_memo(move |_| SeparatorClass::default().to_class());
+    let item_class: Memo<String> = Memo::new(move |_| ItemClass::default().to_class());
+    let separator_class = Memo::new(move |_| SeparatorClass::default().to_class());
 
     view! {
         <MenuWithAnchor>
@@ -68,7 +68,7 @@ fn MenuWithAnchor(
 
     let open = Signal::derive(move || open.get().unwrap_or(true));
 
-    let content_class = create_memo(move |_| ContentClass::default().to_class());
+    let content_class = Memo::new(move |_| ContentClass::default().to_class());
 
     // TODO: add missing props
     view! {

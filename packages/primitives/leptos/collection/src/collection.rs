@@ -44,8 +44,8 @@ pub fn CollectionProvider<ItemData: Clone + 'static>(
     children: ChildrenFn,
 ) -> impl IntoView {
     let context_value = CollectionContextValue::<ItemData> {
-        collection_ref: create_node_ref(),
-        item_map: create_rw_signal(HashMap::new()),
+        collection_ref: NodeRef::new(),
+        item_map: RwSignal::new(HashMap::new()),
     };
 
     view! {
@@ -89,11 +89,11 @@ pub fn CollectionItemSlot<ItemData: Clone + Debug + 'static>(
     children: ChildrenFn,
 ) -> impl IntoView {
     let (id, _) = create_signal(CollectionItemId::new());
-    let item_ref = create_node_ref();
+    let item_ref = NodeRef::new();
     let composed_ref = use_composed_refs(vec![node_ref, item_ref]);
     let context = expect_context::<CollectionContextValue<ItemData>>();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(item_data) = item_data.get() {
             context.item_map.update(|item_map| {
                 item_map.insert(

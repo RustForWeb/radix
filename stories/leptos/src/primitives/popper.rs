@@ -6,9 +6,9 @@ use tailwind_fuse::*;
 pub fn Styled() -> impl IntoView {
     let (open, set_open) = create_signal(false);
 
-    let anchor_class = create_memo(move |_| AnchorClass::default().to_class());
-    let content_class = create_memo(move |_| ContentClass::default().to_class());
-    let arrow_class = create_memo(move |_| ArrowClass::default().to_class());
+    let anchor_class = Memo::new(move |_| AnchorClass::default().to_class());
+    let content_class = Memo::new(move |_| ContentClass::default().to_class());
+    let arrow_class = Memo::new(move |_| ArrowClass::default().to_class());
 
     view! {
         <Scrollable>

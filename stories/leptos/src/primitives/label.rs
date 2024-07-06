@@ -4,7 +4,7 @@ use tailwind_fuse::*;
 
 #[component]
 pub fn Styled() -> impl IntoView {
-    let root_class = create_memo(move |_| RootClass::default().to_class());
+    let root_class = Memo::new(move |_| RootClass::default().to_class());
 
     view! {
         <Label attr:class=root_class>Label</Label>
@@ -13,7 +13,7 @@ pub fn Styled() -> impl IntoView {
 
 #[component]
 pub fn WithControl() -> impl IntoView {
-    let control_class = create_memo(move |_| ControlClass::default().to_class());
+    let control_class = Memo::new(move |_| ControlClass::default().to_class());
 
     view! {
         <h1>Wrapping control</h1>

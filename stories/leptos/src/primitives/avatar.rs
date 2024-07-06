@@ -7,9 +7,9 @@ const SRC_BROKEN: &str = "https://broken.link.com/broken-pic.jpg";
 
 #[component]
 pub fn Styled() -> impl IntoView {
-    let root_class = create_memo(move |_| RootClass::default().to_class());
-    let image_class = create_memo(move |_| ImageClass::default().to_class());
-    let fallback_class = create_memo(move |_| FallbackClass::default().to_class());
+    let root_class = Memo::new(move |_| RootClass::default().to_class());
+    let image_class = Memo::new(move |_| ImageClass::default().to_class());
+    let fallback_class = Memo::new(move |_| FallbackClass::default().to_class());
 
     view! {
         <h1>Without image & with fallback</h1>
@@ -46,9 +46,9 @@ pub fn Styled() -> impl IntoView {
 
 #[component]
 pub fn Chromatic() -> impl IntoView {
-    let root_class = create_memo(move |_| RootClass::default().to_class());
-    let image_class = create_memo(move |_| ImageClass::default().to_class());
-    let fallback_class = create_memo(move |_| FallbackClass::default().to_class());
+    let root_class = Memo::new(move |_| RootClass::default().to_class());
+    let image_class = Memo::new(move |_| ImageClass::default().to_class());
+    let fallback_class = Memo::new(move |_| FallbackClass::default().to_class());
 
     view! {
         <h1>Without image & with fallback</h1>

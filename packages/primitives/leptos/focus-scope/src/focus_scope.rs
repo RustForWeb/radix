@@ -34,9 +34,9 @@ pub fn FocusScope(
     let r#loop = Signal::derive(move || r#loop.get().unwrap_or(false));
     let trapped = Signal::derive(move || trapped.get().unwrap_or(false));
 
-    let container_ref = create_node_ref::<AnyElement>();
-    let last_focused_element = create_rw_signal::<Option<web_sys::HtmlElement>>(None);
-    let focus_scope = create_rw_signal(FocusScopeAPI::new());
+    let container_ref: NodeRef<AnyElement> = NodeRef::new();
+    let last_focused_element: RwSignal<Option<web_sys::HtmlElement>> = RwSignal::new(None);
+    let focus_scope = RwSignal::new(FocusScopeAPI::new());
 
     let handle_focus_in: Rc<Closure<dyn Fn(FocusEvent)>> =
         Rc::new(Closure::new(move |event: FocusEvent| {
@@ -103,7 +103,7 @@ pub fn FocusScope(
     let cleanup_mutation_observer = mutation_observer.clone();
 
     // Takes care of trapping focus if focus is moved outside programmatically for example
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if trapped.get() {
             document()
                 .add_event_listener_with_callback(
@@ -120,7 +120,7 @@ pub fn FocusScope(
         }
     });
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if trapped.get() {
             if let Some(container) = container_ref.get() {
                 if let Some(mutation_observer) = mutation_observer.take() {
@@ -168,7 +168,7 @@ pub fn FocusScope(
     let auto_focus_end: Rc<RefCell<Option<AutoFocusEndFn>>> = Rc::new(RefCell::new(None));
     let cleanup_auto_focus_end = auto_focus_end.clone();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(on_mount_auto_focus_cleanup) = auto_focus_end.take() {
             on_mount_auto_focus_cleanup();
         }

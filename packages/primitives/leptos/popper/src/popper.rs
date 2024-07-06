@@ -63,7 +63,7 @@ struct PopperContextValue {
 
 #[component]
 pub fn Popper(children: ChildrenFn) -> impl IntoView {
-    let anchor_ref = create_node_ref::<AnyElement>();
+    let anchor_ref: NodeRef<AnyElement> = NodeRef::new();
 
     let context_value = PopperContextValue { anchor_ref };
 
@@ -142,12 +142,12 @@ pub fn PopperContent(
 
     let context: PopperContextValue = expect_context();
 
-    let content_ref = create_node_ref::<AnyElement>();
+    let content_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
 
     let desired_placement = Signal::derive(move || Placement::from((side(), align().alignment())));
 
-    let arrow_ref = create_node_ref::<AnyElement>();
+    let arrow_ref: NodeRef<AnyElement> = NodeRef::new();
     let arrow_size = use_size(arrow_ref);
     let arrow_width = move || {
         arrow_size
@@ -162,7 +162,7 @@ pub fn PopperContent(
             .unwrap_or(0.0)
     };
 
-    let floating_ref = create_node_ref::<Div>();
+    let floating_ref: NodeRef<Div> = NodeRef::new();
 
     let UseFloatingReturn {
         floating_styles,
@@ -279,7 +279,7 @@ pub fn PopperContent(
     let placed_side = Signal::derive(move || placement.get().side());
     let placed_align = move || Align::from(placement.get().alignment());
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if is_positioned.get() {
             if let Some(on_placed) = on_placed {
                 on_placed.call(());
@@ -295,7 +295,7 @@ pub fn PopperContent(
     });
 
     let (content_z_index, set_content_z_index) = create_signal::<Option<String>>(None);
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(content) = content_ref.get() {
             set_content_z_index.set(Some(
                 window()

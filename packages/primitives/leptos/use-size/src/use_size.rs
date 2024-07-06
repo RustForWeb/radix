@@ -1,8 +1,6 @@
 use std::{cell::RefCell, rc::Rc};
 
-use leptos::{
-    create_effect, create_signal, html::AnyElement, on_cleanup, NodeRef, ReadSignal, SignalSet,
-};
+use leptos::{create_signal, html::AnyElement, on_cleanup, Effect, NodeRef, ReadSignal, SignalSet};
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry, ResizeObserverOptions,
@@ -21,7 +19,7 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
     let resize_observer: Rc<RefCell<Option<ResizeObserver>>> = Rc::new(RefCell::new(None));
     let cleanup_resize_observer = resize_observer.clone();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         if let Some(element) = element_ref.get() {
             // Provide size as early as possible.
             set_size.set(Some(Size {

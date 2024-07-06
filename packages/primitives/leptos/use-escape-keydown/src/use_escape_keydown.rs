@@ -1,8 +1,6 @@
 use std::rc::Rc;
 
-use leptos::{
-    create_effect, document, ev::KeyboardEvent, on_cleanup, Callable, Callback, StoredValue,
-};
+use leptos::{document, ev::KeyboardEvent, on_cleanup, Callable, Callback, Effect, StoredValue};
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     AddEventListenerOptions, Document, EventListenerOptions,
@@ -25,7 +23,7 @@ pub fn use_escape_keydown(
         }));
     let cleanup_handle_key_down = handle_key_down.clone();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         owner_document
             .get_value()
             .add_event_listener_with_callback_and_add_event_listener_options(

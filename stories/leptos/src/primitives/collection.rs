@@ -182,7 +182,7 @@ fn Item(#[prop(into, optional)] disabled: MaybeProp<bool>, children: ChildrenFn)
 fn LogItems(#[prop(default = "items".to_string())] name: String) -> impl IntoView {
     let get_items = use_collection::<ItemData>();
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         log::info!("{} {:?}", name, get_items());
     });
 
