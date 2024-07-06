@@ -1,0 +1,13 @@
+[package]
+name = "radix-leptos-visually-hidden"
+description = "Leptos port of Radix Visually Hidden."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+radix-leptos-primitive = { path = "../primitive", version = "0.0.1" }

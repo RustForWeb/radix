@@ -7,3 +7,4 @@ pub mod menu;
 pub mod playground;
 pub mod popper;
 pub mod slot;
+pub mod visually_hidden;
