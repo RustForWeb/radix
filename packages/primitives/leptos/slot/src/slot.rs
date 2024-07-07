@@ -1,5 +1,5 @@
 use leptos::{html::AnyElement, *};
-use leptos_dom::{ComponentRepr, CoreComponent, Text};
+use leptos_dom::{ComponentRepr, Text};
 
 fn remove_nameless_component(child: &View) -> &View {
     match child {
