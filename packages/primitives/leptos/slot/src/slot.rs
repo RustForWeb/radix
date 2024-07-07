@@ -1,5 +1,5 @@
 use leptos::{html::AnyElement, *};
-use leptos_dom::{ComponentRepr, Text};
+use leptos_dom::{ComponentRepr, CoreComponent, Text};
 
 fn remove_nameless_component(child: &View) -> &View {
     match child {
@@ -166,6 +166,18 @@ fn map_children(
                 .into_view(),
             View::Component(component) => {
                 map_children(&component.children, node_ref, attrs.clone())
+            }
+            View::CoreComponent(component) => {
+                log::info!("core component {:?}", component);
+
+                // TODO: handle core components
+                // match component {
+                //     CoreComponent::Unit(_) => todo!("slot unit"),
+                //     CoreComponent::DynChild(dyn_child) => todo!("slot dyn child"),
+                //     CoreComponent::Each(_) => todo!("slot each"),
+                // }
+
+                child.into_view()
             }
             _ => child.into_view(),
         })
