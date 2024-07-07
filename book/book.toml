@@ -4,3 +4,9 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Rust Radix"
+
+[preprocessor.trunk]
+command = "cargo run -p mdbook-trunk"
+
+[rust]
+edition = "2021"

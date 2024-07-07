@@ -1,0 +1,16 @@
+[package]
+name = "mdbook-trunk"
+description = "mdBook preprocessor which bundles code snippets using Trunk."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+clap = { version = "4.5.8", features = ["derive"] }
+mdbook = "0.4.40"
+semver = "1.0.23"
+serde_json = "1.0.120"
