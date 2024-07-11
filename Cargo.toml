@@ -1,11 +1,5 @@
 [workspace]
-members = [
-    "book/mdbook-trunk",
-    "packages/colors",
-    "packages/primitives/*/*",
-    "scripts",
-    "stories/*",
-]
+members = ["packages/colors", "packages/primitives/*/*", "scripts", "stories/*"]
 resolver = "2"
 
 [workspace.package]
