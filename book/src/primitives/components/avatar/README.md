@@ -2,7 +2,10 @@
 
 An image element with a fallback for representing the user.
 
-{{#trunk leptos.rs}}
+```toml,trunk
+template = ""
+files = ["leptos.rs"]
+```
 
 ## Features
 

@@ -1,10 +1,12 @@
+use log::debug;
 use mdbook::{
     book::{Book, Chapter},
     preprocess::{Preprocessor, PreprocessorContext},
     BookItem,
 };
-use pulldown_cmark::{Event, Parser};
-use pulldown_cmark_to_cmark::cmark;
+use pulldown_cmark::{CodeBlockKind, Event, Tag, TagEnd};
+
+use crate::parser::parse_blocks;
 
 pub struct TrunkPreprocessor;
 
@@ -13,24 +15,32 @@ impl TrunkPreprocessor {
         Self
     }
 
-    fn process_chapter(&self, chapter: &mut Chapter) -> Result<(), mdbook::errors::Error> {
-        let mut buf = String::with_capacity(chapter.content.len());
-
-        let events = Parser::new(&chapter.content).map(|event| {
-            println!("{:?}", event);
-
-            if let Event::Text(_text) = &event {}
-
-            event
-        });
-
-        if let Err(err) = cmark(events, &mut buf) {
-            Err(err.into())
+    fn is_start_event(event: &Event) -> bool {
+        if let Event::Start(Tag::CodeBlock(CodeBlockKind::Fenced(tag))) = event {
+            let tags = tag
+                .split(',')
+                .map(|tag| tag.trim().to_lowercase())
+                .collect::<Vec<_>>();
+            tags.len() >= 2 && tags[0] == "toml" && tags[1] == "trunk"
         } else {
-            chapter.content = buf;
-
-            Ok(())
+            false
         }
+    }
+
+    fn is_end_event(event: &Event) -> bool {
+        matches!(event, Event::End(TagEnd::CodeBlock))
+    }
+
+    fn process_chapter(&self, chapter: &mut Chapter) -> Result<(), mdbook::errors::Error> {
+        let blocks = parse_blocks(
+            &chapter.content,
+            TrunkPreprocessor::is_start_event,
+            TrunkPreprocessor::is_end_event,
+        );
+
+        debug!("{:?}", blocks);
+
+        Ok(())
     }
 }
 
