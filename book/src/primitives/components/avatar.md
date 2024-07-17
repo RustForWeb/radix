@@ -3,8 +3,8 @@
 An image element with a fallback for representing the user.
 
 ```toml,trunk
-template = ""
-files = ["leptos.rs"]
+package = "radix-leptos-book"
+features = ["avatar"]
 ```
 
 ## Features

@@ -1,0 +1,21 @@
+[package]
+name = "radix-leptos-book"
+description = "Example for mdbook-trunk."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+console_error_panic_hook = "0.1.7"
+console_log = "1.0.0"
+leptos = { version = "0.6.12", features = ["csr"] }
+log = "0.4.22"
+radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
+
+[features]
+default = ["avatar"]
+avatar = []
