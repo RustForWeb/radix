@@ -80,7 +80,7 @@ jobs:
               working-directory: book
 
             - name: Combine Book Outputs
-              run: cargo run -p mdbook-trunk -- combine
+              run: mdbook-trunk -- combine
               working-directory: book
 
             - name: Setup Pages

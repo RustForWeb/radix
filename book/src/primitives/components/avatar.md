@@ -15,6 +15,43 @@ features = ["avatar"]
 
 ## Installation
 
+Install the component from your command line.
+
 ```shell
 cargo add radix-leptos-avatar
 ```
+
+## Anatomy
+
+Import all parts and piece them together.
+
+```rust,ignore
+use radix_leptos_avatar::*;
+
+{
+    view! {
+        <Avatar>
+            <AvatarImage />
+            <AvatarFallback />
+        </Avatar>
+    }
+}
+```
+
+## API Reference
+
+### Root
+
+TODO
+
+### Image
+
+TODO
+
+### Fallback
+
+TODO
+
+## Examples
+
+TODO
