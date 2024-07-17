@@ -26,9 +26,11 @@ cargo add radix-leptos-avatar
 Import all parts and piece them together.
 
 ```rust,ignore
+use leptos::*;
 use radix_leptos_avatar::*;
 
-{
+#[component]
+fn Anatomy() -> impl IntoView {
     view! {
         <Avatar>
             <AvatarImage />
