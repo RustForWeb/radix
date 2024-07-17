@@ -30,6 +30,9 @@ jobs:
                   curl -sSL $url | tar -xz --directory=bin
                   echo "$(pwd)/bin" >> $GITHUB_PATH
 
+            - name: Install mdBook plugins
+              run: cargo install mdbook-trunk
+
             - name: Run tests
               run: mdbook test
               working-directory: book
@@ -68,6 +71,9 @@ jobs:
                   mkdir mdbook
                   curl -sSL $url | tar -xz --directory=./mdbook
                   echo `pwd`/mdbook >> $GITHUB_PATH
+
+            - name: Install mdBook plugins
+              run: cargo install mdbook-trunk
 
             - name: Build Book
               run: mdbook build
