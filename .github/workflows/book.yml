@@ -75,6 +75,9 @@ jobs:
             - name: Install mdBook plugins
               run: cargo install mdbook-tabs mdbook-trunk
 
+            - name: Install Node.js dependencies
+              run: npm install
+
             - name: Build Book
               run: mdbook build
               working-directory: book
