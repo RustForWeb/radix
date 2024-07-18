@@ -11,5 +11,9 @@ pub fn App() -> impl IntoView {
         });
     }
 
-    views.into_view()
+    view! {
+        <div class="w-full h-full flex justify-center items-center">
+            {views.into_view()}
+        </div>
+    }
 }
