@@ -5,9 +5,13 @@ multilingual = false
 src = "src"
 title = "Rust Radix"
 
+[preprocessor.tabs]
+
 [preprocessor.trunk]
 
 [output.html]
+additional-css = ["theme/tabs.css"]
+additional-js = ["theme/tabs.js"]
 
 [output.trunk]
 serve = true

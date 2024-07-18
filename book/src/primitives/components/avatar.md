@@ -2,10 +2,16 @@
 
 An image element with a fallback for representing the user.
 
+{{#tabs global="framework" }}
+{{#tab name="Leptos" }}
+
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["avatar"]
 ```
+
+{{#endtab }}
+{{#endtabs }}
 
 ## Features
 
@@ -17,13 +23,22 @@ features = ["avatar"]
 
 Install the component from your command line.
 
+{{#tabs global="framework" }}
+{{#tab name="Leptos" }}
+
 ```shell
 cargo add radix-leptos-avatar
 ```
 
+{{#endtab }}
+{{#endtabs }}
+
 ## Anatomy
 
 Import all parts and piece them together.
+
+{{#tabs global="framework" }}
+{{#tab name="Leptos" }}
 
 ```rust,ignore
 use leptos::*;
@@ -39,6 +54,9 @@ fn Anatomy() -> impl IntoView {
     }
 }
 ```
+
+{{#endtab }}
+{{#endtabs }}
 
 ## API Reference
 

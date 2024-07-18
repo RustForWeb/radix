@@ -73,7 +73,7 @@ jobs:
                   echo `pwd`/mdbook >> $GITHUB_PATH
 
             - name: Install mdBook plugins
-              run: cargo install mdbook-trunk
+              run: cargo install mdbook-tabs mdbook-trunk
 
             - name: Build Book
               run: mdbook build
