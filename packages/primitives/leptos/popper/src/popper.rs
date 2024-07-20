@@ -15,7 +15,7 @@ use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_primitive::Primitive;
 use radix_leptos_use_size::use_size;
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::JsCast;
+use web_sys::wasm_bindgen::JsCast;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub enum Align {

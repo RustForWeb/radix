@@ -9,9 +9,9 @@ use once_cell::sync::Lazy;
 use radix_leptos_primitive::Primitive;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
-    CustomEvent, CustomEventInit, Event, FocusEvent, KeyboardEvent, MutationObserver, NodeFilter,
+    CustomEvent, CustomEventInit, Event, FocusEvent, KeyboardEvent, MutationObserver,
+    MutationObserverInit, MutationRecord, NodeFilter,
 };
-use web_sys::{MutationObserverInit, MutationRecord};
 
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
 const AUTOFOCUS_ON_UNMOUNT: &str = "focusScope.autoFocusOnUnmount";

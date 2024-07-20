@@ -1586,6 +1586,7 @@ version = "0.0.1"
 dependencies = [
  "leptos",
  "radix-leptos-primitive",
+ "web-sys",
 ]
 
 [[package]]
@@ -1607,6 +1608,7 @@ dependencies = [
  "nanoid",
  "radix-leptos-compose-refs",
  "radix-leptos-slot",
+ "web-sys",
 ]
 
 [[package]]
@@ -1661,6 +1663,7 @@ version = "0.0.1"
 dependencies = [
  "leptos",
  "radix-leptos-primitive",
+ "web-sys",
 ]
 
 [[package]]
@@ -1692,6 +1695,7 @@ dependencies = [
  "radix-leptos-use-size",
  "serde",
  "serde_json",
+ "web-sys",
 ]
 
 [[package]]

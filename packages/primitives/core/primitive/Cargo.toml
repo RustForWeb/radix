@@ -9,4 +9,4 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-web-sys.workspace = true
+web-sys = { workspace = true, features = ["Event"] }

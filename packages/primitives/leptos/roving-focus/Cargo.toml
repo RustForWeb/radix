@@ -15,4 +15,4 @@ radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.1" }
 radix-leptos-direction = { path = "../direction", version = "0.0.1" }
 radix-leptos-primitive = { path = "../primitive", version = "0.0.1" }
 radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.1" }
-web-sys.workspace = true
+web-sys = { workspace = true, features = ["CustomEvent", "CustomEventInit"] }

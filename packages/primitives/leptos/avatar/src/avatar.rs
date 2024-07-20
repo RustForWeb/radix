@@ -1,12 +1,9 @@
-use leptos::{
-    html::AnyElement,
-    web_sys::{
-        wasm_bindgen::{closure::Closure, JsCast},
-        HtmlImageElement,
-    },
-    *,
-};
+use leptos::{html::AnyElement, *};
 use radix_leptos_primitive::Primitive;
+use web_sys::{
+    wasm_bindgen::{closure::Closure, JsCast},
+    HtmlImageElement,
+};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum ImageLoadingStatus {
