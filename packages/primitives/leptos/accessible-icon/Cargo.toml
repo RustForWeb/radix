@@ -1,6 +1,7 @@
 [package]
 name = "radix-leptos-accessible-icon"
 description = "Leptos port of Radix Accessible Icon."
+homepage = "https://radix.rustforweb.org/primitives/utilities/accessible-icon.html"
 
 authors.workspace = true
 edition.workspace = true

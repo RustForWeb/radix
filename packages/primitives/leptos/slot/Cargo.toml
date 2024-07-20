@@ -1,6 +1,7 @@
 [package]
 name = "radix-leptos-slot"
 description = "Leptos port of Radix Slot."
+homepage = "https://radix.rustforweb.org/primitives/utilities/slot.html"
 
 authors.workspace = true
 edition.workspace = true

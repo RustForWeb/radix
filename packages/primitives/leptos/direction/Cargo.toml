@@ -1,6 +1,7 @@
 [package]
 name = "radix-leptos-direction"
 description = "Leptos port of Radix Direction."
+homepage = "https://radix.rustforweb.org/primitives/utilities/direction-provider.html"
 
 authors.workspace = true
 edition.workspace = true

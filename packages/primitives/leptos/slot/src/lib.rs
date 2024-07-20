@@ -2,7 +2,7 @@
 //!
 //! Merges its props onto its immediate child.
 //!
-//! See <https://www.radix-ui.com/primitives/docs/utilities/slot> for the original documentation.
+//! See [the Rust Radix book](https://radix.rustforweb.org/primitives/utilities/slot.html) for more documenation.
 //!
 //! See [`@radix-ui/react-slot`](https://www.npmjs.com/package/@radix-ui/react-slot) for the original package.
 

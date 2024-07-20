@@ -1,6 +1,7 @@
 [package]
 name = "radix-leptos-label"
 description = "Leptos port of Radix Label."
+homepage = "https://radix.rustforweb.org/primitives/components/label.html"
 
 authors.workspace = true
 edition.workspace = true

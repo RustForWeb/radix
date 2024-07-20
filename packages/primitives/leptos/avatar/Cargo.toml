@@ -1,6 +1,7 @@
 [package]
 name = "radix-leptos-avatar"
 description = "Leptos port of Radix Avatar."
+homepage = "https://radix.rustforweb.org/primitives/components/avatar.html"
 
 authors.workspace = true
 edition.workspace = true

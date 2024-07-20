@@ -15,3 +15,11 @@
     background-color: var(--table-header-bg);
     font-weight: bold;
 }
+
+.mdbook-tab-content {
+    padding: 1rem 0rem;
+}
+
+.mdbook-tab-content table {
+    margin: unset;
+}

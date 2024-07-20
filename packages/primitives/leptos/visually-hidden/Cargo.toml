@@ -1,6 +1,7 @@
 [package]
 name = "radix-leptos-visually-hidden"
 description = "Leptos port of Radix Visually Hidden."
+homepage = "https://radix.rustforweb.org/primitives/utilities/visually-hidden.html"
 
 authors.workspace = true
 edition.workspace = true

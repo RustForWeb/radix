@@ -2,7 +2,7 @@
 //!
 //! Makes icons accessible by adding a label.
 //!
-//! See <https://www.radix-ui.com/primitives/docs/utilities/accessible-icon> for the original documentation.
+//! See [the Rust Radix book](https://radix.rustforweb.org/primitives/utilities/accessible-icon.html) for more documenation.
 //!
 //! See [`@radix-ui/react-accessible-icon`](https://www.npmjs.com/package/@radix-ui/react-accessible-icon) for the original package.
 
