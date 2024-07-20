@@ -30,6 +30,10 @@ Install the component from your command line.
 cargo add radix-leptos-avatar
 ```
 
+-   [View on crates.io](https://crates.io/crates/radix-leptos-avatar)
+-   [View on docs.rs](https://docs.rs/radix-leptos-avatar/latest/radix_leptos_avatar/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/avatar)
+
 {{#endtab }}
 {{#endtabs }}
 
