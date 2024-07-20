@@ -10,4 +10,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-primitive = { path = "../primitive", version = "0.0.1" }
+radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }

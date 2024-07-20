@@ -1562,11 +1562,11 @@ dependencies = [
 
 [[package]]
 name = "radix-colors"
-version = "0.0.1"
+version = "0.0.2"
 
 [[package]]
 name = "radix-leptos-accessible-icon"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-visually-hidden",
@@ -1574,7 +1574,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-arrow"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-primitive",
@@ -1582,7 +1582,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-avatar"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-primitive",
@@ -1591,7 +1591,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-book"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "console_error_panic_hook",
  "console_log",
@@ -1602,7 +1602,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-collection"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "nanoid",
@@ -1613,35 +1613,35 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-compose-refs"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-context"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-direction"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-dismissable-layer"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-focus-guards"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "web-sys",
@@ -1649,7 +1649,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-focus-scope"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "once_cell",
@@ -1659,7 +1659,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-label"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-primitive",
@@ -1668,7 +1668,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-menu"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-collection",
@@ -1685,7 +1685,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-popper"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "floating-ui-leptos",
  "leptos",
@@ -1700,14 +1700,14 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-primitive"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-roving-focus"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-collection",
@@ -1720,7 +1720,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-slot"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "log",
@@ -1729,7 +1729,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-stories"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "console_error_panic_hook",
  "console_log",
@@ -1752,14 +1752,14 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-use-controllable-state"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-use-escape-keydown"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "web-sys",
@@ -1767,14 +1767,14 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-use-previous"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
 ]
 
 [[package]]
 name = "radix-leptos-use-size"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "web-sys",
@@ -1782,7 +1782,7 @@ dependencies = [
 
 [[package]]
 name = "radix-leptos-visually-hidden"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "leptos",
  "radix-leptos-primitive",
@@ -1790,18 +1790,18 @@ dependencies = [
 
 [[package]]
 name = "radix-number"
-version = "0.0.1"
+version = "0.0.2"
 
 [[package]]
 name = "radix-primitive"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "web-sys",
 ]
 
 [[package]]
 name = "radix-rect"
-version = "0.0.1"
+version = "0.0.2"
 
 [[package]]
 name = "rand"
@@ -1998,7 +1998,7 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "scripts"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "convert_case",
  "env_logger",
