@@ -98,3 +98,7 @@ The tables below show the support for the various frameworks.
 | Use Rect               | ❌     | ❌ [#64](https://github.com/RustForWeb/radix/issues/64) | ❌  |
 | Use Size               | ❌     | 🟦 [#65](https://github.com/RustForWeb/radix/issues/65) | ❌  |
 | Visually Hidden        | ❌     | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | ❌  |
+
+## License
+
+This project is available under the [MIT license](https://github.com/RustForWeb/radix/blob/main/LICENSE.md).
