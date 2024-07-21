@@ -18,8 +18,10 @@ version = "0.0.2"
 [workspace.dependencies]
 console_log = "1.0.0"
 console_error_panic_hook = "0.1.7"
-leptos = { version = "0.6.12" }
-leptos_router = { version = "0.6.12" }
-log = "0.4.21"
+leptos = "0.6.12"
+leptos_router = "0.6.12"
+log = "0.4.22"
 tailwind_fuse = { version = "0.3.0", features = ["variant"] }
+yew = "0.21.0"
+yew-router = "0.18.0"
 web-sys = "0.3.69"

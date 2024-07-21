@@ -1,6 +1,6 @@
 [package]
-name = "radix-leptos-book"
-description = "Book examples for Radix Leptos."
+name = "radix-yew-book"
+description = "Book examples for Radix Yew."
 publish = false
 
 authors.workspace = true
@@ -12,10 +12,8 @@ version.workspace = true
 [dependencies]
 console_error_panic_hook.workspace = true
 console_log.workspace = true
-leptos = { workspace = true, features = ["csr"] }
 log.workspace = true
-radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
+yew = { workspace = true, features = ["csr"] }
 
 [features]
-default = ["avatar"]
-avatar = []
+default = []

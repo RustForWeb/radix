@@ -1,0 +1,19 @@
+[package]
+name = "radix-leptos-yew"
+description = "Stories for Radix Yew."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+console_log.workspace = true
+console_error_panic_hook.workspace = true
+yew = { workspace = true, features = ["csr"] }
+yew-router.workspace = true
+log.workspace = true
+tailwind_fuse.workspace = true
+web-sys.workspace = true
