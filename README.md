@@ -16,19 +16,16 @@ Rust Radix is available for these Rust frameworks:
 
 -   [Leptos](./packages/primitives/leptos)
 
-## Examples
+The following frameworks are under consideration:
 
-TODO
+-   [Dioxus](https://dioxuslabs.com/)
+-   [Yew](https://yew.rs/)
+
+See [the Rust Radix book](https://radix.rustforweb.org/introduction.html#frameworks) for more information.
 
 ## Documentation
 
-Documentation for the crates is available on [Docs.rs](https://docs.rs/):
-
--   [`radix-colors`](https://docs.rs/radix-colors/latest/radix_colors/)
--   [`radix-leptos-arrow`](https://docs.rs/radix-leptos-arrow/latest/radix_leptos_arrow/)
--   [`radix-leptos-popper`](https://docs.rs/radix-leptos-popper/latest/radix_leptos_popper/)
--   [`radix-leptos-use-size`](https://docs.rs/radix-leptos-use-size/latest/radix_leptos_use_size/)
--   [`radix-rect`](https://docs.rs/radix-rect/latest/radix_rect/)
+See [the Rust Radix book](https://radix.rustforweb.org).
 
 ## Credits
 
