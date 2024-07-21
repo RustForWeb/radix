@@ -1,4 +1,4 @@
 # Components
 
--   [Avatar](./components/avatar.md)
--   [Label](./components/label.md)
+-   [Avatar](./avatar.md)
+-   [Label](./label.md)
