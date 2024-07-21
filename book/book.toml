@@ -10,7 +10,7 @@ title = "Rust Radix"
 [preprocessor.trunk]
 
 [output.html]
-additional-css = ["theme/tabs.css"]
+additional-css = ["theme/tabs.css", "theme/theme.css"]
 additional-js = ["theme/tabs.js"]
 
 [output.trunk]

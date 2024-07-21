@@ -2,6 +2,7 @@
 
 -   [Introduction](./introduction.md)
 -   [Colors](./colors/README.md)
+-   [Icons](./icons/README.md)
 -   [Primitives](./primitives/README.md)
     -   [Components](./primitives/components/README.md)
         -   [Avatar](./primitives/components/avatar.md)
