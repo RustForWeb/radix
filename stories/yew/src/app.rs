@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-#[derive(Debug, Clone, Copy, PartialEq, Routable)]
+#[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
     #[at("/")]
     Index,

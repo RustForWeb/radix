@@ -1,6 +1,6 @@
 [package]
-name = "radix-yew-stories"
-description = "Stories for Radix Yew."
+name = "radix-dioxus-stories"
+description = "Stories for Radix Dioxus."
 publish = false
 
 authors.workspace = true
@@ -12,8 +12,8 @@ version.workspace = true
 [dependencies]
 console_log.workspace = true
 console_error_panic_hook.workspace = true
-yew = { workspace = true, features = ["csr"] }
-yew-router.workspace = true
+dioxus = { workspace = true, features = ["web"] }
+dioxus-router.workspace = true
 log.workspace = true
 tailwind_fuse.workspace = true
 web-sys.workspace = true
