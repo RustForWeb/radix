@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 use leptos::{ev::AnimationEvent, html::AnyElement, *};
+use radix_leptos_compose_refs::use_composed_refs;
 use web_sys::wasm_bindgen::{closure::Closure, JsCast};
 
 use crate::use_state_machine::use_state_machine;
@@ -22,16 +23,21 @@ enum MachineEvent {
 }
 
 #[component]
-pub fn Presence(#[prop(into)] present: MaybeSignal<bool>, children: ChildrenFn) -> impl IntoView {
+pub fn Presence(
+    #[prop(into)] present: MaybeSignal<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
+    children: ChildrenFn,
+) -> impl IntoView {
     let children = StoredValue::new(children);
 
     let presence = use_presence(present);
+    let composed_ref = use_composed_refs(vec![presence.r#ref, node_ref]);
 
     children.with_value(|children| assert_eq!(children().as_children().len(), 1));
 
     view! {
         <Show when=move || presence.is_present.get()>
-            {map_children(children.with_value(|children| children()).as_children(), presence.r#ref)}
+            {map_children(children.with_value(|children| children()).as_children(), composed_ref)}
         </Show>
     }
 }
