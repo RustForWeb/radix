@@ -4,6 +4,7 @@ use html::AnyElement;
 use leptos::*;
 use radix_leptos_presence::*;
 use tailwind_fuse::*;
+use web_sys::wasm_bindgen::{closure::Closure, JsCast};
 
 #[component]
 pub fn Basic() -> impl IntoView {
@@ -68,8 +69,53 @@ pub fn WithMultipleOpenAndCloseAnimations() -> impl IntoView {
 
 #[component]
 pub fn WithDeferredMountAnimation() -> impl IntoView {
-    // TODO
-    view! {}
+    let mount_animation_class = Memo::new(move |_| MountAnimationClass::default().to_class());
+
+    let node_ref = NodeRef::new();
+    let timer = RwSignal::new(0);
+    let (open, set_open) = create_signal(false);
+    let (animate, set_animate) = create_signal(false);
+
+    let handler: Closure<dyn Fn()> = Closure::new(move || {
+        set_animate.set(true);
+    });
+
+    Effect::new(move |_| {
+        if open.get() {
+            timer.set(
+                window()
+                    .set_timeout_with_callback_and_timeout_and_arguments_0(
+                        handler.as_ref().unchecked_ref(),
+                        150,
+                    )
+                    .expect("Timeout should be set."),
+            )
+        } else {
+            set_animate.set(false);
+            window().clear_timeout_with_handle(timer.get());
+        }
+    });
+
+    on_cleanup(move || {
+        window().clear_timeout_with_handle(timer.get());
+    });
+
+    view! {
+        <p>
+            Deferred animation should unmount correctly when toggled. Content will flash briefly while
+            we wait for animation to be applied.
+        </p>
+        <Toggles
+            open=open
+            on_open_change=move |open| set_open.set(open)
+            node_ref=node_ref
+        />
+        <Presence present=open node_ref=node_ref>
+            <div attr:class=move || animate.get().then_some(mount_animation_class.get())>
+                Content
+            </div>
+        </Presence>
+    }
 }
 
 #[component]
