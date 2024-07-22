@@ -77,9 +77,9 @@ The separator.
 
 <div style="height: 1em;"></div>
 
-| Data attribute       | Type                     |
-| -------------------- | ------------------------ |
-| `[data-orientation]` | `horizontal \| vertical` |
+| Data attribute       | Values                       |
+| -------------------- | ---------------------------- |
+| `[data-orientation]` | `"horizontal" \| "vertical"` |
 
 # Accessibility
 
