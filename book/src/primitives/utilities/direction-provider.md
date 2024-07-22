@@ -86,6 +86,6 @@ fn Example() -> impl IntoView {
 {{#endtab }}
 {{#endtabs }}
 
-## See also
+## See Also
 
 -   [Radix documentation](https://www.radix-ui.com/primitives/docs/utilities/direction-provider)

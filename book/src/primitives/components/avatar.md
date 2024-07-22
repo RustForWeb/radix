@@ -112,6 +112,6 @@ An element that renders when the image hasn't loaded. This means whilst it's loa
 
 TODO
 
-## See also
+## See Also
 
 -   [Radix documentation](https://www.radix-ui.com/primitives/docs/components/avatar)

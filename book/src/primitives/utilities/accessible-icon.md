@@ -70,6 +70,6 @@ This component lets you give meaning to icons used throughout your app.
 
 This is built with [Visually Hidden](./visually-hidden.md).
 
-## See also
+## See Also
 
 -   [Radix documentation](https://www.radix-ui.com/primitives/docs/utilities/accessible-icon)

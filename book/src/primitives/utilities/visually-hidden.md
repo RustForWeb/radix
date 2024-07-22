@@ -91,6 +91,6 @@ fn Example() -> impl IntoView {
 
 This is useful in certain scenarios as an alternative to traditional labelling with `aria-label` or `aria-labelledby`.
 
-## See also
+## See Also
 
 -   [Radix documentation](https://www.radix-ui.com/primitives/docs/utilities/visually-hidden)
