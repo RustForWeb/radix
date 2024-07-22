@@ -38,26 +38,37 @@ pub fn WithUnmountAnimation() -> impl IntoView {
 
 #[component]
 pub fn WithMultipleMountAnimations() -> impl IntoView {
-    let multiple_mount_animation_class =
+    let multiple_mount_animations_class =
         Memo::new(move |_| MultipleMountAnimationsClass::default().to_class());
 
     view! {
-        <Animation attr:class=multiple_mount_animation_class />
+        <Animation attr:class=multiple_mount_animations_class />
     }
 }
 
 #[component]
 pub fn WithOpenAndCloseAnimation() -> impl IntoView {
-    view! {}
+    let open_and_close_animation_class =
+        Memo::new(move |_| OpenAndCloseAnimationClass::default().to_class());
+
+    view! {
+        <Animation attr:class=open_and_close_animation_class />
+    }
 }
 
 #[component]
 pub fn WithMultipleOpenAndCloseAnimations() -> impl IntoView {
-    view! {}
+    let multiple_open_and_close_animations_class =
+        Memo::new(move |_| MultipleOpenAndCloseAnimationsClass::default().to_class());
+
+    view! {
+        <Animation attr:class=multiple_open_and_close_animations_class />
+    }
 }
 
 #[component]
 pub fn WithDeferredMountAnimation() -> impl IntoView {
+    // TODO
     view! {}
 }
 
@@ -137,3 +148,15 @@ pub struct UnmountAnimationClass {}
     class = "animate-[presenceFadeIn_6s_cubic-bezier(0.22,1,0.36,1),presenceSlideUp_6s_cubic-bezier(0.22,1,0.36,1)]"
 )]
 pub struct MultipleMountAnimationsClass {}
+
+#[derive(TwClass, Default, Clone, Copy)]
+#[tw(
+    class = "data-[state=open]:animate-[presenceFadeIn_3s_ease-out] data-[state=closed]:animate-[presenceFadeOut_3s_ease-out]"
+)]
+pub struct OpenAndCloseAnimationClass {}
+
+#[derive(TwClass, Default, Clone, Copy)]
+#[tw(
+    class = "data-[state=open]:animate-[presenceFadeIn_6s_cubic-bezier(0.22,1,0.36,1),presenceSlideUp_6s_cubic-bezier(0.22,1,0.36,1)] data-[state=closed]:animate-[presenceFadeOut_6s_cubic-bezier(0.22,1,0.36,1),presenceSlideDown_6s_cubic-bezier(0.22,1,0.36,1)]"
+)]
+pub struct MultipleOpenAndCloseAnimationsClass {}
