@@ -2,7 +2,7 @@ use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
-    accessible_icon, arrow, avatar, collection, focus_scope, label, menu, popper, slot,
+    accessible_icon, arrow, avatar, collection, focus_scope, label, menu, popper, presence, slot,
     visually_hidden,
 };
 
@@ -92,6 +92,19 @@ pub fn App() -> impl IntoView {
                         </ul>
                     </li>
                     <li>
+                        Presence
+
+                        <ul class="ms-4">
+                            <li><A href="/presence/basic">Basic</A></li>
+                            <li><A href="/presence/with-mount-animation">With Mount Animation</A></li>
+                            <li><A href="/presence/with-unmount-animation">With Unmount Animation</A></li>
+                            <li><A href="/presence/with-multiple-mount-animations">With Multiple Mount Animations</A></li>
+                            <li><A href="/presence/with-open-and-close-animation">With Open and Close Animation</A></li>
+                            <li><A href="/presence/with-multiple-open-and-close-animations">With Multiple Open and Close Animations</A></li>
+                            <li><A href="/presence/with-deferred-mount-animation">With Deferred Mount Animation</A></li>
+                        </ul>
+                    </li>
+                    <li>
                         Slot
 
                         <ul class="ms-4">
@@ -141,6 +154,14 @@ pub fn App() -> impl IntoView {
                     <Route path="/menu/styled" view=menu::Styled />
 
                     <Route path="/popper/styled" view=popper::Styled />
+
+                    <Route path="/presence/basic" view=presence::Basic />
+                    <Route path="/presence/with-mount-animation" view=presence::WithMountAnimation />
+                    <Route path="/presence/with-unmount-animation" view=presence::WithUnmountAnimation />
+                    <Route path="/presence/with-multiple-mount-animations" view=presence::WithMultipleMountAnimations />
+                    <Route path="/presence/with-open-and-close-animation" view=presence::WithOpenAndCloseAnimation />
+                    <Route path="/presence/with-multiple-open-and-close-animations" view=presence::WithMultipleOpenAndCloseAnimations />
+                    <Route path="/presence/with-deferred-mount-animation" view=presence::WithDeferredMountAnimation />
 
                     <Route path="/slot/without-slottable" view=slot::WithoutSlottable />
                     <Route path="/slot/with-slottable" view=slot::WithSlottable />

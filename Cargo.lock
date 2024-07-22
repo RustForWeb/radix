@@ -2770,6 +2770,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-presence"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "log",
+ "radix-leptos-compose-refs",
+ "web-sys",
+]
+
+[[package]]
 name = "radix-leptos-primitive"
 version = "0.0.2"
 dependencies = [
@@ -2815,6 +2825,7 @@ dependencies = [
  "radix-leptos-label",
  "radix-leptos-menu",
  "radix-leptos-popper",
+ "radix-leptos-presence",
  "radix-leptos-slot",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",

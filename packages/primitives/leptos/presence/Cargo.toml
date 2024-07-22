@@ -1,0 +1,15 @@
+[package]
+name = "radix-leptos-presence"
+description = "Leptos port of Radix Presence."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+log.workspace = true
+radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
+web-sys = { workspace = true, features = ["CssStyleDeclaration"] }

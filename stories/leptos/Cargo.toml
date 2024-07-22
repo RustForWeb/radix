@@ -23,6 +23,7 @@ radix-leptos-focus-scope = { path = "../../packages/primitives/leptos/focus-scop
 radix-leptos-label = { path = "../../packages/primitives/leptos/label" }
 radix-leptos-menu = { path = "../../packages/primitives/leptos/menu" }
 radix-leptos-popper = { path = "../../packages/primitives/leptos/popper" }
+radix-leptos-presence = { path = "../../packages/primitives/leptos/presence" }
 radix-leptos-slot = { path = "../../packages/primitives/leptos/slot" }
 radix-leptos-visually-hidden = { path = "../../packages/primitives/leptos/visually-hidden" }
 tailwind_fuse.workspace = true
