@@ -238,6 +238,6 @@ fn use_presence(present: MaybeSignal<bool>) -> UsePresenceReturn {
 
 fn get_animation_name(styles: Option<&web_sys::CssStyleDeclaration>) -> String {
     styles
-        .and_then(|styles| styles.get_property_value("animation-frame").ok())
+        .and_then(|styles| styles.get_property_value("animation-name").ok())
         .unwrap_or("none".into())
 }
