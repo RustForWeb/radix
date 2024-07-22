@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="./images/logo.svg" width="300" height="200" alt="Rust Radix Logo">
+</p>
+
 # Introduction
 
 Rust Radix is a Rust port of [Radix](https://www.radix-ui.com/primitives).
