@@ -1,0 +1,14 @@
+[package]
+name = "radix-leptos-separator"
+description = "Leptos port of Radix Separator."
+homepage = "https://radix.rustforweb.org/primitives/components/separator.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }

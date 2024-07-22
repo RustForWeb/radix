@@ -2,8 +2,8 @@ use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
-    accessible_icon, arrow, avatar, collection, focus_scope, label, menu, popper, presence, slot,
-    visually_hidden,
+    accessible_icon, arrow, avatar, collection, focus_scope, label, menu, popper, presence,
+    separator, slot, visually_hidden,
 };
 
 #[component]
@@ -105,6 +105,13 @@ pub fn App() -> impl IntoView {
                         </ul>
                     </li>
                     <li>
+                        Separator
+
+                        <ul class="ms-4">
+                            <li><A href="/separator/styled">Styled</A></li>
+                        </ul>
+                    </li>
+                    <li>
                         Slot
 
                         <ul class="ms-4">
@@ -162,6 +169,8 @@ pub fn App() -> impl IntoView {
                     <Route path="/presence/with-open-and-close-animation" view=presence::WithOpenAndCloseAnimation />
                     <Route path="/presence/with-multiple-open-and-close-animations" view=presence::WithMultipleOpenAndCloseAnimations />
                     <Route path="/presence/with-deferred-mount-animation" view=presence::WithDeferredMountAnimation />
+
+                    <Route path="/separator/styled" view=separator::Styled />
 
                     <Route path="/slot/without-slottable" view=slot::WithoutSlottable />
                     <Route path="/slot/with-slottable" view=slot::WithSlottable />

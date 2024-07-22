@@ -1,5 +1,4 @@
-use html::AnyElement;
-use leptos::*;
+use leptos::{html::AnyElement, *};
 use radix_leptos_primitive::Primitive;
 
 #[component]

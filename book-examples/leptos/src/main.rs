@@ -2,6 +2,8 @@ mod app;
 
 #[cfg(feature = "avatar")]
 mod avatar;
+#[cfg(feature = "separator")]
+mod separator;
 
 use crate::app::App;
 

@@ -2669,6 +2669,7 @@ dependencies = [
  "leptos",
  "log",
  "radix-leptos-avatar",
+ "radix-leptos-separator",
 ]
 
 [[package]]
@@ -2800,6 +2801,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-separator"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "radix-leptos-primitive",
+]
+
+[[package]]
 name = "radix-leptos-slot"
 version = "0.0.2"
 dependencies = [
@@ -2826,6 +2835,7 @@ dependencies = [
  "radix-leptos-menu",
  "radix-leptos-popper",
  "radix-leptos-presence",
+ "radix-leptos-separator",
  "radix-leptos-slot",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",

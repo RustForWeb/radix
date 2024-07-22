@@ -7,6 +7,7 @@
     -   [Components](./primitives/components/README.md)
         -   [Avatar](./primitives/components/avatar.md)
         -   [Label](./primitives/components/label.md)
+        -   [Separator](./primitives/components/separator.md)
     -   [Utilities](./primitives/utilities/README.md)
         -   [Accessible Icon](./primitives/utilities/accessible-icon.md)
         -   [Direction Provider](./primitives/utilities/direction-provider.md)

@@ -8,5 +8,6 @@ pub mod menu;
 pub mod playground;
 pub mod popper;
 pub mod presence;
+pub mod separator;
 pub mod slot;
 pub mod visually_hidden;

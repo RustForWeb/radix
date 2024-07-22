@@ -4,15 +4,23 @@ use leptos::*;
 pub fn App() -> impl IntoView {
     let mut views: Vec<View> = vec![];
 
-    if cfg!(feature = "avatar") {
+    #[cfg(feature = "avatar")]
+    {
         use crate::avatar::AvatarDemo;
         views.push(view! {
             <AvatarDemo />
         });
     }
+    #[cfg(feature = "separator")]
+    {
+        use crate::separator::SeparatorDemo;
+        views.push(view! {
+            <SeparatorDemo />
+        });
+    }
 
     view! {
-        <div class="w-full h-full flex justify-center items-center">
+        <div class="w-full h-full flex justify-center items-start">
             {views.into_view()}
         </div>
     }

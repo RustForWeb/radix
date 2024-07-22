@@ -14,8 +14,10 @@ console_error_panic_hook.workspace = true
 console_log.workspace = true
 leptos = { workspace = true, features = ["csr"] }
 log.workspace = true
-radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
+radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar", optional = true }
+radix-leptos-separator = { path = "../../packages/primitives/leptos/separator", optional = true }
 
 [features]
-default = ["avatar"]
-avatar = []
+default = ["avatar", "separator"]
+avatar = ["dep:radix-leptos-avatar"]
+separator = ["dep:radix-leptos-separator"]
