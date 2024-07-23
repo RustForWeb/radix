@@ -5,6 +5,7 @@
 -   [Icons](./icons/README.md)
 -   [Primitives](./primitives/README.md)
     -   [Components](./primitives/components/README.md)
+        -   [Aspect Ratio](./primitives/components/aspect-ratio.md)
         -   [Avatar](./primitives/components/avatar.md)
         -   [Label](./primitives/components/label.md)
         -   [Separator](./primitives/components/separator.md)

@@ -2,8 +2,8 @@ use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
-    accessible_icon, arrow, avatar, collection, focus_scope, label, menu, popper, presence,
-    separator, slot, visually_hidden,
+    accessible_icon, arrow, aspect_ratio, avatar, collection, focus_scope, label, menu, popper,
+    presence, separator, slot, visually_hidden,
 };
 
 #[component]
@@ -37,6 +37,15 @@ pub fn App() -> impl IntoView {
                             <li><A href="/arrow/styled">Styled</A></li>
                             <li><A href="/arrow/custom-sizes">Custom Sizes</A></li>
                             <li><A href="/arrow/custom-arrow">Custom Arrow</A></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Aspect Ratio
+
+                        <ul class="ms-4">
+                            <li><A href="/aspect-ratio/styled">Styled</A></li>
+                            <li><A href="/aspect-ratio/custom-ratios">Custom Ratios</A></li>
+                            <li><A href="/aspect-ratio/chromatic">Chromatic</A></li>
                         </ul>
                     </li>
                     <li>
@@ -139,6 +148,10 @@ pub fn App() -> impl IntoView {
                     <Route path="/arrow/styled" view=arrow::Styled />
                     <Route path="/arrow/custom-sizes" view=arrow::CustomSizes />
                     <Route path="/arrow/custom-arrow" view=arrow::CustomArrow />
+
+                    <Route path="/aspect-ratio/styled" view=aspect_ratio::Styled />
+                    <Route path="/aspect-ratio/custom-ratios" view=aspect_ratio::CustomRatios />
+                    <Route path="/aspect-ratio/chromatic" view=aspect_ratio::Chromatic />
 
                     <Route path="/avatar/styled" view=avatar::Styled />
                     <Route path="/avatar/chromatic" view=avatar::Chromatic />

@@ -2652,6 +2652,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-aspect-ratio"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "radix-leptos-primitive",
+]
+
+[[package]]
 name = "radix-leptos-avatar"
 version = "0.0.2"
 dependencies = [
@@ -2668,6 +2676,7 @@ dependencies = [
  "console_log",
  "leptos",
  "log",
+ "radix-leptos-aspect-ratio",
  "radix-leptos-avatar",
  "radix-leptos-separator",
 ]
@@ -2828,6 +2837,7 @@ dependencies = [
  "log",
  "radix-leptos-accessible-icon",
  "radix-leptos-arrow",
+ "radix-leptos-aspect-ratio",
  "radix-leptos-avatar",
  "radix-leptos-collection",
  "radix-leptos-focus-scope",
