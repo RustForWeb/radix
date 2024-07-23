@@ -1,16 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const iframes = document.querySelectorAll('iframe[data-mdbook-trunk]');
-    for (const iframe of iframes) {
-        if (!(iframe instanceof HTMLIFrameElement)) {
-            return;
-        }
+window.addEventListener('message', (event) => {
+    if (!event.data.mdbookTrunk) {
+        return;
+    }
 
-        iframe.addEventListener('load', () => {
-            // TODO: Figure out how to perform this after the iframe size is actually known.
-            setTimeout(() => {
-                iframe.style.width = `${iframe.contentWindow.document.body.scrollWidth}px`;
-                iframe.style.height = `${iframe.contentWindow.document.body.scrollHeight}px`;
-            }, 10);
-        });
+    const data = event.data.mdbookTrunk;
+    const iframe = Array.from(document.getElementsByTagName('iframe')).find(
+        (iframe) => iframe.contentWindow === event.source
+    );
+    if (iframe) {
+        iframe.style.width = `${data.width}px`;
+        iframe.style.height = `${data.height}px`;
     }
 });
