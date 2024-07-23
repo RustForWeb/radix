@@ -4,6 +4,8 @@ mod app;
 mod aspect_ratio;
 #[cfg(feature = "avatar")]
 mod avatar;
+#[cfg(feature = "label")]
+mod label;
 #[cfg(feature = "separator")]
 mod separator;
 

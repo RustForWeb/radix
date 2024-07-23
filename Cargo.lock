@@ -2679,6 +2679,7 @@ dependencies = [
  "log",
  "radix-leptos-aspect-ratio",
  "radix-leptos-avatar",
+ "radix-leptos-label",
  "radix-leptos-separator",
 ]
 

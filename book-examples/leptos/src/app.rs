@@ -18,6 +18,13 @@ pub fn App() -> impl IntoView {
             <AvatarDemo />
         });
     }
+    #[cfg(feature = "label")]
+    {
+        use crate::label::LabelDemo;
+        views.push(view! {
+            <LabelDemo />
+        });
+    }
     #[cfg(feature = "separator")]
     {
         use crate::separator::SeparatorDemo;
