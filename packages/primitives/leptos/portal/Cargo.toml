@@ -1,0 +1,26 @@
+[package]
+name = "radix-leptos-portal"
+description = "Leptos port of Radix Portal."
+homepage = "https://radix.rustforweb.org/primitives/utilities/portal.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+cfg-if = "1.0.0"
+leptos.workspace = true
+leptos_dom.workspace = true
+radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
+tracing = "0.1"
+web-sys.workspace = true
+
+[features]
+csr = ["leptos_dom/csr"]
+hydrate = ["leptos_dom/hydrate"]
+ssr = ["leptos_dom/ssr"]
+
+[package.metadata.cargo-all-features]
+skip_feature_sets = [["csr", "ssr"], ["csr", "hydrate"], ["ssr", "hydrate"]]

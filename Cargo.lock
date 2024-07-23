@@ -2029,6 +2029,7 @@ dependencies = [
  "serde_json",
  "slotmap",
  "thiserror",
+ "tokio",
  "tracing",
  "wasm-bindgen",
  "wasm-bindgen-futures",
@@ -2780,6 +2781,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-portal"
+version = "0.0.2"
+dependencies = [
+ "cfg-if",
+ "leptos",
+ "leptos_dom",
+ "radix-leptos-primitive",
+ "tracing",
+ "web-sys",
+]
+
+[[package]]
 name = "radix-leptos-presence"
 version = "0.0.2"
 dependencies = [
@@ -2844,6 +2857,7 @@ dependencies = [
  "radix-leptos-label",
  "radix-leptos-menu",
  "radix-leptos-popper",
+ "radix-leptos-portal",
  "radix-leptos-presence",
  "radix-leptos-separator",
  "radix-leptos-slot",

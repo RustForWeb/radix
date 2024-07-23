@@ -3,7 +3,7 @@ use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
     accessible_icon, arrow, aspect_ratio, avatar, collection, focus_scope, label, menu, popper,
-    presence, separator, slot, visually_hidden,
+    portal, presence, separator, slot, visually_hidden,
 };
 
 #[component]
@@ -101,6 +101,15 @@ pub fn App() -> impl IntoView {
                         </ul>
                     </li>
                     <li>
+                        Portal
+
+                        <ul class="ms-4">
+                            <li><A href="/portal/base">Base</A></li>
+                            <li><A href="/portal/custom-container">Custom Container</A></li>
+                            <li><A href="/portal/chromatic">Chromatic</A></li>
+                        </ul>
+                    </li>
+                    <li>
                         Presence
 
                         <ul class="ms-4">
@@ -174,6 +183,10 @@ pub fn App() -> impl IntoView {
                     <Route path="/menu/styled" view=menu::Styled />
 
                     <Route path="/popper/styled" view=popper::Styled />
+
+                    <Route path="/portal/base" view=portal::Base />
+                    <Route path="/portal/custom-container" view=portal::CustomContainer />
+                    <Route path="/portal/chromatic" view=portal::Chromatic />
 
                     <Route path="/presence/basic" view=presence::Basic />
                     <Route path="/presence/with-mount-animation" view=presence::WithMountAnimation />

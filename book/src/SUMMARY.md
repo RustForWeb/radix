@@ -12,5 +12,6 @@
     -   [Utilities](./primitives/utilities/README.md)
         -   [Accessible Icon](./primitives/utilities/accessible-icon.md)
         -   [Direction Provider](./primitives/utilities/direction-provider.md)
+        -   [Portal](./primitives/utilities/portal.md)
         -   [Slot](./primitives/utilities/slot.md)
         -   [Visually Hidden](./primitives/utilities/visually-hidden.md)
