@@ -54,7 +54,7 @@ The tables below show the support for the various frameworks.
 | Accordion              | ❌     | ❌ [#18](https://github.com/RustForWeb/radix/issues/18) | ❌  |
 | Alert Dialog           | ❌     | ❌ [#19](https://github.com/RustForWeb/radix/issues/19) | ❌  |
 | Arrow                  | ❌     | 🚧 [#20](https://github.com/RustForWeb/radix/issues/20) | ❌  |
-| Aspect Ratio           | ❌     | ❌ [#21](https://github.com/RustForWeb/radix/issues/21) | ❌  |
+| Aspect Ratio           | ❌     | 🟦 [#21](https://github.com/RustForWeb/radix/issues/21) | ❌  |
 | Avatar                 | ❌     | 🚧 [#22](https://github.com/RustForWeb/radix/issues/22) | ❌  |
 | Checkbox               | ❌     | ❌ [#23](https://github.com/RustForWeb/radix/issues/23) | ❌  |
 | Collapsible            | ❌     | ❌ [#24](https://github.com/RustForWeb/radix/issues/24) | ❌  |
