@@ -41,7 +41,7 @@ Import the component.
 
 ```rust,ignore
 use leptos::*;
-use radix_leptos_portal::*;
+use radix_leptos_portal::Portal;
 
 #[component]
 fn Anatomy() -> impl IntoView {
@@ -81,7 +81,7 @@ Use the portal primitive.
 
 ```rust,ignore
 use leptos::*;
-use radix_leptos_portal::*;
+use radix_leptos_portal::Portal;
 
 #[component]
 fn Example() -> impl IntoView {
