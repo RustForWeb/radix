@@ -25,6 +25,13 @@ pub fn App() -> impl IntoView {
             <LabelDemo />
         });
     }
+    #[cfg(feature = "progress")]
+    {
+        use crate::progress::ProgressDemo;
+        views.push(view! {
+            <ProgressDemo />
+        });
+    }
     #[cfg(feature = "separator")]
     {
         use crate::separator::SeparatorDemo;

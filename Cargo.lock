@@ -2680,6 +2680,7 @@ dependencies = [
  "radix-leptos-aspect-ratio",
  "radix-leptos-avatar",
  "radix-leptos-label",
+ "radix-leptos-progress",
  "radix-leptos-separator",
 ]
 
@@ -2811,6 +2812,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-progress"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "radix-leptos-primitive",
+]
+
+[[package]]
 name = "radix-leptos-roving-focus"
 version = "0.0.2"
 dependencies = [
@@ -2860,6 +2869,7 @@ dependencies = [
  "radix-leptos-popper",
  "radix-leptos-portal",
  "radix-leptos-presence",
+ "radix-leptos-progress",
  "radix-leptos-separator",
  "radix-leptos-slot",
  "radix-leptos-visually-hidden",

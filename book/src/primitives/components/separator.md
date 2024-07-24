@@ -83,7 +83,7 @@ The separator.
 
 # Accessibility
 
-Adheres to the [separator](https://www.w3.org/TR/wai-aria-1.2/#separator) role requirements.
+Adheres to the [`separator` role requirements](https://www.w3.org/TR/wai-aria-1.2/#separator).
 
 ## See Also
 

@@ -17,11 +17,13 @@ log.workspace = true
 radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio", optional = true }
 radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar", optional = true }
 radix-leptos-label = { path = "../../packages/primitives/leptos/label", optional = true }
+radix-leptos-progress = { path = "../../packages/primitives/leptos/progress", optional = true }
 radix-leptos-separator = { path = "../../packages/primitives/leptos/separator", optional = true }
 
 [features]
-default = ["aspect-ratio", "avatar", "label", "separator"]
+default = ["aspect-ratio", "avatar", "label", "progress", "separator"]
 aspect-ratio = ["dep:radix-leptos-aspect-ratio"]
 avatar = ["dep:radix-leptos-avatar"]
 label = ["dep:radix-leptos-label"]
+progress = ["dep:radix-leptos-progress"]
 separator = ["dep:radix-leptos-separator"]

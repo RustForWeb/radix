@@ -6,6 +6,8 @@ mod aspect_ratio;
 mod avatar;
 #[cfg(feature = "label")]
 mod label;
+#[cfg(feature = "progress")]
+mod progress;
 #[cfg(feature = "separator")]
 mod separator;
 
