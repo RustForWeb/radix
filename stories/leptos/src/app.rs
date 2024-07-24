@@ -98,6 +98,11 @@ pub fn App() -> impl IntoView {
 
                         <ul class="ms-4">
                             <li><A href="/popper/styled">Styled</A></li>
+                            <li><A href="/popper/with-custom-arrow">With Custom Arrow</A></li>
+                            <li><A href="/popper/animated">Animated</A></li>
+                            <li><A href="/popper/with-portal">With Portal</A></li>
+                            <li><A href="/popper/with-update-position-strategy-always">With Update Position Strategy Always</A></li>
+                            <li><A href="/popper/chromatic">Chromatic</A></li>
                         </ul>
                     </li>
                     <li>
@@ -191,6 +196,11 @@ pub fn App() -> impl IntoView {
                     <Route path="/menu/styled" view=menu::Styled />
 
                     <Route path="/popper/styled" view=popper::Styled />
+                    <Route path="/popper/with-custom-arrow" view=popper::WithCustomArrow />
+                    <Route path="/popper/animated" view=popper::Animated />
+                    <Route path="/popper/with-portal" view=popper::WithPortal />
+                    <Route path="/popper/with-update-position-strategy-always" view=popper::WithUpdatePositionStrategyAlways />
+                    <Route path="/popper/chromatic" view=popper::Chromatic />
 
                     <Route path="/portal/base" view=portal::Base />
                     <Route path="/portal/custom-container" view=portal::CustomContainer />

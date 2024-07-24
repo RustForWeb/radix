@@ -6,4 +6,5 @@
 
 mod popper;
 
+pub use floating_ui_leptos::{Padding, Side};
 pub use popper::*;

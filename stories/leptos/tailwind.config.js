@@ -4,6 +4,10 @@ module.exports = {
     theme: {
         extend: {
             keyframes: {
+                popperRotateIn: {
+                    '0%': {transform: 'scale(0) rotateZ(calc(var(--direction, 0) * 45deg))'},
+                    '100%': {transform: 'scale(1)'}
+                },
                 presenceFadeIn: {
                     from: {opacity: 0},
                     to: {opacity: 1}
