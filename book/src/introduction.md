@@ -75,7 +75,7 @@ The tables below show the support for the various frameworks.
 | Menubar                | ❌     | ❌ [#39](https://github.com/RustForWeb/radix/issues/39) | ❌  |
 | Navigation Menu        | ❌     | ❌ [#40](https://github.com/RustForWeb/radix/issues/40) | ❌  |
 | Popover                | ❌     | ❌ [#41](https://github.com/RustForWeb/radix/issues/41) | ❌  |
-| Popper                 | ❌     | 🚧 [#42](https://github.com/RustForWeb/radix/issues/42) | ❌  |
+| Popper                 | ❌     | 🟦 [#42](https://github.com/RustForWeb/radix/issues/42) | ❌  |
 | Portal                 | ❌     | 🟦 [#43](https://github.com/RustForWeb/radix/issues/43) | ❌  |
 | Presence               | ❌     | 🟦 [#44](https://github.com/RustForWeb/radix/issues/44) | ❌  |
 | Primitive              | ❌     | 🟦 [#45](https://github.com/RustForWeb/radix/issues/45) | ❌  |
