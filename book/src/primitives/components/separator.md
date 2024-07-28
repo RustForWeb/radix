@@ -37,7 +37,7 @@ cargo add radix-leptos-separator
 
 ## Anatomy
 
-Import all parts and piece them together.
+Import the component.
 
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
@@ -81,7 +81,7 @@ The separator.
 | -------------------- | ---------------------------- |
 | `[data-orientation]` | `"horizontal" \| "vertical"` |
 
-# Accessibility
+## Accessibility
 
 Adheres to the [`separator` role requirements](https://www.w3.org/TR/wai-aria-1.2/#separator).
 

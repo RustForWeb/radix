@@ -3,7 +3,7 @@ use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
     accessible_icon, arrow, aspect_ratio, avatar, collection, focus_scope, label, menu, popper,
-    portal, presence, progress, separator, slot, visually_hidden,
+    portal, presence, progress, separator, slot, toggle, visually_hidden,
 };
 
 #[component]
@@ -152,6 +152,14 @@ pub fn App() -> impl IntoView {
                         </ul>
                     </li>
                     <li>
+                        Toggle
+
+                        <ul class="ms-4">
+                            <li><A href="/toggle/controlled">Controlled</A></li>
+                            <li><A href="/toggle/chromatic">Chromatic</A></li>
+                        </ul>
+                    </li>
+                    <li>
                         Visually Hidden
 
                         <ul class="ms-4">
@@ -221,6 +229,9 @@ pub fn App() -> impl IntoView {
 
                     <Route path="/slot/without-slottable" view=slot::WithoutSlottable />
                     <Route path="/slot/with-slottable" view=slot::WithSlottable />
+
+                    <Route path="/toggle/controlled" view=toggle::Controlled />
+                    <Route path="/toggle/chromatic" view=toggle::Chromatic />
 
                     <Route path="/visually-hidden/basic" view=visually_hidden::Basic />
                 </Routes>

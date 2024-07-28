@@ -19,11 +19,13 @@ radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar", option
 radix-leptos-label = { path = "../../packages/primitives/leptos/label", optional = true }
 radix-leptos-progress = { path = "../../packages/primitives/leptos/progress", optional = true }
 radix-leptos-separator = { path = "../../packages/primitives/leptos/separator", optional = true }
+radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle", optional = true }
 
 [features]
-default = ["aspect-ratio", "avatar", "label", "progress", "separator"]
+default = ["aspect-ratio", "avatar", "label", "progress", "separator", "toggle"]
 aspect-ratio = ["dep:radix-leptos-aspect-ratio"]
 avatar = ["dep:radix-leptos-avatar"]
 label = ["dep:radix-leptos-label"]
 progress = ["dep:radix-leptos-progress"]
 separator = ["dep:radix-leptos-separator"]
+toggle = ["dep:radix-leptos-toggle"]

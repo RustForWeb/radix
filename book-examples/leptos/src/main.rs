@@ -10,6 +10,8 @@ mod label;
 mod progress;
 #[cfg(feature = "separator")]
 mod separator;
+#[cfg(feature = "toggle")]
+mod toggle;
 
 use crate::app::App;
 

@@ -5,3 +5,4 @@
 -   [Label](./label.md)
 -   [Progress](./progress.md)
 -   [Separator](./separator.md)
+-   [Toggle](./toggle.md)

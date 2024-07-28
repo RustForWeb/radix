@@ -75,7 +75,7 @@ Contains the content for the label.
 {{#endtab }}
 {{#endtabs }}
 
-# Accessibility
+## Accessibility
 
 This component is based on the native `label` element, it will automatically apply the correct labelling when wrapping controls or using the `for` attribute. For your own custom controls to work correctly, ensure they use native elements such as `button` or `input` as a base.
 

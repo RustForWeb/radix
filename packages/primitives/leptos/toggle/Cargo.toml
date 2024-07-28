@@ -1,0 +1,15 @@
+[package]
+name = "radix-leptos-toggle"
+description = "Leptos port of Radix Togle."
+homepage = "https://radix.rustforweb.org/primitives/components/toggle.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
+radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }

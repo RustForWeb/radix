@@ -108,7 +108,7 @@ Used to show the progress visually. It also makes progress accessible to assisti
 | `[data-value]` | The current value                            |
 | `[data-max]`   | The max value                                |
 
-# Accessibility
+## Accessibility
 
 Adheres to the [`progressbar` role requirements](https://www.w3.org/WAI/ARIA/apg/patterns/meter/).
 

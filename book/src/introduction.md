@@ -91,7 +91,7 @@ The tables below show the support for the various frameworks.
 | Tabs                   | ❌     | ❌ [#55](https://github.com/RustForWeb/radix/issues/55) | ❌  |
 | Toast                  | ❌     | ❌ [#56](https://github.com/RustForWeb/radix/issues/56) | ❌  |
 | Toggle Group           | ❌     | ❌ [#57](https://github.com/RustForWeb/radix/issues/57) | ❌  |
-| Toggle                 | ❌     | ❌ [#58](https://github.com/RustForWeb/radix/issues/58) | ❌  |
+| Toggle                 | ❌     | 🚧 [#58](https://github.com/RustForWeb/radix/issues/58) | ❌  |
 | Toolbar                | ❌     | ❌ [#59](https://github.com/RustForWeb/radix/issues/59) | ❌  |
 | Tooltip                | ❌     | ❌ [#60](https://github.com/RustForWeb/radix/issues/60) | ❌  |
 | Use Callback Ref       | ❌     | ❌                                                      | ❌  |

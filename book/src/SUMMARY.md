@@ -29,7 +29,7 @@
         -   [Switch]()
         -   [Tabs]()
         -   [Toast]()
-        -   [Toggle]()
+        -   [Toggle](./primitives/components/toggle.md)
         -   [Toggle Group]()
         -   [Toolbar]()
         -   [Tooltip]()

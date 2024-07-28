@@ -39,6 +39,13 @@ pub fn App() -> impl IntoView {
             <SeparatorDemo />
         });
     }
+    #[cfg(feature = "toggle")]
+    {
+        use crate::toggle::ToggleDemo;
+        views.push(view! {
+            <ToggleDemo />
+        });
+    }
 
     view! {
         <div class="w-full h-full flex justify-center items-start">

@@ -2682,6 +2682,7 @@ dependencies = [
  "radix-leptos-label",
  "radix-leptos-progress",
  "radix-leptos-separator",
+ "radix-leptos-toggle",
 ]
 
 [[package]]
@@ -2872,9 +2873,19 @@ dependencies = [
  "radix-leptos-progress",
  "radix-leptos-separator",
  "radix-leptos-slot",
+ "radix-leptos-toggle",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",
  "web-sys",
+]
+
+[[package]]
+name = "radix-leptos-toggle"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "radix-leptos-primitive",
+ "radix-leptos-use-controllable-state",
 ]
 
 [[package]]

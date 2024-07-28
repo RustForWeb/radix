@@ -13,4 +13,5 @@ pub mod presence;
 pub mod progress;
 pub mod separator;
 pub mod slot;
+pub mod toggle;
 pub mod visually_hidden;
