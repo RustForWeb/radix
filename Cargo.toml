@@ -2,6 +2,7 @@
 members = [
     "book-examples/*",
     "packages/colors",
+    "packages/icons/*",
     "packages/primitives/*/*",
     "scripts",
     "stories/*",

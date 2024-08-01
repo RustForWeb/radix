@@ -2743,6 +2743,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-icons"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
 name = "radix-leptos-label"
 version = "0.0.2"
 dependencies = [
@@ -3187,6 +3194,8 @@ dependencies = [
  "http-body-util",
  "log",
  "octocrab",
+ "proc-macro2",
+ "quote",
  "tokio",
 ]
 

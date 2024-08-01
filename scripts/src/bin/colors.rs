@@ -1,11 +1,16 @@
 #![feature(exit_status_error)]
 
-use convert_case::{Case, Casing};
-use http_body_util::BodyExt;
 use std::error::Error;
 use std::path::Path;
 use std::process::Command;
 use std::{fs, str};
+
+use convert_case::{Case, Casing};
+use http_body_util::BodyExt;
+
+const GITHUB_OWNER: &str = "radix-ui";
+const GITHUB_REPO: &str = "colors";
+const GITHUB_REF: &str = "main";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -14,17 +19,17 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let octocrab = octocrab::instance();
 
     let content_items = octocrab
-        .repos("radix-ui", "colors")
+        .repos(GITHUB_OWNER, GITHUB_REPO)
         .get_content()
         .path("src")
-        .r#ref("main")
+        .r#ref(GITHUB_REF)
         .send()
         .await?;
 
     for content in content_items.items {
         let response = octocrab
-            .repos("radix-ui", "colors")
-            .raw_file("main".to_string(), &content.path)
+            .repos(GITHUB_OWNER, GITHUB_REPO)
+            .raw_file(GITHUB_REF.to_string(), &content.path)
             .await?;
         let (_, body) = response.into_parts();
         let body = body.collect().await?.to_bytes();
