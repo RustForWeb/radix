@@ -16,6 +16,7 @@ leptos = { workspace = true, features = ["csr"] }
 log.workspace = true
 radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio", optional = true }
 radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar", optional = true }
+radix-leptos-icons = { path = "../../packages/icons/leptos", optional = true }
 radix-leptos-label = { path = "../../packages/primitives/leptos/label", optional = true }
 radix-leptos-progress = { path = "../../packages/primitives/leptos/progress", optional = true }
 radix-leptos-separator = { path = "../../packages/primitives/leptos/separator", optional = true }
@@ -28,4 +29,8 @@ avatar = ["dep:radix-leptos-avatar"]
 label = ["dep:radix-leptos-label"]
 progress = ["dep:radix-leptos-progress"]
 separator = ["dep:radix-leptos-separator"]
-toggle = ["dep:radix-leptos-toggle"]
+toggle = [
+    "dep:radix-leptos-toggle",
+    "dep:radix-leptos-icons",
+    "radix-leptos-icons/font-italic",
+]

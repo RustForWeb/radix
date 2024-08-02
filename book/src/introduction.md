@@ -44,7 +44,7 @@ The tables below show the support for the various frameworks.
 
 | Name  | Dioxus | Leptos | Yew |
 | ----- | ------ | ------ | --- |
-| Icons | ❌     | ❌     | ❌  |
+| Icons | ❌     | 🚧     | 🚧  |
 
 ### Primitives Support
 

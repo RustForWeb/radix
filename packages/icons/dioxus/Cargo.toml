@@ -1,0 +1,13 @@
+[package]
+name = "radix-dioxus-icons"
+description = "Dioxus port of Radix Icons."
+homepage = "https://radix.rustforweb.org/icons/index.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+dioxus.workspace = true
