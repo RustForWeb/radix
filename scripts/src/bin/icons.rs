@@ -20,6 +20,8 @@ trait Framework {
 
     fn generate(&self, component_name: String, svg: String) -> Result<TokenStream, Box<dyn Error>>;
 
+    fn generate_example(&self, component_names: &[String]) -> Result<TokenStream, Box<dyn Error>>;
+
     fn format(&self, package: String, path: PathBuf) -> Result<(), Box<dyn Error>>;
 }
 
@@ -40,6 +42,11 @@ impl Framework for Dioxus {
         _component_name: String,
         _svg: String,
     ) -> Result<TokenStream, Box<dyn Error>> {
+        // TODO
+        todo!()
+    }
+
+    fn generate_example(&self, _component_names: &[String]) -> Result<TokenStream, Box<dyn Error>> {
         // TODO
         todo!()
     }
@@ -89,6 +96,32 @@ impl Framework for Leptos {
         })
     }
 
+    fn generate_example(&self, component_names: &[String]) -> Result<TokenStream, Box<dyn Error>> {
+        let mut component_name: Vec<TokenStream> = vec![];
+        let mut human_name: Vec<TokenStream> = vec![];
+
+        for name in component_names {
+            component_name.push(name.parse()?);
+            human_name.push(name.trim_end_matches("Icon").to_case(Case::Title).parse()?);
+        }
+
+        Ok(quote! {
+            use leptos::*;
+            use radix_leptos_icons::*;
+
+            #[component]
+            pub fn IconsDemo() -> impl IntoView {
+                view! {
+                    <div>
+                        #(<div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
+                            <#component_name /><span>#human_name</span>
+                        </div>)*
+                    </div>
+                }
+            }
+        })
+    }
+
     fn format(&self, package: String, path: PathBuf) -> Result<(), Box<dyn Error>> {
         Command::new("cargo")
             .arg("fmt")
@@ -107,6 +140,7 @@ impl Framework for Leptos {
     }
 }
 
+#[allow(dead_code)]
 struct Yew;
 
 impl Framework for Yew {
@@ -148,6 +182,11 @@ impl Framework for Yew {
         })
     }
 
+    fn generate_example(&self, _component_names: &[String]) -> Result<TokenStream, Box<dyn Error>> {
+        // TODO
+        todo!()
+    }
+
     fn format(&self, package: String, _path: PathBuf) -> Result<(), Box<dyn Error>> {
         Command::new("cargo")
             .arg("fmt")
@@ -165,7 +204,8 @@ impl Framework for Yew {
 async fn main() -> Result<(), Box<dyn Error>> {
     env_logger::init();
 
-    let frameworks: [Box<dyn Framework>; 2] = [Box::new(Leptos), Box::new(Yew)];
+    // let frameworks: [Box<dyn Framework>; 2] = [Box::new(Leptos), Box::new(Yew)];
+    let frameworks: [Box<dyn Framework>; 1] = [Box::new(Leptos)];
 
     octocrab::initialise(
         octocrab::OctocrabBuilder::new()
@@ -183,6 +223,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .await?;
 
     let mut modules = vec![];
+    let mut component_names = vec![];
 
     #[allow(clippy::never_loop)]
     for content in content_items.items {
@@ -192,7 +233,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .await?;
         let (_, body) = response.into_parts();
         let body = body.collect().await?.to_bytes();
-        let input = str::from_utf8(&body)?;
+        let input = str::from_utf8(&body)?.to_string();
 
         let file_name = &content.path[(content
             .path
@@ -203,97 +244,25 @@ async fn main() -> Result<(), Box<dyn Error>> {
         let module = file_name.replace(".svg", "-icon").to_case(Case::Snake);
         modules.push(module.clone());
 
-        log::info!("{}", module);
-
         let component_name = file_name.replace(".svg", "-icon").to_case(Case::Pascal);
+        component_names.push(component_name.clone());
+
+        log::info!("{} - {}", module, component_name);
 
         for framework in &frameworks {
-            let output_path = Path::new("packages/icons")
-                .join(framework.name())
-                .join("src")
-                .join(format!("{}.rs", module));
-
-            let output_tokens = framework.generate(component_name.clone(), input.to_string())?;
-            let output = prettyplease::unparse(&syn::parse2(output_tokens)?);
-
-            fs::write(output_path, output)?;
+            generate_icon(
+                &**framework,
+                module.clone(),
+                component_name.clone(),
+                input.clone(),
+            )?;
         }
     }
 
     for framework in &frameworks {
-        let output_path = Path::new("packages/icons")
-            .join(framework.name())
-            .join("src")
-            .join("lib.rs");
-
-        let output_modules = modules
-            .iter()
-            .map(|module| {
-                format!(
-                    "#[cfg(feature = \"{}\")]\nmod {};",
-                    module.trim_end_matches("_icon").to_case(Case::Kebab),
-                    module
-                )
-            })
-            .collect::<Vec<String>>()
-            .join("\n");
-
-        let output_uses = modules
-            .iter()
-            .map(|module| {
-                format!(
-                    "#[cfg(feature = \"{}\")]\npub use {}::*;",
-                    module.trim_end_matches("_icon").to_case(Case::Kebab),
-                    module
-                )
-            })
-            .collect::<Vec<String>>()
-            .join("\n");
-
-        let output = format!(
-            "{}{}\n\n{}\n",
-            match framework.lib_header() {
-                Some(header) => format!("{}\n\n", header),
-                None => "".into(),
-            },
-            output_modules,
-            output_uses
-        );
-
-        fs::write(output_path, output)?;
-
-        let output_path = Path::new("packages/icons")
-            .join(framework.name())
-            .join("features.toml");
-
-        let output_features = modules
-            .iter()
-            .map(|module| {
-                format!(
-                    "{} = []",
-                    module.trim_end_matches("_icon").to_case(Case::Kebab)
-                )
-            })
-            .collect::<Vec<String>>()
-            .join("\n");
-
-        let output_full = modules
-            .iter()
-            .map(|module| {
-                format!(
-                    "\"{}\"",
-                    module.trim_end_matches("_icon").to_case(Case::Kebab)
-                )
-            })
-            .collect::<Vec<String>>()
-            .join(", ");
-
-        let output = format!(
-            "[features]\ndefault = []\n{}\nfull = [{}]\n",
-            output_features, output_full
-        );
-
-        fs::write(output_path, output)?;
+        generate_lib(&**framework, &modules)?;
+        generate_features(&**framework, &modules)?;
+        generate_example(&**framework, &component_names)?;
 
         framework.format(
             format!("radix-{}-icons", framework.name()),
@@ -301,7 +270,133 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 .join(framework.name())
                 .join("src"),
         )?;
+
+        framework.format(
+            format!("radix-{}-book", framework.name()),
+            Path::new("book-examples")
+                .join(framework.name())
+                .join("src")
+                .join("icons.rs"),
+        )?;
     }
+
+    Ok(())
+}
+
+fn generate_icon(
+    framework: &dyn Framework,
+    module: String,
+    component_name: String,
+    input: String,
+) -> Result<(), Box<dyn Error>> {
+    let output_path = Path::new("packages/icons")
+        .join(framework.name())
+        .join("src")
+        .join(format!("{}.rs", module));
+
+    let output_tokens = framework.generate(component_name, input)?;
+    let output = prettyplease::unparse(&syn::parse2(output_tokens)?);
+
+    fs::write(output_path, output)?;
+
+    Ok(())
+}
+
+fn generate_example(
+    framework: &dyn Framework,
+    component_names: &[String],
+) -> Result<(), Box<dyn Error>> {
+    let output_path = Path::new("book-examples")
+        .join(framework.name())
+        .join("src")
+        .join("icons.rs");
+
+    let output_tokens = framework.generate_example(component_names)?;
+    let output = prettyplease::unparse(&syn::parse2(output_tokens)?);
+
+    fs::write(output_path, output)?;
+
+    Ok(())
+}
+
+fn generate_lib(framework: &dyn Framework, modules: &[String]) -> Result<(), Box<dyn Error>> {
+    let output_path = Path::new("packages/icons")
+        .join(framework.name())
+        .join("src")
+        .join("lib.rs");
+
+    let output_modules = modules
+        .iter()
+        .map(|module| {
+            format!(
+                "#[cfg(feature = \"{}\")]\nmod {};",
+                module.trim_end_matches("_icon").to_case(Case::Kebab),
+                module
+            )
+        })
+        .collect::<Vec<String>>()
+        .join("\n");
+
+    let output_uses = modules
+        .iter()
+        .map(|module| {
+            format!(
+                "#[cfg(feature = \"{}\")]\npub use {}::*;",
+                module.trim_end_matches("_icon").to_case(Case::Kebab),
+                module
+            )
+        })
+        .collect::<Vec<String>>()
+        .join("\n");
+
+    let output = format!(
+        "{}{}\n\n{}\n",
+        match framework.lib_header() {
+            Some(header) => format!("{}\n\n", header),
+            None => "".into(),
+        },
+        output_modules,
+        output_uses
+    );
+
+    fs::write(output_path, output)?;
+
+    Ok(())
+}
+
+fn generate_features(framework: &dyn Framework, modules: &[String]) -> Result<(), Box<dyn Error>> {
+    let output_path = Path::new("packages/icons")
+        .join(framework.name())
+        .join("features.toml");
+
+    let output_features = modules
+        .iter()
+        .map(|module| {
+            format!(
+                "{} = []",
+                module.trim_end_matches("_icon").to_case(Case::Kebab)
+            )
+        })
+        .collect::<Vec<String>>()
+        .join("\n");
+
+    let output_full = modules
+        .iter()
+        .map(|module| {
+            format!(
+                "\"{}\"",
+                module.trim_end_matches("_icon").to_case(Case::Kebab)
+            )
+        })
+        .collect::<Vec<String>>()
+        .join(", ");
+
+    let output = format!(
+        "[features]\ndefault = []\n{}\nfull = [{}]\n",
+        output_features, output_full
+    );
+
+    fs::write(output_path, output)?;
 
     Ok(())
 }

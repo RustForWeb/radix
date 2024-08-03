@@ -2,6 +2,22 @@
 
 A crisp set of 15×15 icons. All icons are available as individual components.
 
+{{#tabs global="framework" }}
+{{#tab name="Leptos" }}
+
+```toml,trunk
+package = "radix-leptos-book"
+features = ["icons"]
+```
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+TODO
+
+{{#endtab }}
+{{#endtabs }}
+
 ## Installation
 
 Install the icons from your command line.
