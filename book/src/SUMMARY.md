@@ -26,7 +26,7 @@
         -   [Select]()
         -   [Separator](./primitives/components/separator.md)
         -   [Slider]()
-        -   [Switch]()
+        -   [Switch](./primitives/components/switch.md)
         -   [Tabs]()
         -   [Toast]()
         -   [Toggle](./primitives/components/toggle.md)

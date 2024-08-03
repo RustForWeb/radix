@@ -39,6 +39,13 @@ pub fn App() -> impl IntoView {
             <SeparatorDemo />
         });
     }
+    #[cfg(feature = "switch")]
+    {
+        use crate::switch::SwitchDemo;
+        views.push(view! {
+            <SwitchDemo />
+        });
+    }
     #[cfg(feature = "toggle")]
     {
         use crate::toggle::ToggleDemo;

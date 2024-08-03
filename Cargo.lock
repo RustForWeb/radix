@@ -2690,6 +2690,7 @@ dependencies = [
  "radix-leptos-label",
  "radix-leptos-progress",
  "radix-leptos-separator",
+ "radix-leptos-switch",
  "radix-leptos-toggle",
 ]
 
@@ -2746,6 +2747,7 @@ version = "0.0.2"
 dependencies = [
  "leptos",
  "once_cell",
+ "radix-leptos-compose-refs",
  "radix-leptos-primitive",
  "web-sys",
 ]
@@ -2888,9 +2890,24 @@ dependencies = [
  "radix-leptos-progress",
  "radix-leptos-separator",
  "radix-leptos-slot",
+ "radix-leptos-switch",
  "radix-leptos-toggle",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",
+ "web-sys",
+]
+
+[[package]]
+name = "radix-leptos-switch"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "log",
+ "radix-leptos-compose-refs",
+ "radix-leptos-primitive",
+ "radix-leptos-use-controllable-state",
+ "radix-leptos-use-previous",
+ "radix-leptos-use-size",
  "web-sys",
 ]
 

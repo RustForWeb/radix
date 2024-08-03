@@ -20,15 +20,25 @@ radix-leptos-icons = { path = "../../packages/icons/leptos", optional = true }
 radix-leptos-label = { path = "../../packages/primitives/leptos/label", optional = true }
 radix-leptos-progress = { path = "../../packages/primitives/leptos/progress", optional = true }
 radix-leptos-separator = { path = "../../packages/primitives/leptos/separator", optional = true }
+radix-leptos-switch = { path = "../../packages/primitives/leptos/switch", optional = true }
 radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle", optional = true }
 
 [features]
-default = ["aspect-ratio", "avatar", "label", "progress", "separator", "toggle"]
+default = [
+    "aspect-ratio",
+    "avatar",
+    "label",
+    "progress",
+    "separator",
+    "switch",
+    "toggle",
+]
 aspect-ratio = ["dep:radix-leptos-aspect-ratio"]
 avatar = ["dep:radix-leptos-avatar"]
 label = ["dep:radix-leptos-label"]
 progress = ["dep:radix-leptos-progress"]
 separator = ["dep:radix-leptos-separator"]
+switch = ["dep:radix-leptos-switch"]
 toggle = [
     "dep:radix-leptos-toggle",
     "dep:radix-leptos-icons",

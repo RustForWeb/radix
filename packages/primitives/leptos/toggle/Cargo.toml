@@ -1,6 +1,6 @@
 [package]
 name = "radix-leptos-toggle"
-description = "Leptos port of Radix Togle."
+description = "Leptos port of Radix Toggle."
 homepage = "https://radix.rustforweb.org/primitives/components/toggle.html"
 
 authors.workspace = true

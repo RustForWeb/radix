@@ -10,6 +10,8 @@ mod label;
 mod progress;
 #[cfg(feature = "separator")]
 mod separator;
+#[cfg(feature = "switch")]
+mod switch;
 #[cfg(feature = "toggle")]
 mod toggle;
 
