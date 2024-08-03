@@ -1,4 +1,4 @@
-use leptos::{ev::MouseEvent, *};
+use leptos::{ev::MouseEvent, html::AnyElement, *};
 use radix_leptos_primitive::{compose_callbacks, Primitive};
 use radix_leptos_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 
@@ -16,6 +16,7 @@ pub fn Toggle(
     #[prop(into, optional)] disabled: MaybeProp<bool>,
     #[prop(into, optional)] on_click: Option<Callback<MouseEvent>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
@@ -59,6 +60,7 @@ pub fn Toggle(
         <Primitive
             element=html::button
             as_child=as_child
+            node_ref=node_ref
             attrs=attrs
             on:click=compose_callbacks(on_click, Some(Callback::new(move |_| {
                 if !disabled.get() {

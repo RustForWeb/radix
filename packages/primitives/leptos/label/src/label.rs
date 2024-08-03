@@ -1,4 +1,4 @@
-use leptos::{ev::MouseEvent, *};
+use leptos::{ev::MouseEvent, html::AnyElement, *};
 use radix_leptos_primitive::Primitive;
 
 #[component]
@@ -6,6 +6,7 @@ pub fn Label(
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     children: ChildrenFn,
 ) -> impl IntoView {
     view! {
@@ -28,6 +29,7 @@ pub fn Label(
                     event.prevent_default();
                 }
             }
+            node_ref=node_ref
             attrs=attrs
         >
             {children()}

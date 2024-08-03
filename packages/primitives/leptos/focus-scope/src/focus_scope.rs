@@ -6,6 +6,7 @@ use std::{cell::RefCell, sync::Arc};
 
 use leptos::{html::AnyElement, *};
 use once_cell::sync::Lazy;
+use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_primitive::Primitive;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
@@ -28,6 +29,7 @@ pub fn FocusScope(
     // TODO: hopefully remove the double option
     #[prop(into, optional)] on_unmount_auto_focus: Option<Option<Callback<Event>>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
 ) -> impl IntoView {
@@ -35,6 +37,7 @@ pub fn FocusScope(
     let trapped = Signal::derive(move || trapped.get().unwrap_or(false));
 
     let container_ref: NodeRef<AnyElement> = NodeRef::new();
+    let composed_refs = use_composed_refs(vec![node_ref, container_ref]);
     let last_focused_element: RwSignal<Option<web_sys::HtmlElement>> = RwSignal::new(None);
     let focus_scope = RwSignal::new(FocusScopeAPI::new());
 
@@ -364,7 +367,7 @@ pub fn FocusScope(
             element=html::div
             as_child=as_child
             on:keydown=handle_key_down
-            node_ref=container_ref
+            node_ref=composed_refs
             attrs=attrs
         >
             {children()}
