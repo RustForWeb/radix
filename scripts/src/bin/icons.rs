@@ -21,6 +21,7 @@ trait Framework {
     fn format(&self, package: String, path: PathBuf) -> Result<(), Box<dyn Error>>;
 }
 
+#[allow(dead_code)]
 struct Dioxus;
 
 impl Framework for Dioxus {
