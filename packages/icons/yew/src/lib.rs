@@ -1,3 +1,5 @@
+#![allow(ambiguous_glob_reexports, non_snake_case)]
+
 #[cfg(feature = "accessibility")]
 mod accessibility_icon;
 #[cfg(feature = "activity-log")]

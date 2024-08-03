@@ -16,6 +16,8 @@ const GITHUB_REF: &str = "master";
 trait Framework {
     fn name(&self) -> &'static str;
 
+    fn lib_header(&self) -> Option<String>;
+
     fn generate(&self, component_name: String, svg: String) -> Result<TokenStream, Box<dyn Error>>;
 
     fn format(&self, package: String, path: PathBuf) -> Result<(), Box<dyn Error>>;
@@ -27,6 +29,10 @@ struct Dioxus;
 impl Framework for Dioxus {
     fn name(&self) -> &'static str {
         "dioxus"
+    }
+
+    fn lib_header(&self) -> Option<String> {
+        None
     }
 
     fn generate(
@@ -48,6 +54,10 @@ struct Leptos;
 impl Framework for Leptos {
     fn name(&self) -> &'static str {
         "leptos"
+    }
+
+    fn lib_header(&self) -> Option<String> {
+        None
     }
 
     fn generate(&self, component_name: String, svg: String) -> Result<TokenStream, Box<dyn Error>> {
@@ -102,6 +112,10 @@ struct Yew;
 impl Framework for Yew {
     fn name(&self) -> &'static str {
         "yew"
+    }
+
+    fn lib_header(&self) -> Option<String> {
+        Some("#![allow(ambiguous_glob_reexports, non_snake_case)]".into())
     }
 
     fn generate(&self, component_name: String, svg: String) -> Result<TokenStream, Box<dyn Error>> {
@@ -236,7 +250,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .collect::<Vec<String>>()
             .join("\n");
 
-        let output = format!("{}\n\n{}\n", output_modules, output_uses);
+        let output = format!(
+            "{}{}\n\n{}\n",
+            match framework.lib_header() {
+                Some(header) => format!("{}\n\n", header),
+                None => "".into(),
+            },
+            output_modules,
+            output_uses
+        );
 
         fs::write(output_path, output)?;
 
