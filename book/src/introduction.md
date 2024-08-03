@@ -87,7 +87,7 @@ The tables below show the support for the various frameworks.
 | Separator              | ❌     | 🟦 [#51](https://github.com/RustForWeb/radix/issues/51) | ❌  |
 | Slider                 | ❌     | ❌ [#52](https://github.com/RustForWeb/radix/issues/52) | ❌  |
 | Slot                   | ❌     | 🚧 [#53](https://github.com/RustForWeb/radix/issues/53) | ❌  |
-| Switch                 | ❌     | ❌ [#54](https://github.com/RustForWeb/radix/issues/54) | ❌  |
+| Switch                 | ❌     | 🟦 [#54](https://github.com/RustForWeb/radix/issues/54) | ❌  |
 | Tabs                   | ❌     | ❌ [#55](https://github.com/RustForWeb/radix/issues/55) | ❌  |
 | Toast                  | ❌     | ❌ [#56](https://github.com/RustForWeb/radix/issues/56) | ❌  |
 | Toggle Group           | ❌     | ❌ [#57](https://github.com/RustForWeb/radix/issues/57) | ❌  |
