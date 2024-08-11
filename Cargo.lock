@@ -2686,12 +2686,28 @@ dependencies = [
  "log",
  "radix-leptos-aspect-ratio",
  "radix-leptos-avatar",
+ "radix-leptos-checkbox",
  "radix-leptos-icons",
  "radix-leptos-label",
  "radix-leptos-progress",
  "radix-leptos-separator",
  "radix-leptos-switch",
  "radix-leptos-toggle",
+]
+
+[[package]]
+name = "radix-leptos-checkbox"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "log",
+ "radix-leptos-compose-refs",
+ "radix-leptos-presence",
+ "radix-leptos-primitive",
+ "radix-leptos-use-controllable-state",
+ "radix-leptos-use-previous",
+ "radix-leptos-use-size",
+ "web-sys",
 ]
 
 [[package]]
@@ -2880,6 +2896,7 @@ dependencies = [
  "radix-leptos-arrow",
  "radix-leptos-aspect-ratio",
  "radix-leptos-avatar",
+ "radix-leptos-checkbox",
  "radix-leptos-collection",
  "radix-leptos-focus-scope",
  "radix-leptos-label",

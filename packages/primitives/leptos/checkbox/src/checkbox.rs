@@ -1,29 +1,62 @@
+use std::rc::Rc;
+
 use leptos::{
-    ev::MouseEvent,
+    ev::{Event, KeyboardEvent, MouseEvent},
     html::{AnyElement, Input},
     *,
 };
 use radix_leptos_compose_refs::use_composed_refs;
+use radix_leptos_presence::Presence;
 use radix_leptos_primitive::{compose_callbacks, Primitive};
 use radix_leptos_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use radix_leptos_use_previous::use_previous;
 use radix_leptos_use_size::use_size;
+use web_sys::wasm_bindgen::{closure::Closure, JsCast};
+
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub enum CheckedState {
+    False,
+    True,
+    Indeterminate,
+}
+
+impl From<CheckedState> for String {
+    fn from(value: CheckedState) -> Self {
+        match value {
+            CheckedState::False => "false".into(),
+            CheckedState::True => "true".into(),
+            CheckedState::Indeterminate => "indeterminate".into(),
+        }
+    }
+}
+
+impl IntoAttribute for CheckedState {
+    fn into_attribute(self) -> Attribute {
+        let s: String = self.into();
+        Attribute::String(s.into())
+    }
+
+    fn into_attribute_boxed(self: Box<Self>) -> Attribute {
+        self.into_attribute()
+    }
+}
 
 #[derive(Clone, Debug)]
-struct SwitchContextValue {
-    checked: Signal<bool>,
+struct CheckboxContextValue {
+    state: Signal<CheckedState>,
     disabled: Signal<bool>,
 }
 
 #[component]
-pub fn Switch(
+pub fn Checkbox(
     #[prop(into, optional)] name: MaybeProp<String>,
-    #[prop(into, optional)] checked: MaybeProp<bool>,
-    #[prop(into, optional)] default_checked: MaybeProp<bool>,
-    #[prop(into, optional)] on_checked_change: Option<Callback<bool>>,
+    #[prop(into, optional)] checked: MaybeProp<CheckedState>,
+    #[prop(into, optional)] default_checked: MaybeProp<CheckedState>,
+    #[prop(into, optional)] on_checked_change: Option<Callback<CheckedState>>,
     #[prop(into, optional)] required: MaybeProp<bool>,
     #[prop(into, optional)] disabled: MaybeProp<bool>,
     #[prop(into, optional)] value: MaybeProp<String>,
+    #[prop(into, optional)] on_keydown: Option<Callback<KeyboardEvent>>,
     #[prop(into, optional)] on_click: Option<Callback<MouseEvent>>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
@@ -56,22 +89,55 @@ pub fn Switch(
         }),
         default_prop: default_checked,
     });
-    let checked = Signal::derive(move || checked.get().unwrap_or(false));
+    let checked = Signal::derive(move || checked.get().unwrap_or(CheckedState::False));
 
-    let context_value = SwitchContextValue { checked, disabled };
+    let initial_checked_state = RwSignal::new(checked.get_untracked());
+    let handle_reset: Rc<Closure<dyn Fn(Event)>> = Rc::new(Closure::new(move |_| {
+        set_checked.call(Some(initial_checked_state.get_untracked()));
+    }));
+
+    Effect::new({
+        let handle_reset = handle_reset.clone();
+
+        move |_| {
+            if let Some(form) = button_ref
+                .get()
+                .and_then(|button| button.closest("form").ok())
+                .flatten()
+            {
+                form.add_event_listener_with_callback(
+                    "reset",
+                    (*handle_reset).as_ref().unchecked_ref(),
+                )
+                .expect("Reset event listener should be added.");
+            }
+        }
+    });
+
+    on_cleanup(move || {
+        if let Some(form) = button_ref
+            .get()
+            .and_then(|button| button.closest("form").ok())
+            .flatten()
+        {
+            form.remove_event_listener_with_callback(
+                "reset",
+                (*handle_reset).as_ref().unchecked_ref(),
+            )
+            .expect("Reset event listener should be removed.");
+        }
+    });
+
+    let context_value = CheckboxContextValue {
+        state: checked,
+        disabled,
+    };
 
     let mut attrs = attrs.clone();
     attrs.extend([
         ("type", "button".into_attribute()),
-        ("role", "switch".into_attribute()),
-        (
-            "aria-checked",
-            (move || match checked.get() {
-                true => "true",
-                false => "false",
-            })
-            .into_attribute(),
-        ),
+        ("role", "checkbox".into_attribute()),
+        ("aria-checked", checked.into_attribute()),
         (
             "aria-required",
             (move || match required.get() {
@@ -102,13 +168,23 @@ pub fn Switch(
                 as_child=as_child
                 node_ref=composed_refs
                 attrs=attrs
+                on:keydown=compose_callbacks(on_keydown, Some(Callback::new(move |event: KeyboardEvent| {
+                    // According to WAI ARIA, checkboxes don't activate on enter keypress.
+                    if event.key() == "Enter" {
+                        event.prevent_default();
+                    }
+                })), None)
                 on:click=compose_callbacks(on_click, Some(Callback::new(move |event: MouseEvent| {
-                    set_checked.call(Some(!checked.get()));
+                    set_checked.call(Some(match checked.get() {
+                        CheckedState::False => CheckedState::True,
+                        CheckedState::True => CheckedState::False,
+                        CheckedState::Indeterminate => CheckedState::True
+                    }));
 
                     if is_form_control.get() {
-                        // If switch is in a form, stop propagation from the button, so that we only propagate
+                        // If checkbox is in a form, stop propagation from the button, so that we only propagate
                         // one click event (from the input). We propagate changes from an input so that native
-                        // form validation works and form events reflect switch updates.
+                        // form validation works and form events reflect checkbox updates.
                         event.stop_propagation();
                     }
                 })), None)
@@ -131,42 +207,57 @@ pub fn Switch(
 }
 
 #[component]
-pub fn SwitchThumb(
+pub fn CheckboxIndicator(
+    /// Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
+    #[prop(into, optional)]
+    force_mount: MaybeProp<bool>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
-    let children = StoredValue::new(children);
+    let force_mount = Signal::derive(move || force_mount.get().unwrap_or(false));
 
-    let context = expect_context::<SwitchContextValue>();
+    let context = expect_context::<CheckboxContextValue>();
+
+    let present = Signal::derive(move || {
+        force_mount.get()
+            || context.state.get() == CheckedState::Indeterminate
+            || context.state.get() == CheckedState::True
+    });
 
     let mut attrs = attrs.clone();
     attrs.extend([
         (
             "data-state",
-            (move || get_state(context.checked.get())).into_attribute(),
+            (move || get_state(context.state.get())).into_attribute(),
         ),
         (
             "data-disabled",
             (move || context.disabled.get().then_some("")).into_attribute(),
         ),
+        ("style", "pointer-events: none;".into_attribute()),
     ]);
 
+    let attrs = StoredValue::new(attrs);
+    let children = StoredValue::new(children);
+
     view! {
-        <Primitive
-            element=html::span
-            as_child=as_child
-            attrs=attrs
-        >
-            {children.with_value(|children| children.as_ref().map(|children| children()))}
-        </Primitive>
+        <Presence present=present>
+            <Primitive
+                element=html::span
+                as_child=as_child
+                attrs=attrs.get_value()
+            >
+                {children.with_value(|children| children.as_ref().map(|children| children()))}
+            </Primitive>
+        </Presence>
     }
 }
 
 #[component]
 fn BubbleInput(
     #[prop(into)] control_ref: NodeRef<AnyElement>,
-    #[prop(into)] checked: Signal<bool>,
+    #[prop(into)] checked: Signal<CheckedState>,
     #[prop(into)] bubbles: Signal<bool>,
     #[prop(into)] required: Signal<bool>,
     #[prop(into)] disabled: Signal<bool>,
@@ -187,7 +278,12 @@ fn BubbleInput(
                 )
                 .expect("Click event should be instantiated.");
 
-                input.set_checked(checked.get());
+                input.set_indeterminate(is_indeterminiate(checked.get()));
+                input.set_checked(match checked.get() {
+                    CheckedState::False => false,
+                    CheckedState::True => true,
+                    CheckedState::Indeterminate => false,
+                });
 
                 input
                     .dispatch_event(&event)
@@ -201,7 +297,11 @@ fn BubbleInput(
             node_ref=node_ref
             type="checkbox"
             aria-hidden="true"
-            checked=move || checked.get().then_some("")
+            checked=move || (match checked.get() {
+                CheckedState::False => false,
+                CheckedState::True => true,
+                CheckedState::Indeterminate => false,
+            }).then_some("")
             required=move || required.get().then_some("")
             disabled=move || disabled.get().then_some("")
             value=value
@@ -221,10 +321,15 @@ fn BubbleInput(
     }
 }
 
-fn get_state(checked: bool) -> String {
+fn is_indeterminiate(checked: CheckedState) -> bool {
+    checked == CheckedState::Indeterminate
+}
+
+fn get_state(checked: CheckedState) -> String {
     (match checked {
-        true => "checked",
-        false => "unchecked",
+        CheckedState::True => "checked",
+        CheckedState::False => "unchecked",
+        CheckedState::Indeterminate => "indeterminate",
     })
     .into()
 }

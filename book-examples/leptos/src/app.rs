@@ -18,6 +18,13 @@ pub fn App() -> impl IntoView {
             <AvatarDemo />
         });
     }
+    #[cfg(feature = "checkbox")]
+    {
+        use crate::checkbox::CheckboxDemo;
+        views.push(view! {
+            <CheckboxDemo />
+        });
+    }
     #[cfg(feature = "icons")]
     {
         use crate::icons::IconsDemo;

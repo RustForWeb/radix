@@ -4,6 +4,8 @@ mod app;
 mod aspect_ratio;
 #[cfg(feature = "avatar")]
 mod avatar;
+#[cfg(feature = "checkbox")]
+mod checkbox;
 #[cfg(feature = "icons")]
 mod icons;
 #[cfg(feature = "label")]

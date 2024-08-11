@@ -2,6 +2,7 @@
 
 -   [Aspect Ratio](./aspect-ratio.md)
 -   [Avatar](./avatar.md)
+-   [Checkbox](./checkbox.md)
 -   [Label](./label.md)
 -   [Progress](./progress.md)
 -   [Separator](./separator.md)

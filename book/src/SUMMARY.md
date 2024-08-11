@@ -9,7 +9,7 @@
         -   [Alert Dialog]()
         -   [Aspect Ratio](./primitives/components/aspect-ratio.md)
         -   [Avatar](./primitives/components/avatar.md)
-        -   [Checkbox]()
+        -   [Checkbox](./primitives/components/checkbox.md)
         -   [Collapisble]()
         -   [Context Menu]()
         -   [Dialog]()

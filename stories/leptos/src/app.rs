@@ -2,8 +2,8 @@ use leptos::*;
 use leptos_router::{Route, Router, Routes, A};
 
 use crate::primitives::{
-    accessible_icon, arrow, aspect_ratio, avatar, collection, focus_scope, label, menu, popper,
-    portal, presence, progress, separator, slot, switch, toggle, visually_hidden,
+    accessible_icon, arrow, aspect_ratio, avatar, checkbox, collection, focus_scope, label, menu,
+    popper, portal, presence, progress, separator, slot, switch, toggle, visually_hidden,
 };
 
 #[component]
@@ -54,6 +54,18 @@ pub fn App() -> impl IntoView {
                         <ul class="ms-4">
                             <li><A href="/avatar/styled">Styled</A></li>
                             <li><A href="/avatar/chromatic">Chromatic</A></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Checkbox
+
+                        <ul class="ms-4">
+                            <li><A href="/checkbox/styled">Styled</A></li>
+                            <li><A href="/checkbox/controlled">Controlled</A></li>
+                            <li><A href="/checkbox/indeterminate">Indeterminate</A></li>
+                            <li><A href="/checkbox/within-form">Within Form</A></li>
+                            <li><A href="/checkbox/animated">Animated</A></li>
+                            <li><A href="/checkbox/chromatic">Chromatic</A></li>
                         </ul>
                     </li>
                     <li>
@@ -195,6 +207,13 @@ pub fn App() -> impl IntoView {
 
                     <Route path="/avatar/styled" view=avatar::Styled />
                     <Route path="/avatar/chromatic" view=avatar::Chromatic />
+
+                    <Route path="/checkbox/styled" view=checkbox::Styled />
+                    <Route path="/checkbox/controlled" view=checkbox::Controlled />
+                    <Route path="/checkbox/indeterminate" view=checkbox::Indeterminate />
+                    <Route path="/checkbox/within-form" view=checkbox::WithinForm />
+                    <Route path="/checkbox/animated" view=checkbox::Animated />
+                    <Route path="/checkbox/chromatic" view=checkbox::Chromatic />
 
                     <Route path="/collection/basic" view=collection::Basic />
                     <Route path="/collection/with-element-in-between" view=collection::WithElementsInBetween />
