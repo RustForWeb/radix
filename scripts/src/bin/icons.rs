@@ -112,7 +112,7 @@ impl Framework for Leptos {
             #[component]
             pub fn IconsDemo() -> impl IntoView {
                 view! {
-                    <div>
+                    <div class="w-full max-w-[300px]">
                         #(<div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                             <#component_name /><span>#human_name</span>
                         </div>)*
