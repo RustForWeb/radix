@@ -1,15 +1,27 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::primitives::label;
+
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
     #[at("/")]
     Index,
+
+    #[at("/label/styled")]
+    LabelStyled,
+    #[at("/label/with-control")]
+    LabelWithControl,
+    #[at("/label/with-input-number")]
+    LabelWithInputNumber,
 }
 
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Index => html! { <Index /> },
+        Route::LabelStyled => html! { <label::Styled /> },
+        Route::LabelWithControl => html! { <label::WithControl /> },
+        Route::LabelWithInputNumber => html! { <label::WithInputNumber /> },
     }
 }
 
@@ -28,6 +40,15 @@ pub fn App() -> Html {
                 <ul>
                     <li>
                         <Link<Route> to={Route::Index}>{ "Index" }</Link<Route>>
+                    </li>
+                    <li>
+                        {"Label"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::LabelStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::LabelWithControl}>{"With Control"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::LabelWithInputNumber}>{"With Input Number"}</Link<Route>></li>
+                        </ul>
                     </li>
                 </ul>
             </nav>

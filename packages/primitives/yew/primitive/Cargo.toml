@@ -1,0 +1,13 @@
+[package]
+name = "radix-yew-primitive"
+description = "Yew port of Radix Primitive."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+log.workspace = true
+yew.workspace = true
