@@ -13,3 +13,4 @@ version.workspace = true
 radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
 web-sys.workspace = true
 yew.workspace = true
+yew-attrs.workspace = true

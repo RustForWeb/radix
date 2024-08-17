@@ -1,14 +1,14 @@
 use radix_yew_label::*;
 use tailwind_fuse::*;
 use yew::prelude::*;
+use yew_attrs::attrs;
 
 #[function_component]
 pub fn Styled() -> Html {
-    // let root_class = use_memo((), move |_| RootClass::default().to_class());
+    let root_class = use_memo((), move |_| RootClass::default().to_class());
 
     html! {
-        <Label>{"Label"}</Label>
-        // <Label attr:class=root_class>{"Label"}</Label>
+        <Label attrs={attrs! {class={(*root_class).clone()}}}>{"Label"}</Label>
     }
 }
 

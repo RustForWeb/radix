@@ -1,8 +1,6 @@
 use radix_yew_primitive::Primitive;
-use yew::{
-    prelude::*,
-    virtual_dom::{ApplyAttributeAs, Attributes},
-};
+use yew::prelude::*;
+use yew_attrs::Attrs;
 
 #[derive(PartialEq, Properties)]
 pub struct LabelProps {
@@ -11,15 +9,15 @@ pub struct LabelProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attrs: Attrs,
+    #[prop_or_default]
     pub children: Html,
 }
 
 #[function_component]
 pub fn Label(props: &LabelProps) -> Html {
-    let attrs = Attributes::Static(&[("class", "text-[crimson]", ApplyAttributeAs::Attribute)]);
-
     html! {
-        <Primitive element="label" as_child={props.as_child} node_ref={props.node_ref.clone()} attrs={attrs}>
+        <Primitive element="label" as_child={props.as_child} node_ref={props.node_ref.clone()}>
             {props.children.clone()}
         </Primitive>
     }

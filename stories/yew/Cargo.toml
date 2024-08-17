@@ -12,9 +12,10 @@ version.workspace = true
 [dependencies]
 console_log.workspace = true
 console_error_panic_hook.workspace = true
-yew = { workspace = true, features = ["csr"] }
-yew-router.workspace = true
 log.workspace = true
 radix-yew-label = { path = "../../packages/primitives/yew/label" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true
+yew = { workspace = true, features = ["csr"] }
+yew-attrs.workspace = true
+yew-router.workspace = true
