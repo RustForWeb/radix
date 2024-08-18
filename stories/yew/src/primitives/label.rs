@@ -1,7 +1,8 @@
 use radix_yew_label::*;
+use radix_yew_primitive::*;
 use tailwind_fuse::*;
 use yew::prelude::*;
-use yew_attrs::attrs;
+use yew_attrs::{attrs, Attrs};
 
 #[function_component]
 pub fn Styled() -> Html {
@@ -14,39 +15,45 @@ pub fn Styled() -> Html {
 
 #[function_component]
 pub fn WithControl() -> Html {
-    // let control_class = use_memo((), move |_| ControlClass::default().to_class());
+    let control_class = use_memo((), move |_| ControlClass::default().to_class());
 
     html! {
-        // <h1>{"Wrapping control"}</h1>
-        // <Label>
-        //     <Control attr:class=control_class /> Label
-        // </Label>
+        <>
+            <h1>{"Wrapping control"}</h1>
+            <Label>
+                <Control attrs={attrs! {class={(*control_class).clone()}}} />{" Label"}
+            </Label>
 
-        // <h1>{"Referencing control"}</h1>
-        // <Control attr:id="control" attr:class=control_class />
-        // <Label attr:for="control">{"Label"}</Label>
+            <h1>{"Referencing control"}</h1>
+            <Control attrs={attrs! {id="control" class={(*control_class).clone()}}} />
+            <Label attrs={attrs! {for="control"}}>{"Label"}</Label>
+        </>
     }
 }
 
 #[function_component]
 pub fn WithInputNumber() -> Html {
     html! {
-        // <Label>
-        //     <span>{"Name:"}</span>
-        //     <input type="number" />
-        // </Label>
+        <Label>
+            <span>{"Name:"}</span>
+            <input type="number" />
+        </Label>
     }
 }
 
-// #[derive(PartialEq, Properties)]
-// struct ControlProps {}
-
-// #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>
+#[derive(PartialEq, Properties)]
+struct ControlProps {
+    attrs: Attrs,
+}
 
 #[function_component]
-// fn Control(_props: &ControlProps) -> Html {
-fn Control() -> Html {
+fn Control(_props: &ControlProps) -> Html {
+    // TODO: add on click listener to attrs
+    // TODO: add attrs once it is clone: attrs={props.attrs.clone()}
     html! {
+        <Primitive element="button">
+            {"Control"}
+        </Primitive>
         // <button {..attrs} on:click=move |_| window().alert_with_message("clicked").expect("Alert should be successful.")>
         //     {"Control"}
         // </button>

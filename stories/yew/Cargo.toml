@@ -14,6 +14,7 @@ console_log.workspace = true
 console_error_panic_hook.workspace = true
 log.workspace = true
 radix-yew-label = { path = "../../packages/primitives/yew/label" }
+radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true
 yew = { workspace = true, features = ["csr"] }

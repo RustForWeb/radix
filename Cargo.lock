@@ -3034,6 +3034,7 @@ dependencies = [
  "console_log",
  "log",
  "radix-yew-label",
+ "radix-yew-primitive",
  "tailwind_fuse",
  "web-sys",
  "yew",
