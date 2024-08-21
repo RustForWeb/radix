@@ -21,11 +21,12 @@ pub fn Slot(props: &SlotProps) -> Html {
     let slottable = children_list.iter().find(|child| is_slottable(child));
 
     if let Some(_slottable) = slottable {
-        html! {
-            <SlotClone node_ref={props.node_ref.clone()} attrs={props.attrs.clone()}>
-                {props.children.clone()}
-            </SlotClone>
-        }
+        todo!("Slottable as child of Slot")
+        // html! {
+        //     <SlotClone node_ref={props.node_ref.clone()} attrs={props.attrs.clone()}>
+        //         {props.children.clone()}
+        //     </SlotClone>
+        // }
     } else {
         html! {
             <SlotClone node_ref={props.node_ref.clone()} attrs={props.attrs.clone()}>
@@ -67,7 +68,7 @@ fn SlotClone(props: &SlotCloneProps) -> Html {
                 )
                 .into()
         }
-        VNode::VComp(_comp) => todo!(),
+        VNode::VComp(_comp) => todo!("component as child of Slot"),
         _ => VNode::default(),
     }
 }

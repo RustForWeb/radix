@@ -10,11 +10,12 @@ pub fn Slot(props: SlotProps) -> Element {
     let slottable = false;
 
     if slottable {
-        rsx! {
-            SlotClone {
-                {props.children}
-            }
-        }
+        todo!("Slottable as child of Slot")
+        // rsx! {
+        //     SlotClone {
+        //         {props.children}
+        //     }
+        // }
     } else {
         rsx! {
             SlotClone {
