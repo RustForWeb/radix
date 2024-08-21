@@ -1763,9 +1763,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.2.6"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "168fb715dda47215e360912c096649d23d58bf392ac62f73919e831745e40f26"
+checksum = "93ead53efc7ea8ed3cfb0c79fc8023fbb782a5432b52830b6518941cebe6505c"
 dependencies = [
  "equivalent",
  "hashbrown",
@@ -4481,19 +4481,21 @@ dependencies = [
 
 [[package]]
 name = "yew-attrs"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "be620c5259eff1f8c7d79a61718e4cbd292056a84e1972594369ee11ada97efa"
+checksum = "f4e74697b671fa9727e012b29d1b26f5e48add33f29ccc06a258f95768a45b93"
 dependencies = [
+ "indexmap",
+ "thiserror",
  "yew",
  "yew-attrs-macro",
 ]
 
 [[package]]
 name = "yew-attrs-macro"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "73124f8a6b7a4414ea1b28bec3bdde01cbdfe2ef1bdc82cdfc71ae6ec436810a"
+checksum = "ee1d27ebc21e9a01a486372234c21ee3acf69a083c56fd8209a8e1c698a6c6c8"
 dependencies = [
  "once_cell",
  "proc-macro-error",

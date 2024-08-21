@@ -1,6 +1,7 @@
 use radix_yew_label::*;
 use radix_yew_primitive::*;
 use tailwind_fuse::*;
+use web_sys::window;
 use yew::prelude::*;
 use yew_attrs::{attrs, Attrs};
 
@@ -47,16 +48,24 @@ struct ControlProps {
 }
 
 #[function_component]
-fn Control(_props: &ControlProps) -> Html {
-    // TODO: add on click listener to attrs
-    // TODO: add attrs once it is clone: attrs={props.attrs.clone()}
+fn Control(props: &ControlProps) -> Html {
+    let handle_click = use_callback((), |_, _| {
+        window()
+            .expect("Window should exist.")
+            .alert_with_message("clicked")
+            .expect("Alert should be successful.")
+    });
+
+    let attrs = props
+        .attrs
+        .clone()
+        .merge(attrs! { onclick={handle_click} })
+        .expect("Attrs should be merged.");
+
     html! {
-        <Primitive element="button">
+        <Primitive element="button" attrs={attrs}>
             {"Control"}
         </Primitive>
-        // <button {..attrs} on:click=move |_| window().alert_with_message("clicked").expect("Alert should be successful.")>
-        //     {"Control"}
-        // </button>
     }
 }
 

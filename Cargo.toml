@@ -27,6 +27,6 @@ leptos_router = "0.6.13"
 log = "0.4.22"
 tailwind_fuse = { version = "0.3.0", features = ["variant"] }
 yew = "0.21.0"
-yew-attrs = "0.1.2"
+yew-attrs = "0.2.0"
 yew-router = "0.18.0"
 web-sys = "0.3.69"
