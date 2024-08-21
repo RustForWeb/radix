@@ -1,5 +1,5 @@
 use radix_yew_slot::Slot;
-use yew::{prelude::*, virtual_dom::VTag};
+use yew::prelude::*;
 use yew_attrs::Attrs;
 
 #[derive(PartialEq, Properties)]
@@ -24,14 +24,14 @@ pub fn Primitive(props: &PrimitiveProps) -> Html {
             </Slot>
         }
     } else {
-        VTag::__new_other(
-            props.element.clone().into(),
-            props.node_ref.clone(),
-            Default::default(),
-            props.attrs.attributes.clone(),
-            props.attrs.listeners.clone(),
-            props.children.clone(),
-        )
-        .into()
+        props
+            .attrs
+            .clone()
+            .new_vtag(
+                &props.element,
+                props.node_ref.clone(),
+                props.children.clone(),
+            )
+            .into()
     }
 }

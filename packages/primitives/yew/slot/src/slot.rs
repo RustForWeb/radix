@@ -1,10 +1,7 @@
 use std::any::TypeId;
 
 use regex::Regex;
-use yew::{
-    prelude::*,
-    virtual_dom::{VNode, VTag},
-};
+use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::Attrs;
 
 #[derive(PartialEq, Properties)]
@@ -61,16 +58,14 @@ fn SlotClone(props: &SlotCloneProps) -> Html {
                 ))
                 .expect("Attrs should be merged,");
 
-            VTag::__new_other(
-                tag.tag().to_string().into(),
-                props.node_ref.clone(),
-                Default::default(),
-                attrs.attributes,
-                attrs.listeners,
-                tag.children().cloned().unwrap_or_default(),
-            )
+            attrs
+                .new_vtag(
+                    tag.tag(),
+                    props.node_ref.clone(),
+                    tag.children().cloned().unwrap_or_default(),
+                )
+                .into()
         }
-        .into(),
         VNode::VComp(_comp) => todo!(),
         _ => VNode::default(),
     }
