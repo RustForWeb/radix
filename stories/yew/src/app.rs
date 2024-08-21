@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::label;
+use crate::primitives::{label, slot};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
@@ -14,6 +14,17 @@ enum Route {
     LabelWithControl,
     #[at("/label/with-input-number")]
     LabelWithInputNumber,
+
+    #[at("/slot/without-slottable")]
+    SlotWithoutSlottable,
+    #[at("/slot/with-slottable")]
+    SlotWithSlottable,
+    #[at("/slot/with-composed-events")]
+    SlotWithComposedEvents,
+    #[at("/slot/button-as-link")]
+    SlotButtonAsLink,
+    #[at("/slot/chromatic")]
+    SlotChromatic,
 }
 
 fn switch(routes: Route) -> Html {
@@ -22,6 +33,12 @@ fn switch(routes: Route) -> Html {
         Route::LabelStyled => html! { <label::Styled /> },
         Route::LabelWithControl => html! { <label::WithControl /> },
         Route::LabelWithInputNumber => html! { <label::WithInputNumber /> },
+
+        Route::SlotWithoutSlottable => html! { <slot::WithoutSlottable /> },
+        Route::SlotWithSlottable => html! { <slot::WithSlottable /> },
+        Route::SlotWithComposedEvents => html! { <slot::WithComposedEvents /> },
+        Route::SlotButtonAsLink => html! { <slot::ButtonAsLink /> },
+        Route::SlotChromatic => html! { <slot::Chromatic /> },
     }
 }
 
@@ -48,6 +65,17 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::LabelStyled}>{"Styled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::LabelWithControl}>{"With Control"}</Link<Route>></li>
                             <li><Link<Route> to={Route::LabelWithInputNumber}>{"With Input Number"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Slot"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::SlotWithoutSlottable}>{"Without Slottable"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SlotWithSlottable}>{"With Slottable"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SlotWithComposedEvents}>{"With Composed Events"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SlotButtonAsLink}>{"Button As Link"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SlotChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                 </ul>
