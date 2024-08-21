@@ -62,6 +62,7 @@ fn SlotClone(props: &SlotCloneProps) -> Html {
                 .new_vtag(
                     tag.tag(),
                     props.node_ref.clone(),
+                    Default::default(),
                     tag.children().cloned().unwrap_or_default(),
                 )
                 .into()

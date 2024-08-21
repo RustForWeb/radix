@@ -4493,9 +4493,9 @@ dependencies = [
 
 [[package]]
 name = "yew-attrs"
-version = "0.2.2"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f4e36203bd52b4c901bc21d1c3287043859f3b266ddcfee7a2aab2b3ead122c0"
+checksum = "936dc11312a3190c8e15294b25edc59340976129513bf646f7ad9e0b9982f77d"
 dependencies = [
  "indexmap",
  "thiserror",
@@ -4505,9 +4505,9 @@ dependencies = [
 
 [[package]]
 name = "yew-attrs-macro"
-version = "0.2.2"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce1d186ca98db2eff3e60aac0639ee3a52b0d68fbdebc85c513e1c7d9f58fc82"
+checksum = "50ee613821cb3cea7fc4e163924747d7ee07f77d5968e43b30024a84bfb20df2"
 dependencies = [
  "once_cell",
  "proc-macro-error",

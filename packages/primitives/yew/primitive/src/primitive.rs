@@ -30,6 +30,7 @@ pub fn Primitive(props: &PrimitiveProps) -> Html {
             .new_vtag(
                 &props.element,
                 props.node_ref.clone(),
+                Default::default(),
                 props.children.clone(),
             )
             .into()
