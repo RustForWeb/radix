@@ -1,3 +1,4 @@
+use radix_yew_slot::Slot;
 use yew::{prelude::*, virtual_dom::VTag};
 use yew_attrs::Attrs;
 
@@ -16,14 +17,21 @@ pub struct PrimitiveProps {
 
 #[function_component]
 pub fn Primitive(props: &PrimitiveProps) -> Html {
-    let tag = VTag::__new_other(
-        props.element.clone().into(),
-        props.node_ref.clone(),
-        Default::default(),
-        props.attrs.attributes.clone(),
-        props.attrs.listeners.clone(),
-        props.children.clone(),
-    );
-
-    tag.into()
+    if props.as_child {
+        html! {
+            <Slot node_ref={props.node_ref.clone()} attrs={props.attrs.clone()}>
+                {props.children.clone()}
+            </Slot>
+        }
+    } else {
+        VTag::__new_other(
+            props.element.clone().into(),
+            props.node_ref.clone(),
+            Default::default(),
+            props.attrs.attributes.clone(),
+            props.attrs.listeners.clone(),
+            props.children.clone(),
+        )
+        .into()
+    }
 }

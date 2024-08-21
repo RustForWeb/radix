@@ -3022,6 +3022,7 @@ name = "radix-yew-primitive"
 version = "0.0.2"
 dependencies = [
  "log",
+ "radix-yew-slot",
  "yew",
  "yew-attrs",
 ]
