@@ -13,7 +13,8 @@ version.workspace = true
 console_log.workspace = true
 console_error_panic_hook.workspace = true
 dioxus = { workspace = true, features = ["web"] }
-dioxus-router.workspace = true
+dioxus-router = { workspace = true, features = ["web"] }
 log.workspace = true
+radix-dioxus-slot = { path = "../../packages/primitives/dioxus/slot", version = "0.0.2" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true

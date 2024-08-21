@@ -2631,6 +2631,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-dioxus-slot"
+version = "0.0.2"
+dependencies = [
+ "dioxus",
+ "log",
+]
+
+[[package]]
 name = "radix-dioxus-stories"
 version = "0.0.2"
 dependencies = [
@@ -2639,6 +2647,7 @@ dependencies = [
  "dioxus",
  "dioxus-router",
  "log",
+ "radix-dioxus-slot",
  "tailwind_fuse",
  "web-sys",
 ]
