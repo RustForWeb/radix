@@ -8,6 +8,7 @@ An image element with a fallback for representing the user.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["avatar"]
+files = ["src/avatar.rs"]
 ```
 
 {{#endtab }}

@@ -8,6 +8,7 @@ Visually or semantically separates content.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["separator"]
+files = ["src/separator.rs"]
 ```
 
 {{#endtab }}

@@ -8,6 +8,7 @@ Renders an accessible label associated with controls.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["label"]
+files = ["src/label.rs"]
 ```
 
 {{#endtab }}

@@ -8,6 +8,7 @@ Displays an indicator showing the completion progress of a task, typically displ
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["progress"]
+files = ["src/progress.rs"]
 ```
 
 {{#endtab }}

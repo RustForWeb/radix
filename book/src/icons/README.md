@@ -8,6 +8,7 @@ A crisp set of 15×15 icons. All icons are available as individual components.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["icons"]
+files = ["src/icons.rs"]
 ```
 
 {{#endtab }}

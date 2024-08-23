@@ -8,6 +8,7 @@ Displays content within a desired ratio.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["aspect-ratio"]
+files = ["src/aspect_ratio.rs"]
 ```
 
 {{#endtab }}

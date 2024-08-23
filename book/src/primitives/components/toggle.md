@@ -8,6 +8,7 @@ A two-state button that can be either on or off.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["toggle"]
+files = ["src/toggle.rs"]
 ```
 
 {{#endtab }}

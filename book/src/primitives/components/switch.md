@@ -8,6 +8,7 @@ A control that allows the user to toggle between checked and not checked.
 ```toml,trunk
 package = "radix-leptos-book"
 features = ["switch"]
+files = ["src/switch.rs"]
 ```
 
 {{#endtab }}
