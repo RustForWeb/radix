@@ -4,7 +4,7 @@ pub struct ClipboardIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn ClipboardIcon(props: &ClipboardIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

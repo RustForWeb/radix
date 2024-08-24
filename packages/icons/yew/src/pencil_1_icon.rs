@@ -4,7 +4,7 @@ pub struct Pencil1IconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn Pencil1Icon(props: &Pencil1IconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

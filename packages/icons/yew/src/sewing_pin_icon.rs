@@ -4,7 +4,7 @@ pub struct SewingPinIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn SewingPinIcon(props: &SewingPinIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

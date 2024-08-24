@@ -171,7 +171,7 @@ impl Framework for Yew {
                 pub color: AttrValue,
             }
 
-            #[function_component(UseNodeRef)]
+            #[function_component]
             pub fn #component_name(props: &#props_name) -> Html {
                 let node_ref = use_node_ref();
 

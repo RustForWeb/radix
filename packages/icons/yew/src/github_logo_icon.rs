@@ -4,7 +4,7 @@ pub struct GithubLogoIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn GithubLogoIcon(props: &GithubLogoIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

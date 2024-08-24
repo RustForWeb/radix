@@ -4,7 +4,7 @@ pub struct ComponentPlaceholderIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn ComponentPlaceholderIcon(props: &ComponentPlaceholderIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

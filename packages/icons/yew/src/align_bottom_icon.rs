@@ -4,7 +4,7 @@ pub struct AlignBottomIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn AlignBottomIcon(props: &AlignBottomIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

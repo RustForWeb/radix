@@ -4,7 +4,7 @@ pub struct WidthIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn WidthIcon(props: &WidthIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

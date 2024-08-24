@@ -4,7 +4,7 @@ pub struct FontSizeIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn FontSizeIcon(props: &FontSizeIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

@@ -4,7 +4,7 @@ pub struct SectionIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn SectionIcon(props: &SectionIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

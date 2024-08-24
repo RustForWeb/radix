@@ -4,7 +4,7 @@ pub struct StopwatchIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn StopwatchIcon(props: &StopwatchIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

@@ -4,7 +4,7 @@ pub struct ContainerIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn ContainerIcon(props: &ContainerIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

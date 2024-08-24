@@ -4,7 +4,7 @@ pub struct EnvelopeClosedIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn EnvelopeClosedIcon(props: &EnvelopeClosedIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

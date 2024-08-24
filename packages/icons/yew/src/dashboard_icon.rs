@@ -4,7 +4,7 @@ pub struct DashboardIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn DashboardIcon(props: &DashboardIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

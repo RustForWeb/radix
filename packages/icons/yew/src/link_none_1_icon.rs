@@ -4,7 +4,7 @@ pub struct LinkNone1IconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn LinkNone1Icon(props: &LinkNone1IconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

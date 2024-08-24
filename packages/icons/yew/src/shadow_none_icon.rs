@@ -4,7 +4,7 @@ pub struct ShadowNoneIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn ShadowNoneIcon(props: &ShadowNoneIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

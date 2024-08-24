@@ -4,7 +4,7 @@ pub struct LockOpen2IconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn LockOpen2Icon(props: &LockOpen2IconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

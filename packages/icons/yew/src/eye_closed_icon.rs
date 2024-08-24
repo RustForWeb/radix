@@ -4,7 +4,7 @@ pub struct EyeClosedIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn EyeClosedIcon(props: &EyeClosedIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {

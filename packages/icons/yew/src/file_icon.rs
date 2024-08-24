@@ -4,7 +4,7 @@ pub struct FileIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
 }
-#[function_component(UseNodeRef)]
+#[function_component]
 pub fn FileIcon(props: &FileIconProps) -> Html {
     let node_ref = use_node_ref();
     html! {
