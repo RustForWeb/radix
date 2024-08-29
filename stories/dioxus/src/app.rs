@@ -6,6 +6,7 @@ use crate::primitives::slot::{
     WithComposedEvents as SlotWithComposedEvents, WithSlottable as SlotWithSlottable,
     WithoutSlottable as SlotWithoutSlottable,
 };
+use crate::use_node_ref::UseNodeRef;
 
 #[derive(Clone, Routable)]
 #[rustfmt::skip]
@@ -89,6 +90,7 @@ fn Layout() -> Element {
 fn Index() -> Element {
     rsx! {
         h1 { "Radix Dioxus Stories" }
+        UseNodeRef {}
     }
 }
 
