@@ -94,41 +94,51 @@ pub fn Menu(
     let handle_key_down: Rc<Closure<dyn Fn(KeyboardEvent)>> = Rc::new(Closure::new(move |_| {
         is_using_keyboard.set(true);
 
+        let options = AddEventListenerOptions::new();
+        options.set_capture(true);
+        options.set_once(true);
+
         document()
             .add_event_listener_with_callback_and_add_event_listener_options(
                 "pointerdown",
                 (*handle_pointer).as_ref().unchecked_ref(),
-                AddEventListenerOptions::new().capture(true).once(true),
+                &options,
             )
             .expect("Pointer down event listener should be added.");
         document()
             .add_event_listener_with_callback_and_add_event_listener_options(
                 "pointermove",
                 (*handle_pointer).as_ref().unchecked_ref(),
-                AddEventListenerOptions::new().capture(true).once(true),
+                &options,
             )
             .expect("Pointer move event listener should be added.");
     }));
     let cleanup_handle_key_down = handle_key_down.clone();
 
     Effect::new(move |_| {
+        let options = AddEventListenerOptions::new();
+        options.set_capture(true);
+
         // Capture phase ensures we set the boolean before any side effects execute
         // in response to the key or pointer event as they might depend on this value.
         document()
             .add_event_listener_with_callback_and_add_event_listener_options(
                 "keydown",
                 (*handle_key_down).as_ref().unchecked_ref(),
-                AddEventListenerOptions::new().capture(true),
+                &options,
             )
             .expect("Key down event listener should be added.");
     });
 
     on_cleanup(move || {
+        let options = EventListenerOptions::new();
+        options.set_capture(true);
+
         document()
             .remove_event_listener_with_callback_and_event_listener_options(
                 "keydown",
                 (*cleanup_handle_key_down).as_ref().unchecked_ref(),
-                EventListenerOptions::new().capture(true),
+                &options,
             )
             .expect("Key down event listener should be removed.");
 
@@ -136,7 +146,7 @@ pub fn Menu(
             .remove_event_listener_with_callback_and_event_listener_options(
                 "pointerdown",
                 (*cleanup_handle_pointer).as_ref().unchecked_ref(),
-                EventListenerOptions::new().capture(true),
+                &options,
             )
             .expect("Pointer down event listener should be removed.");
 
@@ -144,7 +154,7 @@ pub fn Menu(
             .remove_event_listener_with_callback_and_event_listener_options(
                 "pointermove",
                 (*cleanup_handle_pointer).as_ref().unchecked_ref(),
-                EventListenerOptions::new().capture(true),
+                &options,
             )
             .expect("Pointer move event listener should be removed.");
     });
@@ -653,16 +663,20 @@ pub fn MenuItem(
                 }
             });
 
-            let item_select_event = CustomEvent::new_with_event_init_dict(
-                ITEM_SELECT,
-                CustomEventInit::new().bubbles(true).cancelable(true),
-            )
-            .expect("Item select event should be instantiated.");
+            let init = CustomEventInit::new();
+            init.set_bubbles(true);
+            init.set_cancelable(true);
+
+            let item_select_event = CustomEvent::new_with_event_init_dict(ITEM_SELECT, &init)
+                .expect("Item select event should be instantiated.");
+
+            let options = AddEventListenerOptions::new();
+            options.set_once(true);
 
             item.add_event_listener_with_callback_and_add_event_listener_options(
                 ITEM_SELECT,
                 closure.as_ref().unchecked_ref(),
-                AddEventListenerOptions::new().once(true),
+                &options,
             )
             .expect("Item select event listener should be added.");
             item.dispatch_event(&item_select_event)

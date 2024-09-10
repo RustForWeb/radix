@@ -154,14 +154,15 @@ pub fn FocusScope(
                         .expect("Mutation observer should be created."),
                 ));
 
+                let init = MutationObserverInit::new();
+                init.set_child_list(true);
+                init.set_subtree(true);
+
                 mutation_observer
                     .borrow()
                     .as_ref()
                     .expect("Mutation observer should exist.")
-                    .observe_with_options(
-                        &container,
-                        MutationObserverInit::new().child_list(true).subtree(true),
-                    )
+                    .observe_with_options(&container, &init)
                     .expect("Mutation observer should observe target.");
             }
         }
@@ -200,11 +201,12 @@ pub fn FocusScope(
                     }
                 });
 
-                let mount_event = CustomEvent::new_with_event_init_dict(
-                    AUTOFOCUS_ON_MOUNT,
-                    CustomEventInit::new().bubbles(false).cancelable(true),
-                )
-                .expect("Auto focus on mount event should be instantiated.");
+                let init = CustomEventInit::new();
+                init.set_bubbles(false);
+                init.set_cancelable(true);
+
+                let mount_event = CustomEvent::new_with_event_init_dict(AUTOFOCUS_ON_MOUNT, &init)
+                    .expect("Auto focus on mount event should be instantiated.");
 
                 container
                     .add_event_listener_with_callback(
@@ -241,11 +243,13 @@ pub fn FocusScope(
                         }
                     });
 
-                    let unmount_event = CustomEvent::new_with_event_init_dict(
-                        AUTOFOCUS_ON_UNMOUNT,
-                        CustomEventInit::new().bubbles(false).cancelable(true),
-                    )
-                    .expect("Auto focus on unmount event should be instantiated.");
+                    let init = CustomEventInit::new();
+                    init.set_bubbles(false);
+                    init.set_cancelable(true);
+
+                    let unmount_event =
+                        CustomEvent::new_with_event_init_dict(AUTOFOCUS_ON_UNMOUNT, &init)
+                            .expect("Auto focus on unmount event should be instantiated.");
 
                     container
                         .add_event_listener_with_callback(
@@ -444,8 +448,8 @@ fn get_tabbable_candidates(container: &web_sys::HtmlElement) -> Vec<web_sys::Htm
             3
         });
 
-    let mut node_filter = NodeFilter::new();
-    node_filter.accept_node(accept_node_closure.as_ref().unchecked_ref());
+    let node_filter = NodeFilter::new();
+    node_filter.set_accept_node(accept_node_closure.as_ref().unchecked_ref());
 
     let walker = document()
         // 0x01 is NodeFilter.SHOW_ELEMENT

@@ -181,11 +181,11 @@ fn BubbleInput(
     Effect::new(move |_| {
         if let Some(input) = node_ref.get() {
             if prev_checked.get() != checked.get() {
-                let event = web_sys::Event::new_with_event_init_dict(
-                    "click",
-                    web_sys::EventInit::new().bubbles(bubbles.get()),
-                )
-                .expect("Click event should be instantiated.");
+                let init = web_sys::EventInit::new();
+                init.set_bubbles(bubbles.get());
+
+                let event = web_sys::Event::new_with_event_init_dict("click", &init)
+                    .expect("Click event should be instantiated.");
 
                 input.set_checked(checked.get());
 

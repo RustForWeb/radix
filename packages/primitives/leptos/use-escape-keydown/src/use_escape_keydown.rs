@@ -24,23 +24,29 @@ pub fn use_escape_keydown(
     let cleanup_handle_key_down = handle_key_down.clone();
 
     Effect::new(move |_| {
+        let options = AddEventListenerOptions::new();
+        options.set_capture(true);
+
         owner_document
             .get_value()
             .add_event_listener_with_callback_and_add_event_listener_options(
                 "keydown",
                 (*handle_key_down).as_ref().unchecked_ref(),
-                AddEventListenerOptions::new().capture(true),
+                &options,
             )
             .expect("Key down event listener should be added.");
     });
 
     on_cleanup(move || {
+        let options = EventListenerOptions::new();
+        options.set_capture(true);
+
         owner_document
             .get_value()
             .remove_event_listener_with_callback_and_event_listener_options(
                 "keydown",
                 (*cleanup_handle_key_down).as_ref().unchecked_ref(),
-                EventListenerOptions::new().capture(true),
+                &options,
             )
             .expect("Key down event listener should be removed.");
     });

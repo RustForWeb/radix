@@ -459,7 +459,7 @@ pub fn PopperArrow(
 const TRANSFORM_ORIGIN_NAME: &str = "transformOrigin";
 
 /// Options for [`TransformOrigin`] middleware.
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 struct TransformOriginOptions {
     arrow_width: f64,
     arrow_height: f64,
@@ -472,7 +472,7 @@ struct TransformOriginData {
     pub y: String,
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 struct TransformOrigin {
     options: TransformOriginOptions,
 }

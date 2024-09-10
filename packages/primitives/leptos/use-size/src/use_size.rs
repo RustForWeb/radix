@@ -48,14 +48,14 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
                     .expect("Resize observer should be created."),
             ));
 
+            let options = ResizeObserverOptions::new();
+            options.set_box(ResizeObserverBoxOptions::BorderBox);
+
             resize_observer
                 .borrow()
                 .as_ref()
                 .expect("Resize observer should exist.")
-                .observe_with_options(
-                    element.as_ref(),
-                    ResizeObserverOptions::new().box_(ResizeObserverBoxOptions::BorderBox),
-                );
+                .observe_with_options(element.as_ref(), &options);
         } else {
             // We only want to reset to `None` when the element becomes `None`, not if it changes to another element.
             set_size.set(None);

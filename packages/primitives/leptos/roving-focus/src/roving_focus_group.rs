@@ -231,7 +231,11 @@ fn RovingFocusGroupImpl(
                     let is_keyboard_focus = !is_click_focus.get();
 
                     if event.target() == event.current_target() && is_keyboard_focus && !is_tabbing_back_out.get() {
-                        let entry_focus_event = CustomEvent::new_with_event_init_dict(ENTRY_FOCUS, CustomEventInit::new().bubbles(false).cancelable(true)).expect("Entry focus event should be instantiated.");
+                        let init = CustomEventInit::new();
+                        init.set_bubbles(false);
+                        init.set_cancelable(true);
+
+                        let entry_focus_event = CustomEvent::new_with_event_init_dict(ENTRY_FOCUS, &init).expect("Entry focus event should be instantiated.");
                         event.current_target().expect("Event should have current target.").dispatch_event(&entry_focus_event).expect("Entry focus event should be dispatched.");
 
                         if !entry_focus_event.default_prevented() {
