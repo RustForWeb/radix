@@ -59,7 +59,7 @@ The tables below show the support for the various frameworks.
 | Checkbox               | ❌     | 🚧 [#23](https://github.com/RustForWeb/radix/issues/23) | ❌ [#75](https://github.com/RustForWeb/radix/issues/75)   |
 | Collapsible            | ❌     | ❌ [#24](https://github.com/RustForWeb/radix/issues/24) | ❌ [#76](https://github.com/RustForWeb/radix/issues/76)   |
 | Collection             | ❌     | 🟦 [#25](https://github.com/RustForWeb/radix/issues/25) | ❌ [#77](https://github.com/RustForWeb/radix/issues/77)   |
-| Compose Refs           | ❌     | 🚧 [#26](https://github.com/RustForWeb/radix/issues/26) | ❌ [#78](https://github.com/RustForWeb/radix/issues/78)   |
+| Compose Refs           | ❌     | 🟦 [#26](https://github.com/RustForWeb/radix/issues/26) | 🟦 [#78](https://github.com/RustForWeb/radix/issues/78)   |
 | Context Menu           | ❌     | ❌ [#27](https://github.com/RustForWeb/radix/issues/27) | ❌ [#79](https://github.com/RustForWeb/radix/issues/79)   |
 | Context                | ❌     | ❌ [#28](https://github.com/RustForWeb/radix/issues/28) | ❌ [#80](https://github.com/RustForWeb/radix/issues/80)   |
 | Dialog                 | ❌     | ❌ [#29](https://github.com/RustForWeb/radix/issues/29) | ❌ [#81](https://github.com/RustForWeb/radix/issues/81)   |
