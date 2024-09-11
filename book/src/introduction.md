@@ -53,7 +53,7 @@ The tables below show the support for the various frameworks.
 | Accessible Icon        | ❌     | 🚧 [#17](https://github.com/RustForWeb/radix/issues/17) | ❌ [#69](https://github.com/RustForWeb/radix/issues/69)   |
 | Accordion              | ❌     | ❌ [#18](https://github.com/RustForWeb/radix/issues/18) | ❌ [#70](https://github.com/RustForWeb/radix/issues/70)   |
 | Alert Dialog           | ❌     | ❌ [#19](https://github.com/RustForWeb/radix/issues/19) | ❌ [#71](https://github.com/RustForWeb/radix/issues/71)   |
-| Arrow                  | ❌     | 🚧 [#20](https://github.com/RustForWeb/radix/issues/20) | ❌ [#72](https://github.com/RustForWeb/radix/issues/72)   |
+| Arrow                  | ❌     | 🚧 [#20](https://github.com/RustForWeb/radix/issues/20) | 🚧 [#72](https://github.com/RustForWeb/radix/issues/72)   |
 | Aspect Ratio           | ❌     | 🟦 [#21](https://github.com/RustForWeb/radix/issues/21) | ❌ [#73](https://github.com/RustForWeb/radix/issues/73)   |
 | Avatar                 | ❌     | 🚧 [#22](https://github.com/RustForWeb/radix/issues/22) | ❌ [#74](https://github.com/RustForWeb/radix/issues/74)   |
 | Checkbox               | ❌     | 🚧 [#23](https://github.com/RustForWeb/radix/issues/23) | ❌ [#75](https://github.com/RustForWeb/radix/issues/75)   |

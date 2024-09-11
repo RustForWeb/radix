@@ -17,7 +17,12 @@ pub struct LabelProps {
 #[function_component]
 pub fn Label(props: &LabelProps) -> Html {
     html! {
-        <Primitive element="label" as_child={props.as_child} node_ref={props.node_ref.clone()}>
+        <Primitive
+            element="label"
+            as_child={props.as_child}
+            node_ref={props.node_ref.clone()}
+            attrs={props.attrs.clone()}
+        >
             {props.children.clone()}
         </Primitive>
     }

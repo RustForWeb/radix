@@ -1,12 +1,19 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{label, slot};
+use crate::primitives::{arrow, label, slot};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
     #[at("/")]
     Index,
+
+    #[at("/arrow/styled")]
+    ArrowStyled,
+    #[at("/arrow/custom-sizes")]
+    ArrowCustomSizes,
+    #[at("/arrow/custom-arrow")]
+    ArrowCustomArrow,
 
     #[at("/label/styled")]
     LabelStyled,
@@ -30,6 +37,11 @@ enum Route {
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Index => html! { <Index /> },
+
+        Route::ArrowStyled => html! { <arrow::Styled /> },
+        Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
+        Route::ArrowCustomArrow => html! { <arrow::CustomArrow /> },
+
         Route::LabelStyled => html! { <label::Styled /> },
         Route::LabelWithControl => html! { <label::WithControl /> },
         Route::LabelWithInputNumber => html! { <label::WithInputNumber /> },
@@ -57,6 +69,15 @@ pub fn App() -> Html {
                 <ul>
                     <li>
                         <Link<Route> to={Route::Index}>{ "Index" }</Link<Route>>
+                    </li>
+                    <li>
+                        {"Arrow"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::ArrowStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::ArrowCustomSizes}>{"Custom Sizes"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::ArrowCustomArrow}>{"Custom Arrow"}</Link<Route>></li>
+                        </ul>
                     </li>
                     <li>
                         {"Label"}

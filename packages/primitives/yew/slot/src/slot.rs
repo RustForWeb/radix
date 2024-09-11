@@ -1,10 +1,7 @@
 use std::any::TypeId;
 
 use regex::Regex;
-use yew::{
-    prelude::*,
-    virtual_dom::{Listeners, VNode},
-};
+use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::Attrs;
 
 #[derive(PartialEq, Properties)]
@@ -51,29 +48,37 @@ pub struct SlotCloneProps {
 
 #[function_component]
 fn SlotClone(props: &SlotCloneProps) -> Html {
-    match &props.children {
+    map_vnode(&props.children, props.node_ref.clone(), props.attrs.clone())
+}
+
+fn map_vnode(node: &VNode, node_ref: NodeRef, attrs: Attrs) -> VNode {
+    match node {
         VNode::VTag(tag) => {
-            let attrs = Attrs::new(
-                tag.attributes.clone(),
-                tag.value().cloned(),
-                tag.checked(),
-                // TODO: extract listeners from tag
-                Listeners::None,
-            )
-            .clone()
-            .merge(props.attrs.clone())
-            .expect("Attrs should be merged,");
+            let attrs = Attrs::from((**tag).clone())
+                .merge(attrs)
+                .expect("Attrs should be merged,");
 
             attrs
                 .new_vtag(
                     tag.tag(),
-                    props.node_ref.clone(),
+                    node_ref,
                     Default::default(),
                     tag.children().cloned().unwrap_or_default(),
                 )
                 .into()
         }
         VNode::VComp(_comp) => todo!("component as child of Slot"),
+        VNode::VList(list) => {
+            if list.len() > 1 {
+                VNode::default()
+            } else {
+                map_vnode(
+                    list.first().expect("List item should exist."),
+                    node_ref,
+                    attrs,
+                )
+            }
+        }
         _ => VNode::default(),
     }
 }

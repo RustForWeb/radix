@@ -110,9 +110,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.87"
+version = "1.0.88"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10f00e1f6e58a40e807377c75c6a7f97bf9044fab57816f2414e6f5f4499d7b8"
+checksum = "4e1496f8fb1fbf272686b8d37f523dab3e4a7443300055e74cdaa449f3114356"
 
 [[package]]
 name = "anymap2"
@@ -1838,9 +1838,9 @@ checksum = "f958d3d68f4167080a18141e10381e7634563984a537f2a49a30fd8e53ac5767"
 
 [[package]]
 name = "iri-string"
-version = "0.7.2"
+version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f5f6c2df22c009ac44f6f1499308e7a3ac7ba42cd2378475cc691510e1eef1b"
+checksum = "5f80d71a680f471ab23df28c5cb3e6a5598f96ab5570a2e320b73a44c46db440"
 dependencies = [
  "memchr",
  "serde",
@@ -3052,6 +3052,15 @@ name = "radix-rect"
 version = "0.0.2"
 
 [[package]]
+name = "radix-yew-arrow"
+version = "0.0.2"
+dependencies = [
+ "radix-yew-primitive",
+ "yew",
+ "yew-attrs",
+]
+
+[[package]]
 name = "radix-yew-book"
 version = "0.0.2"
 dependencies = [
@@ -3112,6 +3121,7 @@ dependencies = [
  "console_error_panic_hook",
  "console_log",
  "log",
+ "radix-yew-arrow",
  "radix-yew-label",
  "radix-yew-primitive",
  "radix-yew-slot",
@@ -4143,9 +4153,9 @@ checksum = "08f95100a766bf4f8f28f90d77e0a5461bbdb219042e7679bebe79004fed8d75"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.12"
+version = "1.0.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+checksum = "e91b56cd4cadaeb79bbf1a5645f6b4f8dc5bde8834ad5894a8db35fda9efa1fe"
 
 [[package]]
 name = "unicode-normalization"
@@ -4519,7 +4529,7 @@ dependencies = [
 [[package]]
 name = "yew-attrs"
 version = "0.2.4"
-source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature/set-noderef#ff15df549c8c01c963ede153f57fef255ed0a44b"
+source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature/set-noderef#cbcebd16c99004655c6f75850eeed464c77a27c9"
 dependencies = [
  "indexmap",
  "thiserror",
@@ -4530,7 +4540,7 @@ dependencies = [
 [[package]]
 name = "yew-attrs-macro"
 version = "0.2.4"
-source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature/set-noderef#ff15df549c8c01c963ede153f57fef255ed0a44b"
+source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature/set-noderef#cbcebd16c99004655c6f75850eeed464c77a27c9"
 dependencies = [
  "once_cell",
  "proc-macro-error",
