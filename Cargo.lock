@@ -1038,6 +1038,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "floating-ui-yew"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0785862d2b478e3526c13e10c9486f457007f78499353188ba78d86a169b533b"
+dependencies = [
+ "floating-ui-dom",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3095,6 +3106,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-popper"
+version = "0.0.2"
+dependencies = [
+ "floating-ui-yew",
+ "radix-yew-arrow",
+ "radix-yew-compose-refs",
+ "radix-yew-primitive",
+ "radix-yew-use-size",
+ "serde",
+ "serde_json",
+ "web-sys",
+ "yew",
+ "yew-attrs",
+]
+
+[[package]]
 name = "radix-yew-primitive"
 version = "0.0.2"
 dependencies = [
@@ -3123,6 +3150,7 @@ dependencies = [
  "log",
  "radix-yew-arrow",
  "radix-yew-label",
+ "radix-yew-popper",
  "radix-yew-primitive",
  "radix-yew-slot",
  "tailwind_fuse",

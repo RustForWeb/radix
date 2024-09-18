@@ -7,7 +7,7 @@ use yew_attrs::{attrs, Attrs};
 
 #[function_component]
 pub fn Styled() -> Html {
-    let root_class = use_memo((), move |_| RootClass::default().to_class());
+    let root_class = use_memo((), |_| RootClass::default().to_class());
 
     html! {
         <Label attrs={attrs! {class={(*root_class).clone()}}}>{"Label"}</Label>
@@ -16,7 +16,7 @@ pub fn Styled() -> Html {
 
 #[function_component]
 pub fn WithControl() -> Html {
-    let control_class = use_memo((), move |_| ControlClass::default().to_class());
+    let control_class = use_memo((), |_| ControlClass::default().to_class());
 
     html! {
         <>

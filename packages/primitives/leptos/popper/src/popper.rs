@@ -82,13 +82,13 @@ pub fn PopperAnchor(
     children: ChildrenFn,
 ) -> impl IntoView {
     let context: PopperContextValue = expect_context();
-    let anchor_ref = use_composed_refs(vec![node_ref, context.anchor_ref]);
+    let composed_refs = use_composed_refs(vec![node_ref, context.anchor_ref]);
 
     view! {
         <Primitive
             element=html::div
             as_child=as_child
-            node_ref=anchor_ref
+            node_ref=composed_refs
             attrs=attrs
         >
             {children()}
@@ -145,8 +145,6 @@ pub fn PopperContent(
     let content_ref: NodeRef<AnyElement> = NodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
 
-    let desired_placement = Signal::derive(move || Placement::from((side(), align().alignment())));
-
     let arrow_ref: NodeRef<AnyElement> = NodeRef::new();
     let arrow_size = use_size(arrow_ref);
     let arrow_width = move || {
@@ -161,6 +159,8 @@ pub fn PopperContent(
             .map(|arrow_size| arrow_size.height)
             .unwrap_or(0.0)
     };
+
+    let desired_placement = Signal::derive(move || Placement::from((side(), align().alignment())));
 
     let floating_ref: NodeRef<Div> = NodeRef::new();
 
@@ -327,7 +327,7 @@ pub fn PopperContent(
         .iter()
         .find_map(|(key, value)| (*key == "dir").then_some(value.clone()));
 
-    let content_context = PopperContentContextValue {
+    let content_context_value = PopperContentContextValue {
         placed_side,
         arrow_ref,
         arrow_x,
@@ -356,6 +356,7 @@ pub fn PopperContent(
     view! {
         <div
             _ref={floating_ref}
+            data-radix-popper-content-wrapper=""
             style:position=move || floating_styles.get().style_position()
             style:top=move || floating_styles.get().style_top()
             style:left=move || floating_styles.get().style_left()
@@ -379,7 +380,7 @@ pub fn PopperContent(
             // this is calculated when portalled as well as inline.
             dir={dir}
         >
-            <Provider value={content_context}>
+            <Provider value={content_context_value}>
                 <Primitive
                     element=html::div
                     as_child=as_child

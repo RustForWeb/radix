@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{arrow, label, slot};
+use crate::primitives::{arrow, label, popper, slot};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
@@ -21,6 +21,19 @@ enum Route {
     LabelWithControl,
     #[at("/label/with-input-number")]
     LabelWithInputNumber,
+
+    #[at("/popper/styled")]
+    PopperStyled,
+    #[at("/popper/with-custom-arrow")]
+    PopperWithCustomArrow,
+    #[at("/popper/animated")]
+    PopperAnimated,
+    #[at("/popper/with-portal")]
+    PopperWithPortal,
+    #[at("/popper/with-update-position-strategy-always")]
+    PopperWithUpdatePositionStrategyAlways,
+    #[at("/popper/chromatic")]
+    PopperChromatic,
 
     #[at("/slot/without-slottable")]
     SlotWithoutSlottable,
@@ -45,6 +58,15 @@ fn switch(routes: Route) -> Html {
         Route::LabelStyled => html! { <label::Styled /> },
         Route::LabelWithControl => html! { <label::WithControl /> },
         Route::LabelWithInputNumber => html! { <label::WithInputNumber /> },
+
+        Route::PopperStyled => html! { <popper::Styled /> },
+        Route::PopperWithCustomArrow => html! { <popper::WithCustomArrow /> },
+        Route::PopperAnimated => html! { <popper::Animated /> },
+        Route::PopperWithPortal => html! { <popper::WithPortal /> },
+        Route::PopperWithUpdatePositionStrategyAlways => {
+            html! { <popper::WithUpdatePositionStrategyAlways /> }
+        }
+        Route::PopperChromatic => html! { <popper::Chromatic /> },
 
         Route::SlotWithoutSlottable => html! { <slot::WithoutSlottable /> },
         Route::SlotWithSlottable => html! { <slot::WithSlottable /> },
@@ -86,6 +108,18 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::LabelStyled}>{"Styled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::LabelWithControl}>{"With Control"}</Link<Route>></li>
                             <li><Link<Route> to={Route::LabelWithInputNumber}>{"With Input Number"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Popper"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::PopperStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PopperWithCustomArrow}>{"With Custom Arrow"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PopperAnimated}>{"Animated"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PopperWithPortal}>{"With Portal"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PopperWithUpdatePositionStrategyAlways}>{"With Update Position Strategy Always"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PopperChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>
