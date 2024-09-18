@@ -69,14 +69,14 @@ fn map_vnode(node: &VNode, node_ref: NodeRef, attrs: Attrs) -> VNode {
         }
         VNode::VComp(_comp) => todo!("component as child of Slot"),
         VNode::VList(list) => {
-            if list.len() > 1 {
-                VNode::default()
-            } else {
+            if list.len() == 1 {
                 map_vnode(
                     list.first().expect("List item should exist."),
                     node_ref,
                     attrs,
                 )
+            } else {
+                VNode::default()
             }
         }
         _ => VNode::default(),
