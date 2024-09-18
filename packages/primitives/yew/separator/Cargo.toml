@@ -1,0 +1,15 @@
+[package]
+name = "radix-yew-separator"
+description = "Yew port of Radix Separator."
+homepage = "https://radix.rustforweb.org/primitives/components/separator.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
+yew.workspace = true
+yew-attrs.workspace = true

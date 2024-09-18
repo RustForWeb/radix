@@ -84,7 +84,7 @@ The tables below show the support for the various frameworks.
 | Roving Focus           | ❌     | 🚧 [#48](https://github.com/RustForWeb/radix/issues/48) | ❌ [#100](https://github.com/RustForWeb/radix/issues/100) |
 | Scroll Area            | ❌     | ❌ [#49](https://github.com/RustForWeb/radix/issues/49) | ❌ [#101](https://github.com/RustForWeb/radix/issues/101) |
 | Select                 | ❌     | ❌ [#50](https://github.com/RustForWeb/radix/issues/50) | ❌ [#102](https://github.com/RustForWeb/radix/issues/102) |
-| Separator              | ❌     | 🟦 [#51](https://github.com/RustForWeb/radix/issues/51) | ❌ [#103](https://github.com/RustForWeb/radix/issues/103) |
+| Separator              | ❌     | 🟦 [#51](https://github.com/RustForWeb/radix/issues/51) | 🟦 [#103](https://github.com/RustForWeb/radix/issues/103) |
 | Slider                 | ❌     | ❌ [#52](https://github.com/RustForWeb/radix/issues/52) | ❌ [#104](https://github.com/RustForWeb/radix/issues/104) |
 | Slot                   | ❌     | 🚧 [#53](https://github.com/RustForWeb/radix/issues/53) | 🚧 [#105](https://github.com/RustForWeb/radix/issues/105) |
 | Switch                 | ❌     | 🟦 [#54](https://github.com/RustForWeb/radix/issues/54) | ❌ [#106](https://github.com/RustForWeb/radix/issues/106) |

@@ -1,5 +1,8 @@
 mod app;
 
+#[cfg(feature = "separator")]
+mod separator;
+
 use crate::app::App;
 
 pub fn main() {

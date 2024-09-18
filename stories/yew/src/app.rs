@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{arrow, label, popper, slot};
+use crate::primitives::{arrow, label, popper, separator, slot};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
@@ -35,6 +35,9 @@ enum Route {
     #[at("/popper/chromatic")]
     PopperChromatic,
 
+    #[at("/separator/styled")]
+    SeparatorStyled,
+
     #[at("/slot/without-slottable")]
     SlotWithoutSlottable,
     #[at("/slot/with-slottable")]
@@ -67,6 +70,8 @@ fn switch(routes: Route) -> Html {
             html! { <popper::WithUpdatePositionStrategyAlways /> }
         }
         Route::PopperChromatic => html! { <popper::Chromatic /> },
+
+        Route::SeparatorStyled => html! { <separator::Styled /> },
 
         Route::SlotWithoutSlottable => html! { <slot::WithoutSlottable /> },
         Route::SlotWithSlottable => html! { <slot::WithSlottable /> },
@@ -120,6 +125,13 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::PopperWithPortal}>{"With Portal"}</Link<Route>></li>
                             <li><Link<Route> to={Route::PopperWithUpdatePositionStrategyAlways}>{"With Update Position Strategy Always"}</Link<Route>></li>
                             <li><Link<Route> to={Route::PopperChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Separator"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::SeparatorStyled}>{"Styled"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

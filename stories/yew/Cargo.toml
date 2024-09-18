@@ -17,6 +17,7 @@ radix-yew-arrow = { path = "../../packages/primitives/yew/arrow" }
 radix-yew-label = { path = "../../packages/primitives/yew/label" }
 radix-yew-popper = { path = "../../packages/primitives/yew/popper" }
 radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
+radix-yew-separator = { path = "../../packages/primitives/yew/separator" }
 radix-yew-slot = { path = "../../packages/primitives/yew/slot" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true

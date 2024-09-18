@@ -394,10 +394,7 @@ pub fn PopperContent(props: &PopperContentProps) -> Html {
             data-align={format!("{:?}", placed_align).to_lowercase()}
             // If the PopperContent hasn't been placed yet (not all measurements done),
             // we prevent animations so that users's animation don't kick in too early referring wrong sides.
-            style={match *is_positioned {
-                true => "",
-                false => "animation: none;"
-            }}
+            style={(!(*is_positioned)).then_some("animation: none;")}
         })
         .expect("Attributes should be merged.");
 

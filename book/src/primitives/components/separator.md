@@ -12,6 +12,15 @@ files = ["src/separator.rs"]
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```toml,trunk
+package = "radix-yew-book"
+features = ["separator"]
+files = ["src/separator.rs"]
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Features
@@ -32,6 +41,17 @@ cargo add radix-leptos-separator
 -   [View on crates.io](https://crates.io/crates/radix-leptos-separator)
 -   [View on docs.rs](https://docs.rs/radix-leptos-separator/latest/radix_leptos_separator/)
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/separator)
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-separator
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-separator)
+-   [View on docs.rs](https://docs.rs/radix-yew-separator/latest/radix_yew_separator/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/separator)
 
 {{#endtab }}
 {{#endtabs }}
@@ -56,6 +76,21 @@ fn Anatomy() -> impl IntoView {
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_separator::*;
+use yew::prelude::*;
+
+#[component]
+fn Anatomy() -> Html {
+    html! {
+        <Separator />
+    }
+}
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## API Reference
@@ -72,6 +107,15 @@ The separator.
 | `as_child`    | `MaybeProp<bool>`        | `false`                   |
 | `orientation` | `MaybeProp<Orientation>` | `Orientation::Horizontal` |
 | `decorative`  | `MaybeProp<bool>`        | `false`                   |
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop          | Type          | Default                   |
+| ------------- | ------------- | ------------------------- |
+| `as_child`    | `bool`        | `false`                   |
+| `orientation` | `Orientation` | `Orientation::Horizontal` |
+| `decorative`  | `bool`        | `false`                   |
 
 {{#endtab }}
 {{#endtabs }}
