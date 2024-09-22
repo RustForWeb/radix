@@ -39,3 +39,4 @@
         -   [Portal](./primitives/utilities/portal.md)
         -   [Slot](./primitives/utilities/slot.md)
         -   [Visually Hidden](./primitives/utilities/visually-hidden.md)
+-   [Themes](./themes/README.md)

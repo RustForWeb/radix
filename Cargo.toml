@@ -4,6 +4,7 @@ members = [
     "packages/colors",
     "packages/icons/*",
     "packages/primitives/*/*",
+    "packages/themes/*",
     "scripts",
     "stories/*",
 ]

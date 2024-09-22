@@ -15,6 +15,7 @@ Rust Radix consists of the following parts:
 -   [Colors](./colors)
 -   [Icons](./icons)
 -   [Primitives](./primitives)
+-   [Themes](./themes)
 
 ## Frameworks
 
@@ -102,6 +103,12 @@ The tables below show the support for the various frameworks.
 | Use Rect               | ❌     | ❌ [#64](https://github.com/RustForWeb/radix/issues/64) | ❌ [#116](https://github.com/RustForWeb/radix/issues/116) |
 | Use Size               | ❌     | 🟦 [#65](https://github.com/RustForWeb/radix/issues/65) | 🟦 [#117](https://github.com/RustForWeb/radix/issues/117) |
 | Visually Hidden        | ❌     | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | ❌ [#118](https://github.com/RustForWeb/radix/issues/118) |
+
+### Themes Support
+
+| Name   | Dioxus | Leptos | Yew |
+| ------ | ------ | ------ | --- |
+| Themes | ❌     | 🚧     | 🚧  |
 
 ## License
 

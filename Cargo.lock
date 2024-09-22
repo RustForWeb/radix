@@ -3001,6 +3001,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-themes"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
 name = "radix-leptos-toggle"
 version = "0.0.2"
 dependencies = [
@@ -3170,6 +3177,14 @@ dependencies = [
  "yew",
  "yew-attrs",
  "yew-router",
+]
+
+[[package]]
+name = "radix-yew-themes"
+version = "0.0.2"
+dependencies = [
+ "yew",
+ "yew-attrs",
 ]
 
 [[package]]

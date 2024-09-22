@@ -1,0 +1,13 @@
+[package]
+name = "radix-leptos-themes"
+description = "Leptos port of Radix Themes."
+homepage = "https://radix.rustforweb.org/themes/index.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
