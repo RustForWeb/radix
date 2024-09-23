@@ -106,9 +106,67 @@ The tables below show the support for the various frameworks.
 
 ### Themes Support
 
-| Name   | Dioxus | Leptos | Yew |
-| ------ | ------ | ------ | --- |
-| Themes | ❌     | 🚧     | 🚧  |
+| Name              | Dioxus | Leptos | Yew |
+| ----------------- | ------ | ------ | --- |
+| Accessible Icon   | ❌     | ❌     | ❌  |
+| Alert Dialog      | ❌     | ❌     | ❌  |
+| Aspect Ratio      | ❌     | ❌     | ❌  |
+| Avatar            | ❌     | ❌     | ❌  |
+| Badge             | ❌     | ❌     | ❌  |
+| Base-button       | ❌     | ❌     | ❌  |
+| Blockquote        | ❌     | ❌     | ❌  |
+| Box               | ❌     | ❌     | ❌  |
+| Button            | ❌     | ❌     | ❌  |
+| Callout           | ❌     | ❌     | ❌  |
+| Card              | ❌     | ❌     | ❌  |
+| Checkbox Cards    | ❌     | ❌     | ❌  |
+| Checkbox Group    | ❌     | ❌     | ❌  |
+| Checkbox          | ❌     | ❌     | ❌  |
+| Code              | ❌     | ❌     | ❌  |
+| Container         | ❌     | ❌     | ❌  |
+| Context Menu      | ❌     | ❌     | ❌  |
+| Data List         | ❌     | ❌     | ❌  |
+| Dialog            | ❌     | ❌     | ❌  |
+| Dropdown Menu     | ❌     | ❌     | ❌  |
+| Em                | ❌     | ❌     | ❌  |
+| Flex              | ❌     | ❌     | ❌  |
+| Grid              | ❌     | ❌     | ❌  |
+| Heading           | ❌     | ❌     | ❌  |
+| Hover Card        | ❌     | ❌     | ❌  |
+| Icon Button       | ❌     | ❌     | ❌  |
+| Icons             | ❌     | ❌     | ❌  |
+| Inset             | ❌     | ❌     | ❌  |
+| Kbd               | ❌     | ❌     | ❌  |
+| Link              | ❌     | ❌     | ❌  |
+| Popover           | ❌     | ❌     | ❌  |
+| Portal            | ❌     | ❌     | ❌  |
+| Progress          | ❌     | ❌     | ❌  |
+| Quote             | ❌     | ❌     | ❌  |
+| Radio Cards       | ❌     | ❌     | ❌  |
+| Radio Group       | ❌     | ❌     | ❌  |
+| Radio             | ❌     | ❌     | ❌  |
+| Reset             | ❌     | ❌     | ❌  |
+| Scroll Area       | ❌     | ❌     | ❌  |
+| Section           | ❌     | ❌     | ❌  |
+| Segmented Control | ❌     | ❌     | ❌  |
+| Select            | ❌     | ❌     | ❌  |
+| Separator         | ❌     | ❌     | ❌  |
+| Skeleton          | ❌     | ❌     | ❌  |
+| Slider            | ❌     | ❌     | ❌  |
+| Slot              | ❌     | ❌     | ❌  |
+| Spinner           | ❌     | ❌     | ❌  |
+| Strong            | ❌     | ❌     | ❌  |
+| Switch            | ❌     | ❌     | ❌  |
+| Table             | ❌     | ❌     | ❌  |
+| Tab Nav           | ❌     | ❌     | ❌  |
+| Tabs              | ❌     | ❌     | ❌  |
+| Text Area         | ❌     | ❌     | ❌  |
+| Text Field        | ❌     | ❌     | ❌  |
+| Text              | ❌     | ❌     | ❌  |
+| Theme Panel       | ❌     | ❌     | ❌  |
+| Theme             | ❌     | ❌     | ❌  |
+| Tooltip           | ❌     | ❌     | ❌  |
+| Visually Hidden   | ❌     | ❌     | ❌  |
 
 ## License
 
