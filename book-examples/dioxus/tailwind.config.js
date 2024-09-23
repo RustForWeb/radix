@@ -5,9 +5,7 @@ module.exports = {
     content: ['*.html', './src/**/*.rs'],
     theme: {
         extend: {
-            colors: {
-                ...colors
-            }
+            colors: Object.assign({}, ...Object.values(colors))
         }
     },
     plugins: []
