@@ -3147,6 +3147,7 @@ dependencies = [
  "radix-yew-compose-refs",
  "radix-yew-popper",
  "radix-yew-primitive",
+ "web-sys",
  "yew",
  "yew-attrs",
 ]

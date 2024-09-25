@@ -19,7 +19,7 @@ pub fn Styled() -> Html {
             {POSITIONS.iter().map(|position| html! {
                 <Label key={position.to_string()}>
                     {"Choose a number:"}
-                    <Select>
+                    <Select default_value="two">
                         <SelectTrigger attrs={attrs! { class={(*trigger_class).clone()} }}>
                             <SelectValue />
                             <SelectIcon />
