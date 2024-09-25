@@ -3141,6 +3141,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-select"
+version = "0.0.2"
+dependencies = [
+ "radix-yew-compose-refs",
+ "radix-yew-popper",
+ "radix-yew-primitive",
+ "yew",
+ "yew-attrs",
+]
+
+[[package]]
 name = "radix-yew-separator"
 version = "0.0.2"
 dependencies = [
@@ -3170,6 +3181,7 @@ dependencies = [
  "radix-yew-label",
  "radix-yew-popper",
  "radix-yew-primitive",
+ "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-slot",
  "tailwind_fuse",

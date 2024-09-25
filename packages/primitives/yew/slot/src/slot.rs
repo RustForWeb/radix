@@ -67,7 +67,11 @@ fn map_vnode(node: &VNode, node_ref: NodeRef, attrs: Attrs) -> VNode {
                 )
                 .into()
         }
-        VNode::VComp(_comp) => todo!("component as child of Slot"),
+        VNode::VComp(comp) => {
+            log::warn!("Component as child of Slot is not yet supported. The component is rendered without passing along attributes.");
+
+            VNode::VComp(comp.clone())
+        }
         VNode::VList(list) => {
             if list.len() == 1 {
                 map_vnode(
