@@ -988,9 +988,9 @@ checksum = "0ce7134b9999ecaf8bcd65542e436736ef32ddca1b3e06094cb6ec5755203b80"
 
 [[package]]
 name = "floating-ui-core"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "84964b0273989ba2bcc697d621145fdfb2d8a6fb0ce15591cb8b95f67ee51424"
+checksum = "325be1fb18f6e7ead2f8f211894d3a0dad2c5ac4df61ab0c3665f7ae0272b1c0"
 dependencies = [
  "dyn_derive",
  "dyn_std",
@@ -1001,9 +1001,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-dom"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2ba4328498d03d7788af5502c047d5a644abac5a07855722eebfa7eb33035d1f"
+checksum = "eda2819572613b9f51b63bc5cdd652aaca943bea7178b82be7f71a0c2d018bd1"
 dependencies = [
  "floating-ui-core",
  "floating-ui-utils",
@@ -1012,9 +1012,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-leptos"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7dcb26a61b8de54ef1ea777750fe72bee42ccc3617407dada4f4e07179939e4e"
+checksum = "dd33d79bf994068987de452d82357edd9b6c6af505cec0f072a5b18fbba0f8e2"
 dependencies = [
  "dyn_derive",
  "dyn_std",
@@ -1026,9 +1026,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-utils"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "385fe37038ddc7674a64c7f3d18adeadaac8e3bd4772760f826e382719cc8f40"
+checksum = "8f8cf433c25a3c2127c1359c97da03de78ec6785e927ffc73f383cb691b9965c"
 dependencies = [
  "cfg-if",
  "dyn_derive",
@@ -1039,9 +1039,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-yew"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0785862d2b478e3526c13e10c9486f457007f78499353188ba78d86a169b533b"
+checksum = "a5187c4d5298faad1502f3686bfd9c3fc8fe21a9d50666ef8c0ceeeeda2fc3b8"
 dependencies = [
  "floating-ui-dom",
  "web-sys",
