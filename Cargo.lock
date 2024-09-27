@@ -3208,6 +3208,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-use-previous"
+version = "0.0.2"
+dependencies = [
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-use-size"
 version = "0.0.2"
 dependencies = [
