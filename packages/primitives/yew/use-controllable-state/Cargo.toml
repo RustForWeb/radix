@@ -1,0 +1,12 @@
+[package]
+name = "radix-yew-use-controllable-state"
+description = "Yew port of Radix Use Controllable State."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+yew.workspace = true
