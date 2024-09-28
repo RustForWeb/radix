@@ -5,6 +5,7 @@ use std::{
 
 use radix_yew_compose_refs::use_composed_refs;
 use radix_yew_direction::{use_direction, Direction};
+use radix_yew_focus_guards::use_focus_guards;
 use radix_yew_id::use_id;
 use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_yew_primitive::{compose_callbacks, Primitive};
