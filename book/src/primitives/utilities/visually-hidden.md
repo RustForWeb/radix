@@ -22,6 +22,17 @@ cargo add radix-leptos-visually-hidden
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/visually-hidden)
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-visually-hidden
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-visually-hidden)
+-   [View on docs.rs](https://docs.rs/radix-yew-visually-hidden/latest/radix_yew_visually_hidden/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/visually-hidden)
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Anatomy
@@ -44,6 +55,21 @@ fn Anatomy() -> impl IntoView {
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_visually_hidden::*;
+use yew::prelude::*;
+
+#[function_component]
+fn Anatomy() -> Html {
+    html! {
+        <VisuallyHidden />
+    }
+}
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## API Reference
@@ -60,6 +86,13 @@ Anything you put inside this component will be hidden from the screen but will b
 | `as_child` | `MaybeProp<bool>` | `false` |
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop       | Type   | Default |
+| ---------- | ------ | ------- |
+| `as_child` | `bool` | `false` |
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Example
@@ -72,6 +105,7 @@ Use the visually hidden primitive.
 ```rust,ignore
 use leptos::*;
 use radix_leptos_visually_hidden::*;
+use radix_leptos_icons::GearIcon;
 
 #[component]
 fn Example() -> impl IntoView {
@@ -79,6 +113,25 @@ fn Example() -> impl IntoView {
         <button>
             <GearIcon />
             <VisuallyHidden>Settings</VisuallyHidden>
+        </button>
+    }
+}
+```
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_visually_hidden::*;
+use radix_yew_icons::GearIcon;
+use yew::prelude::*;
+
+#[component]
+fn Example() -> impl IntoView {
+    view! {
+        <button>
+            <GearIcon />
+            <VisuallyHidden>{"Settings"}</VisuallyHidden>
         </button>
     }
 }

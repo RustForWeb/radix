@@ -3207,6 +3207,7 @@ dependencies = [
  "radix-yew-separator",
  "radix-yew-slot",
  "radix-yew-switch",
+ "radix-yew-visually-hidden",
  "tailwind_fuse",
  "web-sys",
  "yew",
@@ -3256,6 +3257,15 @@ version = "0.0.2"
 dependencies = [
  "web-sys",
  "yew",
+]
+
+[[package]]
+name = "radix-yew-visually-hidden"
+version = "0.0.2"
+dependencies = [
+ "radix-yew-primitive",
+ "yew",
+ "yew-attrs",
 ]
 
 [[package]]

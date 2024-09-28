@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{arrow, label, popper, select, separator, slot, switch};
+use crate::primitives::{arrow, label, popper, select, separator, slot, switch, visually_hidden};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
@@ -102,6 +102,9 @@ enum Route {
     SwitchWithinForm,
     #[at("/switch/chromatic")]
     SwitchChromatic,
+
+    #[at("/visually-hidden/basic")]
+    VisuallyHiddenBasic,
 }
 
 fn switch(routes: Route) -> Html {
@@ -176,6 +179,8 @@ fn switch(routes: Route) -> Html {
         Route::SwitchControlled => html! { <switch::Controlled /> },
         Route::SwitchWithinForm => html! { <switch::WithinForm /> },
         Route::SwitchChromatic => html! { <switch::Chromatic /> },
+
+        Route::VisuallyHiddenBasic => html! { <visually_hidden::Basic /> },
     }
 }
 
@@ -279,6 +284,13 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::SwitchControlled}>{"Controlled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::SwitchWithinForm}>{"Within Form"}</Link<Route>></li>
                             <li><Link<Route> to={Route::SwitchChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Visually Hidden"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::VisuallyHiddenBasic}>{"Basic"}</Link<Route>></li>
                         </ul>
                     </li>
                 </ul>
