@@ -1,7 +1,9 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{arrow, label, popper, select, separator, slot, switch, visually_hidden};
+use crate::primitives::{
+    arrow, collection, label, popper, select, separator, slot, switch, visually_hidden,
+};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
@@ -14,6 +16,21 @@ enum Route {
     ArrowCustomSizes,
     #[at("/arrow/custom-arrow")]
     ArrowCustomArrow,
+
+    #[at("/collection/basic")]
+    CollectionBasic,
+    #[at("/collection/with-elements-in-between")]
+    CollectionWithElementsInBetween,
+    #[at("/collection/with-wrapped-item")]
+    CollectionWithWrappedItem,
+    #[at("/collection/with-fragment")]
+    CollectionWithFragment,
+    #[at("/collection/dynamic-insertion")]
+    CollectionDynamicInsertion,
+    #[at("/collection/with-changing-item")]
+    CollectionWithChangingItem,
+    #[at("/collection/nested")]
+    CollectionNested,
 
     #[at("/label/styled")]
     LabelStyled,
@@ -115,6 +132,14 @@ fn switch(routes: Route) -> Html {
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
         Route::ArrowCustomArrow => html! { <arrow::CustomArrow /> },
 
+        Route::CollectionBasic => html! { <collection::Basic /> },
+        Route::CollectionWithElementsInBetween => html! { <collection::WithElementsInBetween /> },
+        Route::CollectionWithWrappedItem => html! { <collection::WithWrappedItem /> },
+        Route::CollectionWithFragment => html! { <collection::WithFragment /> },
+        Route::CollectionDynamicInsertion => html! { <collection::DynamicInsertion /> },
+        Route::CollectionWithChangingItem => html! { <collection::WithChangingItem /> },
+        Route::CollectionNested => html! { <collection::Nested /> },
+
         Route::LabelStyled => html! { <label::Styled /> },
         Route::LabelWithControl => html! { <label::WithControl /> },
         Route::LabelWithInputNumber => html! { <label::WithInputNumber /> },
@@ -207,6 +232,19 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::ArrowStyled}>{"Styled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::ArrowCustomSizes}>{"Custom Sizes"}</Link<Route>></li>
                             <li><Link<Route> to={Route::ArrowCustomArrow}>{"Custom Arrow"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Collection"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::CollectionBasic}>{"Basic"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CollectionWithElementsInBetween}>{"With Elements In Between"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CollectionWithWrappedItem}>{"With Wrapped Item"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CollectionWithFragment}>{"With Fragment"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CollectionDynamicInsertion}>{"Dynamic Insertion"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CollectionWithChangingItem}>{"With Changing Item"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CollectionNested}>{"Nested"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

@@ -1,4 +1,5 @@
 pub mod arrow;
+pub mod collection;
 pub mod label;
 pub mod popper;
 pub mod select;

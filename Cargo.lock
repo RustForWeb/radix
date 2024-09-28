@@ -3096,6 +3096,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-collection"
+version = "0.0.2"
+dependencies = [
+ "nanoid",
+ "radix-yew-compose-refs",
+ "radix-yew-slot",
+ "web-sys",
+ "yew",
+ "yew-attrs",
+]
+
+[[package]]
 name = "radix-yew-compose-refs"
 version = "0.0.2"
 dependencies = [
@@ -3209,6 +3221,7 @@ dependencies = [
  "console_log",
  "log",
  "radix-yew-arrow",
+ "radix-yew-collection",
  "radix-yew-label",
  "radix-yew-popper",
  "radix-yew-primitive",

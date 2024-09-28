@@ -1,0 +1,226 @@
+use radix_yew_collection::*;
+use yew::prelude::*;
+use yew_attrs::{attrs, Attrs};
+
+#[function_component]
+pub fn Basic() -> Html {
+    html! {
+        <List>
+            <Item>{"Red"}</Item>
+            <Item disabled=true>{"Green"}</Item>
+            <Item>{"Blue"}</Item>
+            <LogItems />
+        </List>
+    }
+}
+
+#[function_component]
+pub fn WithElementsInBetween() -> Html {
+    html! {
+        <List>
+            <div style="font-variant: small-caps;">{"Colors"}</div>
+            <Item>{"Red"}</Item>
+            <Item disabled=true>{"Green"}</Item>
+            <Item>{"Blue"}</Item>
+            <div style="font-variant: small-caps;">{"Words"}</div>
+            <Item>{"Hello"}</Item>
+            <Item>{"World"}</Item>
+            <LogItems />
+        </List>
+    }
+}
+#[function_component]
+fn Tomato() -> Html {
+    html! {
+        <Item attrs={attrs! { style="color: tomato;" }}>{"Tomato"}</Item>
+    }
+}
+
+#[function_component]
+pub fn WithWrappedItem() -> Html {
+    html! {
+        <List>
+            <Item>{"Red"}</Item>
+            <Item disabled=true>{"Green"}</Item>
+            <Item>{"Blue"}</Item>
+            <Tomato />
+            <LogItems />
+        </List>
+    }
+}
+
+#[function_component]
+pub fn WithFragment() -> Html {
+    let countries = html! {
+        <>
+            <Item>{"France"}</Item>
+            <Item disabled=true>{"UK"}</Item>
+            <Item>{"Spain"}</Item>
+        </>
+    };
+
+    html! {
+        <List>
+            {countries}
+            <LogItems />
+        </List>
+    }
+}
+
+#[function_component]
+pub fn DynamicInsertion() -> Html {
+    let has_tomato = use_state_eq(|| false);
+
+    let on_click = use_callback(has_tomato.clone(), |_, has_tomato| {
+        has_tomato.set(!**has_tomato)
+    });
+
+    html! {
+        <>
+            <button onclick={on_click}>
+                {match *has_tomato {
+                    true => "Remove",
+                    false => "Add"
+                }}
+            </button>
+
+            <List>
+                <WrappedItems has_tomato={*has_tomato} />
+                <LogItems />
+            </List>
+        </>
+    }
+}
+
+#[derive(PartialEq, Properties)]
+struct WrappedItemsProps {
+    has_tomato: bool,
+}
+
+#[function_component]
+fn WrappedItems(props: &WrappedItemsProps) -> Html {
+    html! {
+        <>
+            <Item>{"Red"}</Item>
+            if props.has_tomato {
+                <Tomato />
+            }
+            <Item disabled=true>{"Green"}</Item>
+            <Item>{"Blue"}</Item>
+        </>
+    }
+}
+
+#[function_component]
+pub fn WithChangingItem() -> Html {
+    let is_disabled = use_state_eq(|| false);
+
+    let on_click = use_callback(is_disabled.clone(), |_, is_disabled| {
+        is_disabled.set(!**is_disabled)
+    });
+
+    html! {
+        <>
+            <button onclick={on_click}>
+                {match *is_disabled {
+                    true => "Enable",
+                    false => "Disable"
+                }}
+            </button>
+
+            <List>
+                <Item>{"Red"}</Item>
+                <Item disabled={*is_disabled}>{"Green"}</Item>
+                <Item>{"Blue"}</Item>
+                <LogItems />
+            </List>
+        </>
+    }
+}
+
+#[function_component]
+pub fn Nested() -> Html {
+    html! {
+        <List>
+            <Item>{"1"}</Item>
+            <Item>
+                {"2"}
+                <List>
+                    <Item>{"2.1"}</Item>
+                    <Item>{"2.2"}</Item>
+                    <Item>{"2.3"}</Item>
+                    <LogItems name="items inside 2" />
+                </List>
+            </Item>
+            <Item>{"3"}</Item>
+            <LogItems name="top-level items" />
+        </List>
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+struct ItemData {
+    #[allow(dead_code)]
+    disabled: bool,
+}
+
+#[derive(PartialEq, Properties)]
+struct ListProps {
+    #[prop_or_default]
+    pub children: Html,
+}
+
+#[function_component]
+fn List(props: &ListProps) -> Html {
+    html! {
+        <CollectionProvider<ItemData>>
+            <CollectionSlot<ItemData>>
+                <ul style="width: 200px;">
+                    {props.children.clone()}
+                </ul>
+            </CollectionSlot<ItemData>>
+        </CollectionProvider<ItemData>>
+    }
+}
+
+#[derive(PartialEq, Properties)]
+struct ItemProps {
+    #[prop_or(false)]
+    disabled: bool,
+    #[prop_or_default]
+    attrs: Attrs,
+    #[prop_or_default]
+    children: Html,
+}
+
+#[function_component]
+fn Item(props: &ItemProps) -> Html {
+    let item_data = use_memo(props.disabled, |disabled| ItemData {
+        disabled: *disabled,
+    });
+
+    html! {
+        <CollectionItemSlot<ItemData> item_data={(*item_data).clone()} attrs={props.attrs.clone()}>
+            <li style={props.disabled.then_some("opacity: 0.3;")}>
+                {props.children.clone()}
+            </li>
+        </CollectionItemSlot<ItemData>>
+    }
+}
+
+#[derive(PartialEq, Properties)]
+struct LogItemsProps {
+    #[prop_or("items".to_string())]
+    name: String,
+}
+
+#[function_component]
+fn LogItems(props: &LogItemsProps) -> Html {
+    let get_items = use_collection::<ItemData>();
+
+    use_effect_with(props.name.clone(), move |name| {
+        log::info!("{} {:?}", name, get_items());
+    });
+
+    html! {}
+}

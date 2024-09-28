@@ -1,0 +1,217 @@
+use std::rc::Rc;
+use std::{collections::HashMap, fmt::Debug};
+
+use nanoid::nanoid;
+use radix_yew_compose_refs::use_composed_refs;
+use radix_yew_slot::Slot;
+use yew::prelude::*;
+use yew::virtual_dom::{AttributeOrProperty, Attributes};
+use yew_attrs::Attrs;
+
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+struct CollectionItemId(String);
+
+impl CollectionItemId {
+    fn new() -> Self {
+        Self(nanoid!())
+    }
+}
+
+#[derive(Clone, PartialEq)]
+pub struct CollectionItemValue<ItemData> {
+    pub r#ref: NodeRef,
+    pub data: ItemData,
+}
+
+impl<ItemData: Debug> Debug for CollectionItemValue<ItemData> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("CollectionItemValue")
+            .field("data", &self.data)
+            .finish()
+    }
+}
+
+#[derive(Clone, PartialEq)]
+struct CollectionContextValue<ItemData: Clone + 'static> {
+    collection_ref: NodeRef,
+    item_map: UseStateHandle<HashMap<CollectionItemId, CollectionItemValue<ItemData>>>,
+}
+
+#[derive(PartialEq, Properties)]
+pub struct CollectionProviderProps {
+    #[prop_or_default]
+    pub children: Html,
+}
+
+#[function_component]
+pub fn CollectionProvider<ItemData: Clone + PartialEq + 'static>(
+    props: &CollectionProviderProps,
+) -> Html {
+    let collection_ref = use_node_ref();
+    let item_map = use_state_eq(HashMap::new);
+    let context_value = use_memo((), move |_| CollectionContextValue::<ItemData> {
+        collection_ref,
+        item_map,
+    });
+
+    html! {
+        <ContextProvider<CollectionContextValue<ItemData>> context={(*context_value).clone()}>
+            {props.children.clone()}
+        </ContextProvider<CollectionContextValue<ItemData>>>
+    }
+}
+
+#[derive(PartialEq, Properties)]
+pub struct CollectionSlotProps {
+    #[prop_or(false)]
+    pub as_child: bool,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attrs: Attrs,
+    #[prop_or_default]
+    pub children: Html,
+}
+
+#[function_component]
+pub fn CollectionSlot<ItemData: Clone + PartialEq + 'static>(props: &CollectionSlotProps) -> Html {
+    let context =
+        use_context::<CollectionContextValue<ItemData>>().expect("Collection context required.");
+    let composed_ref = use_composed_refs(vec![props.node_ref.clone(), context.collection_ref]);
+
+    html! {
+        <Slot node_ref={composed_ref} attrs={props.attrs.clone()}>
+            {props.children.clone()}
+        </Slot>
+    }
+}
+
+const ITEM_DATA_ATTR: &str = "data-radix-collection-item";
+
+#[derive(PartialEq, Properties)]
+pub struct CollectionItemSlotProps<ItemData: Clone + Debug + PartialEq + 'static> {
+    #[prop_or_default]
+    pub item_data: Option<ItemData>,
+    #[prop_or(false)]
+    pub as_child: bool,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attrs: Attrs,
+    #[prop_or_default]
+    pub children: Html,
+}
+
+#[function_component]
+pub fn CollectionItemSlot<ItemData: Clone + Debug + PartialEq + 'static>(
+    props: &CollectionItemSlotProps<ItemData>,
+) -> Html {
+    let id = use_state_eq(CollectionItemId::new);
+    let item_ref = use_node_ref();
+    let composed_ref = use_composed_refs(vec![props.node_ref.clone(), item_ref.clone()]);
+    let context =
+        use_context::<CollectionContextValue<ItemData>>().expect("Collection context required.");
+
+    use_effect_with(
+        (props.item_data.clone(), id, context),
+        move |(item_data, id, context)| {
+            if let Some(item_data) = item_data {
+                context.item_map.set({
+                    let mut item_map = (*context.item_map).clone();
+                    item_map.insert(
+                        (**id).clone(),
+                        CollectionItemValue {
+                            r#ref: item_ref,
+                            data: item_data.clone(),
+                        },
+                    );
+                    item_map
+                });
+            }
+
+            let id = id.clone();
+            let item_map = context.item_map.clone();
+            move || {
+                item_map.set({
+                    let mut item_map = (*item_map).clone();
+                    item_map.remove(&*id);
+                    item_map
+                });
+            }
+        },
+    );
+
+    let attrs = use_memo(props.attrs.clone(), |attrs| {
+        attrs
+            .clone()
+            .merge(Attrs::new(
+                Attributes::IndexMap(Rc::new(
+                    [(
+                        AttrValue::from(ITEM_DATA_ATTR),
+                        AttributeOrProperty::Attribute(AttrValue::from("")),
+                    )]
+                    .into(),
+                )),
+                Default::default(),
+                Default::default(),
+                Default::default(),
+            ))
+            .expect("Attributes should be merged.")
+    });
+
+    html! {
+        <Slot node_ref={composed_ref} attrs={(*attrs).clone()}>
+            {props.children.clone()}
+        </Slot>
+    }
+}
+
+fn node_list_to_vec(node_list: web_sys::NodeList) -> Vec<web_sys::Node> {
+    let mut nodes = vec![];
+    for n in 0..node_list.length() {
+        if let Some(node) = node_list.item(n) {
+            nodes.push(node);
+        }
+    }
+    nodes
+}
+
+#[hook]
+pub fn use_collection<ItemData>() -> Rc<dyn Fn() -> Vec<CollectionItemValue<ItemData>>>
+where
+    ItemData: Clone + PartialEq + 'static,
+{
+    let context =
+        use_context::<CollectionContextValue<ItemData>>().expect("Collection context required.");
+
+    // TODO
+    let get_items = move || {
+        if let Some(collection_node) = context.collection_ref.cast::<web_sys::Element>() {
+            let ordered_nodes = node_list_to_vec(
+                collection_node
+                    .query_selector_all(format!("[{ITEM_DATA_ATTR}]").as_str())
+                    .expect("Node should be queried."),
+            );
+
+            let mut ordered_items = context.item_map.values().cloned().collect::<Vec<_>>();
+            ordered_items.sort_by(|a, b| {
+                let index_a = ordered_nodes.iter().position(|node| {
+                    let a: &web_sys::Node = &a.r#ref.get().expect("Node ref should have element.");
+                    node == a
+                });
+                let index_b = ordered_nodes.iter().position(|node| {
+                    let b: &web_sys::Node = &b.r#ref.get().expect("Node ref should have element.");
+                    node == b
+                });
+
+                index_a.cmp(&index_b)
+            });
+
+            ordered_items
+        } else {
+            vec![]
+        }
+    };
+
+    Rc::new(get_items)
+}

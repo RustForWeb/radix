@@ -14,6 +14,7 @@ console_log.workspace = true
 console_error_panic_hook.workspace = true
 log.workspace = true
 radix-yew-arrow = { path = "../../packages/primitives/yew/arrow" }
+radix-yew-collection = { path = "../../packages/primitives/yew/collection" }
 radix-yew-label = { path = "../../packages/primitives/yew/label" }
 radix-yew-popper = { path = "../../packages/primitives/yew/popper" }
 radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
