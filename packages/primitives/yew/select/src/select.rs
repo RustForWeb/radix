@@ -536,6 +536,11 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
     let viewport_ref = use_node_ref();
     let composed_refs = use_composed_refs(vec![props.node_ref.clone(), content_ref.clone()]);
 
+    // TODO
+
+    // Make sure the whole tree has focus guards as our `Select` may be the last element in the DOM (because of the `Portal`).
+    use_focus_guards();
+
     let content_context_value = use_memo((), |_| SelectContentContextValue {
         content_ref,
         viewport_ref,

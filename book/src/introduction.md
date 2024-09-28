@@ -67,10 +67,11 @@ The tables below show the support for the various frameworks.
 | Direction              | ❌     | 🟦 [#30](https://github.com/RustForWeb/radix/issues/30) | 🟦 [#82](https://github.com/RustForWeb/radix/issues/82)   |
 | Dismissable Layer      | ❌     | 🚧 [#31](https://github.com/RustForWeb/radix/issues/31) | ❌ [#83](https://github.com/RustForWeb/radix/issues/83)   |
 | Dropdown Menu          | ❌     | ❌ [#32](https://github.com/RustForWeb/radix/issues/32) | ❌ [#84](https://github.com/RustForWeb/radix/issues/84)   |
-| Focus Guards           | ❌     | 🟦 [#33](https://github.com/RustForWeb/radix/issues/33) | ❌ [#85](https://github.com/RustForWeb/radix/issues/85)   |
+| Focus Guards           | ❌     | 🟦 [#33](https://github.com/RustForWeb/radix/issues/33) | 🟦 [#85](https://github.com/RustForWeb/radix/issues/85)   |
 | Focus Scope            | ❌     | 🚧 [#34](https://github.com/RustForWeb/radix/issues/34) | ❌ [#86](https://github.com/RustForWeb/radix/issues/86)   |
 | Form                   | ❌     | ❌ [#35](https://github.com/RustForWeb/radix/issues/35) | ❌ [#87](https://github.com/RustForWeb/radix/issues/87)   |
 | Hover Card             | ❌     | ❌ [#36](https://github.com/RustForWeb/radix/issues/36) | ❌ [#88](https://github.com/RustForWeb/radix/issues/88)   |
+| ID                     | ❌     | 🟦                                                      | 🟦                                                        |
 | Label                  | ❌     | 🟦 [#37](https://github.com/RustForWeb/radix/issues/37) | 🚧 [#89](https://github.com/RustForWeb/radix/issues/89)   |
 | Menu                   | ❌     | 🚧 [#38](https://github.com/RustForWeb/radix/issues/38) | ❌ [#90](https://github.com/RustForWeb/radix/issues/90)   |
 | Menubar                | ❌     | ❌ [#39](https://github.com/RustForWeb/radix/issues/39) | ❌ [#91](https://github.com/RustForWeb/radix/issues/91)   |
@@ -102,7 +103,7 @@ The tables below show the support for the various frameworks.
 | Use Previous           | ❌     | 🟦 [#63](https://github.com/RustForWeb/radix/issues/63) | 🟦 [#115](https://github.com/RustForWeb/radix/issues/115) |
 | Use Rect               | ❌     | ❌ [#64](https://github.com/RustForWeb/radix/issues/64) | ❌ [#116](https://github.com/RustForWeb/radix/issues/116) |
 | Use Size               | ❌     | 🟦 [#65](https://github.com/RustForWeb/radix/issues/65) | 🟦 [#117](https://github.com/RustForWeb/radix/issues/117) |
-| Visually Hidden        | ❌     | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | ❌ [#118](https://github.com/RustForWeb/radix/issues/118) |
+| Visually Hidden        | ❌     | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | 🟦 [#118](https://github.com/RustForWeb/radix/issues/118) |
 
 ### Themes Support
 

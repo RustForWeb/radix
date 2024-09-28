@@ -3172,6 +3172,7 @@ version = "0.0.2"
 dependencies = [
  "radix-yew-compose-refs",
  "radix-yew-direction",
+ "radix-yew-focus-guards",
  "radix-yew-id",
  "radix-yew-popper",
  "radix-yew-primitive",
