@@ -189,42 +189,42 @@ fn TickIcon() -> Html {
 #[tw(
     class = "flex items-center gap-[5px] border-[1px] border-solid border-[#111] rounded-[6px] bg-transparent h-[50px] p-[5px_15px] font-['apple-system, BlinkMacSystemFont, helvetica, arial, sans-serif'] text-[13px] leading-none focus:outline-none focus:shadow-[0_0_0_2px_rgba(0,0,0,0.5)]"
 )]
-pub struct TriggerClass {}
+struct TriggerClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[#fff] border-[1px] border-solid border-[#ccc] rounded-[6px] relative focus-within:border-[#111] min-w-[var(--radix-select-trigger-width)] max-w-[var(--radix-select-content-available-height)]"
 )]
-pub struct ContentClass {}
+struct ContentClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[#fff] border-[1px] border-solid border-[#ccc] rounded-[6px] relative focus-within:border-[#111] min-w-[var(--radix-select-trigger-width)] max-w-[var(--radix-select-content-available-height)] p-[5px]"
 )]
-pub struct ContentWithPaddingClass {}
+struct ContentWithPaddingClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "p-[5px]")]
-pub struct ViewportClass {}
+struct ViewportClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "flex items-center leading-none cursor-default select-none whitespace-nowrap h-[25px] p-[0px_25px] font-['apple-system, BlinkMacSystemFont, helvetica, arial, sans-serif'] text-[13px] rounded-[3px] text-[#aaa] font-medium"
 )]
-pub struct LabelClass {}
+struct LabelClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "flex items-center leading-none cursor-default select-none whitespace-nowrap h-[25px] p-[0px_25px] font-['apple-system, BlinkMacSystemFont, helvetica, arial, sans-serif'] text-[13px] text-[#111] rounded-[3px] relative outline-none active:bg-[#ccc] data-[highlighted]:bg-[#111] data-[highlighted]:text-[#fff] data-[disabled]:text-[#ccc] rtl:text-[16px] rtl:font-bold"
 )]
-pub struct ItemClass {}
+struct ItemClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "flex items-center leading-none cursor-default select-none whitespace-nowrap h-[25px] p-[0px_25px] font-['apple-system, BlinkMacSystemFont, helvetica, arial, sans-serif'] text-[13px] text-[#111] rounded-[3px] relative outline-none active:bg-[#ccc] data-[highlighted]:bg-[#111] data-[highlighted]:text-[#fff] data-[disabled]:text-[#ccc] rtl:text-[16px] rtl:font-bold pl-[35px]"
 )]
-pub struct ItemInGroupClass {}
+struct ItemInGroupClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "absolute left-[6px] top-[6px] rtl:left-auto rtl:right-[6px]")]
-pub struct IndicatorClass {}
+struct IndicatorClass {}

@@ -12,6 +12,15 @@ files = ["src/switch.rs"]
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```toml,trunk
+package = "radix-yew-book"
+features = ["switch"]
+files = ["src/switch.rs"]
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Features
@@ -35,6 +44,17 @@ cargo add radix-leptos-switch
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/switch)
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-switch
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-switch)
+-   [View on docs.rs](https://docs.rs/radix-yew-switch/latest/radix_yew_switch/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/switch)
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Anatomy
@@ -51,6 +71,23 @@ use radix_leptos_switch::*;
 #[component]
 fn Anatomy() -> impl IntoView {
     view! {
+        <Switch>
+            <SwitchThumb />
+        </Switch>
+    }
+}
+```
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_switch::*;
+use yew::prelude::*;
+
+#[function_component]
+fn Anatomy() -> Html {
+    html! {
         <Switch>
             <SwitchThumb />
         </Switch>
@@ -82,6 +119,20 @@ Contains all the parts of a switch. An `input` will also render when used within
 | `value`             | `MaybeProp<String>`      | `"on"`  |
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop                | Type             | Default |
+| ------------------- | ---------------- | ------- |
+| `as_child`          | `bool`           | `false` |
+| `default_checked`   | `Option<bool>`   | -       |
+| `checked`           | `Option<bool>`   | -       |
+| `on_checked_change` | `Callback<bool>` | -       |
+| `disabled`          | `Option<bool>`   | -       |
+| `required`          | `Option<bool>`   | -       |
+| `name`              | `Option<String>` | -       |
+| `value`             | `String`         | `"on"`  |
+
+{{#endtab }}
 {{#endtabs }}
 
 <div style="height: 1em;"></div>
@@ -101,6 +152,13 @@ The thumb that is used to visually indicate whether the switch is on or off.
 | Prop       | Type              | Default |
 | ---------- | ----------------- | ------- |
 | `as_child` | `MaybeProp<bool>` | `false` |
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop       | Type   | Default |
+| ---------- | ------ | ------- |
+| `as_child` | `bool` | `false` |
 
 {{#endtab }}
 {{#endtabs }}

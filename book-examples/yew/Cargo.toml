@@ -14,9 +14,11 @@ console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
 radix-yew-separator = { path = "../../packages/primitives/yew/separator", optional = true }
+radix-yew-switch = { path = "../../packages/primitives/yew/switch", optional = true }
 yew = { workspace = true, features = ["csr"] }
 yew-attrs.workspace = true
 
 [features]
-default = ["separator"]
+default = ["separator", "switch"]
 separator = ["dep:radix-yew-separator"]
+switch = ["dep:radix-yew-switch"]

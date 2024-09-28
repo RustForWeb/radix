@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{arrow, label, popper, select, separator, slot};
+use crate::primitives::{arrow, label, popper, select, separator, slot, switch};
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
@@ -93,6 +93,15 @@ enum Route {
     SlotButtonAsLink,
     #[at("/slot/chromatic")]
     SlotChromatic,
+
+    #[at("/switch/styled")]
+    SwitchStyled,
+    #[at("/switch/controlled")]
+    SwitchControlled,
+    #[at("/switch/within-form")]
+    SwitchWithinForm,
+    #[at("/switch/chromatic")]
+    SwitchChromatic,
 }
 
 fn switch(routes: Route) -> Html {
@@ -162,6 +171,11 @@ fn switch(routes: Route) -> Html {
         Route::SlotWithComposedEvents => html! { <slot::WithComposedEvents /> },
         Route::SlotButtonAsLink => html! { <slot::ButtonAsLink /> },
         Route::SlotChromatic => html! { <slot::Chromatic /> },
+
+        Route::SwitchStyled => html! { <switch::Styled /> },
+        Route::SwitchControlled => html! { <switch::Controlled /> },
+        Route::SwitchWithinForm => html! { <switch::WithinForm /> },
+        Route::SwitchChromatic => html! { <switch::Chromatic /> },
     }
 }
 
@@ -255,6 +269,16 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::SlotWithComposedEvents}>{"With Composed Events"}</Link<Route>></li>
                             <li><Link<Route> to={Route::SlotButtonAsLink}>{"Button As Link"}</Link<Route>></li>
                             <li><Link<Route> to={Route::SlotChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Switch"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::SwitchStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SwitchControlled}>{"Controlled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SwitchWithinForm}>{"Within Form"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::SwitchChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                 </ul>

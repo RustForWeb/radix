@@ -20,6 +20,7 @@ radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
 radix-yew-select = { path = "../../packages/primitives/yew/select" }
 radix-yew-separator = { path = "../../packages/primitives/yew/separator" }
 radix-yew-slot = { path = "../../packages/primitives/yew/slot" }
+radix-yew-switch = { path = "../../packages/primitives/yew/switch" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true
 yew = { workspace = true, features = ["csr"] }

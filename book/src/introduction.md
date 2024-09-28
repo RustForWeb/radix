@@ -88,7 +88,7 @@ The tables below show the support for the various frameworks.
 | Separator              | ❌     | 🟦 [#51](https://github.com/RustForWeb/radix/issues/51) | 🟦 [#103](https://github.com/RustForWeb/radix/issues/103) |
 | Slider                 | ❌     | ❌ [#52](https://github.com/RustForWeb/radix/issues/52) | ❌ [#104](https://github.com/RustForWeb/radix/issues/104) |
 | Slot                   | ❌     | 🚧 [#53](https://github.com/RustForWeb/radix/issues/53) | 🚧 [#105](https://github.com/RustForWeb/radix/issues/105) |
-| Switch                 | ❌     | 🟦 [#54](https://github.com/RustForWeb/radix/issues/54) | ❌ [#106](https://github.com/RustForWeb/radix/issues/106) |
+| Switch                 | ❌     | 🟦 [#54](https://github.com/RustForWeb/radix/issues/54) | 🟦 [#106](https://github.com/RustForWeb/radix/issues/106) |
 | Tabs                   | ❌     | ❌ [#55](https://github.com/RustForWeb/radix/issues/55) | ❌ [#107](https://github.com/RustForWeb/radix/issues/107) |
 | Toast                  | ❌     | ❌ [#56](https://github.com/RustForWeb/radix/issues/56) | ❌ [#108](https://github.com/RustForWeb/radix/issues/108) |
 | Toggle Group           | ❌     | ❌ [#57](https://github.com/RustForWeb/radix/issues/57) | ❌ [#109](https://github.com/RustForWeb/radix/issues/109) |
@@ -96,10 +96,10 @@ The tables below show the support for the various frameworks.
 | Toolbar                | ❌     | ❌ [#59](https://github.com/RustForWeb/radix/issues/59) | ❌ [#111](https://github.com/RustForWeb/radix/issues/111) |
 | Tooltip                | ❌     | ❌ [#60](https://github.com/RustForWeb/radix/issues/60) | ❌ [#112](https://github.com/RustForWeb/radix/issues/112) |
 | Use Callback Ref       | ❌     | ❌                                                      | ❌                                                        |
-| Use Controllable State | ❌     | 🟦 [#61](https://github.com/RustForWeb/radix/issues/61) | ❌ [#113](https://github.com/RustForWeb/radix/issues/113) |
+| Use Controllable State | ❌     | 🟦 [#61](https://github.com/RustForWeb/radix/issues/61) | 🟦 [#113](https://github.com/RustForWeb/radix/issues/113) |
 | Use Escape Keydown     | ❌     | 🟦 [#62](https://github.com/RustForWeb/radix/issues/62) | ❌ [#114](https://github.com/RustForWeb/radix/issues/114) |
 | Use Layout Effect      | ❌     | ❌                                                      | ❌                                                        |
-| Use Previous           | ❌     | 🟦 [#63](https://github.com/RustForWeb/radix/issues/63) | ❌ [#115](https://github.com/RustForWeb/radix/issues/115) |
+| Use Previous           | ❌     | 🟦 [#63](https://github.com/RustForWeb/radix/issues/63) | 🟦 [#115](https://github.com/RustForWeb/radix/issues/115) |
 | Use Rect               | ❌     | ❌ [#64](https://github.com/RustForWeb/radix/issues/64) | ❌ [#116](https://github.com/RustForWeb/radix/issues/116) |
 | Use Size               | ❌     | 🟦 [#65](https://github.com/RustForWeb/radix/issues/65) | 🟦 [#117](https://github.com/RustForWeb/radix/issues/117) |
 | Visually Hidden        | ❌     | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | ❌ [#118](https://github.com/RustForWeb/radix/issues/118) |

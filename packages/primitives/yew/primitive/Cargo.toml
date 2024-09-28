@@ -9,7 +9,6 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-log.workspace = true
 radix-yew-slot = { path = "../slot", version = "0.0.2" }
 yew.workspace = true
 yew-attrs.workspace = true

@@ -2,6 +2,8 @@ mod app;
 
 #[cfg(feature = "separator")]
 mod separator;
+#[cfg(feature = "switch")]
+mod switch;
 
 use crate::app::App;
 

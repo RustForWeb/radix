@@ -11,7 +11,6 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-log.workspace = true
 radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
 radix-leptos-presence = { path = "../presence", version = "0.0.2" }
 radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
