@@ -1,29 +1,34 @@
+use std::fmt::{Display, Formatter};
+
 use leptos::{html::AnyElement, *};
 use radix_leptos_primitive::Primitive;
 
 const DEFAULT_MAX: f64 = 100.0;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum ProgressState {
     Indeterminate,
     Complete,
     Loading,
 }
 
-impl From<ProgressState> for String {
-    fn from(value: ProgressState) -> Self {
-        match value {
-            ProgressState::Indeterminate => "indeterminate".into(),
-            ProgressState::Complete => "complete".into(),
-            ProgressState::Loading => "loading".into(),
-        }
+impl Display for ProgressState {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                ProgressState::Indeterminate => "indeterminate",
+                ProgressState::Complete => "complete",
+                ProgressState::Loading => "loading",
+            }
+        )
     }
 }
 
 impl IntoAttribute for ProgressState {
     fn into_attribute(self) -> Attribute {
-        let s: String = self.into();
-        Attribute::String(s.into())
+        Attribute::String(self.to_string().into())
     }
 
     fn into_attribute_boxed(self: Box<Self>) -> Attribute {

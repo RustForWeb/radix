@@ -1,0 +1,13 @@
+[package]
+name = "radix-yew-direction"
+description = "Yew port of Radix Direction."
+homepage = "https://radix.rustforweb.org/primitives/utilities/direction-provider.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+yew.workspace = true

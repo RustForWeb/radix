@@ -1007,7 +1007,7 @@ struct Point {
 
 type Polygon = Vec<Point>;
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 enum Side {
     Left,
     Right,

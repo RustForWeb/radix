@@ -3095,6 +3095,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-direction"
+version = "0.0.2"
+dependencies = [
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-icons"
 version = "0.0.2"
 dependencies = [

@@ -64,7 +64,7 @@ The tables below show the support for the various frameworks.
 | Context Menu           | ❌     | ❌ [#27](https://github.com/RustForWeb/radix/issues/27) | ❌ [#79](https://github.com/RustForWeb/radix/issues/79)   |
 | Context                | ❌     | ❌ [#28](https://github.com/RustForWeb/radix/issues/28) | ❌ [#80](https://github.com/RustForWeb/radix/issues/80)   |
 | Dialog                 | ❌     | ❌ [#29](https://github.com/RustForWeb/radix/issues/29) | ❌ [#81](https://github.com/RustForWeb/radix/issues/81)   |
-| Direction              | ❌     | 🟦 [#30](https://github.com/RustForWeb/radix/issues/30) | ❌ [#82](https://github.com/RustForWeb/radix/issues/82)   |
+| Direction              | ❌     | 🟦 [#30](https://github.com/RustForWeb/radix/issues/30) | 🟦 [#82](https://github.com/RustForWeb/radix/issues/82)   |
 | Dismissable Layer      | ❌     | 🚧 [#31](https://github.com/RustForWeb/radix/issues/31) | ❌ [#83](https://github.com/RustForWeb/radix/issues/83)   |
 | Dropdown Menu          | ❌     | ❌ [#32](https://github.com/RustForWeb/radix/issues/32) | ❌ [#84](https://github.com/RustForWeb/radix/issues/84)   |
 | Focus Guards           | ❌     | 🟦 [#33](https://github.com/RustForWeb/radix/issues/33) | ❌ [#85](https://github.com/RustForWeb/radix/issues/85)   |

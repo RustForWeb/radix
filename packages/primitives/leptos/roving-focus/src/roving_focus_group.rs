@@ -1,5 +1,6 @@
-use std::marker::PhantomData;
+use std::fmt::Formatter;
 use std::rc::Rc;
+use std::{fmt::Display, marker::PhantomData};
 
 use leptos::{
     ev::{Event, FocusEvent, KeyboardEvent, MouseEvent},
@@ -29,25 +30,28 @@ struct ItemData {
 
 const ITEM_DATA_PHANTHOM: PhantomData<ItemData> = PhantomData;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Orientation {
     Horizontal,
     Vertical,
 }
 
-impl From<Orientation> for String {
-    fn from(value: Orientation) -> Self {
-        match value {
-            Orientation::Horizontal => "horizontal".into(),
-            Orientation::Vertical => "vertical".into(),
-        }
+impl Display for Orientation {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Orientation::Horizontal => "horizontal",
+                Orientation::Vertical => "vertical",
+            }
+        )
     }
 }
 
 impl IntoAttribute for Orientation {
     fn into_attribute(self) -> Attribute {
-        let s: String = self.into();
-        Attribute::String(s.into())
+        Attribute::String(self.to_string().into())
     }
 
     fn into_attribute_boxed(self: Box<Self>) -> Attribute {

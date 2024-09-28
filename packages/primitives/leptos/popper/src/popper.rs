@@ -17,7 +17,7 @@ use radix_leptos_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use web_sys::wasm_bindgen::JsCast;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Align {
     Start,
     Center,
@@ -44,13 +44,12 @@ impl From<Option<Alignment>> for Align {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Sticky {
     Partial,
     Always,
 }
-
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum UpdatePositionStrategy {
     Optimized,
     Always,

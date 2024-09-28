@@ -1,24 +1,29 @@
+use std::fmt::{Display, Formatter};
+
 use leptos::*;
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Direction {
     Ltr,
     Rtl,
 }
 
-impl From<Direction> for String {
-    fn from(value: Direction) -> Self {
-        match value {
-            Direction::Ltr => "ltr".into(),
-            Direction::Rtl => "rtl".into(),
-        }
+impl Display for Direction {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Direction::Ltr => "ltr",
+                Direction::Rtl => "rtl",
+            }
+        )
     }
 }
 
 impl IntoAttribute for Direction {
     fn into_attribute(self) -> Attribute {
-        let s: String = self.into();
-        Attribute::String(s.into())
+        Attribute::String(self.to_string().into())
     }
 
     fn into_attribute_boxed(self: Box<Self>) -> Attribute {

@@ -1,26 +1,31 @@
+use std::fmt::{Display, Formatter};
+
 use leptos::{html::AnyElement, *};
 use radix_leptos_primitive::Primitive;
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Orientation {
     #[default]
     Horizontal,
     Vertical,
 }
 
-impl From<Orientation> for String {
-    fn from(value: Orientation) -> Self {
-        match value {
-            Orientation::Horizontal => "horizontal".into(),
-            Orientation::Vertical => "vertical".into(),
-        }
+impl Display for Orientation {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Orientation::Horizontal => "horizontal",
+                Orientation::Vertical => "vertical",
+            }
+        )
     }
 }
 
 impl IntoAttribute for Orientation {
     fn into_attribute(self) -> Attribute {
-        let s: String = self.into();
-        Attribute::String(s.into())
+        Attribute::String(self.to_string().into())
     }
 
     fn into_attribute_boxed(self: Box<Self>) -> Attribute {

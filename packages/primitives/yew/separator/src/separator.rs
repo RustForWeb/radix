@@ -4,7 +4,7 @@ use radix_yew_primitive::Primitive;
 use yew::prelude::*;
 use yew_attrs::{attrs, Attrs};
 
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Orientation {
     #[default]
     Horizontal,

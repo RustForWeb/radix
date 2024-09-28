@@ -1,4 +1,7 @@
-use std::rc::Rc;
+use std::{
+    fmt::{Display, Formatter},
+    rc::Rc,
+};
 
 use leptos::{
     ev::{Event, KeyboardEvent, MouseEvent},
@@ -13,27 +16,30 @@ use radix_leptos_use_previous::use_previous;
 use radix_leptos_use_size::use_size;
 use web_sys::wasm_bindgen::{closure::Closure, JsCast};
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum CheckedState {
     False,
     True,
     Indeterminate,
 }
 
-impl From<CheckedState> for String {
-    fn from(value: CheckedState) -> Self {
-        match value {
-            CheckedState::False => "false".into(),
-            CheckedState::True => "true".into(),
-            CheckedState::Indeterminate => "indeterminate".into(),
-        }
+impl Display for CheckedState {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                CheckedState::False => "false",
+                CheckedState::True => "true",
+                CheckedState::Indeterminate => "indeterminate",
+            }
+        )
     }
 }
 
 impl IntoAttribute for CheckedState {
     fn into_attribute(self) -> Attribute {
-        let s: String = self.into();
-        Attribute::String(s.into())
+        Attribute::String(self.to_string().into())
     }
 
     fn into_attribute_boxed(self: Box<Self>) -> Attribute {

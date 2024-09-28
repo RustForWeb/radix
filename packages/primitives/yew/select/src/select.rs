@@ -9,7 +9,7 @@ use radix_yew_primitive::Primitive;
 use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::{attrs, Attrs};
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Position {
     ItemAligned,
     Popper,
