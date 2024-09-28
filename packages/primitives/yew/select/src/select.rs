@@ -441,7 +441,7 @@ pub fn SelectIcon(props: &SelectIconProps) -> Html {
         attrs
             .clone()
             .merge(attrs! {
-                aria-hidden=""
+                aria-hidden="true"
             })
             .expect("Attributes should be merged.")
     });
@@ -1033,7 +1033,7 @@ pub fn SelectItemIndicator(props: &SelectItemIndicatorProps) -> Html {
             .clone()
             .merge(attrs! {
                 // TODO
-                aria-hidden=""
+                aria-hidden="true"
             })
             .expect("Attributes should be merged.")
     });
@@ -1128,7 +1128,7 @@ fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
             .clone()
             .merge(attrs! {
                 // TODO
-                aria-hidden=""
+                aria-hidden="true"
             })
             .expect("Attributes should be merged.")
     });
@@ -1163,7 +1163,7 @@ pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
         attrs
             .clone()
             .merge(attrs! {
-                aria-hidden=""
+                aria-hidden="true"
             })
             .expect("Attributes should be merged.")
     });
