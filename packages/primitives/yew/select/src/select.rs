@@ -4,10 +4,16 @@ use std::{
 };
 
 use radix_yew_compose_refs::use_composed_refs;
+use radix_yew_direction::{use_direction, Direction};
 use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
-use radix_yew_primitive::Primitive;
+use radix_yew_primitive::{compose_callbacks, Primitive};
+use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
+use web_sys::wasm_bindgen::JsCast;
 use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::{attrs, Attrs};
+
+const OPEN_KEYS: [&str; 4] = [" ", "Enter", "ArrowUp", "ArrowDown"];
+const _SELECTION_KEYS: [&str; 2] = [" ", "Enter"];
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Position {
@@ -39,8 +45,8 @@ struct SelectContextValue {
     open: bool,
     required: Option<bool>,
     on_open_change: Callback<bool>,
-    // dir: Direction,
-    // TODO: trigger pointer down pos
+    dir: Direction,
+    trigger_pointer_down_pos: UseStateHandle<Option<(i32, i32)>>,
     disabled: Option<bool>,
 }
 
@@ -67,11 +73,13 @@ pub struct SelectProps {
     #[prop_or_default]
     pub on_value_change: Callback<String>,
     #[prop_or_default]
+    pub open: Option<bool>,
+    #[prop_or_default]
     pub default_open: Option<bool>,
     #[prop_or_default]
     pub on_open_change: Callback<bool>,
-    // #[prop_or_default]
-    // pub dir: Option<Direction>,
+    #[prop_or_default]
+    pub dir: Option<Direction>,
     #[prop_or_default]
     pub name: Option<String>,
     #[prop_or_default]
@@ -88,40 +96,95 @@ pub struct SelectProps {
 pub fn Select(props: &SelectProps) -> Html {
     let trigger_ref = use_node_ref();
     let value_node_ref = use_node_ref();
-    // let direction = use_direction(props.dir);
-    // TODO: controllable state for open and value
-    let open = use_state_eq(|| false);
-    let on_open_change = Callback::from({
-        let open = open.clone();
+    let direction = use_direction(props.dir);
 
-        move |new_value: bool| open.set(new_value)
+    let on_open_change = use_callback(
+        props.on_open_change.clone(),
+        |value: Option<bool>, on_open_change| {
+            if let Some(value) = value {
+                on_open_change.emit(value);
+            }
+        },
+    );
+    let (open, set_open) = use_controllable_state(UseControllableStateParams {
+        prop: props.open,
+        on_change: Some(on_open_change),
+        default_prop: props.default_open,
     });
-    let value: UseStateHandle<Option<String>> = use_state_eq(|| None);
-    let on_value_change = Callback::from({
-        let value = value.clone();
-
-        move |new_value: String| value.set(Some(new_value))
+    let open = open.unwrap_or(false);
+    let on_open_change = use_callback(set_open, |open: bool, set_open| {
+        set_open.emit(Some(open));
     });
 
-    let is_form_control = trigger_ref
-        .cast::<web_sys::Element>()
-        .map(|trigger| trigger.closest("form").ok().flatten().is_some())
-        .unwrap_or(true);
+    let on_value_change = use_callback(
+        props.on_value_change.clone(),
+        |value: Option<String>, on_value_change| {
+            if let Some(value) = value {
+                on_value_change.emit(value);
+            }
+        },
+    );
+    let (value, set_value) = use_controllable_state(UseControllableStateParams {
+        prop: props.value.clone(),
+        on_change: Some(on_value_change),
+        default_prop: props.default_value.clone(),
+    });
+    let on_value_change = use_callback(set_value, |value: String, set_value| {
+        set_value.emit(Some(value));
+    });
+
+    let trigger_pointer_down_pos = use_state_eq(|| None);
     let native_options_set = use_state_eq(HashSet::<NativeOption>::new);
 
+    let is_form_control = use_state_eq(|| false);
+    use_effect_with(trigger_ref.clone(), {
+        let is_form_control = is_form_control.clone();
+
+        move |trigger_ref| {
+            is_form_control.set(
+                trigger_ref
+                    .cast::<web_sys::Element>()
+                    .map(|button| button.closest("form").ok().flatten().is_some())
+                    .unwrap_or(true),
+            );
+        }
+    });
+
     let context_value = use_memo(
-        (props.disabled, props.required, open, value),
-        |(disabled, required, open, value)| SelectContextValue {
-            trigger_ref,
-            value_node_ref,
-            // TODO
-            content_id: "".into(),
-            value: (**value).clone(),
-            on_value_change,
-            open: **open,
-            required: *required,
+        (
+            props.disabled,
+            props.required,
+            direction,
+            open,
             on_open_change,
-            disabled: *disabled,
+            value,
+            on_value_change,
+            trigger_pointer_down_pos,
+        ),
+        |(
+            disabled,
+            required,
+            direction,
+            open,
+            on_open_change,
+            value,
+            on_value_change,
+            trigger_pointer_down_pos,
+        )| {
+            SelectContextValue {
+                trigger_ref,
+                value_node_ref,
+                // TODO
+                content_id: "".into(),
+                value: value.clone(),
+                on_value_change: on_value_change.clone(),
+                open: *open,
+                required: *required,
+                on_open_change: on_open_change.clone(),
+                dir: *direction,
+                trigger_pointer_down_pos: trigger_pointer_down_pos.clone(),
+                disabled: *disabled,
+            }
         },
     );
 
@@ -154,7 +217,7 @@ pub fn Select(props: &SelectProps) -> Html {
                     {props.children.clone()}
                 </ContextProvider<SelectNativeOptionsContextValue>>
 
-                if is_form_control {
+                if *is_form_control {
                     // TODO: BubbleSelect
                 }
             </ContextProvider<SelectContextValue>>
@@ -164,6 +227,14 @@ pub fn Select(props: &SelectProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectTriggerProps {
+    #[prop_or(false)]
+    pub disabled: bool,
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or(false)]
     pub as_child: bool,
     #[prop_or_default]
@@ -177,16 +248,118 @@ pub struct SelectTriggerProps {
 #[function_component]
 pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), context.trigger_ref]);
+    let is_disabled = context.disabled.unwrap_or(props.disabled);
+    let composed_refs =
+        use_composed_refs(vec![props.node_ref.clone(), context.trigger_ref.clone()]);
+    let pointer_type = use_state_eq(|| "touch".to_string());
 
-    let attrs = use_memo(props.attrs.clone(), |attrs| {
-        attrs
-            .clone()
-            .merge(attrs! {
-                // TODO
-            })
-            .expect("Attributes should be merged.")
-    });
+    let handle_open = use_callback(
+        (context.clone(), is_disabled),
+        |event_page_coords: Option<(i32, i32)>, (context, is_disabled)| {
+            if !is_disabled {
+                context.on_open_change.emit(true);
+                // Reset typeahead when we open.
+                // TODO: reset_typeahead();
+            }
+
+            if let Some(event_page_coords) = event_page_coords {
+                context
+                    .trigger_pointer_down_pos
+                    .set(Some(event_page_coords));
+            }
+        },
+    );
+
+    let attrs = use_memo(
+        (
+            props.attrs.clone(),
+            props.on_click.clone(),
+            props.on_pointer_down.clone(),
+            props.on_key_down.clone(),
+        ),
+        move |(attrs, on_click, on_pointer_down, on_key_down)| {
+            attrs
+                .clone()
+                .merge(attrs! {
+                    type="button"
+                    role="combobox"
+                    aria-controls={context.content_id}
+                    aria-expanded={match context.open {
+                        true => "true",
+                        false => "false"
+                    }}
+                    aria-required={context.required.map(|required| match required {
+                        true => "true",
+                        false => "false"
+                    })}
+                    aria-autocomplete="none"
+                    dir={context.dir.to_string()}
+                    data-state={match context.open {
+                        true => "open",
+                        false => "closed"
+                    }}
+                    disabled={is_disabled}
+                    data-disabled={is_disabled.then_some("")}
+                    data-placeholder={should_show_placeholder(context.value).then_some("")}
+                    // Enable compatibility with native label or custom `Label` "click" for Safari:
+                    onclick={compose_callbacks(Some(on_click.clone()), Some(Callback::from({
+                        let pointer_type = pointer_type.clone();
+                        let handle_open = handle_open.clone();
+
+                        move |event: MouseEvent| {
+                            // Whilst browsers generally have no issue focusing the trigger when clicking
+                            // on a label, Safari seems to struggle with the fact that there's no `onclick`.
+                            // We force `focus` in this case. Note: this doesn't create any other side-effect
+                            // because we are preventing default in `onpointerdown` so effectively
+                            // this only runs for a label "click".
+                            event
+                                .current_target()
+                                .expect("Event should have current target.")
+                                .unchecked_into::<web_sys::HtmlElement>()
+                                .focus()
+                                .expect("Element should be focused.");
+
+                            // Open on click when using a touch or pen device.
+                            if *pointer_type != "mouse" {
+                                handle_open.emit(Some((event.page_x(), event.page_y())));
+                            }
+                    }})), None)}
+                    onpointerdown={compose_callbacks(Some(on_pointer_down.clone()), Some(Callback::from({
+                        let handle_open = handle_open.clone();
+
+                        move |event: PointerEvent| {
+                            pointer_type.set(event.pointer_type());
+
+                            // Prevent implicit pointer capture.
+                            // https://www.w3.org/TR/pointerevents3/#implicit-pointer-capture
+                            let target = event.target().expect("Event should have target.").unchecked_into::<web_sys::HtmlElement>();
+                            if target.has_pointer_capture(event.pointer_id()) {
+                                target.release_pointer_capture(event.pointer_id()).expect("Pointer capture should be released.");
+                            }
+
+                            // Only call handler if it's the left button (mousedown gets triggered by all mouse buttons)
+                            // but not when the control key is pressed (avoiding MacOS right click); also not for touch
+                            // devices because that would open the menu on scroll. (pen devices behave as touch on iOS).
+                            if event.button() == 0 && !event.ctrl_key() && event.pointer_type() == "mouse" {
+                                handle_open.emit(Some((event.page_x(), event.page_y())));
+
+                                // Prevent trigger from stealing focus from the active item after opening.
+                                event.prevent_default();
+                            }
+                        }
+                    })), None)}
+                    onkeydown={compose_callbacks(Some(on_key_down.clone()), Some(Callback::from(move |event: KeyboardEvent| {
+                        // TODO: typeahead
+
+                        if OPEN_KEYS.contains(&event.key().as_str()) {
+                            handle_open.emit(None);
+                            event.prevent_default();
+                        }
+                    })), None)}
+                })
+                .expect("Attributes should be merged.")
+        },
+    );
 
     html! {
         <PopperAnchor as_child=true>

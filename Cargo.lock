@@ -3148,8 +3148,10 @@ name = "radix-yew-select"
 version = "0.0.2"
 dependencies = [
  "radix-yew-compose-refs",
+ "radix-yew-direction",
  "radix-yew-popper",
  "radix-yew-primitive",
+ "radix-yew-use-controllable-state",
  "web-sys",
  "yew",
  "yew-attrs",
