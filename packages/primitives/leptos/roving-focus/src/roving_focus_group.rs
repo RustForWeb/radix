@@ -12,6 +12,7 @@ use radix_leptos_collection::{
 };
 use radix_leptos_compose_refs::use_composed_refs;
 use radix_leptos_direction::{use_direction, Direction};
+use radix_leptos_id::use_id;
 use radix_leptos_primitive::{compose_callbacks, Primitive};
 use radix_leptos_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use web_sys::{
@@ -288,9 +289,7 @@ pub fn RovingFocusGroupItem(
     let focusable = Signal::derive(move || focusable.get().unwrap_or(true));
     let active = Signal::derive(move || active.get().unwrap_or(false));
 
-    // TODO
-    // let auto_id = use_id();
-    let auto_id = Signal::derive(move || "".to_string());
+    let auto_id = use_id(None);
     let id = Signal::derive(move || tab_stop_id.get().unwrap_or(auto_id.get()));
     let context = expect_context::<RovingContextValue>();
     let is_current_tab_stop = Signal::derive(move || {

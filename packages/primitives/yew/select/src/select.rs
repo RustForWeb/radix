@@ -5,6 +5,7 @@ use std::{
 
 use radix_yew_compose_refs::use_composed_refs;
 use radix_yew_direction::{use_direction, Direction};
+use radix_yew_id::use_id;
 use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_yew_primitive::{compose_callbacks, Primitive};
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
@@ -150,6 +151,7 @@ pub fn Select(props: &SelectProps) -> Html {
         }
     });
 
+    let content_id = use_id(None);
     let context_value = use_memo(
         (
             props.disabled,
@@ -174,8 +176,7 @@ pub fn Select(props: &SelectProps) -> Html {
             SelectContextValue {
                 trigger_ref,
                 value_node_ref,
-                // TODO
-                content_id: "".into(),
+                content_id,
                 value: value.clone(),
                 on_value_change: on_value_change.clone(),
                 open: *open,
@@ -761,8 +762,7 @@ pub struct SelectGroupProps {
 
 #[function_component]
 pub fn SelectGroup(props: &SelectGroupProps) -> Html {
-    // TODO: use_id()
-    let group_id = "".to_string();
+    let group_id = use_id(None);
 
     let attrs = use_memo(props.attrs.clone(), |attrs| {
         attrs
@@ -870,8 +870,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
     let item_ref = use_node_ref();
     let composed_refs = use_composed_refs(vec![props.node_ref.clone(), item_ref.clone()]);
     let is_selected = context.value.is_some_and(|value| value == props.value);
-    // TODO: use_id()
-    let text_id = "".to_string();
+    let text_id = use_id(None);
 
     let item_ref_callback = use_callback(
         (

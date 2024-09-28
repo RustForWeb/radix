@@ -13,6 +13,7 @@ leptos.workspace = true
 radix-leptos-collection = { path = "../collection", version = "0.0.2" }
 radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
 radix-leptos-direction = { path = "../direction", version = "0.0.2" }
+radix-leptos-id = { path = "../id", version = "0.0.2" }
 radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
 radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
 web-sys = { workspace = true, features = ["CustomEvent", "CustomEventInit"] }

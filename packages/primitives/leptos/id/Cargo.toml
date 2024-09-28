@@ -1,0 +1,12 @@
+[package]
+name = "radix-leptos-id"
+description = "Leptos port of Radix ID."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
