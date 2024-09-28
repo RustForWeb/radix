@@ -104,8 +104,8 @@ Use the visually hidden primitive.
 
 ```rust,ignore
 use leptos::*;
-use radix_leptos_visually_hidden::*;
 use radix_leptos_icons::GearIcon;
+use radix_leptos_visually_hidden::*;
 
 #[component]
 fn Example() -> impl IntoView {
@@ -122,8 +122,8 @@ fn Example() -> impl IntoView {
 {{#tab name="Yew" }}
 
 ```rust,ignore
-use radix_yew_visually_hidden::*;
 use radix_yew_icons::GearIcon;
+use radix_yew_visually_hidden::*;
 use yew::prelude::*;
 
 #[component]
