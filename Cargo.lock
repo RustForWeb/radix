@@ -3110,6 +3110,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-focus-guards"
+version = "0.0.2"
+dependencies = [
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-icons"
 version = "0.0.2"
 dependencies = [

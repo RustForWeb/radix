@@ -1,0 +1,13 @@
+[package]
+name = "radix-yew-focus-guards"
+description = "Yew port of Radix Focus Guards."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+web-sys.workspace = true
+yew.workspace = true
