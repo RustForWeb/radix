@@ -9,6 +9,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+log.workspace = true
 nanoid = "0.4.0"
 radix-yew-compose-refs = { path = "../compose-refs", version = "0.0.2" }
 radix-yew-slot = { path = "../slot", version = "0.0.2" }

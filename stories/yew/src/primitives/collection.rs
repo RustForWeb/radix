@@ -86,7 +86,7 @@ pub fn DynamicInsertion() -> Html {
 
             <List>
                 <WrappedItems has_tomato={*has_tomato} />
-                <LogItems />
+                <LogItems<bool> value={*has_tomato} />
             </List>
         </>
     }
@@ -132,7 +132,7 @@ pub fn WithChangingItem() -> Html {
                 <Item>{"Red"}</Item>
                 <Item disabled={*is_disabled}>{"Green"}</Item>
                 <Item>{"Blue"}</Item>
-                <LogItems />
+                <LogItems<bool> value={*is_disabled} />
             </List>
         </>
     }
@@ -209,18 +209,29 @@ fn Item(props: &ItemProps) -> Html {
 }
 
 #[derive(PartialEq, Properties)]
-struct LogItemsProps {
+struct LogItemsProps<T: Default + PartialEq> {
     #[prop_or("items".to_string())]
     name: String,
+    #[prop_or_default]
+    value: T,
 }
 
 #[function_component]
-fn LogItems(props: &LogItemsProps) -> Html {
+fn LogItems<T: Default + PartialEq = ()>(props: &LogItemsProps<T>) -> Html {
     let get_items = use_collection::<ItemData>();
 
-    use_effect_with(props.name.clone(), move |name| {
-        log::info!("{} {:?}", name, get_items());
+    use_effect({
+        let name = props.name.clone();
+        let get_items = get_items.clone();
+
+        move || {
+            log::info!("{} {:?}", name, get_items.emit(()));
+        }
     });
 
-    html! {}
+    // use_effect_with((props.name.clone(), get_items), |(name, get_items)| {
+    //     log::info!("log with effect | {} {:?}", name, get_items.emit(()));
+    // });
+
+    Html::default()
 }

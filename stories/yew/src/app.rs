@@ -1,14 +1,19 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::primitives::{
-    arrow, collection, label, popper, select, separator, slot, switch, visually_hidden,
+use crate::{
+    experiments::Experiments,
+    primitives::{
+        arrow, collection, label, popper, select, separator, slot, switch, visually_hidden,
+    },
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
     #[at("/")]
     Index,
+    #[at("/experiments")]
+    Experiments,
 
     #[at("/arrow/styled")]
     ArrowStyled,
@@ -127,6 +132,7 @@ enum Route {
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Index => html! { <Index /> },
+        Route::Experiments => html! { <Experiments /> },
 
         Route::ArrowStyled => html! { <arrow::Styled /> },
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
@@ -224,6 +230,9 @@ pub fn App() -> Html {
                 <ul>
                     <li>
                         <Link<Route> to={Route::Index}>{ "Index" }</Link<Route>>
+                    </li>
+                    <li>
+                        <Link<Route> to={Route::Experiments}>{ "Experiments" }</Link<Route>>
                     </li>
                     <li>
                         {"Arrow"}
