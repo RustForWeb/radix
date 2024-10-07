@@ -1,4 +1,3 @@
-use radix_yew_compose_refs::use_composed_refs;
 use radix_yew_primitive::{compose_callbacks, Primitive};
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use radix_yew_use_previous::use_previous;
@@ -43,7 +42,7 @@ pub struct SwitchProps {
 #[function_component]
 pub fn Switch(props: &SwitchProps) -> Html {
     let button_ref = use_node_ref();
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), button_ref.clone()]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), button_ref.clone()]);
 
     let is_form_control = use_state_eq(|| false);
     use_effect_with(button_ref.clone(), {

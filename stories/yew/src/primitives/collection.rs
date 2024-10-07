@@ -86,7 +86,7 @@ pub fn DynamicInsertion() -> Html {
 
             <List>
                 <WrappedItems has_tomato={*has_tomato} />
-                <LogItems<bool> value={*has_tomato} />
+                <LogItems<bool> rerender_value={*has_tomato} />
             </List>
         </>
     }
@@ -132,7 +132,7 @@ pub fn WithChangingItem() -> Html {
                 <Item>{"Red"}</Item>
                 <Item disabled={*is_disabled}>{"Green"}</Item>
                 <Item>{"Blue"}</Item>
-                <LogItems<bool> value={*is_disabled} />
+                <LogItems<bool> rerender_value={*is_disabled} />
             </List>
         </>
     }
@@ -212,8 +212,9 @@ fn Item(props: &ItemProps) -> Html {
 struct LogItemsProps<T: Default + PartialEq> {
     #[prop_or("items".to_string())]
     name: String,
+    // Unlike React, Yew does not rerender when a sibling changes, so we have to force a rerender by changing a prop.
     #[prop_or_default]
-    value: T,
+    rerender_value: T,
 }
 
 #[function_component]
@@ -228,10 +229,6 @@ fn LogItems<T: Default + PartialEq = ()>(props: &LogItemsProps<T>) -> Html {
             log::info!("{} {:?}", name, get_items.emit(()));
         }
     });
-
-    // use_effect_with((props.name.clone(), get_items), |(name, get_items)| {
-    //     log::info!("log with effect | {} {:?}", name, get_items.emit(()));
-    // });
 
     Html::default()
 }

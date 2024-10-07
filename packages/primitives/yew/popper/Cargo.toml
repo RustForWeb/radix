@@ -11,7 +11,6 @@ version.workspace = true
 [dependencies]
 floating-ui-yew = "0.1.2"
 radix-yew-arrow = { path = "../arrow", version = "0.0.2" }
-radix-yew-compose-refs = { path = "../compose-refs", version = "0.0.2" }
 radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
 radix-yew-use-size = { path = "../use-size", version = "0.0.2" }
 serde.workspace = true

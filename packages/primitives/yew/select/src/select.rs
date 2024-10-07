@@ -3,7 +3,6 @@ use std::{
     fmt::{Display, Formatter},
 };
 
-use radix_yew_compose_refs::use_composed_refs;
 use radix_yew_direction::{use_direction, Direction};
 use radix_yew_focus_guards::use_focus_guards;
 use radix_yew_id::use_id;
@@ -251,8 +250,7 @@ pub struct SelectTriggerProps {
 pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
     let is_disabled = context.disabled.unwrap_or(props.disabled);
-    let composed_refs =
-        use_composed_refs(vec![props.node_ref.clone(), context.trigger_ref.clone()]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.trigger_ref.clone()]);
     let pointer_type = use_state_eq(|| "touch".to_string());
 
     let handle_open = use_callback(
@@ -394,7 +392,7 @@ pub struct SelectValueProps {
 #[function_component]
 pub fn SelectValue(props: &SelectValueProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), context.value_node_ref]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.value_node_ref]);
 
     let attrs = use_memo(props.attrs.clone(), |attrs| {
         attrs
@@ -535,7 +533,7 @@ struct SelectContentImplProps {
 fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
     let content_ref = use_node_ref();
     let viewport_ref = use_node_ref();
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), content_ref.clone()]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref.clone()]);
 
     // TODO
 
@@ -593,7 +591,7 @@ fn SelectItemAlignedPosition(props: &SelectItemAlignedPositionProps) -> Html {
         use_context::<SelectContentContextValue>().expect("Select content context required.");
     let content_wrapper_ref = use_node_ref();
     let content_ref = use_node_ref();
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), content_ref]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref]);
     // TODO
 
     let content_z_index: UseStateHandle<Option<String>> = use_state_eq(|| None);
@@ -711,8 +709,7 @@ pub struct SelectViewportProps {
 pub fn SelectViewport(props: &SelectViewportProps) -> Html {
     let content_context =
         use_context::<SelectContentContextValue>().expect("Select content context required.");
-    let composed_refs =
-        use_composed_refs(vec![props.node_ref.clone(), content_context.viewport_ref]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_context.viewport_ref]);
 
     let attrs = use_memo(props.attrs.clone(), |attrs| {
         attrs
@@ -874,7 +871,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
     let _text_value = use_state_eq(|| props.text_value.clone());
     let is_focused = use_state_eq(|| false);
     let item_ref = use_node_ref();
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), item_ref.clone()]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_ref.clone()]);
     let is_selected = context.value.is_some_and(|value| value == props.value);
     let text_id = use_id(None);
 
@@ -975,7 +972,7 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
     let _native_options_context = use_context::<SelectNativeOptionsContextValue>()
         .expect("Select native options context required.");
     let item_text_node_ref = use_node_ref();
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), item_text_node_ref.clone()]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_text_node_ref.clone()]);
 
     let item_ref_callback = use_callback(
         (content_context.item_ref_callback, item_context.clone()),

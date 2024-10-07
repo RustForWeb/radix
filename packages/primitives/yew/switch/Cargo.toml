@@ -10,7 +10,6 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-radix-yew-compose-refs = { path = "../compose-refs", version = "0.0.2" }
 radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
 radix-yew-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
 radix-yew-use-previous = { path = "../use-previous", version = "0.0.2" }

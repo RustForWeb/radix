@@ -7,7 +7,6 @@ use floating_ui_yew::{
     UseFloatingReturn, ARROW_NAME, HIDE_NAME,
 };
 use radix_yew_arrow::Arrow as ArrowPrimitive;
-use radix_yew_compose_refs::use_composed_refs;
 use radix_yew_primitive::Primitive;
 use radix_yew_use_size::use_size;
 use serde::{Deserialize, Serialize};
@@ -98,7 +97,7 @@ pub struct PopperAnchorProps {
 #[function_component]
 pub fn PopperAnchor(props: &PopperAnchorProps) -> Html {
     let context = use_context::<PopperContextValue>().expect("Popper context required.");
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), context.anchor_ref]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.anchor_ref]);
 
     html! {
         <Primitive
@@ -162,7 +161,7 @@ pub fn PopperContent(props: &PopperContentProps) -> Html {
     let context = use_context::<PopperContextValue>().expect("Popper context is required.");
 
     let content_ref = use_node_ref();
-    let composed_refs = use_composed_refs(vec![props.node_ref.clone(), content_ref.clone()]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref.clone()]);
 
     let arrow_ref = use_node_ref();
     let arrow_size = use_size(arrow_ref.clone());

@@ -3114,21 +3114,11 @@ dependencies = [
 name = "radix-yew-collection"
 version = "0.0.2"
 dependencies = [
- "log",
  "nanoid",
- "radix-yew-compose-refs",
  "radix-yew-slot",
  "web-sys",
  "yew",
  "yew-attrs",
-]
-
-[[package]]
-name = "radix-yew-compose-refs"
-version = "0.0.2"
-dependencies = [
- "log",
- "yew",
 ]
 
 [[package]]
@@ -3176,7 +3166,6 @@ version = "0.0.2"
 dependencies = [
  "floating-ui-yew",
  "radix-yew-arrow",
- "radix-yew-compose-refs",
  "radix-yew-primitive",
  "radix-yew-use-size",
  "serde",
@@ -3199,7 +3188,6 @@ dependencies = [
 name = "radix-yew-select"
 version = "0.0.2"
 dependencies = [
- "radix-yew-compose-refs",
  "radix-yew-direction",
  "radix-yew-focus-guards",
  "radix-yew-id",
@@ -3258,7 +3246,6 @@ dependencies = [
 name = "radix-yew-switch"
 version = "0.0.2"
 dependencies = [
- "radix-yew-compose-refs",
  "radix-yew-primitive",
  "radix-yew-use-controllable-state",
  "radix-yew-use-previous",
