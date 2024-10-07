@@ -15,7 +15,10 @@ use radix_yew_id::use_id;
 use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_yew_primitive::{compose_callbacks, Primitive};
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
-use web_sys::{wasm_bindgen::JsCast, window};
+use web_sys::{
+    wasm_bindgen::{prelude::Closure, JsCast},
+    window,
+};
 use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::{attrs, Attrs};
 
@@ -597,8 +600,61 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
 
     let focus_first = use_callback(
         (get_items, viewport_ref.clone()),
-        |_candidates: Vec<Option<web_sys::HtmlElement>>, (_get_items, _viewport_ref)| {
-            // TODO
+        |candidates: Vec<Option<web_sys::HtmlElement>>, (get_items, viewport_ref)| {
+            let items = get_items
+                .emit(())
+                .into_iter()
+                .map(|item| item.r#ref.cast::<web_sys::HtmlElement>())
+                .collect::<Vec<_>>();
+            let first_item = items.first().cloned().flatten();
+            let last_item = items.last().cloned().flatten();
+
+            let document = window()
+                .expect("Window should exist.")
+                .document()
+                .expect("Document should exist.");
+            let previously_focused_element = document.active_element();
+            for candidate in candidates.into_iter().flatten() {
+                // If focus is already where we want to go, we don't want to keep going through the candidates.
+                if previously_focused_element
+                    .as_ref()
+                    .is_some_and(|previously_focused_element| {
+                        *previously_focused_element == candidate.clone().into()
+                    })
+                {
+                    return;
+                }
+
+                let options = web_sys::ScrollIntoViewOptions::new();
+                options.set_block(web_sys::ScrollLogicalPosition::Nearest);
+                candidate.scroll_into_view_with_scroll_into_view_options(&options);
+
+                // Viewport might have padding so scroll to it's edges when focusing first/last items.
+                if first_item
+                    .as_ref()
+                    .is_some_and(|first_item| *first_item == candidate)
+                {
+                    let viewport = viewport_ref
+                        .cast::<web_sys::HtmlElement>()
+                        .expect("Viewport should exist.");
+                    viewport.set_scroll_top(0);
+                }
+                if last_item
+                    .as_ref()
+                    .is_some_and(|last_item| *last_item == candidate)
+                {
+                    let viewport = viewport_ref
+                        .cast::<web_sys::HtmlElement>()
+                        .expect("Viewport should exist.");
+                    viewport.set_scroll_top(viewport.scroll_height());
+                }
+
+                candidate.focus().expect("Element should be focused.");
+
+                if document.active_element() != previously_focused_element {
+                    return;
+                }
+            }
         },
     );
 
@@ -611,6 +667,73 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             ]);
         },
     );
+
+    // Since this is not dependent on layout, we want to ensure this runs at the same time as
+    // other effects across components. Hence why we don't call `focus_selected_tem` inside `position`.
+    use_effect_with(is_positioned.clone(), {
+        let focus_selected_item = focus_selected_item.clone();
+
+        move |is_positioned| {
+            if **is_positioned {
+                focus_selected_item.emit(());
+            }
+        }
+    });
+
+    // Prevent selecting items on `pointerup` in some cases after opening from `pointerdown`
+    // and close on `pointerup` outside.
+    use_effect_with(
+        (content_ref.clone(), context.trigger_pointer_down_pos_ref),
+        |(content_ref, _trigger_pointer_down_pos_ref)| {
+            if let Some(_content) = content_ref.get() {
+                // TODO
+            }
+        },
+    );
+
+    use_effect({
+        let on_open_change = context.on_open_change.clone();
+
+        move || {
+            let close_blur: Closure<dyn Fn(FocusEvent)> = Closure::new({
+                let on_open_change = on_open_change.clone();
+
+                move |_: FocusEvent| {
+                    on_open_change.emit(false);
+                }
+            });
+            let close_resize: Closure<dyn Fn(Event)> = Closure::new({
+                let on_open_change = on_open_change.clone();
+
+                move |_: Event| {
+                    on_open_change.emit(false);
+                }
+            });
+
+            let window = window().expect("Window should exist");
+            window
+                .add_event_listener_with_callback("blur", close_blur.as_ref().unchecked_ref())
+                .expect("Blur event listener should be added.");
+            window
+                .add_event_listener_with_callback("resize", close_resize.as_ref().unchecked_ref())
+                .expect("Resize event listener should be added.");
+
+            move || {
+                window
+                    .remove_event_listener_with_callback(
+                        "blur",
+                        close_blur.as_ref().unchecked_ref(),
+                    )
+                    .expect("Blur event listener should be removed.");
+                window
+                    .remove_event_listener_with_callback(
+                        "resize",
+                        close_resize.as_ref().unchecked_ref(),
+                    )
+                    .expect("Resize event listener should be removed.");
+            }
+        }
+    });
 
     let item_ref_callback = use_callback(context.value.clone(), {
         let first_valid_item_found_ref = first_valid_item_found_ref.clone();
@@ -655,7 +778,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             props.position,
             selected_item,
             selected_item_text,
-            is_positioned,
+            is_positioned.clone(),
         ),
         |(position, selected_item, selected_item_text, is_positioned)| SelectContentContextValue {
             content_ref,
@@ -685,6 +808,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                 </SelectPopperPosition>
             } else {
                 <SelectItemAlignedPosition
+                    on_placed={Callback::from(move |_| is_positioned.set(true))}
                     as_child={props.as_child}
                     node_ref={composed_refs}
                     attrs={props.attrs.clone()}
