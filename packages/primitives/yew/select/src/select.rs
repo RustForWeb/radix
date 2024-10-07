@@ -20,7 +20,7 @@ use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::{attrs, Attrs};
 
 const OPEN_KEYS: [&str; 4] = [" ", "Enter", "ArrowUp", "ArrowDown"];
-const _SELECTION_KEYS: [&str; 2] = [" ", "Enter"];
+const SELECTION_KEYS: [&str; 2] = [" ", "Enter"];
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Position {
@@ -52,7 +52,8 @@ struct ItemData {
 struct SelectContextValue {
     trigger_ref: NodeRef,
     value_node_ref: NodeRef,
-    // TODO: value_node_has_children?
+    value_node_has_children: bool,
+    on_value_node_has_children_change: Callback<bool>,
     content_id: String,
     value: Option<String>,
     on_value_change: Callback<String>,
@@ -69,7 +70,7 @@ struct NativeOption {
     key: String,
     value: String,
     disabled: bool,
-    text_content: String,
+    text_content: Option<String>,
 }
 
 #[derive(Clone, PartialEq)]
@@ -110,6 +111,7 @@ pub struct SelectProps {
 pub fn Select(props: &SelectProps) -> Html {
     let trigger_ref = use_node_ref();
     let value_node_ref = use_node_ref();
+    let value_node_has_children = use_state(|| false);
     let direction = use_direction(props.dir);
 
     let on_open_change = use_callback(
@@ -169,6 +171,7 @@ pub fn Select(props: &SelectProps) -> Html {
         (
             props.disabled,
             props.required,
+            value_node_has_children,
             direction,
             open,
             on_open_change,
@@ -179,6 +182,7 @@ pub fn Select(props: &SelectProps) -> Html {
         |(
             disabled,
             required,
+            value_node_has_children,
             direction,
             open,
             on_open_change,
@@ -189,6 +193,12 @@ pub fn Select(props: &SelectProps) -> Html {
             SelectContextValue {
                 trigger_ref,
                 value_node_ref,
+                value_node_has_children: **value_node_has_children,
+                on_value_node_has_children_change: Callback::from({
+                    let value_node_has_children = value_node_has_children.clone();
+
+                    move |has_children| value_node_has_children.set(has_children)
+                }),
                 content_id,
                 value: value.clone(),
                 on_value_change: on_value_change.clone(),
@@ -407,6 +417,16 @@ pub fn SelectValue(props: &SelectValueProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.value_node_ref]);
 
+    use_effect_with(props.children.clone(), {
+        let on_value_node_has_children_change = context.on_value_node_has_children_change.clone();
+
+        move |children| {
+            let has_children = !matches!(children, VNode::VList(list) if list.is_empty());
+
+            on_value_node_has_children_change.emit(has_children);
+        }
+    });
+
     let attrs = use_memo(props.attrs.clone(), |attrs| {
         attrs
             .clone()
@@ -416,8 +436,6 @@ pub fn SelectValue(props: &SelectValueProps) -> Html {
             })
             .expect("Attributes should be merged.")
     });
-
-    // TODO: value node has children?
 
     html! {
         <Primitive
@@ -509,7 +527,12 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
 
     html! {
         if context.open {
-            <SelectContentImpl position={props.position}>
+            <SelectContentImpl
+                position={props.position}
+                as_child={props.as_child}
+                node_ref={props.node_ref.clone()}
+                attrs={props.attrs.clone()}
+            >
                 {props.children.clone()}
             </SelectContentImpl>
         } else {
@@ -531,8 +554,9 @@ struct SelectContentContextValue {
     viewport_ref: NodeRef,
     item_ref_callback: Callback<(web_sys::HtmlElement, String, bool)>,
     selected_item: Option<web_sys::HtmlElement>,
-    // TODO
+    on_item_leave: Callback<()>,
     item_text_ref_callback: Callback<(web_sys::HtmlElement, String, bool)>,
+    focus_selected_item: Callback<()>,
     selected_item_text: Option<web_sys::HtmlElement>,
     position: Position,
     is_positioned: bool,
@@ -562,7 +586,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref.clone()]);
     let selected_item = use_state_eq(|| None);
     let selected_item_text = use_state_eq(|| None);
-    let _get_items = use_collection::<ItemData>();
+    let get_items = use_collection::<ItemData>();
     let is_positioned = use_state_eq(|| false);
     let first_valid_item_found_ref = use_mut_ref(|| false);
 
@@ -570,6 +594,23 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
 
     // Make sure the whole tree has focus guards as our `Select` may be the last element in the DOM (because of the `Portal`).
     use_focus_guards();
+
+    let focus_first = use_callback(
+        (get_items, viewport_ref.clone()),
+        |_candidates: Vec<Option<web_sys::HtmlElement>>, (_get_items, _viewport_ref)| {
+            // TODO
+        },
+    );
+
+    let focus_selected_item = use_callback(
+        (focus_first, selected_item.clone(), content_ref.clone()),
+        |_: (), (focus_first, selected_item, content_ref)| {
+            focus_first.emit(vec![
+                (**selected_item).clone(),
+                content_ref.cast::<web_sys::HtmlElement>(),
+            ]);
+        },
+    );
 
     let item_ref_callback = use_callback(context.value.clone(), {
         let first_valid_item_found_ref = first_valid_item_found_ref.clone();
@@ -589,7 +630,11 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             }
         }
     });
-    // TODO: handle_item_leave
+    let handle_item_leave = use_callback(content_ref.clone(), |_: (), content_ref| {
+        if let Some(content) = content_ref.cast::<web_sys::HtmlElement>() {
+            content.focus().expect("Element should be focused.");
+        }
+    });
     let item_text_ref_callback = use_callback(context.value, {
         let first_valid_item_found_ref = first_valid_item_found_ref.clone();
         let selected_item_text = selected_item_text.clone();
@@ -617,7 +662,9 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             viewport_ref,
             item_ref_callback,
             selected_item: (**selected_item).clone(),
+            on_item_leave: handle_item_leave,
             item_text_ref_callback,
+            focus_selected_item,
             selected_item_text: (**selected_item_text).clone(),
             position: *position,
             is_positioned: **is_positioned,
@@ -1261,6 +1308,22 @@ pub struct SelectItemProps {
     pub disabled: bool,
     #[prop_or_default]
     pub text_value: String,
+    #[prop_or_default]
+    pub on_focus: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub on_blur: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_pointer_up: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_move: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_leave: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or(false)]
     pub as_child: bool,
     #[prop_or_default]
@@ -1282,6 +1345,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_ref.clone()]);
     let is_selected = context.value.is_some_and(|value| value == props.value);
     let text_id = use_id(None);
+    let pointer_type_ref = use_mut_ref(|| "touch".to_string());
 
     let item_ref_callback = use_callback(
         (
@@ -1298,6 +1362,21 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             item_ref_callback.emit(node);
         }
     });
+
+    let handle_select = use_callback(
+        (
+            props.disabled,
+            props.value.clone(),
+            context.on_value_change,
+            context.on_open_change,
+        ),
+        move |_: (), (disabled, value, on_value_change, on_open_change)| {
+            if !*disabled {
+                on_value_change.emit(value.clone());
+                on_open_change.emit(false);
+            }
+        },
+    );
 
     let item_context_value = use_memo(
         (
@@ -1324,15 +1403,54 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         },
     );
 
+    #[derive(PartialEq)]
+    struct AttrsDeps {
+        attrs: Attrs,
+        disabled: bool,
+        on_focus: Callback<FocusEvent>,
+        on_blur: Callback<FocusEvent>,
+        on_click: Callback<MouseEvent>,
+        on_pointer_up: Callback<PointerEvent>,
+        on_pointer_down: Callback<PointerEvent>,
+        on_pointer_move: Callback<PointerEvent>,
+        on_pointer_leave: Callback<PointerEvent>,
+        on_key_down: Callback<KeyboardEvent>,
+        text_id: String,
+        is_focused: UseStateHandle<bool>,
+        is_selected: bool,
+    }
+
     let attrs = use_memo(
-        (
-            props.attrs.clone(),
-            props.disabled,
+        AttrsDeps {
+            attrs: props.attrs.clone(),
+            disabled: props.disabled,
+            on_focus: props.on_focus.clone(),
+            on_blur: props.on_blur.clone(),
+            on_click: props.on_click.clone(),
+            on_pointer_up: props.on_pointer_up.clone(),
+            on_pointer_down: props.on_pointer_down.clone(),
+            on_pointer_move: props.on_pointer_move.clone(),
+            on_pointer_leave: props.on_pointer_leave.clone(),
+            on_key_down: props.on_key_down.clone(),
             text_id,
             is_focused,
             is_selected,
-        ),
-        |(attrs, disabled, text_id, is_focused, is_selected)| {
+        },
+        |AttrsDeps {
+             attrs,
+             disabled,
+             on_focus,
+             on_blur,
+             on_click,
+             on_pointer_up,
+             on_pointer_down,
+             on_pointer_move,
+             on_pointer_leave,
+             on_key_down,
+             text_id,
+             is_focused,
+             is_selected,
+         }| {
             attrs
                 .clone()
                 .merge(attrs! {
@@ -1345,7 +1463,99 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
                     aria-disabled={disabled.then_some("true")}
                     data-disabled={disabled.then_some("")}
                     tab-index={(!disabled).then_some("-1")}
-                    // TODO: events
+                    onfocus={compose_callbacks(Some(on_focus.clone()), Some(Callback::from({
+                        let is_focused = is_focused.clone();
+
+                        move |_: FocusEvent| is_focused.set(true)
+                    })), None)}
+                    onblur={compose_callbacks(Some(on_blur.clone()), Some(Callback::from({
+                        let is_focused = is_focused.clone();
+
+                        move |_: FocusEvent| is_focused.set(false)
+                    })), None)}
+                    onclick={compose_callbacks(Some(on_click.clone()), Some(Callback::from({
+                        let pointer_type_ref = pointer_type_ref.clone();
+                        let handle_select = handle_select.clone();
+
+                        move |_: MouseEvent| {
+                            // Open on click when using a touch or pen device.
+                            if *pointer_type_ref.borrow() != "mouse" {
+                                handle_select.emit(());
+                            }
+                        }
+                    })), None)}
+                    onpointerup={compose_callbacks(Some(on_pointer_up.clone()), Some(Callback::from({
+                        let pointer_type_ref = pointer_type_ref.clone();
+                        let handle_select = handle_select.clone();
+
+                        move |_: PointerEvent| {
+                            // Using a mouse you should be able to do pointer down, move through
+                            // the list, and release the pointer over the item to select it.
+                            if *pointer_type_ref.borrow() == "mouse" {
+                                handle_select.emit(());
+                            }
+                        }
+                    })), None)}
+                    onpointerdown={compose_callbacks(Some(on_pointer_down.clone()), Some(Callback::from({
+                        let pointer_type_ref = pointer_type_ref.clone();
+
+                        move |event: PointerEvent| {
+                            *pointer_type_ref.borrow_mut() = event.pointer_type();
+                        }
+                    })), None)}
+                    onpointermove={compose_callbacks(Some(on_pointer_move.clone()), Some(Callback::from({
+                        let pointer_type_ref = pointer_type_ref.clone();
+                        let disabled = *disabled;
+                        let on_item_leave = content_context.on_item_leave.clone();
+
+                        move |event: PointerEvent| {
+                            // Remember pointer type when sliding over to this item from another one.
+                            *pointer_type_ref.borrow_mut() = event.pointer_type();
+
+                            if disabled {
+                                on_item_leave.emit(());
+                            } else if *pointer_type_ref.borrow() == "mouse" {
+                                // Even though Safari doesn't support this option, it's acceptable
+                                // as it only means it might scroll a few pixels when using the pointer.
+                                let options = web_sys::FocusOptions::new();
+                                options.set_prevent_scroll(true);
+                                event
+                                    .current_target()
+                                    .expect("Event should have target.")
+                                    .unchecked_into::<web_sys::HtmlElement>()
+                                    .focus_with_options(&options)
+                                    .expect("Element should be focused.");
+                            }
+                        }
+                    })), None)}
+                    onpointerleave={compose_callbacks(Some(on_pointer_leave.clone()), Some(Callback::from({
+                        let on_item_leave = content_context.on_item_leave.clone();
+
+                        move |event: PointerEvent| {
+                            if event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Element>())
+                                != window().expect("Window should exist.").document().expect("Document should exist.").active_element()
+                            {
+                                on_item_leave.emit(());
+                            }
+                        }
+                    })), None)}
+                    onkeydown={compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
+                        move |event: KeyboardEvent| {
+                            // TODO: typeahead
+                            let is_typing_ahead = false;
+                            if is_typing_ahead && event.key() == " " {
+                                return
+                            }
+                            if SELECTION_KEYS.contains(&event.key().as_str()) {
+                                handle_select.emit(());
+                            }
+                            // Prevent page scroll if using the space key to select an item.
+                            if event.key() == " " {
+                                event.prevent_default();
+                            }
+                        }
+                    })), None)}
+
                 })
                 .expect("Attributes should be merged.")
         },
@@ -1382,12 +1592,12 @@ pub struct SelectItemTextProps {
 
 #[function_component]
 pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
-    let _context = use_context::<SelectContextValue>().expect("Select context required.");
+    let context = use_context::<SelectContextValue>().expect("Select context required.");
     let content_context =
         use_context::<SelectContentContextValue>().expect("Select content context required.");
     let item_context =
         use_context::<SelectItemContextValue>().expect("Select item context required.");
-    let _native_options_context = use_context::<SelectNativeOptionsContextValue>()
+    let native_options_context = use_context::<SelectNativeOptionsContextValue>()
         .expect("Select native options context required.");
     let item_text_node_ref = use_node_ref();
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_text_node_ref.clone()]);
@@ -1399,19 +1609,52 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
             item_text_ref_callback.emit((node, item_context.value.clone(), item_context.disabled));
         },
     );
-    use_effect_with(item_text_node_ref, move |item_text_node_ref| {
+    use_effect_with(item_text_node_ref.clone(), move |item_text_node_ref| {
         if let Some(node) = item_text_node_ref.cast::<web_sys::HtmlElement>() {
             item_text_ref_callback.emit(node);
         }
     });
 
+    let text_content = use_memo(item_text_node_ref, |item_text_node_ref| {
+        item_text_node_ref
+            .get()
+            .and_then(|item_text_node| item_text_node.text_content())
+    });
+    let native_option = use_memo(
+        (item_context.disabled, item_context.value, text_content),
+        |(disabled, value, text_content)| NativeOption {
+            key: value.clone(),
+            value: value.clone(),
+            disabled: *disabled,
+            text_content: (**text_content).clone(),
+        },
+    );
+
+    use_effect_with(
+        (
+            native_option,
+            native_options_context.on_native_option_add,
+            native_options_context.on_native_option_remove,
+        ),
+        |(native_option, on_native_option_add, on_native_option_remove)| {
+            let native_option = (**native_option).clone();
+            on_native_option_add.emit(native_option.clone());
+
+            {
+                let on_native_option_remove = on_native_option_remove.clone();
+
+                move || on_native_option_remove.emit(native_option)
+            }
+        },
+    );
+
     let attrs = use_memo(
-        (props.attrs.clone(), item_context),
-        |(attrs, item_context)| {
+        (props.attrs.clone(), item_context.text_id),
+        |(attrs, text_id)| {
             attrs
                 .clone()
                 .merge(attrs! {
-                    id={item_context.text_id.clone()}
+                    id={text_id.clone()}
                     // TODO
                 })
                 .expect("Attributes should be merged.")
@@ -1419,22 +1662,27 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
     );
 
     html! {
-        // TODO
+        <>
+            <Primitive
+                element="span"
+                as_child={props.as_child}
+                node_ref={composed_refs}
+                attrs={(*attrs).clone()}
+            >
+                {props.children.clone()}
+            </Primitive>
 
-        <Primitive
-            element="span"
-            as_child={props.as_child}
-            node_ref={composed_refs}
-            attrs={(*attrs).clone()}
-        >
-            {props.children.clone()}
-        </Primitive>
+            if item_context.is_selected && !context.value_node_has_children {
+                if let Some(_value_node) = context.value_node_ref.get() {
+                    // TODO: portal
+                }
+            }
+        </>
     }
 }
 
 #[derive(PartialEq, Properties)]
 pub struct SelectItemIndicatorProps {
-    // TODO
     #[prop_or(false)]
     pub as_child: bool,
     #[prop_or_default]
@@ -1447,29 +1695,29 @@ pub struct SelectItemIndicatorProps {
 
 #[function_component]
 pub fn SelectItemIndicator(props: &SelectItemIndicatorProps) -> Html {
-    // let item_context = use_context::<SelectItemContextValue>().expect("Select item context required.");
+    let item_context =
+        use_context::<SelectItemContextValue>().expect("Select item context required.");
 
     let attrs = use_memo(props.attrs.clone(), |attrs| {
         attrs
             .clone()
             .merge(attrs! {
-                // TODO
                 aria-hidden="true"
             })
             .expect("Attributes should be merged.")
     });
 
     html! {
-        // TODO
-
-        <Primitive
-            element="span"
-            as_child={props.as_child}
-            node_ref={props.node_ref.clone()}
-            attrs={(*attrs).clone()}
-        >
-            {props.children.clone()}
-        </Primitive>
+        if item_context.is_selected {
+            <Primitive
+                element="span"
+                as_child={props.as_child}
+                node_ref={props.node_ref.clone()}
+                attrs={(*attrs).clone()}
+            >
+                {props.children.clone()}
+            </Primitive>
+        }
     }
 }
 
