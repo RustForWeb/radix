@@ -10,6 +10,9 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+log.workspace = true
+radix-number = { path = "../../core/number", version = "0.0.2" }
+radix-yew-collection = { path = "../collection", version = "0.0.2" }
 radix-yew-direction = { path = "../direction", version = "0.0.2" }
 radix-yew-focus-guards = { path = "../focus-guards", version = "0.0.2" }
 radix-yew-id = { path = "../id", version = "0.0.2" }

@@ -3188,6 +3188,9 @@ dependencies = [
 name = "radix-yew-select"
 version = "0.0.2"
 dependencies = [
+ "log",
+ "radix-number",
+ "radix-yew-collection",
  "radix-yew-direction",
  "radix-yew-focus-guards",
  "radix-yew-id",

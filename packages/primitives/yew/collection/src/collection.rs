@@ -3,7 +3,6 @@ use std::rc::Rc;
 use std::{collections::HashMap, fmt::Debug};
 
 use nanoid::nanoid;
-// use radix_yew_compose_refs::use_composed_refs;
 use radix_yew_slot::Slot;
 use yew::prelude::*;
 use yew::virtual_dom::{AttributeOrProperty, Attributes};
@@ -90,7 +89,7 @@ pub fn CollectionSlot<ItemData: Clone + PartialEq + 'static>(props: &CollectionS
 const ITEM_DATA_ATTR: &str = "data-radix-collection-item";
 
 #[derive(PartialEq, Properties)]
-pub struct CollectionItemSlotProps<ItemData: Clone + Debug + PartialEq + 'static> {
+pub struct CollectionItemSlotProps<ItemData: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub item_data: Option<ItemData>,
     #[prop_or(false)]
@@ -104,7 +103,7 @@ pub struct CollectionItemSlotProps<ItemData: Clone + Debug + PartialEq + 'static
 }
 
 #[function_component]
-pub fn CollectionItemSlot<ItemData: Clone + Debug + PartialEq + 'static>(
+pub fn CollectionItemSlot<ItemData: Clone + PartialEq + 'static>(
     props: &CollectionItemSlotProps<ItemData>,
 ) -> Html {
     let id = use_state_eq(CollectionItemId::new);
@@ -174,7 +173,7 @@ fn node_list_to_vec(node_list: web_sys::NodeList) -> Vec<web_sys::Node> {
 #[hook]
 pub fn use_collection<ItemData>() -> Callback<(), Vec<CollectionItemValue<ItemData>>>
 where
-    ItemData: Clone + Debug + PartialEq + 'static,
+    ItemData: Clone + PartialEq + 'static,
 {
     let context =
         use_context::<CollectionContextValue<ItemData>>().expect("Collection context required.");

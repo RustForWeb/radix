@@ -1,15 +1,21 @@
 use std::{
+    cell::RefCell,
     collections::HashSet,
     fmt::{Display, Formatter},
+    rc::Rc,
 };
 
+use radix_number::clamp;
+use radix_yew_collection::{
+    use_collection, CollectionItemSlot, CollectionProvider, CollectionSlot,
+};
 use radix_yew_direction::{use_direction, Direction};
 use radix_yew_focus_guards::use_focus_guards;
 use radix_yew_id::use_id;
 use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_yew_primitive::{compose_callbacks, Primitive};
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
-use web_sys::wasm_bindgen::JsCast;
+use web_sys::{wasm_bindgen::JsCast, window};
 use yew::{prelude::*, virtual_dom::VNode};
 use yew_attrs::{attrs, Attrs};
 
@@ -36,6 +42,13 @@ impl Display for Position {
 }
 
 #[derive(Clone, PartialEq)]
+struct ItemData {
+    value: String,
+    disabled: bool,
+    text_value: String,
+}
+
+#[derive(Clone, PartialEq)]
 struct SelectContextValue {
     trigger_ref: NodeRef,
     value_node_ref: NodeRef,
@@ -47,7 +60,7 @@ struct SelectContextValue {
     required: Option<bool>,
     on_open_change: Callback<bool>,
     dir: Direction,
-    trigger_pointer_down_pos: UseStateHandle<Option<(i32, i32)>>,
+    trigger_pointer_down_pos_ref: Rc<RefCell<Option<(i32, i32)>>>,
     disabled: Option<bool>,
 }
 
@@ -134,7 +147,7 @@ pub fn Select(props: &SelectProps) -> Html {
         set_value.emit(Some(value));
     });
 
-    let trigger_pointer_down_pos = use_state_eq(|| None);
+    let trigger_pointer_down_pos_ref = use_mut_ref(|| None);
     let native_options_set = use_state_eq(HashSet::<NativeOption>::new);
 
     let is_form_control = use_state_eq(|| false);
@@ -161,7 +174,7 @@ pub fn Select(props: &SelectProps) -> Html {
             on_open_change,
             value,
             on_value_change,
-            trigger_pointer_down_pos,
+            trigger_pointer_down_pos_ref,
         ),
         |(
             disabled,
@@ -171,7 +184,7 @@ pub fn Select(props: &SelectProps) -> Html {
             on_open_change,
             value,
             on_value_change,
-            trigger_pointer_down_pos,
+            trigger_pointer_down_pos_ref,
         )| {
             SelectContextValue {
                 trigger_ref,
@@ -183,7 +196,7 @@ pub fn Select(props: &SelectProps) -> Html {
                 required: *required,
                 on_open_change: on_open_change.clone(),
                 dir: *direction,
-                trigger_pointer_down_pos: trigger_pointer_down_pos.clone(),
+                trigger_pointer_down_pos_ref: trigger_pointer_down_pos_ref.clone(),
                 disabled: *disabled,
             }
         },
@@ -213,10 +226,11 @@ pub fn Select(props: &SelectProps) -> Html {
     html! {
         <Popper>
             <ContextProvider<SelectContextValue> context={(*context_value).clone()}>
-                // TODO: CollectionProvider
-                <ContextProvider<SelectNativeOptionsContextValue> context={(*native_options_context_value).clone()}>
-                    {props.children.clone()}
-                </ContextProvider<SelectNativeOptionsContextValue>>
+                <CollectionProvider<ItemData>>
+                    <ContextProvider<SelectNativeOptionsContextValue> context={(*native_options_context_value).clone()}>
+                        {props.children.clone()}
+                    </ContextProvider<SelectNativeOptionsContextValue>>
+                </CollectionProvider<ItemData>>
 
                 if *is_form_control {
                     // TODO: BubbleSelect
@@ -251,7 +265,8 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
     let is_disabled = context.disabled.unwrap_or(props.disabled);
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.trigger_ref.clone()]);
-    let pointer_type = use_state_eq(|| "touch".to_string());
+    let _get_items = use_collection::<ItemData>();
+    let pointer_type_ref = use_mut_ref(|| "touch".to_string());
 
     let handle_open = use_callback(
         (context.clone(), is_disabled),
@@ -263,9 +278,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
             }
 
             if let Some(event_page_coords) = event_page_coords {
-                context
-                    .trigger_pointer_down_pos
-                    .set(Some(event_page_coords));
+                *context.trigger_pointer_down_pos_ref.borrow_mut() = Some(event_page_coords);
             }
         },
     );
@@ -303,7 +316,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                     data-placeholder={should_show_placeholder(context.value).then_some("")}
                     // Enable compatibility with native label or custom `Label` "click" for Safari:
                     onclick={compose_callbacks(Some(on_click.clone()), Some(Callback::from({
-                        let pointer_type = pointer_type.clone();
+                        let pointer_type_ref = pointer_type_ref.clone();
                         let handle_open = handle_open.clone();
 
                         move |event: MouseEvent| {
@@ -320,7 +333,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                                 .expect("Element should be focused.");
 
                             // Open on click when using a touch or pen device.
-                            if *pointer_type != "mouse" {
+                            if *pointer_type_ref.borrow() != "mouse" {
                                 handle_open.emit(Some((event.page_x(), event.page_y())));
                             }
                     }})), None)}
@@ -328,7 +341,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                         let handle_open = handle_open.clone();
 
                         move |event: PointerEvent| {
-                            pointer_type.set(event.pointer_type());
+                            *pointer_type_ref.borrow_mut() =event.pointer_type();
 
                             // Prevent implicit pointer capture.
                             // https://www.w3.org/TR/pointerevents3/#implicit-pointer-capture
@@ -500,7 +513,12 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
                 {props.children.clone()}
             </SelectContentImpl>
         } else {
-            // TODO: SelectContentProvider, CollectionSlot
+            // TODO: Portal to DocumentFragment
+            // <ContextProvider<SelectContentContextValue>>
+            //     <CollectionSlot<ItemData>>
+            //         <div>{props.children.clone()}</div>
+            //     </CollectionSlot<ItemData>>
+            // </ContextProvider<SelectContentContextValue>>
         }
     }
 }
@@ -511,7 +529,14 @@ const CONTENT_MARGIN: f64 = 10.0;
 struct SelectContentContextValue {
     content_ref: NodeRef,
     viewport_ref: NodeRef,
-    item_ref_callback: Callback<(web_sys::Node, String, bool)>, // TODO
+    item_ref_callback: Callback<(web_sys::HtmlElement, String, bool)>,
+    selected_item: Option<web_sys::HtmlElement>,
+    // TODO
+    item_text_ref_callback: Callback<(web_sys::HtmlElement, String, bool)>,
+    selected_item_text: Option<web_sys::HtmlElement>,
+    position: Position,
+    is_positioned: bool,
+    // search_ref: Rc<RefCell<String>>,
 }
 
 #[derive(PartialEq, Properties)]
@@ -531,20 +556,73 @@ struct SelectContentImplProps {
 
 #[function_component]
 fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
+    let context = use_context::<SelectContextValue>().expect("Select contenxt required.");
     let content_ref = use_node_ref();
     let viewport_ref = use_node_ref();
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref.clone()]);
+    let selected_item = use_state_eq(|| None);
+    let selected_item_text = use_state_eq(|| None);
+    let _get_items = use_collection::<ItemData>();
+    let is_positioned = use_state_eq(|| false);
+    let first_valid_item_found_ref = use_mut_ref(|| false);
 
     // TODO
 
     // Make sure the whole tree has focus guards as our `Select` may be the last element in the DOM (because of the `Portal`).
     use_focus_guards();
 
-    let content_context_value = use_memo((), |_| SelectContentContextValue {
-        content_ref,
-        viewport_ref,
-        item_ref_callback: Callback::from(|_| {}),
+    let item_ref_callback = use_callback(context.value.clone(), {
+        let first_valid_item_found_ref = first_valid_item_found_ref.clone();
+        let selected_item = selected_item.clone();
+
+        move |(node, value, disabled): (web_sys::HtmlElement, String, bool), context_value| {
+            let is_first_valid_item = !*first_valid_item_found_ref.borrow() && !disabled;
+            let is_selected_item = context_value
+                .as_ref()
+                .is_some_and(|context_value| *context_value == value);
+            if is_selected_item || is_first_valid_item {
+                selected_item.set(Some(node));
+
+                if is_first_valid_item {
+                    *first_valid_item_found_ref.borrow_mut() = true;
+                }
+            }
+        }
     });
+    // TODO: handle_item_leave
+    let item_text_ref_callback = use_callback(context.value, {
+        let first_valid_item_found_ref = first_valid_item_found_ref.clone();
+        let selected_item_text = selected_item_text.clone();
+
+        move |(node, value, disabled): (web_sys::HtmlElement, String, bool), context_value| {
+            let is_first_valid_item = !*first_valid_item_found_ref.borrow() && !disabled;
+            let is_selected_item = context_value
+                .as_ref()
+                .is_some_and(|context_value| *context_value == value);
+            if is_selected_item || is_first_valid_item {
+                selected_item_text.set(Some(node));
+            }
+        }
+    });
+
+    let content_context_value = use_memo(
+        (
+            props.position,
+            selected_item,
+            selected_item_text,
+            is_positioned,
+        ),
+        |(position, selected_item, selected_item_text, is_positioned)| SelectContentContextValue {
+            content_ref,
+            viewport_ref,
+            item_ref_callback,
+            selected_item: (**selected_item).clone(),
+            item_text_ref_callback,
+            selected_item_text: (**selected_item_text).clone(),
+            position: *position,
+            is_positioned: **is_positioned,
+        },
+    );
 
     html! {
         <ContextProvider<SelectContentContextValue> context={(*content_context_value).clone()}>
@@ -574,6 +652,8 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
 #[derive(PartialEq, Properties)]
 struct SelectItemAlignedPositionProps {
     // TODO
+    #[prop_or_default]
+    pub on_placed: Callback<()>,
     #[prop_or(false)]
     pub as_child: bool,
     #[prop_or_default]
@@ -586,15 +666,342 @@ struct SelectItemAlignedPositionProps {
 
 #[function_component]
 fn SelectItemAlignedPosition(props: &SelectItemAlignedPositionProps) -> Html {
-    let _context = use_context::<SelectContextValue>().expect("Select context required.");
-    let _content_context =
+    let context = use_context::<SelectContextValue>().expect("Select context required.");
+    let content_context =
         use_context::<SelectContentContextValue>().expect("Select content context required.");
     let content_wrapper_ref = use_node_ref();
     let content_ref = use_node_ref();
-    let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref]);
+    let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_ref.clone()]);
+    let get_items = use_collection::<ItemData>();
     // TODO
 
+    let position = use_callback(
+        (
+            get_items,
+            context.trigger_ref,
+            context.value_node_ref,
+            content_wrapper_ref.clone(),
+            content_ref,
+            content_context.viewport_ref,
+            content_context.selected_item,
+            content_context.selected_item_text,
+            context.dir,
+            props.on_placed.clone(),
+        ),
+        |_: (),
+         (
+            get_items,
+            trigger_ref,
+            value_node_ref,
+            content_wrapper_ref,
+            content_ref,
+            viewport_ref,
+            selected_item,
+            selected_item_text,
+            dir,
+            on_placed,
+        )| {
+            if let Some(trigger) = trigger_ref.cast::<web_sys::Element>() {
+                if let Some(value_node) = value_node_ref.cast::<web_sys::Element>() {
+                    if let Some(content_wrapper) =
+                        content_wrapper_ref.cast::<web_sys::HtmlElement>()
+                    {
+                        if let Some(content) = content_ref.cast::<web_sys::Element>() {
+                            if let Some(viewport) = viewport_ref.cast::<web_sys::HtmlElement>() {
+                                if let Some(selected_item) = selected_item {
+                                    if let Some(selected_item_text) = selected_item_text {
+                                        let window = window().expect("Window should exist.");
+                                        let window_inner_width = window
+                                            .inner_width()
+                                            .expect("Window should have inner width.")
+                                            .as_f64()
+                                            .expect("Inner width should be a number.");
+                                        let window_inner_height = window
+                                            .inner_height()
+                                            .expect("Window should have inner height.")
+                                            .as_f64()
+                                            .expect("Inner height should be a number.");
+
+                                        let trigger_rect = trigger.get_bounding_client_rect();
+
+                                        // Horizontal positioning
+                                        let content_rect = content.get_bounding_client_rect();
+                                        let value_node_rect = value_node.get_bounding_client_rect();
+                                        let item_text_rect =
+                                            selected_item_text.get_bounding_client_rect();
+
+                                        if *dir != Direction::Rtl {
+                                            let item_text_offset =
+                                                item_text_rect.left() - content_rect.left();
+                                            let left = value_node_rect.left() - item_text_offset;
+                                            let left_delta = trigger_rect.left() - left;
+                                            let min_content_width =
+                                                trigger_rect.width() + left_delta;
+                                            let content_width =
+                                                min_content_width.max(content_rect.width());
+                                            let right_edge = window_inner_width - CONTENT_MARGIN;
+                                            let clamped_left = clamp(
+                                                left,
+                                                [
+                                                    CONTENT_MARGIN,
+                                                    // Prevents the content from going off the starting edge of the
+                                                    // viewport. It may still go off the ending edge, but this can be
+                                                    // controlled by the user since they may want to manage overflow in a
+                                                    // specific way.
+                                                    // https://github.com/radix-ui/primitives/issues/2049
+                                                    CONTENT_MARGIN.max(right_edge - content_width),
+                                                ],
+                                            );
+
+                                            content_wrapper
+                                                .style()
+                                                .set_property(
+                                                    "min-width",
+                                                    &format!("{min_content_width}px"),
+                                                )
+                                                .expect("Min width should be set.");
+                                            content_wrapper
+                                                .style()
+                                                .set_property("left", &format!("{clamped_left}px"))
+                                                .expect("Left should be set.");
+                                        } else {
+                                            let item_text_offset =
+                                                content_rect.right() - item_text_rect.right();
+                                            let right = window_inner_width
+                                                - value_node_rect.right()
+                                                - item_text_offset;
+                                            let right_delta =
+                                                window_inner_width - trigger_rect.right() - right;
+                                            let min_content_width =
+                                                trigger_rect.width() + right_delta;
+                                            let content_width =
+                                                min_content_width.max(content_rect.width());
+                                            let left_edge = window_inner_width - CONTENT_MARGIN;
+                                            let clamped_right = clamp(
+                                                right,
+                                                [
+                                                    CONTENT_MARGIN,
+                                                    CONTENT_MARGIN.max(left_edge - content_width),
+                                                ],
+                                            );
+
+                                            content_wrapper
+                                                .style()
+                                                .set_property(
+                                                    "min-width",
+                                                    &format!("{min_content_width}px"),
+                                                )
+                                                .expect("Min width should be set.");
+                                            content_wrapper
+                                                .style()
+                                                .set_property("left", &format!("{clamped_right}px"))
+                                                .expect("Left should be set.");
+                                        }
+
+                                        // Vertical positioning
+                                        let items = get_items.emit(());
+                                        let available_height =
+                                            window_inner_height - CONTENT_MARGIN * 2.0;
+                                        let items_height = viewport.scroll_height() as f64;
+
+                                        let content_styles = window
+                                            .get_computed_style(&content)
+                                            .expect("Element is valid.")
+                                            .expect("Element should have computed style.");
+                                        let content_border_top_width = content_styles
+                                            .get_property_value("border-top-width")
+                                            .expect("Compyted style should have border top width.")
+                                            .trim_end_matches("px")
+                                            .parse::<f64>()
+                                            .expect("Border top width should be a number.");
+                                        let content_padding_top = content_styles
+                                            .get_property_value("padding-top")
+                                            .expect("Compyted style should have padding top.")
+                                            .trim_end_matches("px")
+                                            .parse::<f64>()
+                                            .expect("Padding top should be a number.");
+                                        let content_border_bottom_width = content_styles
+                                            .get_property_value("border-bottom-width")
+                                            .expect(
+                                                "Compyted style should have border bottom width.",
+                                            )
+                                            .trim_end_matches("px")
+                                            .parse::<f64>()
+                                            .expect("Border bottom width should be a number.");
+                                        let content_padding_bottom = content_styles
+                                            .get_property_value("padding-bottom")
+                                            .expect("Compyted style should have padding bottom.")
+                                            .trim_end_matches("px")
+                                            .parse::<f64>()
+                                            .expect("Padding bottom should be a number.");
+                                        let full_content_height = content_border_top_width
+                                            + content_padding_top
+                                            + items_height
+                                            + content_padding_bottom
+                                            + content_border_bottom_width;
+                                        let min_content_height =
+                                            (selected_item.offset_height() as f64 * 5.0)
+                                                .min(full_content_height);
+
+                                        let viewport_styles = window
+                                            .get_computed_style(&viewport)
+                                            .expect("Element is valid.")
+                                            .expect("Element should have computed style.");
+                                        let viewport_padding_top = viewport_styles
+                                            .get_property_value("padding-top")
+                                            .expect("Compyted style should have padding top.")
+                                            .trim_end_matches("px")
+                                            .parse::<f64>()
+                                            .expect("Padding top should be a number.");
+                                        let viewport_padding_bottom = viewport_styles
+                                            .get_property_value("padding-bottom")
+                                            .expect("Compyted style should have padding bottom.")
+                                            .trim_end_matches("px")
+                                            .parse::<f64>()
+                                            .expect("Padding bottom should be a number.");
+
+                                        let top_edge_to_trigger_middle = trigger_rect.top()
+                                            + trigger_rect.height() / 2.0
+                                            - CONTENT_MARGIN;
+                                        let trigger_middle_to_bottom_edge =
+                                            available_height - top_edge_to_trigger_middle;
+
+                                        let selected_item_half_height =
+                                            selected_item.offset_height() as f64 / 2.0;
+                                        let item_offset_middle = selected_item.offset_top() as f64
+                                            + selected_item_half_height;
+                                        let content_top_to_item_middle = content_border_top_width
+                                            - content_padding_top
+                                            + item_offset_middle;
+                                        let item_middle_to_content_bottom =
+                                            full_content_height - content_top_to_item_middle;
+
+                                        let will_align_without_top_overflow =
+                                            content_top_to_item_middle
+                                                <= top_edge_to_trigger_middle;
+
+                                        if will_align_without_top_overflow {
+                                            let is_last_item = !items.is_empty()
+                                                && items
+                                                    .last()
+                                                    .expect("Last item should exist.")
+                                                    .r#ref
+                                                    .cast::<web_sys::HtmlElement>()
+                                                    .is_some_and(|element| {
+                                                        &element == selected_item
+                                                    });
+
+                                            content_wrapper
+                                                .style()
+                                                .set_property("bottom", "0px")
+                                                .expect("Bottom should be set.");
+
+                                            let viewport_offset_bottom = content.client_height()
+                                                as f64
+                                                - viewport.offset_top() as f64
+                                                - viewport.offset_height() as f64;
+                                            let clamped_trigger_middle_to_bottom_edge =
+                                                trigger_middle_to_bottom_edge.max(
+                                                    selected_item_half_height
+                                                        // Viewport might have padding bottom,
+                                                        // include it to avoid a scrollable viewport.
+                                                        + match is_last_item {
+                                                            true => viewport_padding_bottom,
+                                                            false => 0.0,
+                                                        }
+                                                        + viewport_offset_bottom
+                                                        + content_border_bottom_width,
+                                                );
+                                            let height = content_top_to_item_middle
+                                                + clamped_trigger_middle_to_bottom_edge;
+
+                                            content_wrapper
+                                                .style()
+                                                .set_property("height", &format!("{height}px"))
+                                                .expect("Height should be set.");
+                                        } else {
+                                            let is_first_item = !items.is_empty()
+                                                && items
+                                                    .first()
+                                                    .expect("First item should exist.")
+                                                    .r#ref
+                                                    .cast::<web_sys::HtmlElement>()
+                                                    .is_some_and(|element| {
+                                                        &element == selected_item
+                                                    });
+
+                                            content_wrapper
+                                                .style()
+                                                .set_property("top", "0px")
+                                                .expect("Top should be set.");
+
+                                            let clamped_top_edge_to_trigger_middle =
+                                                top_edge_to_trigger_middle.max(
+                                                    content_border_top_width
+                                                        + viewport.offset_top() as f64
+                                                        // Viewport might have padding top,
+                                                        // include it to avoid a scrollable viewport.
+                                                        + match is_first_item {
+                                                            true => viewport_padding_top,
+                                                            false => 0.0,
+                                                        }
+                                                        + selected_item_half_height,
+                                                );
+                                            let height = clamped_top_edge_to_trigger_middle
+                                                + item_middle_to_content_bottom;
+
+                                            content_wrapper
+                                                .style()
+                                                .set_property("height", &format!("{height}px"))
+                                                .expect("Height should be set.");
+                                            viewport.set_scroll_top(
+                                                (content_top_to_item_middle
+                                                    - top_edge_to_trigger_middle
+                                                    + viewport.offset_top() as f64)
+                                                    as i32,
+                                            );
+                                        }
+
+                                        content_wrapper
+                                            .style()
+                                            .set_property(
+                                                "margin",
+                                                &format!("{CONTENT_MARGIN}px 0px"),
+                                            )
+                                            .expect("Margin should be set.");
+                                        content_wrapper
+                                            .style()
+                                            .set_property(
+                                                "min-height",
+                                                &format!("{min_content_height}px"),
+                                            )
+                                            .expect("Min height should be set.");
+                                        content_wrapper
+                                            .style()
+                                            .set_property(
+                                                "max-height",
+                                                &format!("{available_height}px"),
+                                            )
+                                            .expect("Min height should be set.");
+
+                                        on_placed.emit(());
+
+                                        // TODO: request animation frame
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+    );
+
+    use_effect(move || position.emit(()));
+
+    // Copy z-index from content to wrapper.
     let content_z_index: UseStateHandle<Option<String>> = use_state_eq(|| None);
+    // TODO
 
     let viewport_context_value = use_memo((), |_| SelectViewportContextValue {
         content_wrapper_ref: content_wrapper_ref.clone(),
@@ -733,15 +1140,16 @@ pub fn SelectViewport(props: &SelectViewportProps) -> Html {
                 {"[data-radix-select-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-select-viewport]::-webkit-scrollbar{display:none;}"}
             </style>
 
-            // TODO: CollectionSlot
-            <Primitive
-                element="div"
-                as_child={props.as_child}
-                node_ref={composed_refs}
-                attrs={(*attrs).clone()}
-            >
-                {props.children.clone()}
-            </Primitive>
+            <CollectionSlot<ItemData>>
+                <Primitive
+                    element="div"
+                    as_child={props.as_child}
+                    node_ref={composed_refs}
+                    attrs={(*attrs).clone()}
+                >
+                    {props.children.clone()}
+                </Primitive>
+            </CollectionSlot<ItemData>>
         </>
     }
 }
@@ -843,7 +1251,7 @@ struct SelectItemContextValue {
     disabled: bool,
     text_id: String,
     is_selected: bool,
-    on_item_text_change: Callback<web_sys::Node>,
+    on_item_text_change: Callback<web_sys::HtmlElement>,
 }
 
 #[derive(PartialEq, Properties)]
@@ -868,7 +1276,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
     let content_context =
         use_context::<SelectContentContextValue>().expect("Select content context required.");
-    let _text_value = use_state_eq(|| props.text_value.clone());
+    let text_value = use_state_eq(|| props.text_value.clone());
     let is_focused = use_state_eq(|| false);
     let item_ref = use_node_ref();
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_ref.clone()]);
@@ -881,12 +1289,12 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             props.value.clone(),
             props.disabled,
         ),
-        |node: web_sys::Node, (item_ref_callback, value, disabled)| {
+        |node: web_sys::HtmlElement, (item_ref_callback, value, disabled)| {
             item_ref_callback.emit((node, value.clone(), *disabled))
         },
     );
     use_effect_with(item_ref, move |item_ref| {
-        if let Some(node) = item_ref.get() {
+        if let Some(node) = item_ref.cast::<web_sys::HtmlElement>() {
             item_ref_callback.emit(node);
         }
     });
@@ -904,6 +1312,15 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             text_id: (*text_id).clone(),
             is_selected: *is_selected,
             on_item_text_change: Callback::from(|_| {}),
+        },
+    );
+
+    let item_data = use_memo(
+        (props.value.clone(), props.disabled, text_value),
+        |(value, disabled, text_value)| ItemData {
+            value: (*value).clone(),
+            disabled: *disabled,
+            text_value: (**text_value).clone(),
         },
     );
 
@@ -936,15 +1353,16 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
 
     html! {
         <ContextProvider<SelectItemContextValue> context={(*item_context_value).clone()}>
-            // TODO: CollectionItemSlot
-            <Primitive
-                element="div"
-                as_child={props.as_child}
-                node_ref={composed_refs}
-                attrs={(*attrs).clone()}
-            >
-                {props.children.clone()}
-            </Primitive>
+            <CollectionItemSlot<ItemData> item_data={(*item_data).clone()}>
+                <Primitive
+                    element="div"
+                    as_child={props.as_child}
+                    node_ref={composed_refs}
+                    attrs={(*attrs).clone()}
+                >
+                    {props.children.clone()}
+                </Primitive>
+            </CollectionItemSlot<ItemData>>
         </ContextProvider<SelectItemContextValue>>
     }
 }
@@ -974,16 +1392,16 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
     let item_text_node_ref = use_node_ref();
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_text_node_ref.clone()]);
 
-    let item_ref_callback = use_callback(
-        (content_context.item_ref_callback, item_context.clone()),
-        |node: web_sys::Node, (item_ref_callback, item_context)| {
+    let item_text_ref_callback = use_callback(
+        (content_context.item_text_ref_callback, item_context.clone()),
+        |node: web_sys::HtmlElement, (item_text_ref_callback, item_context)| {
             item_context.on_item_text_change.emit(node.clone());
-            item_ref_callback.emit((node, item_context.value.clone(), item_context.disabled));
+            item_text_ref_callback.emit((node, item_context.value.clone(), item_context.disabled));
         },
     );
     use_effect_with(item_text_node_ref, move |item_text_node_ref| {
-        if let Some(node) = item_text_node_ref.get() {
-            item_ref_callback.emit(node);
+        if let Some(node) = item_text_node_ref.cast::<web_sys::HtmlElement>() {
+            item_text_ref_callback.emit(node);
         }
     });
 
@@ -1124,7 +1542,9 @@ struct SelectScrollButtonImplProps {
 
 #[function_component]
 fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
-    // let content_context = use_context::<SelectContentContextValue>().expect("Select content context required.");
+    let _content_context =
+        use_context::<SelectContentContextValue>().expect("Select content context required.");
+    let _get_items = use_collection::<ItemData>();
 
     let attrs = use_memo(props.attrs.clone(), |attrs| {
         attrs
