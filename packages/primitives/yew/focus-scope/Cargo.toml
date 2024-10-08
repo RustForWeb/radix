@@ -1,0 +1,24 @@
+[package]
+name = "radix-yew-focus-scope"
+description = "Yew port of Radix Focus Scope."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+once_cell = "1.19.0"
+radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
+web-sys = { workspace = true, features = [
+    "CustomEvent",
+    "CustomEventInit",
+    "MutationObserver",
+    "MutationObserverInit",
+    "MutationRecord",
+    "NodeFilter",
+    "TreeWalker",
+] }
+yew.workspace = true
+yew-attrs.workspace = true

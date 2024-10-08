@@ -2,9 +2,10 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::{
-    experiments::Experiments,
+    experiments,
     primitives::{
-        arrow, collection, label, popper, select, separator, slot, switch, visually_hidden,
+        arrow, collection, focus_scope, label, popper, select, separator, slot, switch,
+        visually_hidden,
     },
 };
 
@@ -12,8 +13,11 @@ use crate::{
 enum Route {
     #[at("/")]
     Index,
-    #[at("/experiments")]
-    Experiments,
+
+    #[at("/experiments/collection")]
+    ExperimentsCollection,
+    #[at("/experiments/focus-scope")]
+    ExperimentsFocusScope,
 
     #[at("/arrow/styled")]
     ArrowStyled,
@@ -36,6 +40,13 @@ enum Route {
     CollectionWithChangingItem,
     #[at("/collection/nested")]
     CollectionNested,
+
+    #[at("/focus-scope/basic")]
+    FocusScopeBasic,
+    #[at("/focus-scope/multiple")]
+    FocusScopeMultiple,
+    #[at("/focus-scope/with-options")]
+    FocusScopeWithOptions,
 
     #[at("/label/styled")]
     LabelStyled,
@@ -132,7 +143,13 @@ enum Route {
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Index => html! { <Index /> },
-        Route::Experiments => html! { <Experiments /> },
+
+        Route::ExperimentsCollection => {
+            html! { <experiments::collection::Experiments /> }
+        }
+        Route::ExperimentsFocusScope => {
+            html! { <experiments::focus_scope::Experiments /> }
+        }
 
         Route::ArrowStyled => html! { <arrow::Styled /> },
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
@@ -145,6 +162,10 @@ fn switch(routes: Route) -> Html {
         Route::CollectionDynamicInsertion => html! { <collection::DynamicInsertion /> },
         Route::CollectionWithChangingItem => html! { <collection::WithChangingItem /> },
         Route::CollectionNested => html! { <collection::Nested /> },
+
+        Route::FocusScopeBasic => html! { <focus_scope::Basic /> },
+        Route::FocusScopeMultiple => html! { <focus_scope::Multiple /> },
+        Route::FocusScopeWithOptions => html! { <focus_scope::WithOptions /> },
 
         Route::LabelStyled => html! { <label::Styled /> },
         Route::LabelWithControl => html! { <label::WithControl /> },
@@ -232,7 +253,10 @@ pub fn App() -> Html {
                         <Link<Route> to={Route::Index}>{ "Index" }</Link<Route>>
                     </li>
                     <li>
-                        <Link<Route> to={Route::Experiments}>{ "Experiments" }</Link<Route>>
+                        <Link<Route> to={Route::ExperimentsCollection}>{ "Experiments Collection" }</Link<Route>>
+                    </li>
+                    <li>
+                        <Link<Route> to={Route::ExperimentsFocusScope}>{ "Experiments Focus Scope" }</Link<Route>>
                     </li>
                     <li>
                         {"Arrow"}
@@ -254,6 +278,15 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::CollectionDynamicInsertion}>{"Dynamic Insertion"}</Link<Route>></li>
                             <li><Link<Route> to={Route::CollectionWithChangingItem}>{"With Changing Item"}</Link<Route>></li>
                             <li><Link<Route> to={Route::CollectionNested}>{"Nested"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Focus Scope"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::FocusScopeBasic}>{"Basic"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::FocusScopeMultiple}>{"Multiple"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::FocusScopeWithOptions}>{"With Options"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

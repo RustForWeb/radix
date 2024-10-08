@@ -1,5 +1,6 @@
 pub mod arrow;
 pub mod collection;
+pub mod focus_scope;
 pub mod label;
 pub mod popper;
 pub mod select;

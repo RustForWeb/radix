@@ -794,24 +794,33 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
         },
     );
 
+    let attrs = use_memo(props.attrs.clone(), |attrs| {
+        attrs
+            .clone()
+            .merge(attrs! {})
+            .expect("Attributes should be merged.")
+    });
+
     html! {
         <ContextProvider<SelectContentContextValue> context={(*content_context_value).clone()}>
             // TODO: RemoveScrol, FocusScope, DismissableLayer
 
             if props.position == Position::Popper {
                 <SelectPopperPosition
+                    // TODO
                     as_child={props.as_child}
                     node_ref={composed_refs}
-                    attrs={props.attrs.clone()}
+                    attrs={(*attrs).clone()}
                 >
                     {props.children.clone()}
                 </SelectPopperPosition>
             } else {
                 <SelectItemAlignedPosition
+                    // TODO
                     on_placed={Callback::from(move |_| is_positioned.set(true))}
                     as_child={props.as_child}
                     node_ref={composed_refs}
-                    attrs={props.attrs.clone()}
+                    attrs={(*attrs).clone()}
                 >
                     {props.children.clone()}
                 </SelectItemAlignedPosition>
@@ -1481,7 +1490,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             item_ref_callback.emit((node, value.clone(), *disabled))
         },
     );
-    use_effect_with(item_ref, move |item_ref| {
+    use_effect_with(item_ref.clone(), move |item_ref| {
         if let Some(node) = item_ref.cast::<web_sys::HtmlElement>() {
             item_ref_callback.emit(node);
         }
@@ -1539,6 +1548,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         on_pointer_move: Callback<PointerEvent>,
         on_pointer_leave: Callback<PointerEvent>,
         on_key_down: Callback<KeyboardEvent>,
+        item_ref: NodeRef,
         text_id: String,
         is_focused: UseStateHandle<bool>,
         is_selected: bool,
@@ -1556,6 +1566,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             on_pointer_move: props.on_pointer_move.clone(),
             on_pointer_leave: props.on_pointer_leave.clone(),
             on_key_down: props.on_key_down.clone(),
+            item_ref: item_ref.clone(),
             text_id,
             is_focused,
             is_selected,
@@ -1571,6 +1582,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
              on_pointer_move,
              on_pointer_leave,
              on_key_down,
+             item_ref,
              text_id,
              is_focused,
              is_selected,
@@ -1628,6 +1640,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
                         }
                     })), None)}
                     onpointermove={compose_callbacks(Some(on_pointer_move.clone()), Some(Callback::from({
+                        let item_ref = item_ref.clone();
                         let pointer_type_ref = pointer_type_ref.clone();
                         let disabled = *disabled;
                         let on_item_leave = content_context.on_item_leave.clone();
@@ -1643,21 +1656,31 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
                                 // as it only means it might scroll a few pixels when using the pointer.
                                 let options = web_sys::FocusOptions::new();
                                 options.set_prevent_scroll(true);
-                                event
-                                    .current_target()
-                                    .expect("Event should have target.")
-                                    .unchecked_into::<web_sys::HtmlElement>()
+
+                                // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
+                                //
+                                // event
+                                //     .current_target()
+                                //     .expect("Event should have target.")
+                                //     .unchecked_into::<web_sys::HtmlElement>()
+                                item_ref
+                                    .cast::<web_sys::HtmlElement>()
+                                    .expect("Item should exist.")
                                     .focus_with_options(&options)
                                     .expect("Element should be focused.");
                             }
                         }
                     })), None)}
                     onpointerleave={compose_callbacks(Some(on_pointer_leave.clone()), Some(Callback::from({
+                        let item_ref = item_ref.clone();
                         let on_item_leave = content_context.on_item_leave.clone();
 
-                        move |event: PointerEvent| {
-                            if event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Element>())
-                                != window().expect("Window should exist.").document().expect("Document should exist.").active_element()
+                        move |_event: PointerEvent| {
+                            // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
+                            //
+                            // event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Element>());
+                            if item_ref.cast::<web_sys::Element>() !=
+                                window().expect("Window should exist.").document().expect("Document should exist.").active_element()
                             {
                                 on_item_leave.emit(());
                             }

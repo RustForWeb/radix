@@ -3137,6 +3137,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-focus-scope"
+version = "0.0.2"
+dependencies = [
+ "once_cell",
+ "radix-yew-primitive",
+ "web-sys",
+ "yew",
+ "yew-attrs",
+]
+
+[[package]]
 name = "radix-yew-icons"
 version = "0.0.2"
 dependencies = [
@@ -3230,6 +3241,7 @@ dependencies = [
  "log",
  "radix-yew-arrow",
  "radix-yew-collection",
+ "radix-yew-focus-scope",
  "radix-yew-label",
  "radix-yew-popper",
  "radix-yew-primitive",
