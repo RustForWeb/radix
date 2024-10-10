@@ -7,13 +7,16 @@ use std::{
 
 use radix_number::clamp;
 use radix_yew_collection::{
-    use_collection, CollectionItemSlot, CollectionProvider, CollectionSlot,
+    use_collection, CollectionItemSlot, CollectionItemSlotChildProps, CollectionProvider,
+    CollectionSlot, CollectionSlotChildProps,
 };
 use radix_yew_direction::{use_direction, Direction};
 use radix_yew_focus_guards::use_focus_guards;
-use radix_yew_focus_scope::FocusScope;
+use radix_yew_focus_scope::{FocusScope, FocusScopeAsChildProps};
 use radix_yew_id::use_id;
-use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
+use radix_yew_popper::{
+    Align, Padding, Popper, PopperAnchor, PopperAnchorChildProps, PopperArrow, PopperContent,
+};
 use radix_yew_primitive::{compose_callbacks, Primitive};
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use web_sys::{
@@ -264,14 +267,35 @@ pub struct SelectTriggerProps {
     pub on_pointer_down: Callback<PointerEvent>,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<SelectTriggerChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct SelectTriggerChildProps {
+    pub node_ref: NodeRef,
+}
+
+impl SelectTriggerChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <button
+                ref={self.node_ref}
+            >
+                {children}
+            </button>
+        }
+    }
 }
 
 #[function_component]
@@ -297,108 +321,103 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
         },
     );
 
-    let attrs = use_memo(
-        (
-            props.attrs.clone(),
-            props.on_click.clone(),
-            props.on_pointer_down.clone(),
-            props.on_key_down.clone(),
-        ),
-        move |(attrs, on_click, on_pointer_down, on_key_down)| {
-            attrs
-                .clone()
-                .merge(attrs! {
-                    type="button"
-                    role="combobox"
-                    aria-controls={context.content_id}
-                    aria-expanded={match context.open {
-                        true => "true",
-                        false => "false"
-                    }}
-                    aria-required={context.required.map(|required| match required {
-                        true => "true",
-                        false => "false"
-                    })}
-                    aria-autocomplete="none"
-                    dir={context.dir.to_string()}
-                    data-state={match context.open {
-                        true => "open",
-                        false => "closed"
-                    }}
-                    disabled={is_disabled}
-                    data-disabled={is_disabled.then_some("")}
-                    data-placeholder={should_show_placeholder(context.value).then_some("")}
-                    // Enable compatibility with native label or custom `Label` "click" for Safari:
-                    onclick={compose_callbacks(Some(on_click.clone()), Some(Callback::from({
-                        let pointer_type_ref = pointer_type_ref.clone();
-                        let handle_open = handle_open.clone();
-
-                        move |event: MouseEvent| {
-                            // Whilst browsers generally have no issue focusing the trigger when clicking
-                            // on a label, Safari seems to struggle with the fact that there's no `onclick`.
-                            // We force `focus` in this case. Note: this doesn't create any other side-effect
-                            // because we are preventing default in `onpointerdown` so effectively
-                            // this only runs for a label "click".
-                            event
-                                .current_target()
-                                .expect("Event should have current target.")
-                                .unchecked_into::<web_sys::HtmlElement>()
-                                .focus()
-                                .expect("Element should be focused.");
-
-                            // Open on click when using a touch or pen device.
-                            if *pointer_type_ref.borrow() != "mouse" {
-                                handle_open.emit(Some((event.page_x(), event.page_y())));
-                            }
-                    }})), None)}
-                    onpointerdown={compose_callbacks(Some(on_pointer_down.clone()), Some(Callback::from({
-                        let handle_open = handle_open.clone();
-
-                        move |event: PointerEvent| {
-                            *pointer_type_ref.borrow_mut() =event.pointer_type();
-
-                            // Prevent implicit pointer capture.
-                            // https://www.w3.org/TR/pointerevents3/#implicit-pointer-capture
-                            let target = event.target().expect("Event should have target.").unchecked_into::<web_sys::HtmlElement>();
-                            if target.has_pointer_capture(event.pointer_id()) {
-                                target.release_pointer_capture(event.pointer_id()).expect("Pointer capture should be released.");
-                            }
-
-                            // Only call handler if it's the left button (mousedown gets triggered by all mouse buttons)
-                            // but not when the control key is pressed (avoiding MacOS right click); also not for touch
-                            // devices because that would open the menu on scroll. (pen devices behave as touch on iOS).
-                            if event.button() == 0 && !event.ctrl_key() && event.pointer_type() == "mouse" {
-                                handle_open.emit(Some((event.page_x(), event.page_y())));
-
-                                // Prevent trigger from stealing focus from the active item after opening.
-                                event.prevent_default();
-                            }
-                        }
-                    })), None)}
-                    onkeydown={compose_callbacks(Some(on_key_down.clone()), Some(Callback::from(move |event: KeyboardEvent| {
-                        // TODO: typeahead
-
-                        if OPEN_KEYS.contains(&event.key().as_str()) {
-                            handle_open.emit(None);
-                            event.prevent_default();
-                        }
-                    })), None)}
-                })
-                .expect("Attributes should be merged.")
-        },
-    );
-
     html! {
-        <PopperAnchor as_child=true>
-            <Primitive
-                element="button"
-                as_child={props.as_child}
-                node_ref={composed_refs}
-                attrs={(*attrs).clone()}
-            >
-                {props.children.clone()}
-            </Primitive>
-        </PopperAnchor>
+        <PopperAnchor
+            node_ref={composed_refs}
+            as_child={Callback::from({
+                let as_child = props.as_child.clone();
+                let children = props.children.clone();
+
+                move |PopperAnchorChildProps { node_ref, .. }| {
+                    let child_props = SelectTriggerChildProps {
+                        node_ref
+
+                        // TODO
+                        // type="button"
+                        // role="combobox"
+                        // aria-controls={context.content_id}
+                        // aria-expanded={match context.open {
+                        //     true => "true",
+                        //     false => "false"
+                        // }}
+                        // aria-required={context.required.map(|required| match required {
+                        //     true => "true",
+                        //     false => "false"
+                        // })}
+                        // aria-autocomplete="none"
+                        // dir={context.dir.to_string()}
+                        // data-state={match context.open {
+                        //     true => "open",
+                        //     false => "closed"
+                        // }}
+                        // disabled={is_disabled}
+                        // data-disabled={is_disabled.then_some("")}
+                        // data-placeholder={should_show_placeholder(context.value).then_some("")}
+                        // // Enable compatibility with native label or custom `Label` "click" for Safari:
+                        // onclick={compose_callbacks(Some(on_click.clone()), Some(Callback::from({
+                        //     let pointer_type_ref = pointer_type_ref.clone();
+                        //     let handle_open = handle_open.clone();
+
+                        //     move |event: MouseEvent| {
+                        //         // Whilst browsers generally have no issue focusing the trigger when clicking
+                        //         // on a label, Safari seems to struggle with the fact that there's no `onclick`.
+                        //         // We force `focus` in this case. Note: this doesn't create any other side-effect
+                        //         // because we are preventing default in `onpointerdown` so effectively
+                        //         // this only runs for a label "click".
+                        //         event
+                        //             .current_target()
+                        //             .expect("Event should have current target.")
+                        //             .unchecked_into::<web_sys::HtmlElement>()
+                        //             .focus()
+                        //             .expect("Element should be focused.");
+
+                        //         // Open on click when using a touch or pen device.
+                        //         if *pointer_type_ref.borrow() != "mouse" {
+                        //             handle_open.emit(Some((event.page_x(), event.page_y())));
+                        //         }
+                        // }})), None)}
+                        // onpointerdown={compose_callbacks(Some(on_pointer_down.clone()), Some(Callback::from({
+                        //     let handle_open = handle_open.clone();
+
+                        //     move |event: PointerEvent| {
+                        //         *pointer_type_ref.borrow_mut() =event.pointer_type();
+
+                        //         // Prevent implicit pointer capture.
+                        //         // https://www.w3.org/TR/pointerevents3/#implicit-pointer-capture
+                        //         let target = event.target().expect("Event should have target.").unchecked_into::<web_sys::HtmlElement>();
+                        //         if target.has_pointer_capture(event.pointer_id()) {
+                        //             target.release_pointer_capture(event.pointer_id()).expect("Pointer capture should be released.");
+                        //         }
+
+                        //         // Only call handler if it's the left button (mousedown gets triggered by all mouse buttons)
+                        //         // but not when the control key is pressed (avoiding MacOS right click); also not for touch
+                        //         // devices because that would open the menu on scroll. (pen devices behave as touch on iOS).
+                        //         if event.button() == 0 && !event.ctrl_key() && event.pointer_type() == "mouse" {
+                        //             handle_open.emit(Some((event.page_x(), event.page_y())));
+
+                        //             // Prevent trigger from stealing focus from the active item after opening.
+                        //             event.prevent_default();
+                        //         }
+                        //     }
+                        // })), None)}
+                        // onkeydown={compose_callbacks(Some(on_key_down.clone()), Some(Callback::from(move |event: KeyboardEvent| {
+                        //     // TODO: typeahead
+
+                        //     if OPEN_KEYS.contains(&event.key().as_str()) {
+                        //         handle_open.emit(None);
+                        //         event.prevent_default();
+                        //     }
+                        // })), None)}
+                    };
+
+                    if let Some(as_child) = as_child.as_ref() {
+                        as_child.emit(child_props)
+                    } else {
+                        child_props.render(children.clone())
+                    }
+                }
+            })}
+        />
     }
 }
 
@@ -810,7 +829,6 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             // TODO: RemoveScrol, DismissableLayer
 
             <FocusScope
-                as_child=true
                 // We make sure we're not trapping once it's been closed
                 // (closed !== unmounted when animating out).
                 trapped={context.open}
@@ -830,28 +848,40 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                         event.prevent_default();
                     }
                 })), None)}
-            >
-                if props.position == Position::Popper {
-                    <SelectPopperPosition
-                        // TODO
-                        as_child={props.as_child}
-                        node_ref={composed_refs}
-                        attrs={(*attrs).clone()}
-                    >
-                        {props.children.clone()}
-                    </SelectPopperPosition>
-                } else {
-                    <SelectItemAlignedPosition
-                        // TODO
-                        on_placed={Callback::from(move |_| is_positioned.set(true))}
-                        as_child={props.as_child}
-                        node_ref={composed_refs}
-                        attrs={(*attrs).clone()}
-                    >
-                        {props.children.clone()}
-                    </SelectItemAlignedPosition>
-                }
-            </FocusScope>
+                as_child={Callback::from({
+                    let position = props.position;
+                    let as_child = props.as_child;
+                    let children = props.children.clone();
+                    let is_positioned = is_positioned.clone();
+
+                    move |FocusScopeAsChildProps {onkeydown, ..}| html! {
+                        if position == Position::Popper {
+                            <SelectPopperPosition
+                                // TODO
+                                as_child={as_child}
+                                node_ref={composed_refs.clone()}
+                                attrs={(*attrs).clone()}
+                            >
+                                {children.clone()}
+                            </SelectPopperPosition>
+                        } else {
+                            <SelectItemAlignedPosition
+                                // TODO
+                                on_placed={Callback::from({
+                                    let is_positioned = is_positioned.clone();
+
+                                    move |_| is_positioned.set(true)
+                                })}
+                                as_child={as_child}
+                                node_ref={composed_refs.clone()}
+                                attrs={(*attrs).clone()}
+                            >
+                                {children.clone()}
+                            </SelectItemAlignedPosition>
+                        }
+                    }
+                })}
+            />
         </ContextProvider<SelectContentContextValue>>
     }
 }
@@ -1290,7 +1320,7 @@ fn SelectPopperPosition(props: &SelectPopperPositionProps) -> Html {
             // TODO: other PopperContent props
             align={props.align}
             node_ref={props.node_ref.clone()}
-            attrs={(*attrs).clone()}
+            // attrs={(*attrs).clone()}
         >
             {props.children.clone()}
         </PopperContent>
@@ -1309,14 +1339,47 @@ struct SelectViewportContextValue {
 pub struct SelectViewportProps {
     #[prop_or_default]
     pub nonce: Option<String>,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<SelectViewportChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct SelectViewportChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: String,
+    pub data_radix_select_viewport: String,
+    pub role: String,
+}
+
+impl SelectViewportChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            html! {
+                <div
+                    ref={self.node_ref}
+                    id={self.id}
+                    class={self.class}
+                    data-radix-select-viewport={self.data_radix_select_viewport}
+                    role={self.role}
+                    style={self.style}
+                >
+                    {children}
+                </div>
+            }
+        }
+    }
 }
 
 #[function_component]
@@ -1325,21 +1388,6 @@ pub fn SelectViewport(props: &SelectViewportProps) -> Html {
         use_context::<SelectContentContextValue>().expect("Select content context required.");
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), content_context.viewport_ref]);
 
-    let attrs = use_memo(props.attrs.clone(), |attrs| {
-        attrs
-            .clone()
-            .merge(attrs! {
-                data-radix-select-viewport=""
-                role="presentation"
-                // TODO: merge with style attr if present
-                // We use position: 'relative' here on the `viewport` so that when we call `selected_item.offset_top` in calculations,
-                // the offset is relative to the viewport (independent of the ScrollUpButton).
-                style="position: relative; flex: 1; overflow: auto;"
-                // TODO: onscroll
-            })
-            .expect("Attributes should be merged.")
-    });
-
     html! {
         <>
             // Hide scrollbars cross-browser and enable momentum scroll for touch devices.
@@ -1347,16 +1395,35 @@ pub fn SelectViewport(props: &SelectViewportProps) -> Html {
                 {"[data-radix-select-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-select-viewport]::-webkit-scrollbar{display:none;}"}
             </style>
 
-            <CollectionSlot<ItemData>>
-                <Primitive
-                    element="div"
-                    as_child={props.as_child}
-                    node_ref={composed_refs}
-                    attrs={(*attrs).clone()}
-                >
-                    {props.children.clone()}
-                </Primitive>
-            </CollectionSlot<ItemData>>
+            <CollectionSlot<ItemData>
+                node_ref={composed_refs}
+                as_child={Callback::from({
+                    let id = props.id.clone();
+                    let class = props.class.clone();
+                    let style = props.style.clone();
+                    let as_child = props.as_child.clone();
+                    let children = props.children.clone();
+
+                    move |CollectionSlotChildProps { node_ref }| {
+                        let child_props = SelectViewportChildProps {
+                            node_ref,
+                            id: id.clone(),
+                            class: class.clone(),
+                            data_radix_select_viewport: "".into(),
+                            role: "presentation".into(),
+                            // We use position: 'relative' here on the `viewport` so that when we call `selected_item.offset_top` in calculations,
+                            // the offset is relative to the viewport (independent of the ScrollUpButton).
+                            style: format!("position: relative; flex: 1; overflow: auto;{}", style.clone().unwrap_or_default())
+                        };
+
+                        if let Some(as_child) = as_child.as_ref() {
+                            as_child.emit(child_props)
+                        } else {
+                            child_props.render(children.clone())
+                        }
+                    }
+                })}
+            />
         </>
     }
 }
@@ -1484,14 +1551,75 @@ pub struct SelectItemProps {
     pub on_pointer_leave: Callback<PointerEvent>,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<SelectItemChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct SelectItemChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub data_radix_collection_item: String,
+    pub role: String,
+    pub aria_labelledby: String,
+    pub data_highlighted: Option<String>,
+    pub aria_selected: Option<String>,
+    pub data_state: String,
+    pub aria_disabled: Option<String>,
+    pub data_disabled: Option<String>,
+    pub tabindex: Option<String>,
+    pub onfocus: Callback<FocusEvent>,
+    pub onblur: Callback<FocusEvent>,
+    pub onclick: Callback<MouseEvent>,
+    pub onpointerup: Callback<PointerEvent>,
+    pub onpointerdown: Callback<PointerEvent>,
+    pub onpointermove: Callback<PointerEvent>,
+    pub onpointerleave: Callback<PointerEvent>,
+    pub onkeydown: Callback<KeyboardEvent>,
+}
+
+impl SelectItemChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <div
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                data-radix-collection-item={self.data_radix_collection_item}
+                role={self.role}
+                aria-labelledby={self.aria_labelledby}
+                data-highlighted={self.data_highlighted}
+                aria-selected={self.aria_selected}
+                data-state={self.data_state}
+                aria-disabled={self.aria_disabled}
+                data-disabled={self.data_disabled}
+                tabindex={self.tabindex}
+                onfocus={self.onfocus}
+                onblur={self.onblur}
+                onclick={self.onclick}
+                onpointerup={self.onpointerup}
+                onpointerdown={self.onpointerdown}
+                onpointermove={self.onpointermove}
+                onpointerleave={self.onpointerleave}
+                onkeydown={self.onkeydown}
+            >
+                {children}
+            </div>
+        }
+    }
 }
 
 #[function_component]
@@ -1563,190 +1691,194 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         },
     );
 
-    #[derive(PartialEq)]
-    struct AttrsDeps {
-        attrs: Attrs,
-        disabled: bool,
-        on_focus: Callback<FocusEvent>,
-        on_blur: Callback<FocusEvent>,
-        on_click: Callback<MouseEvent>,
-        on_pointer_up: Callback<PointerEvent>,
-        on_pointer_down: Callback<PointerEvent>,
-        on_pointer_move: Callback<PointerEvent>,
-        on_pointer_leave: Callback<PointerEvent>,
-        on_key_down: Callback<KeyboardEvent>,
-        item_ref: NodeRef,
-        text_id: String,
-        is_focused: UseStateHandle<bool>,
-        is_selected: bool,
-    }
+    let onfocus = compose_callbacks(
+        Some(props.on_focus.clone()),
+        Some(Callback::from({
+            let is_focused = is_focused.clone();
 
-    let attrs = use_memo(
-        AttrsDeps {
-            attrs: props.attrs.clone(),
-            disabled: props.disabled,
-            on_focus: props.on_focus.clone(),
-            on_blur: props.on_blur.clone(),
-            on_click: props.on_click.clone(),
-            on_pointer_up: props.on_pointer_up.clone(),
-            on_pointer_down: props.on_pointer_down.clone(),
-            on_pointer_move: props.on_pointer_move.clone(),
-            on_pointer_leave: props.on_pointer_leave.clone(),
-            on_key_down: props.on_key_down.clone(),
-            item_ref: item_ref.clone(),
-            text_id,
-            is_focused,
-            is_selected,
-        },
-        |AttrsDeps {
-             attrs,
-             disabled,
-             on_focus,
-             on_blur,
-             on_click,
-             on_pointer_up,
-             on_pointer_down,
-             on_pointer_move,
-             on_pointer_leave,
-             on_key_down,
-             item_ref,
-             text_id,
-             is_focused,
-             is_selected,
-         }| {
-            attrs
-                .clone()
-                .merge(attrs! {
-                    role="option"
-                    aria-labelledby={text_id.clone()}
-                    data-highlighted={is_focused.then_some("")}
-                    // `is_focused` caveat fixes stuttering in VoiceOver.
-                    aria-selected={(*is_selected && **is_focused).then_some("true")}
-                    data-state={if *is_selected { "checked" } else { "unchecked "}}
-                    aria-disabled={disabled.then_some("true")}
-                    data-disabled={disabled.then_some("")}
-                    tab-index={(!disabled).then_some("-1")}
-                    onfocus={compose_callbacks(Some(on_focus.clone()), Some(Callback::from({
-                        let is_focused = is_focused.clone();
+            move |_: FocusEvent| is_focused.set(true)
+        })),
+        None,
+    );
+    let onblur = compose_callbacks(
+        Some(props.on_blur.clone()),
+        Some(Callback::from({
+            let is_focused = is_focused.clone();
 
-                        move |_: FocusEvent| is_focused.set(true)
-                    })), None)}
-                    onblur={compose_callbacks(Some(on_blur.clone()), Some(Callback::from({
-                        let is_focused = is_focused.clone();
+            move |_: FocusEvent| is_focused.set(false)
+        })),
+        None,
+    );
+    let onclick = compose_callbacks(
+        Some(props.on_click.clone()),
+        Some(Callback::from({
+            let pointer_type_ref = pointer_type_ref.clone();
+            let handle_select = handle_select.clone();
 
-                        move |_: FocusEvent| is_focused.set(false)
-                    })), None)}
-                    onclick={compose_callbacks(Some(on_click.clone()), Some(Callback::from({
-                        let pointer_type_ref = pointer_type_ref.clone();
-                        let handle_select = handle_select.clone();
+            move |_: MouseEvent| {
+                // Open on click when using a touch or pen device.
+                if *pointer_type_ref.borrow() != "mouse" {
+                    handle_select.emit(());
+                }
+            }
+        })),
+        None,
+    );
+    let onpointerup = compose_callbacks(
+        Some(props.on_pointer_up.clone()),
+        Some(Callback::from({
+            let pointer_type_ref = pointer_type_ref.clone();
+            let handle_select = handle_select.clone();
 
-                        move |_: MouseEvent| {
-                            // Open on click when using a touch or pen device.
-                            if *pointer_type_ref.borrow() != "mouse" {
-                                handle_select.emit(());
-                            }
-                        }
-                    })), None)}
-                    onpointerup={compose_callbacks(Some(on_pointer_up.clone()), Some(Callback::from({
-                        let pointer_type_ref = pointer_type_ref.clone();
-                        let handle_select = handle_select.clone();
+            move |_: PointerEvent| {
+                // Using a mouse you should be able to do pointer down, move through
+                // the list, and release the pointer over the item to select it.
+                if *pointer_type_ref.borrow() == "mouse" {
+                    handle_select.emit(());
+                }
+            }
+        })),
+        None,
+    );
+    let onpointerdown = compose_callbacks(
+        Some(props.on_pointer_down.clone()),
+        Some(Callback::from({
+            let pointer_type_ref = pointer_type_ref.clone();
 
-                        move |_: PointerEvent| {
-                            // Using a mouse you should be able to do pointer down, move through
-                            // the list, and release the pointer over the item to select it.
-                            if *pointer_type_ref.borrow() == "mouse" {
-                                handle_select.emit(());
-                            }
-                        }
-                    })), None)}
-                    onpointerdown={compose_callbacks(Some(on_pointer_down.clone()), Some(Callback::from({
-                        let pointer_type_ref = pointer_type_ref.clone();
+            move |event: PointerEvent| {
+                *pointer_type_ref.borrow_mut() = event.pointer_type();
+            }
+        })),
+        None,
+    );
+    let onpointermove = compose_callbacks(
+        Some(props.on_pointer_move.clone()),
+        Some(Callback::from({
+            let item_ref = item_ref.clone();
+            let pointer_type_ref = pointer_type_ref.clone();
+            let disabled = props.disabled;
+            let on_item_leave = content_context.on_item_leave.clone();
 
-                        move |event: PointerEvent| {
-                            *pointer_type_ref.borrow_mut() = event.pointer_type();
-                        }
-                    })), None)}
-                    onpointermove={compose_callbacks(Some(on_pointer_move.clone()), Some(Callback::from({
-                        let item_ref = item_ref.clone();
-                        let pointer_type_ref = pointer_type_ref.clone();
-                        let disabled = *disabled;
-                        let on_item_leave = content_context.on_item_leave.clone();
+            move |event: PointerEvent| {
+                // Remember pointer type when sliding over to this item from another one.
+                *pointer_type_ref.borrow_mut() = event.pointer_type();
 
-                        move |event: PointerEvent| {
-                            // Remember pointer type when sliding over to this item from another one.
-                            *pointer_type_ref.borrow_mut() = event.pointer_type();
+                if disabled {
+                    on_item_leave.emit(());
+                } else if *pointer_type_ref.borrow() == "mouse" {
+                    // Even though Safari doesn't support this option, it's acceptable
+                    // as it only means it might scroll a few pixels when using the pointer.
+                    let options = web_sys::FocusOptions::new();
+                    options.set_prevent_scroll(true);
 
-                            if disabled {
-                                on_item_leave.emit(());
-                            } else if *pointer_type_ref.borrow() == "mouse" {
-                                // Even though Safari doesn't support this option, it's acceptable
-                                // as it only means it might scroll a few pixels when using the pointer.
-                                let options = web_sys::FocusOptions::new();
-                                options.set_prevent_scroll(true);
+                    // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
+                    //
+                    // event
+                    //     .current_target()
+                    //     .expect("Event should have target.")
+                    //     .unchecked_into::<web_sys::HtmlElement>()
+                    item_ref
+                        .cast::<web_sys::HtmlElement>()
+                        .expect("Item should exist.")
+                        .focus_with_options(&options)
+                        .expect("Element should be focused.");
+                }
+            }
+        })),
+        None,
+    );
+    let onpointerleave = compose_callbacks(
+        Some(props.on_pointer_leave.clone()),
+        Some(Callback::from({
+            let item_ref = item_ref.clone();
+            let on_item_leave = content_context.on_item_leave.clone();
 
-                                // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
-                                //
-                                // event
-                                //     .current_target()
-                                //     .expect("Event should have target.")
-                                //     .unchecked_into::<web_sys::HtmlElement>()
-                                item_ref
-                                    .cast::<web_sys::HtmlElement>()
-                                    .expect("Item should exist.")
-                                    .focus_with_options(&options)
-                                    .expect("Element should be focused.");
-                            }
-                        }
-                    })), None)}
-                    onpointerleave={compose_callbacks(Some(on_pointer_leave.clone()), Some(Callback::from({
-                        let item_ref = item_ref.clone();
-                        let on_item_leave = content_context.on_item_leave.clone();
-
-                        move |_event: PointerEvent| {
-                            // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
-                            //
-                            // event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Element>());
-                            if item_ref.cast::<web_sys::Element>() !=
-                                window().expect("Window should exist.").document().expect("Document should exist.").active_element()
-                            {
-                                on_item_leave.emit(());
-                            }
-                        }
-                    })), None)}
-                    onkeydown={compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
-                        move |event: KeyboardEvent| {
-                            // TODO: typeahead
-                            let is_typing_ahead = false;
-                            if is_typing_ahead && event.key() == " " {
-                                return
-                            }
-                            if SELECTION_KEYS.contains(&event.key().as_str()) {
-                                handle_select.emit(());
-                            }
-                            // Prevent page scroll if using the space key to select an item.
-                            if event.key() == " " {
-                                event.prevent_default();
-                            }
-                        }
-                    })), None)}
-
-                })
-                .expect("Attributes should be merged.")
-        },
+            move |_event: PointerEvent| {
+                // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
+                //
+                // event.current_target().map(|current_target| current_target.unchecked_into::<web_sys::Element>());
+                if item_ref.cast::<web_sys::Element>()
+                    != window()
+                        .expect("Window should exist.")
+                        .document()
+                        .expect("Document should exist.")
+                        .active_element()
+                {
+                    on_item_leave.emit(());
+                }
+            }
+        })),
+        None,
+    );
+    let onkeydown = compose_callbacks(
+        Some(props.on_key_down.clone()),
+        Some(Callback::from({
+            move |event: KeyboardEvent| {
+                // TODO: typeahead
+                let is_typing_ahead = false;
+                if is_typing_ahead && event.key() == " " {
+                    return;
+                }
+                if SELECTION_KEYS.contains(&event.key().as_str()) {
+                    handle_select.emit(());
+                }
+                // Prevent page scroll if using the space key to select an item.
+                if event.key() == " " {
+                    event.prevent_default();
+                }
+            }
+        })),
+        None,
     );
 
     html! {
         <ContextProvider<SelectItemContextValue> context={(*item_context_value).clone()}>
-            <CollectionItemSlot<ItemData> item_data={(*item_data).clone()}>
-                <Primitive
-                    element="div"
-                    as_child={props.as_child}
-                    node_ref={composed_refs}
-                    attrs={(*attrs).clone()}
-                >
-                    {props.children.clone()}
-                </Primitive>
-            </CollectionItemSlot<ItemData>>
+            <CollectionItemSlot<ItemData>
+                node_ref={composed_refs}
+                item_data={(*item_data).clone()}
+                as_child={Callback::from({
+                    let disabled = props.disabled;
+                    let id = props.id.clone();
+                    let class = props.class.clone();
+                    let style = props.style.clone();
+                    let as_child = props.as_child.clone();
+                    let children = props.children.clone();
+                    let is_focused = is_focused.clone();
+
+                    move |CollectionItemSlotChildProps { node_ref, data_radix_collection_item }| {
+                        let child_props = SelectItemChildProps {
+                            node_ref,
+                            id: id.clone(),
+                            class: class.clone(),
+                            style: style.clone(),
+                            data_radix_collection_item,
+                            role: "option".into(),
+                            aria_labelledby: text_id.clone(),
+                            data_highlighted: is_focused.then_some("".into()),
+                            // `is_focused` caveat fixes stuttering in VoiceOver.
+                            aria_selected: (is_selected && *is_focused).then_some("true".into()),
+                            data_state: (if is_selected { "checked" } else { "unchecked "}).into(),
+                            aria_disabled: disabled.then_some("true".into()),
+                            data_disabled: disabled.then_some("".into()),
+                            tabindex: (!disabled).then_some("-1".into()),
+                            onfocus: onfocus.clone(),
+                            onblur: onblur.clone(),
+                            onclick: onclick.clone(),
+                            onpointerup: onpointerup.clone(),
+                            onpointerdown: onpointerdown.clone(),
+                            onpointermove: onpointermove.clone(),
+                            onpointerleave: onpointerleave.clone(),
+                            onkeydown: onkeydown.clone(),
+                        };
+
+                        if let Some(as_child) = as_child.as_ref() {
+                            as_child.emit(child_props)
+                        } else {
+                            child_props.render(children.clone())
+                        }
+                    }
+                })}
+            />
         </ContextProvider<SelectItemContextValue>>
     }
 }
@@ -2043,9 +2175,9 @@ pub fn SelectArrow(props: &SelectArrowProps) -> Html {
     // TODO
     html! {
         <PopperArrow
-            as_child={props.as_child}
+            // as_child={props.as_child}
             node_ref={props.node_ref.clone()}
-            attrs={props.attrs.clone()}
+            // attrs={props.attrs.clone()}
         >
             {props.children.clone()}
         </PopperArrow>

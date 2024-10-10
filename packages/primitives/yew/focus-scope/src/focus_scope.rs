@@ -18,6 +18,13 @@ use yew_attrs::{attrs, Attrs};
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
 const AUTOFOCUS_ON_UNMOUNT: &str = "focusScope.autoFocusOnUnmount";
 
+#[derive(Clone, PartialEq)]
+pub struct FocusScopeAsChildProps {
+    pub node_ref: NodeRef,
+    pub tabindex: String,
+    pub onkeydown: Callback<KeyboardEvent>,
+}
+
 #[derive(PartialEq, Properties)]
 pub struct FocusScopeProps {
     /// When `true`, tabbing from last item will focus first tabbable and shift+tab from first item will focus last tababble. Defaults to `false`.
@@ -30,8 +37,8 @@ pub struct FocusScopeProps {
     pub on_mount_auto_focus: Callback<Event>,
     #[prop_or_default]
     pub on_unmount_auto_focus: Callback<Event>,
-    #[prop_or(false)]
-    pub as_child: bool,
+    #[prop_or_default]
+    pub as_child: Option<Callback<FocusScopeAsChildProps, Html>>,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -424,21 +431,27 @@ pub fn FocusScope(props: &FocusScopeProps) -> Html {
             .clone()
             .merge(attrs! {
                 tabindex="-1"
-                onkeydown={handle_key_down}
+                onkeydown={handle_key_down.clone()}
             })
             .expect("Attributes should be merged.")
     });
 
-    html! {
-
-        <Primitive
-            element="div"
-            as_child={props.as_child}
-            node_ref={composed_refs}
-            attrs={(*attrs).clone()}
-        >
-            {props.children.clone()}
-        </Primitive>
+    if let Some(as_child) = props.as_child.as_ref() {
+        as_child.emit(FocusScopeAsChildProps {
+            node_ref: composed_refs,
+            tabindex: "-1".into(),
+            onkeydown: handle_key_down,
+        })
+    } else {
+        html! {
+            <Primitive
+                element="div"
+                node_ref={composed_refs}
+                attrs={(*attrs).clone()}
+            >
+                {props.children.clone()}
+            </Primitive>
+        }
     }
 }
 

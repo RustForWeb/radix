@@ -20,14 +20,14 @@ pub fn Styled() -> Html {
                 <Label key={position.to_string()}>
                     {"Choose a number:"}
                     <Select default_value="two">
-                        <SelectTrigger attrs={attrs! { class={(*trigger_class).clone()} }}>
+                        <SelectTrigger class={(*trigger_class).clone()}>
                             <SelectValue />
                             <SelectIcon />
                         </SelectTrigger>
                         <SelectPortal>
                             <SelectContent position={*position} attrs={attrs! { class={(*content_class).clone()} }}>
-                                <SelectViewport attrs={attrs! { class={(*viewport_class).clone()} }}>
-                                    <SelectItem value="one" attrs={attrs! { class={(*item_class).clone()} }}>
+                                <SelectViewport class={(*viewport_class).clone()}>
+                                    <SelectItem class={(*item_class).clone()} value="one">
                                         <SelectItemText>
                                             {"One"}<span aria-hidden="">{" 👍"}</span>
                                         </SelectItemText>
@@ -35,7 +35,7 @@ pub fn Styled() -> Html {
                                             <TickIcon />
                                         </SelectItemIndicator>
                                     </SelectItem>
-                                    <SelectItem value="two" attrs={attrs! { class={(*item_class).clone()} }}>
+                                    <SelectItem class={(*item_class).clone()} value="two">
                                         <SelectItemText>
                                             {"Two"}<span aria-hidden="">{" 👌"}</span>
                                         </SelectItemText>
@@ -43,7 +43,7 @@ pub fn Styled() -> Html {
                                             <TickIcon />
                                         </SelectItemIndicator>
                                     </SelectItem>
-                                    <SelectItem value="three" attrs={attrs! { class={(*item_class).clone()} }}>
+                                    <SelectItem class={(*item_class).clone()} value="three">
                                         <SelectItemText>
                                             {"Three"}<span aria-hidden="">{" 🤘"}</span>
                                         </SelectItemText>

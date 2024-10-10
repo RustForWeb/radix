@@ -1,6 +1,5 @@
 use radix_yew_collection::*;
 use yew::prelude::*;
-use yew_attrs::{attrs, Attrs};
 
 #[function_component]
 pub fn Basic() -> Html {
@@ -32,7 +31,7 @@ pub fn WithElementsInBetween() -> Html {
 #[function_component]
 fn Tomato() -> Html {
     html! {
-        <Item attrs={attrs! { style="color: tomato;" }}>{"Tomato"}</Item>
+        <Item style="color: tomato;">{"Tomato"}</Item>
     }
 }
 
@@ -174,11 +173,17 @@ struct ListProps {
 fn List(props: &ListProps) -> Html {
     html! {
         <CollectionProvider<ItemData>>
-            <CollectionSlot<ItemData>>
-                <ul style="width: 200px;">
-                    {props.children.clone()}
-                </ul>
-            </CollectionSlot<ItemData>>
+            <CollectionSlot<ItemData>
+                as_child={Callback::from({
+                    let children = props.children.clone();
+
+                    move |CollectionSlotChildProps { node_ref }| html! {
+                        <ul ref={node_ref} style="width: 200px;">
+                            {children.clone()}
+                        </ul>
+                    }
+                })}
+            />
         </CollectionProvider<ItemData>>
     }
 }
@@ -188,7 +193,7 @@ struct ItemProps {
     #[prop_or(false)]
     disabled: bool,
     #[prop_or_default]
-    attrs: Attrs,
+    style: Option<String>,
     #[prop_or_default]
     children: Html,
 }
@@ -200,11 +205,24 @@ fn Item(props: &ItemProps) -> Html {
     });
 
     html! {
-        <CollectionItemSlot<ItemData> item_data={(*item_data).clone()} attrs={props.attrs.clone()}>
-            <li style={props.disabled.then_some("opacity: 0.3;")}>
-                {props.children.clone()}
-            </li>
-        </CollectionItemSlot<ItemData>>
+        <CollectionItemSlot<ItemData>
+            item_data={(*item_data).clone()}
+            as_child={Callback::from({
+                let disabled = props.disabled;
+                let style = props.style.clone();
+                let children = props.children.clone();
+
+                move |CollectionItemSlotChildProps { node_ref, data_radix_collection_item }| html! {
+                    <li
+                        ref={node_ref}
+                        data-radix-collection-item={data_radix_collection_item}
+                        style={format!("{}{}", disabled.then_some("opacity: 0.3;").unwrap_or_default(), style.clone().unwrap_or_default())}
+                    >
+                        {children.clone()}
+                    </li>
+                }
+            })}
+        />
     }
 }
 

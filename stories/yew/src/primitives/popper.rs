@@ -1,11 +1,9 @@
 // use std::time::Duration;
 
 use radix_yew_popper::*;
-use radix_yew_primitive::Primitive;
 // use radix_yew_portal::Portal;
 use tailwind_fuse::*;
 use yew::prelude::*;
-use yew_attrs::{attrs, Attrs};
 
 #[function_component]
 pub fn Styled() -> Html {
@@ -29,14 +27,14 @@ pub fn Styled() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor attrs={attrs!{ class={(*anchor_class).clone()} onclick={on_open} }}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
-                    <PopperContent side_offset=5.0 attrs={attrs! { class={(*content_class).clone()} }}>
+                    <PopperContent class={(*content_class).clone()} side_offset=5.0>
                         <button onclick={on_close}>{"close"}</button>
-                        <PopperArrow width=20.0 height=10.0 attrs={attrs!{ class={(*arrow_class).clone()} }} />
+                        <PopperArrow class={(*arrow_class).clone()} width=20.0 height=10.0 />
                     </PopperContent>
                 }
             </Popper>
@@ -65,16 +63,22 @@ pub fn WithCustomArrow() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor attrs={attrs!{ class={(*anchor_class).clone()} onclick={on_open} }}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
-                    <PopperContent side={Side::Right} side_offset=5.0 attrs={attrs! { class={(*content_class).clone()} }}>
+                    <PopperContent class={(*content_class).clone()} side={Side::Right} side_offset=5.0>
                         <button onclick={on_close}>{"close"}</button>
-                        <PopperArrow as_child=true attrs={attrs!{ offset=20 }}>
-                            <CustomArrow />
-                        </PopperArrow>
+                        // <PopperArrow as_child=true attrs={attrs!{ offset=20 }}>
+                        //     <CustomArrow />
+                        // </PopperArrow>
+
+                        <PopperArrow
+                            as_child={Callback::from(|PopperArrowChildProps { node_ref, style, .. }| html! {
+                                <CustomArrow node_ref={node_ref} style={style} />
+                            })}
+                        />
                     </PopperContent>
                 }
             </Popper>
@@ -104,14 +108,14 @@ pub fn Animated() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor attrs={attrs!{ class={(*anchor_class).clone()} onclick={on_open} }}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
-                    <PopperContent side_offset=5.0 attrs={attrs! { class={(*animated_content_class).clone()} }}>
+                    <PopperContent class={(*animated_content_class).clone()} side_offset=5.0>
                         <button onclick={on_close}>{"close"}</button>
-                        <PopperArrow width=20.0 height=10.0 attrs={attrs!{ class={(*arrow_class).clone()} offset=25 }} />
+                        <PopperArrow class={(*arrow_class).clone()} width=20.0 height=10.0 />
                     </PopperContent>
                 }
             </Popper>
@@ -142,15 +146,15 @@ pub fn WithPortal() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor attrs={attrs!{ class={(*anchor_class).clone()} onclick={on_open} }}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
                     // <Portal as_child=true>
-                        <PopperContent side_offset=5.0 attrs={attrs! { class={(*content_class).clone()} }}>
+                        <PopperContent class={(*content_class).clone()} side_offset=5.0>
                             <button onclick={on_close}>{"close"}</button>
-                            <PopperArrow width=20.0 height=10.0 attrs={attrs!{ class={(*arrow_class).clone()} }} />
+                            <PopperArrow class={(*arrow_class).clone()} width=20.0 height=10.0 />
                         </PopperContent>
                     // </Portal>
                 }
@@ -529,23 +533,17 @@ fn Scrollable(props: &ScrollableProps) -> Html {
 #[derive(PartialEq, Properties)]
 struct CustomArrowProps {
     #[prop_or_default]
-    attrs: Attrs,
+    style: Option<String>,
+    #[prop_or_default]
+    node_ref: NodeRef,
 }
 
 #[function_component]
 fn CustomArrow(props: &CustomArrowProps) -> Html {
-    let attrs = props
-        .attrs
-        .clone()
-        .merge(attrs! {
-            style="width: 20px; height: 20px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; background-color: tomato;"
-        })
-        .expect("Attributes should be merged.");
-
     html! {
-        <Primitive
-            element="div"
-            attrs={attrs}
+        <div
+            ref={props.node_ref.clone()}
+            style={format!("width: 20px; height: 20px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; background-color: tomato;{}", props.style.clone().unwrap_or_default())}
         />
     }
 }

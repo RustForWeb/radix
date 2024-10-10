@@ -14,7 +14,7 @@ pub fn Styled() -> Html {
     html! {
         <>
             <p>{"This switch is nested inside a label. The state is uncontrolled."}</p>
-            <Label attrs={attrs! { class={(*label_class).clone()} }}>
+            <Label class={(*label_class).clone()}>
                 {"This is the label "}
                 <Switch attrs={attrs! { class={(*root_class).clone()} }}>
                     <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
@@ -37,7 +37,7 @@ pub fn Controlled() -> Html {
     html! {
         <>
             <p>{"This switch is placed adjacent to its label. The state is controlled."}</p>
-            <Label attrs={attrs! { for="randBox" class={(*label_class).clone()} }}>{"This is the label"}</Label>{" "}
+            <Label class={(*label_class).clone()} r#for="randBox">{"This is the label"}</Label>{" "}
             <Switch
                 attrs={attrs! { id="randBox" class={(*root_class).clone()} }}
                 checked={*checked}
