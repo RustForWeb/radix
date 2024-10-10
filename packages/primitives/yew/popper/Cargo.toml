@@ -17,4 +17,3 @@ serde.workspace = true
 serde_json.workspace = true
 web-sys.workspace = true
 yew.workspace = true
-yew-attrs.workspace = true

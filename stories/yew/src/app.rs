@@ -1,25 +1,14 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::{
-    experiments,
-    primitives::{
-        arrow, collection, focus_scope, label, popper, select, separator, slot, switch,
-        visually_hidden,
-    },
+use crate::primitives::{
+    arrow, collection, focus_scope, label, popper, select, separator, switch, visually_hidden,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
 enum Route {
     #[at("/")]
     Index,
-
-    #[at("/experiments/collection")]
-    ExperimentsCollection,
-    #[at("/experiments/focus-scope")]
-    ExperimentsFocusScope,
-    #[at("/experiments/slot")]
-    ExperimentsSlot,
 
     #[at("/arrow/styled")]
     ArrowStyled,
@@ -118,17 +107,6 @@ enum Route {
     #[at("/separator/styled")]
     SeparatorStyled,
 
-    #[at("/slot/without-slottable")]
-    SlotWithoutSlottable,
-    #[at("/slot/with-slottable")]
-    SlotWithSlottable,
-    #[at("/slot/with-composed-events")]
-    SlotWithComposedEvents,
-    #[at("/slot/button-as-link")]
-    SlotButtonAsLink,
-    #[at("/slot/chromatic")]
-    SlotChromatic,
-
     #[at("/switch/styled")]
     SwitchStyled,
     #[at("/switch/controlled")]
@@ -145,16 +123,6 @@ enum Route {
 fn switch(routes: Route) -> Html {
     match routes {
         Route::Index => html! { <Index /> },
-
-        Route::ExperimentsCollection => {
-            html! { <experiments::collection::Experiments /> }
-        }
-        Route::ExperimentsFocusScope => {
-            html! { <experiments::focus_scope::Experiments /> }
-        }
-        Route::ExperimentsSlot => {
-            html! { <experiments::slot::Experiments /> }
-        }
 
         Route::ArrowStyled => html! { <arrow::Styled /> },
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
@@ -226,12 +194,6 @@ fn switch(routes: Route) -> Html {
 
         Route::SeparatorStyled => html! { <separator::Styled /> },
 
-        Route::SlotWithoutSlottable => html! { <slot::WithoutSlottable /> },
-        Route::SlotWithSlottable => html! { <slot::WithSlottable /> },
-        Route::SlotWithComposedEvents => html! { <slot::WithComposedEvents /> },
-        Route::SlotButtonAsLink => html! { <slot::ButtonAsLink /> },
-        Route::SlotChromatic => html! { <slot::Chromatic /> },
-
         Route::SwitchStyled => html! { <switch::Styled /> },
         Route::SwitchControlled => html! { <switch::Controlled /> },
         Route::SwitchWithinForm => html! { <switch::WithinForm /> },
@@ -256,15 +218,6 @@ pub fn App() -> Html {
                 <ul>
                     <li>
                         <Link<Route> to={Route::Index}>{ "Index" }</Link<Route>>
-                    </li>
-                    <li>
-                        <Link<Route> to={Route::ExperimentsCollection}>{ "Experiments Collection" }</Link<Route>>
-                    </li>
-                    <li>
-                        <Link<Route> to={Route::ExperimentsFocusScope}>{ "Experiments Focus Scope" }</Link<Route>>
-                    </li>
-                    <li>
-                        <Link<Route> to={Route::ExperimentsSlot}>{ "Experiments Slot" }</Link<Route>>
                     </li>
                     <li>
                         {"Arrow"}
@@ -351,17 +304,6 @@ pub fn App() -> Html {
 
                         <ul class="ms-4">
                             <li><Link<Route> to={Route::SeparatorStyled}>{"Styled"}</Link<Route>></li>
-                        </ul>
-                    </li>
-                    <li>
-                        {"Slot"}
-
-                        <ul class="ms-4">
-                            <li><Link<Route> to={Route::SlotWithoutSlottable}>{"Without Slottable"}</Link<Route>></li>
-                            <li><Link<Route> to={Route::SlotWithSlottable}>{"With Slottable"}</Link<Route>></li>
-                            <li><Link<Route> to={Route::SlotWithComposedEvents}>{"With Composed Events"}</Link<Route>></li>
-                            <li><Link<Route> to={Route::SlotButtonAsLink}>{"Button As Link"}</Link<Route>></li>
-                            <li><Link<Route> to={Route::SlotChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

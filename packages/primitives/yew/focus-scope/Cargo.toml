@@ -10,7 +10,6 @@ version.workspace = true
 
 [dependencies]
 once_cell = "1.19.0"
-radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
 web-sys = { workspace = true, features = [
     "CustomEvent",
     "CustomEventInit",
@@ -21,4 +20,3 @@ web-sys = { workspace = true, features = [
     "TreeWalker",
 ] }
 yew.workspace = true
-yew-attrs.workspace = true

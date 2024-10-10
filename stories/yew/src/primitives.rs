@@ -5,6 +5,5 @@ pub mod label;
 pub mod popper;
 pub mod select;
 pub mod separator;
-pub mod slot;
 pub mod switch;
 pub mod visually_hidden;

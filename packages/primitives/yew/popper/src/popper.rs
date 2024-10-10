@@ -6,16 +6,11 @@ use floating_ui_yew::{
     Padding, Placement, Shift, ShiftOptions, Side, Size, SizeOptions, Strategy, UseFloatingOptions,
     UseFloatingReturn, ARROW_NAME, HIDE_NAME,
 };
-use radix_yew_arrow::Arrow as ArrowPrimitive;
-use radix_yew_primitive::Primitive;
+use radix_yew_arrow::{Arrow as ArrowPrimitive, ArrowChildProps, SetArrowChildProps};
 use radix_yew_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use web_sys::{wasm_bindgen::JsCast, window};
-use yew::{
-    prelude::*,
-    virtual_dom::{AttributeOrProperty, Attributes},
-};
-use yew_attrs::{attrs, Attrs};
+use yew::prelude::*;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Align {
@@ -84,14 +79,45 @@ pub fn Popper(props: &PopperProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct PopperAnchorProps {
-    #[prop_or(false)]
-    pub as_child: bool,
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<PopperAnchorChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct PopperAnchorChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub onclick: Callback<MouseEvent>,
+}
+
+impl PopperAnchorChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <div
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                onclick={self.onclick}
+            >
+                {children}
+            </div>
+        }
+    }
 }
 
 #[function_component]
@@ -99,15 +125,18 @@ pub fn PopperAnchor(props: &PopperAnchorProps) -> Html {
     let context = use_context::<PopperContextValue>().expect("Popper context required.");
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.anchor_ref]);
 
-    html! {
-        <Primitive
-            element="div"
-            as_child={props.as_child}
-            node_ref={composed_refs}
-            attrs={props.attrs.clone()}
-        >
-            {props.children.clone()}
-        </Primitive>
+    let child_props = PopperAnchorChildProps {
+        node_ref: composed_refs,
+        id: props.id.clone(),
+        class: props.class.clone(),
+        style: props.style.clone(),
+        onclick: props.on_click.clone(),
+    };
+
+    if let Some(as_child) = props.as_child.as_ref() {
+        as_child.emit(child_props)
+    } else {
+        child_props.render(props.children.clone())
     }
 }
 
@@ -121,7 +150,8 @@ struct PopperContentContextValue {
 }
 
 #[derive(PartialEq, Properties)]
-pub struct PopperContentProps {
+pub struct PopperContentProps<ChildProps: Clone + Default + PartialEq + SetPopperContentChildProps>
+{
     #[prop_or(Side::Bottom)]
     pub side: Side,
     #[prop_or(0.0)]
@@ -146,18 +176,66 @@ pub struct PopperContentProps {
     pub update_position_strategy: UpdatePositionStrategy,
     #[prop_or_default]
     pub on_placed: Callback<()>,
-    #[prop_or(false)]
-    pub as_child: bool,
+    #[prop_or_default]
+    pub dir: Option<String>,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<ChildProps, Html>>,
+    #[prop_or_default]
+    pub as_child_props: Option<ChildProps>,
     #[prop_or_default]
     pub children: Html,
 }
 
+pub trait SetPopperContentChildProps {
+    fn set_popper_content_child_props(&mut self, props: PopperContentChildProps);
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct PopperContentChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: String,
+    pub data_side: String,
+    pub data_align: String,
+}
+
+impl SetPopperContentChildProps for PopperContentChildProps {
+    fn set_popper_content_child_props(&mut self, _: PopperContentChildProps) {}
+}
+
+impl PopperContentChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <div
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                data-side={self.data_side}
+                data-align={self.data_align}
+            >
+                {children}
+            </div>
+        }
+    }
+}
+
 #[function_component]
-pub fn PopperContent(props: &PopperContentProps) -> Html {
+pub fn PopperContent<ChildProps = PopperContentChildProps>(
+    props: &PopperContentProps<ChildProps>,
+) -> Html
+where
+    ChildProps: Clone + Default + PartialEq + SetPopperContentChildProps,
+{
     let context = use_context::<PopperContextValue>().expect("Popper context is required.");
 
     let content_ref = use_node_ref();
@@ -368,15 +446,6 @@ pub fn PopperContent(props: &PopperContentProps) -> Html {
         .and_then(|hide_data| hide_data.reference_hidden)
         .unwrap_or(false);
 
-    let dir = match &props.attrs.attributes {
-        Attributes::IndexMap(attributes) => attributes.get("dir").and_then(|dir| match dir {
-            AttributeOrProperty::Static(s) => Some(s.to_string()),
-            AttributeOrProperty::Attribute(s) => Some(s.to_string()),
-            AttributeOrProperty::Property(s) => s.as_string(),
-        }),
-        _ => None,
-    };
-
     let content_context_value = PopperContentContextValue {
         placed_side,
         arrow_ref,
@@ -385,18 +454,23 @@ pub fn PopperContent(props: &PopperContentProps) -> Html {
         should_hide_arrow: cannot_center_arrow,
     };
 
-    let attrs = props
-        .attrs
-        .clone()
-        .merge(attrs! {
-            data-side={format!("{:?}", placed_side).to_lowercase()}
-            data-align={format!("{:?}", placed_align).to_lowercase()}
-            // TODO: merge with style attr if present
-            // If the PopperContent hasn't been placed yet (not all measurements done),
-            // we prevent animations so that users's animation don't kick in too early referring wrong sides.
-            style={(!(*is_positioned)).then_some("animation: none;")}
-        })
-        .expect("Attributes should be merged.");
+    let child_props = PopperContentChildProps {
+        node_ref: composed_refs,
+        id: props.id.clone(),
+        class: props.class.clone(),
+        data_side: format!("{:?}", placed_side).to_lowercase(),
+        data_align: format!("{:?}", placed_align).to_lowercase(),
+        // TODO: merge with style attr if present
+        // If the PopperContent hasn't been placed yet (not all measurements done),
+        // we prevent animations so that users's animation don't kick in too early referring wrong sides.
+        style: format!(
+            "{}{}",
+            (!(*is_positioned))
+                .then_some("animation: none;")
+                .unwrap_or_default(),
+            props.style.clone().unwrap_or_default()
+        ),
+    };
 
     html! {
         <div
@@ -432,17 +506,19 @@ pub fn PopperContent(props: &PopperContentProps) -> Html {
             // Floating UI interally calculates logical alignment based the `dir` attribute on
             // the reference/floating node, we must add this attribute here to ensure
             // this is calculated when portalled as well as inline.
-            dir={dir}
+            dir={props.dir.clone()}
         >
             <ContextProvider<PopperContentContextValue> context={content_context_value}>
-                <Primitive
-                    element="div"
-                    as_child={props.as_child}
-                    node_ref={composed_refs}
-                    attrs={attrs.clone()}
-                >
-                    {props.children.clone()}
-                </Primitive>
+                if let Some(as_child) = props.as_child.as_ref() {
+                    {{
+                        let mut as_child_props = props.as_child_props.clone().unwrap_or_default();
+                        as_child_props.set_popper_content_child_props(child_props);
+
+                        as_child.emit(as_child_props)
+                    }}
+                } else {
+                    {child_props.render(props.children.clone())}
+                }
             </ContextProvider<PopperContentContextValue>>
         </div>
     }
@@ -454,14 +530,34 @@ pub struct PopperArrowProps {
     pub width: f64,
     #[prop_or(5.0)]
     pub height: f64,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<PopperArrowChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct PopperArrowChildProps {
+    pub node_ref: NodeRef,
+    pub width: String,
+    pub height: String,
+    pub style: String,
+}
+
+impl SetArrowChildProps for PopperArrowChildProps {
+    fn set_arrow_child_props(&mut self, props: ArrowChildProps) {
+        self.node_ref = props.node_ref;
+        self.width = props.width;
+        self.height = props.height;
+    }
 }
 
 #[function_component]
@@ -470,11 +566,10 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
         use_context::<PopperContentContextValue>().expect("Popper content context is required.");
     let base_side = content_context.placed_side.opposite();
 
-    let attrs = props
-        .attrs
-        .clone()
-        .merge(attrs! { style="display: block;" })
-        .expect("Attributes should be merged.");
+    let child_props = PopperArrowChildProps {
+        style: "display: block;".into(),
+        ..PopperArrowChildProps::default()
+    };
 
     html! {
         <span
@@ -521,15 +616,15 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
                 }
             )}
         >
-        <ArrowPrimitive
+        <ArrowPrimitive<PopperArrowChildProps>
             width={props.width}
             height={props.height}
-            as_child={props.as_child}
             node_ref={props.node_ref.clone()}
-            attrs={attrs}
+            as_child={props.as_child.clone()}
+            as_child_props={child_props}
         >
             {props.children.clone()}
-        </ArrowPrimitive>
+        </ArrowPrimitive<PopperArrowChildProps>>
     </span>
     }
 }

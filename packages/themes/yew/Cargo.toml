@@ -11,4 +11,3 @@ version.workspace = true
 
 [dependencies]
 yew.workspace = true
-yew-attrs.workspace = true

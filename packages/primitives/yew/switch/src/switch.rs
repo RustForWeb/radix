@@ -1,9 +1,8 @@
-use radix_yew_primitive::{compose_callbacks, Primitive};
+use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
 use yew::prelude::*;
-use yew_attrs::{attrs, Attrs};
 
 #[derive(Clone, Debug, PartialEq)]
 struct SwitchContextValue {
@@ -29,14 +28,59 @@ pub struct SwitchProps {
     pub value: String,
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<SwitchChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct SwitchChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub r#type: String,
+    pub role: String,
+    pub aria_checked: String,
+    pub aria_required: String,
+    pub data_state: String,
+    pub data_disabled: Option<String>,
+    pub disabled: bool,
+    pub value: String,
+    pub onclick: Callback<MouseEvent>,
+}
+
+impl SwitchChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <button
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                type={self.r#type}
+                role={self.role}
+                aria-checked={self.aria_checked}
+                aria-required={self.aria_required}
+                data-state={self.data_state}
+                data-disabled={self.data_disabled}
+                disabled={self.disabled}
+                value={self.value}
+                onclick={self.onclick}
+            >
+                {children}
+            </button>
+        }
+    }
 }
 
 #[function_component]
@@ -100,48 +144,37 @@ pub fn Switch(props: &SwitchProps) -> Html {
         None,
     );
 
-    let attrs = use_memo(
-        (
-            props.attrs.clone(),
-            props.required,
-            props.disabled,
-            props.value.clone(),
-            checked,
-        ),
-        |(attrs, required, disabled, value, checked)| {
-            attrs
-                .clone()
-                .merge(attrs! {
-                    type="button"
-                    role="switch"
-                    aria-checked={match checked {
-                        true => "true",
-                        false => "false",
-                    }}
-                    aria-required={match required {
-                        true => "true",
-                        false => "false",
-                    }}
-                    data-state={get_state(*checked)}
-                    data-disabled={disabled.then_some("")}
-                    disabled={*disabled}
-                    value={value.clone()}
-                    onclick={on_click}
-                })
-                .expect("Attributes should be merged.")
-        },
-    );
+    let child_props = SwitchChildProps {
+        node_ref: composed_refs,
+        id: props.id.clone(),
+        class: props.class.clone(),
+        style: props.style.clone(),
+        r#type: "button".into(),
+        role: "switch".into(),
+        aria_checked: match checked {
+            true => "true",
+            false => "false",
+        }
+        .into(),
+        aria_required: match props.required {
+            true => "true",
+            false => "false",
+        }
+        .into(),
+        data_state: get_state(checked),
+        data_disabled: props.disabled.then_some("".into()),
+        disabled: props.disabled,
+        value: props.value.clone(),
+        onclick: on_click.clone(),
+    };
 
     html! {
         <ContextProvider<SwitchContextValue> context={(*context_value).clone()}>
-            <Primitive
-                element="button"
-                as_child={props.as_child}
-                node_ref={composed_refs}
-                attrs={(*attrs).clone()}
-            >
-                {props.children.clone()}
-            </Primitive>
+            if let Some(as_child) = props.as_child.as_ref() {
+                {as_child.emit(child_props)}
+            } else {
+                {child_props.render(props.children.clone())}
+            }
             if *is_form_control {
                 <BubbleInput
                     name={props.name.clone()}
@@ -159,39 +192,64 @@ pub fn Switch(props: &SwitchProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SwitchThumbProps {
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<SwitchThumbChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct SwitchThumbChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub data_state: String,
+    pub data_disabled: Option<String>,
+}
+
+impl SwitchThumbChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <span
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                data-state={self.data_state}
+                data-disabled={self.data_disabled}
+            >
+                {children}
+            </span>
+        }
+    }
 }
 
 #[function_component]
 pub fn SwitchThumb(props: &SwitchThumbProps) -> Html {
     let context = use_context::<SwitchContextValue>().expect("Switch context required.");
 
-    let attrs = use_memo((props.attrs.clone(), context), |(attrs, context)| {
-        attrs
-            .clone()
-            .merge(attrs! {
-                data-state={get_state(context.checked)}
-                data-disabled={context.disabled.then_some("")}
-            })
-            .expect("Attributes should be merged.")
-    });
+    let child_props = SwitchThumbChildProps {
+        node_ref: props.node_ref.clone(),
+        id: props.id.clone(),
+        class: props.class.clone(),
+        style: props.style.clone(),
+        data_state: get_state(context.checked),
+        data_disabled: context.disabled.then_some("".into()),
+    };
 
-    html! {
-        <Primitive
-            element="span"
-            as_child={props.as_child}
-            node_ref={props.node_ref.clone()}
-            attrs={(*attrs).clone()}
-        >
-            {props.children.clone()}
-        </Primitive>
+    if let Some(as_child) = props.as_child.as_ref() {
+        as_child.emit(child_props)
+    } else {
+        child_props.render(props.children.clone())
     }
 }
 
@@ -207,8 +265,6 @@ struct BubbleInputProps {
     pub required: bool,
     pub disabled: bool,
     pub value: String,
-    #[prop_or_default]
-    pub attrs: Attrs,
 }
 
 #[function_component]
@@ -239,45 +295,27 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
         },
     );
 
-    let attrs = use_memo(
-        (
-            props.attrs.clone(),
-            props.checked,
-            props.name.clone(),
-            props.required,
-            props.disabled,
-            props.value.clone(),
-            control_size,
-        ),
-        |(attrs, checked, name, required, disabled, value, control_size)| {
-            attrs
-            .clone()
-            .merge(attrs! {
-                type="checkbox"
-                aria-hidden="true"
-                checked={*checked}
-                name={(*name).clone()}
-                required={*required}
-                disabled={*disabled}
-                value={value.clone()}
-                tab-index="-1"
-                // We transform because the input is absolutely positioned, but we have
-                // rendered it **after** the button. This pulls it back to sit on top
-                // of the button.
-                style={format!(
-                    "transform: translateX(-100%);{}{} position: absolute; pointer-events: none; opacity: 0; margin: 0px;",
-                    control_size.as_ref().map(|size| format!("{}px", size.width)).unwrap_or("".into()),
-                    control_size.as_ref().map(|size| format!("{}px", size.height)).unwrap_or("".into()),
-                )}
-            })
-            .expect("Attributes should be merged.")
-        },
-    );
-
-    (*attrs)
-        .clone()
-        .new_vtag("input", node_ref, Default::default(), Default::default())
-        .into()
+    html! {
+        <input
+            ref={node_ref}
+            type="checkbox"
+            aria-hidden="true"
+            checked={props.checked}
+            name={props.name.clone()}
+            required={props.required}
+            disabled={props.disabled}
+            value={props.value.clone()}
+            tabindex="-1"
+            // We transform because the input is absolutely positioned, but we have
+            // rendered it **after** the button. This pulls it back to sit on top
+            // of the button.
+            style={format!(
+                "transform: translateX(-100%);{}{} position: absolute; pointer-events: none; opacity: 0; margin: 0px;",
+                control_size.as_ref().map(|size| format!("{}px", size.width)).unwrap_or("".into()),
+                control_size.as_ref().map(|size| format!("{}px", size.height)).unwrap_or("".into()),
+            )}
+        />
+    }
 }
 
 fn get_state(checked: bool) -> String {

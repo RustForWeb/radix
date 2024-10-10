@@ -16,7 +16,6 @@ log.workspace = true
 radix-yew-separator = { path = "../../packages/primitives/yew/separator", optional = true }
 radix-yew-switch = { path = "../../packages/primitives/yew/switch", optional = true }
 yew = { workspace = true, features = ["csr"] }
-yew-attrs.workspace = true
 
 [features]
 default = ["separator", "switch"]

@@ -21,23 +21,32 @@ pub fn Basic() -> Html {
                 <input /> <input />
             </div>
             if *trapped {
-                <FocusScope as_child=true r#loop={*trapped} trapped={*trapped}>
-                    <form style="display: inline-flex; flex-direction: column; gap: 20px; padding: 20px; margin: 50px; max-width: 500px; border: 2px solid;">
-                        <input type="text" placeholder="First name" />
-                        <input type="text" placeholder="Last name" />
-                        <input type="number" placeholder="Age" />
-                        if *has_destroy_button {
-                            <div>
-                                <button type="button" onclick={on_click_destroy}>
-                                    {"Destroy me"}
-                                </button>
-                            </div>
-                        }
-                        <button type="button" onclick={on_click_untrap}>
-                            {"Close"}
-                        </button>
-                    </form>
-                </FocusScope>
+                <FocusScope
+                    r#loop={*trapped}
+                    trapped={*trapped}
+                    as_child={Callback::from(move |FocusScopeChildProps { node_ref, tabindex, onkeydown, .. }| html! {
+                        <form
+                            ref={node_ref}
+                            tabindex={tabindex}
+                            onkeydown={onkeydown}
+                            style="display: inline-flex; flex-direction: column; gap: 20px; padding: 20px; margin: 50px; max-width: 500px; border: 2px solid;"
+                        >
+                            <input type="text" placeholder="First name" />
+                            <input type="text" placeholder="Last name" />
+                            <input type="number" placeholder="Age" />
+                            if *has_destroy_button {
+                                <div>
+                                    <button type="button" onclick={on_click_destroy.clone()}>
+                                        {"Destroy me"}
+                                    </button>
+                                </div>
+                            }
+                            <button type="button" onclick={on_click_untrap.clone()}>
+                                {"Close"}
+                            </button>
+                        </form>
+                    })}
+                />
             }
             <div>
                 <input /> <input />
@@ -64,16 +73,25 @@ pub fn Multiple() -> Html {
                 </button>
             </div>
             if *trapped1 {
-                <FocusScope as_child=true r#loop={*trapped1} trapped={*trapped1}>
-                    <form style="display: inline-flex; flex-direction: column; gap: 20px; padding: 20px; margin: 50px; max-width: 500px; border: 2px solid;">
-                        <input type="text" placeholder="First name" />
-                        <input type="text" placeholder="Last name" />
-                        <input type="number" placeholder="Age" />
-                        <button type="button" onclick={on_click_untrap1}>
-                            {"Close"}
-                        </button>
-                    </form>
-                </FocusScope>
+                <FocusScope
+                    r#loop={*trapped1}
+                    trapped={*trapped1}
+                    as_child={Callback::from(move |FocusScopeChildProps { node_ref, tabindex, onkeydown, .. }| html! {
+                        <form
+                            ref={node_ref}
+                            tabindex={tabindex}
+                            onkeydown={onkeydown}
+                            style="display: inline-flex; flex-direction: column; gap: 20px; padding: 20px; margin: 50px; max-width: 500px; border: 2px solid;"
+                        >
+                            <input type="text" placeholder="First name" />
+                            <input type="text" placeholder="Last name" />
+                            <input type="number" placeholder="Age" />
+                            <button type="button" onclick={on_click_untrap1.clone()}>
+                                {"Close"}
+                            </button>
+                        </form>
+                    })}
+                />
             }
             <div>
                 <button type="button" onclick={on_click_trap2}>
@@ -81,16 +99,25 @@ pub fn Multiple() -> Html {
                 </button>
             </div>
             if *trapped2 {
-                <FocusScope as_child=true r#loop={*trapped2} trapped={*trapped2}>
-                    <form style="display: inline-flex; flex-direction: column; gap: 20px; padding: 20px; margin: 50px; max-width: 500px; border: 2px solid;">
-                        <input type="text" placeholder="First name" />
-                        <input type="text" placeholder="Last name" />
-                        <input type="number" placeholder="Age" />
-                        <button type="button" onclick={on_click_untrap2}>
-                            {"Close"}
-                        </button>
-                    </form>
-                </FocusScope>
+                <FocusScope
+                    r#loop={*trapped2}
+                    trapped={*trapped2}
+                    as_child={Callback::from(move |FocusScopeChildProps { node_ref, tabindex, onkeydown, ..}| html! {
+                        <form
+                            ref={node_ref}
+                            tabindex={tabindex}
+                            onkeydown={onkeydown}
+                            style="display: inline-flex; flex-direction: column; gap: 20px; padding: 20px; margin: 50px; max-width: 500px; border: 2px solid;"
+                        >
+                            <input type="text" placeholder="First name" />
+                            <input type="text" placeholder="Last name" />
+                            <input type="number" placeholder="Age" />
+                            <button type="button" onclick={on_click_untrap2.clone()}>
+                                {"Close"}
+                            </button>
+                        </form>
+                    })}
+                />
             }
             <div>
                 <input />

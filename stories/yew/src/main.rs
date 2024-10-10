@@ -1,5 +1,4 @@
 mod app;
-mod experiments;
 mod primitives;
 
 use crate::app::App;

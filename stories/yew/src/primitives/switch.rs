@@ -3,7 +3,6 @@ use radix_yew_switch::*;
 use tailwind_fuse::*;
 use web_sys::wasm_bindgen::JsCast;
 use yew::prelude::*;
-use yew_attrs::attrs;
 
 #[function_component]
 pub fn Styled() -> Html {
@@ -14,10 +13,10 @@ pub fn Styled() -> Html {
     html! {
         <>
             <p>{"This switch is nested inside a label. The state is uncontrolled."}</p>
-            <Label attrs={attrs! { class={(*label_class).clone()} }}>
+            <Label class={(*label_class).clone()}>
                 {"This is the label "}
-                <Switch attrs={attrs! { class={(*root_class).clone()} }}>
-                    <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+                <Switch class={(*root_class).clone()}>
+                    <SwitchThumb class={(*thumb_class).clone()} />
                 </Switch>
             </Label>
         </>
@@ -37,13 +36,13 @@ pub fn Controlled() -> Html {
     html! {
         <>
             <p>{"This switch is placed adjacent to its label. The state is controlled."}</p>
-            <Label attrs={attrs! { for="randBox" class={(*label_class).clone()} }}>{"This is the label"}</Label>{" "}
+            <Label class={(*label_class).clone()} r#for="randBox">{"This is the label"}</Label>{" "}
             <Switch
-                attrs={attrs! { id="randBox" class={(*root_class).clone()} }}
+                class={(*root_class).clone()}
                 checked={*checked}
                 on_checked_change={on_checked_change}
             >
-                <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+                <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
         </>
     }
@@ -118,12 +117,12 @@ pub fn WithinForm() -> Html {
                 <legend>{"optional checked: "}{data.optional}</legend>
                 <label>
                     <Switch
+                        class={(*root_class).clone()}
                         name="optional"
                         checked={*checked}
                         on_checked_change={on_change_optional}
-                        attrs={attrs! { class={(*root_class).clone()} }}
                     >
-                        <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+                        <SwitchThumb class={(*thumb_class).clone()} />
                     </Switch>{' '}
                     {"with label"}
                 </label>
@@ -135,12 +134,12 @@ pub fn WithinForm() -> Html {
             <fieldset>
                 <legend>{"required checked: "}{format!("{}", data.required)}</legend>
                 <Switch
+                    class={(*root_class).clone()}
                     name="required"
                     required=true
                     on_checked_change={on_change_required}
-                    attrs={attrs! { class={(*root_class).clone()} }}
                 >
-                    <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+                    <SwitchThumb class={(*thumb_class).clone()} />
                 </Switch>
             </fieldset>
 
@@ -150,11 +149,11 @@ pub fn WithinForm() -> Html {
             <fieldset>
                 <legend>{"stop propagation checked: "}{format!("{}", data.stopprop)}</legend>
                 <Switch
+                    class={(*root_class).clone()}
                     name="stopprop"
                     on_click={Callback::from(|event: MouseEvent| event.stop_propagation())}
-                    attrs={attrs! { class={(*root_class).clone()} }}
                 >
-                    <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+                    <SwitchThumb class={(*thumb_class).clone()} />
                 </Switch>
             </fieldset>
 
@@ -177,45 +176,45 @@ pub fn Chromatic() -> Html {
         <>
             <h1>{"Uncontrolled"}</h1>
             <h2>{"Off"}</h2>
-            <Switch attrs={attrs! { class={(*root_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+            <Switch class={(*root_class).clone()}>
+                <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
 
             <h2>{"On"}</h2>
-            <Switch default_checked=true attrs={attrs! { class={(*root_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+            <Switch default_checked=true class={(*root_class).clone()}>
+                <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
 
             <h1>{"Controlled"}</h1>
             <h2>{"Off"}</h2>
-            <Switch checked=false attrs={attrs! { class={(*root_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+            <Switch checked=false class={(*root_class).clone()}>
+                <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
 
             <h2>{"On"}</h2>
-            <Switch checked=true attrs={attrs! { class={(*root_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+            <Switch checked=true class={(*root_class).clone()}>
+                <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
 
             <h1>{"Disabled"}</h1>
-            <Switch disabled=true attrs={attrs! { class={(*root_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_class).clone()} }} />
+            <Switch disabled=true class={(*root_class).clone()}>
+                <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
 
             <h1>{"State attributes"}</h1>
             <h2>{"Unchecked"}</h2>
-            <Switch attrs={attrs! { class={(*root_attr_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_attr_class).clone()} }} />
+            <Switch class={(*root_attr_class).clone()}>
+                <SwitchThumb class={(*thumb_attr_class).clone()} />
             </Switch>
 
             <h2>{"Checked"}</h2>
-            <Switch default_checked=true attrs={attrs! { class={(*root_attr_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_attr_class).clone()} }} />
+            <Switch default_checked=true class={(*root_attr_class).clone()}>
+                <SwitchThumb class={(*thumb_attr_class).clone()} />
             </Switch>
 
             <h2>{"Disabled"}</h2>
-            <Switch default_checked=true disabled=true attrs={attrs! { class={(*root_attr_class).clone()} }}>
-                <SwitchThumb attrs={attrs! { class={(*thumb_attr_class).clone()} }} />
+            <Switch default_checked=true disabled=true class={(*root_attr_class).clone()}>
+                <SwitchThumb class={(*thumb_attr_class).clone()} />
             </Switch>
         </>
     }

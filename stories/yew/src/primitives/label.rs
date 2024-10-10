@@ -1,16 +1,14 @@
 use radix_yew_label::*;
-use radix_yew_primitive::*;
 use tailwind_fuse::*;
 use web_sys::window;
 use yew::prelude::*;
-use yew_attrs::{attrs, Attrs};
 
 #[function_component]
 pub fn Styled() -> Html {
     let root_class = use_memo((), |_| RootClass::default().to_class());
 
     html! {
-        <Label attrs={attrs! {class={(*root_class).clone()}}}>{"Label"}</Label>
+        <Label class={(*root_class).clone()}>{"Label"}</Label>
     }
 }
 
@@ -22,12 +20,12 @@ pub fn WithControl() -> Html {
         <>
             <h1>{"Wrapping control"}</h1>
             <Label>
-                <Control attrs={attrs! {class={(*control_class).clone()}}} />{" Label"}
+                <Control class={(*control_class).clone()} />{" Label"}
             </Label>
 
             <h1>{"Referencing control"}</h1>
-            <Control attrs={attrs! {id="control" class={(*control_class).clone()}}} />
-            <Label attrs={attrs! {for="control"}}>{"Label"}</Label>
+            <Control id="control" class={(*control_class).clone()} />
+            <Label r#for="control">{"Label"}</Label>
         </>
     }
 }
@@ -44,7 +42,10 @@ pub fn WithInputNumber() -> Html {
 
 #[derive(PartialEq, Properties)]
 struct ControlProps {
-    attrs: Attrs,
+    #[prop_or_default]
+    id: Option<String>,
+    #[prop_or_default]
+    class: Option<String>,
 }
 
 #[function_component]
@@ -56,16 +57,10 @@ fn Control(props: &ControlProps) -> Html {
             .expect("Alert should be successful.")
     });
 
-    let attrs = props
-        .attrs
-        .clone()
-        .merge(attrs! { onclick={handle_click} })
-        .expect("Attrs should be merged.");
-
     html! {
-        <Primitive element="button" attrs={attrs}>
+        <button id={props.id.clone()} class={props.class.clone()} onclick={handle_click}>
             {"Control"}
-        </Primitive>
+        </button>
     }
 }
 

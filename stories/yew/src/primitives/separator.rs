@@ -1,7 +1,6 @@
 use radix_yew_separator::*;
 use tailwind_fuse::*;
 use yew::prelude::*;
-use yew_attrs::attrs;
 
 #[function_component]
 pub fn Styled() -> Html {
@@ -11,22 +10,22 @@ pub fn Styled() -> Html {
         <>
             <h1>{"Horizontal"}</h1>
             <p>{"The following separator is horizontal and has semantic meaning."}</p>
-            <Separator orientation={Orientation::Horizontal} attrs={attrs! { class={(*root_class).clone()} }} />
+            <Separator class={(*root_class).clone()} orientation={Orientation::Horizontal} />
             <p>
                 {"The following separator is horizontal and is purely decorative. Assistive technology will
                 ignore this element."}
             </p>
-            <Separator orientation={Orientation::Horizontal} decorative=true attrs={attrs! { class={(*root_class).clone()} }} />
+            <Separator class={(*root_class).clone()} orientation={Orientation::Horizontal} decorative=true />
 
             <h1>{"Vertical"}</h1>
             <div style="display: flex; align-items: center;">
                 <p>{"The following separator is vertical and has semantic meaning."}</p>
-                <Separator orientation={Orientation::Vertical} attrs={attrs! { class={(*root_class).clone()} }} />
+                <Separator class={(*root_class).clone()} orientation={Orientation::Vertical} />
                 <p>
                     {"The following separator is vertical and is purely decorative. Assistive technology will
                     ignore this element."}
                 </p>
-                <Separator orientation={Orientation::Vertical} decorative=true attrs={attrs! { class={(*root_class).clone()} }} />
+                <Separator class={(*root_class).clone()} orientation={Orientation::Vertical} decorative=true />
             </div>
         </>
     }

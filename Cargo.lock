@@ -3092,9 +3092,7 @@ version = "0.0.2"
 name = "radix-yew-arrow"
 version = "0.0.2"
 dependencies = [
- "radix-yew-primitive",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3107,7 +3105,6 @@ dependencies = [
  "radix-yew-separator",
  "radix-yew-switch",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3115,10 +3112,8 @@ name = "radix-yew-collection"
 version = "0.0.2"
 dependencies = [
  "nanoid",
- "radix-yew-slot",
  "web-sys",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3141,10 +3136,8 @@ name = "radix-yew-focus-scope"
 version = "0.0.2"
 dependencies = [
  "once_cell",
- "radix-yew-primitive",
  "web-sys",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3165,10 +3158,8 @@ dependencies = [
 name = "radix-yew-label"
 version = "0.0.2"
 dependencies = [
- "radix-yew-primitive",
  "web-sys",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3183,16 +3174,13 @@ dependencies = [
  "serde_json",
  "web-sys",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
 name = "radix-yew-primitive"
 version = "0.0.2"
 dependencies = [
- "radix-yew-slot",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3211,26 +3199,13 @@ dependencies = [
  "radix-yew-use-controllable-state",
  "web-sys",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
 name = "radix-yew-separator"
 version = "0.0.2"
 dependencies = [
- "radix-yew-primitive",
  "yew",
- "yew-attrs",
-]
-
-[[package]]
-name = "radix-yew-slot"
-version = "0.0.2"
-dependencies = [
- "log",
- "regex",
- "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3248,13 +3223,11 @@ dependencies = [
  "radix-yew-primitive",
  "radix-yew-select",
  "radix-yew-separator",
- "radix-yew-slot",
  "radix-yew-switch",
  "radix-yew-visually-hidden",
  "tailwind_fuse",
  "web-sys",
  "yew",
- "yew-attrs",
  "yew-router",
 ]
 
@@ -3268,7 +3241,6 @@ dependencies = [
  "radix-yew-use-size",
  "web-sys",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3276,7 +3248,6 @@ name = "radix-yew-themes"
 version = "0.0.2"
 dependencies = [
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -3305,9 +3276,7 @@ dependencies = [
 name = "radix-yew-visually-hidden"
 version = "0.0.2"
 dependencies = [
- "radix-yew-primitive",
  "yew",
- "yew-attrs",
 ]
 
 [[package]]
@@ -4696,29 +4665,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "yew-attrs"
-version = "0.2.4"
-source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature%2Fuse-composed-ref#56334ae26bb64bed931cd0d9abd92e0d4723f627"
-dependencies = [
- "indexmap",
- "thiserror",
- "yew",
- "yew-attrs-macro",
-]
-
-[[package]]
-name = "yew-attrs-macro"
-version = "0.2.4"
-source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature%2Fuse-composed-ref#56334ae26bb64bed931cd0d9abd92e0d4723f627"
-dependencies = [
- "once_cell",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "syn 2.0.79",
-]
-
-[[package]]
 name = "yew-macro"
 version = "0.21.0"
 source = "git+https://github.com/RustForWeb/yew.git?branch=feature%2Fuse-composed-ref#7ffa523679ea9ed366f554018f449be5df43e336"
@@ -4785,3 +4731,8 @@ name = "zeroize"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ced3678a2879b30306d323f4542626697a464a97c0a07c9aebf7ebca65cd4dde"
+
+[[patch.unused]]
+name = "yew-attrs"
+version = "0.2.4"
+source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature%2Fuse-composed-ref#56334ae26bb64bed931cd0d9abd92e0d4723f627"

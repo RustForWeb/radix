@@ -5,7 +5,6 @@ use std::sync::Mutex;
 use std::{cell::RefCell, sync::Arc};
 
 use once_cell::sync::Lazy;
-use radix_yew_primitive::Primitive;
 use web_sys::window;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
@@ -13,7 +12,6 @@ use web_sys::{
     MutationObserverInit, MutationRecord, NodeFilter,
 };
 use yew::prelude::*;
-use yew_attrs::{attrs, Attrs};
 
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
 const AUTOFOCUS_ON_UNMOUNT: &str = "focusScope.autoFocusOnUnmount";
@@ -30,14 +28,45 @@ pub struct FocusScopeProps {
     pub on_mount_auto_focus: Callback<Event>,
     #[prop_or_default]
     pub on_unmount_auto_focus: Callback<Event>,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub attrs: Attrs,
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<FocusScopeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, PartialEq)]
+pub struct FocusScopeChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub tabindex: String,
+    pub onkeydown: Callback<KeyboardEvent>,
+}
+
+impl FocusScopeChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <div
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                tabindex={self.tabindex}
+                onkeydown={self.onkeydown}
+            >
+                {children}
+            </div>
+        }
+    }
 }
 
 #[function_component]
@@ -419,26 +448,19 @@ pub fn FocusScope(props: &FocusScopeProps) -> Html {
         },
     );
 
-    let attrs = use_memo(props.attrs.clone(), |attrs| {
-        attrs
-            .clone()
-            .merge(attrs! {
-                tabindex="-1"
-                onkeydown={handle_key_down}
-            })
-            .expect("Attributes should be merged.")
-    });
+    let child_props = FocusScopeChildProps {
+        node_ref: composed_refs,
+        id: props.id.clone(),
+        class: props.class.clone(),
+        style: props.style.clone(),
+        tabindex: "-1".into(),
+        onkeydown: handle_key_down,
+    };
 
-    html! {
-
-        <Primitive
-            element="div"
-            as_child={props.as_child}
-            node_ref={composed_refs}
-            attrs={(*attrs).clone()}
-        >
-            {props.children.clone()}
-        </Primitive>
+    if let Some(as_child) = props.as_child.as_ref() {
+        as_child.emit(child_props)
+    } else {
+        child_props.render(props.children.clone())
     }
 }
 

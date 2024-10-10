@@ -3,10 +3,7 @@ use std::rc::Rc;
 use std::{collections::HashMap, fmt::Debug};
 
 use nanoid::nanoid;
-use radix_yew_slot::Slot;
 use yew::prelude::*;
-use yew::virtual_dom::{AttributeOrProperty, Attributes};
-use yew_attrs::Attrs;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 struct CollectionItemId(String);
@@ -63,14 +60,14 @@ pub fn CollectionProvider<ItemData: Clone + PartialEq + 'static>(
 
 #[derive(PartialEq, Properties)]
 pub struct CollectionSlotProps {
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub attrs: Attrs,
-    #[prop_or_default]
-    pub children: Html,
+    pub as_child: Callback<CollectionSlotChildProps, Html>,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct CollectionSlotChildProps {
+    pub node_ref: NodeRef,
 }
 
 #[function_component]
@@ -79,11 +76,9 @@ pub fn CollectionSlot<ItemData: Clone + PartialEq + 'static>(props: &CollectionS
         use_context::<CollectionContextValue<ItemData>>().expect("Collection context required.");
     let composed_ref = use_composed_ref(&[props.node_ref.clone(), context.collection_ref]);
 
-    html! {
-        <Slot node_ref={composed_ref} attrs={props.attrs.clone()}>
-            {props.children.clone()}
-        </Slot>
-    }
+    props.as_child.emit(CollectionSlotChildProps {
+        node_ref: composed_ref,
+    })
 }
 
 const ITEM_DATA_ATTR: &str = "data-radix-collection-item";
@@ -92,14 +87,15 @@ const ITEM_DATA_ATTR: &str = "data-radix-collection-item";
 pub struct CollectionItemSlotProps<ItemData: Clone + PartialEq + 'static> {
     #[prop_or_default]
     pub item_data: Option<ItemData>,
-    #[prop_or(false)]
-    pub as_child: bool,
     #[prop_or_default]
     pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub attrs: Attrs,
-    #[prop_or_default]
-    pub children: Html,
+    pub as_child: Callback<CollectionItemSlotChildProps, Html>,
+}
+
+#[derive(Clone, Default, PartialEq)]
+pub struct CollectionItemSlotChildProps {
+    pub node_ref: NodeRef,
+    pub data_radix_collection_item: String,
 }
 
 #[function_component]
@@ -135,29 +131,10 @@ pub fn CollectionItemSlot<ItemData: Clone + PartialEq + 'static>(
         }
     });
 
-    let attrs = use_memo(props.attrs.clone(), |attrs| {
-        attrs
-            .clone()
-            .merge(Attrs::new(
-                Attributes::IndexMap(Rc::new(
-                    [(
-                        AttrValue::from(ITEM_DATA_ATTR),
-                        AttributeOrProperty::Attribute(AttrValue::from("")),
-                    )]
-                    .into(),
-                )),
-                Default::default(),
-                Default::default(),
-                Default::default(),
-            ))
-            .expect("Attributes should be merged.")
-    });
-
-    html! {
-        <Slot node_ref={composed_ref} attrs={(*attrs).clone()}>
-            {props.children.clone()}
-        </Slot>
-    }
+    props.as_child.emit(CollectionItemSlotChildProps {
+        node_ref: composed_ref,
+        data_radix_collection_item: "".into(),
+    })
 }
 
 fn node_list_to_vec(node_list: web_sys::NodeList) -> Vec<web_sys::Node> {
