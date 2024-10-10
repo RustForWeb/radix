@@ -18,6 +18,8 @@ enum Route {
     ExperimentsCollection,
     #[at("/experiments/focus-scope")]
     ExperimentsFocusScope,
+    #[at("/experiments/slot")]
+    ExperimentsSlot,
 
     #[at("/arrow/styled")]
     ArrowStyled,
@@ -150,6 +152,9 @@ fn switch(routes: Route) -> Html {
         Route::ExperimentsFocusScope => {
             html! { <experiments::focus_scope::Experiments /> }
         }
+        Route::ExperimentsSlot => {
+            html! { <experiments::slot::Experiments /> }
+        }
 
         Route::ArrowStyled => html! { <arrow::Styled /> },
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
@@ -257,6 +262,9 @@ pub fn App() -> Html {
                     </li>
                     <li>
                         <Link<Route> to={Route::ExperimentsFocusScope}>{ "Experiments Focus Scope" }</Link<Route>>
+                    </li>
+                    <li>
+                        <Link<Route> to={Route::ExperimentsSlot}>{ "Experiments Slot" }</Link<Route>>
                     </li>
                     <li>
                         {"Arrow"}
