@@ -11,6 +11,7 @@ use radix_yew_collection::{
 };
 use radix_yew_direction::{use_direction, Direction};
 use radix_yew_focus_guards::use_focus_guards;
+use radix_yew_focus_scope::FocusScope;
 use radix_yew_id::use_id;
 use radix_yew_popper::{Align, Padding, Popper, PopperAnchor, PopperArrow, PopperContent};
 use radix_yew_primitive::{compose_callbacks, Primitive};
@@ -569,6 +570,9 @@ struct SelectContentContextValue {
 #[derive(PartialEq, Properties)]
 struct SelectContentImplProps {
     // TODO
+    /// Event handler called when auto-focusing on close. Can be prevented.
+    #[prop_or_default]
+    pub on_close_auto_focus: Callback<Event>,
     #[prop_or(Position::ItemAligned)]
     pub position: Position,
     #[prop_or(false)]
@@ -803,28 +807,51 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
 
     html! {
         <ContextProvider<SelectContentContextValue> context={(*content_context_value).clone()}>
-            // TODO: RemoveScrol, FocusScope, DismissableLayer
+            // TODO: RemoveScrol, DismissableLayer
 
-            if props.position == Position::Popper {
-                <SelectPopperPosition
-                    // TODO
-                    as_child={props.as_child}
-                    node_ref={composed_refs}
-                    attrs={(*attrs).clone()}
-                >
-                    {props.children.clone()}
-                </SelectPopperPosition>
-            } else {
-                <SelectItemAlignedPosition
-                    // TODO
-                    on_placed={Callback::from(move |_| is_positioned.set(true))}
-                    as_child={props.as_child}
-                    node_ref={composed_refs}
-                    attrs={(*attrs).clone()}
-                >
-                    {props.children.clone()}
-                </SelectItemAlignedPosition>
-            }
+            <FocusScope
+                as_child=true
+                // We make sure we're not trapping once it's been closed
+                // (closed !== unmounted when animating out).
+                trapped={context.open}
+                on_mount_auto_focus={Callback::from(|event: Event| {
+                    // We prevent open autofocus because we manually focus the selected item.
+                    event.prevent_default();
+                })}
+                on_unmount_auto_focus={compose_callbacks(Some(props.on_close_auto_focus.clone()), Some(Callback::from({
+                    let trigger_ref = context.trigger_ref.clone();
+
+                    move |event: Event| {
+                        if let Some(trigger) = trigger_ref.cast::<web_sys::HtmlElement>() {
+                            let options = web_sys::FocusOptions::new();
+                            options.set_prevent_scroll(true);
+                            trigger.focus_with_options(&options).expect("Element should be focused.");
+                        }
+                        event.prevent_default();
+                    }
+                })), None)}
+            >
+                if props.position == Position::Popper {
+                    <SelectPopperPosition
+                        // TODO
+                        as_child={props.as_child}
+                        node_ref={composed_refs}
+                        attrs={(*attrs).clone()}
+                    >
+                        {props.children.clone()}
+                    </SelectPopperPosition>
+                } else {
+                    <SelectItemAlignedPosition
+                        // TODO
+                        on_placed={Callback::from(move |_| is_positioned.set(true))}
+                        as_child={props.as_child}
+                        node_ref={composed_refs}
+                        attrs={(*attrs).clone()}
+                    >
+                        {props.children.clone()}
+                    </SelectItemAlignedPosition>
+                }
+            </FocusScope>
         </ContextProvider<SelectContentContextValue>>
     }
 }

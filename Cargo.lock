@@ -3204,6 +3204,7 @@ dependencies = [
  "radix-yew-collection",
  "radix-yew-direction",
  "radix-yew-focus-guards",
+ "radix-yew-focus-scope",
  "radix-yew-id",
  "radix-yew-popper",
  "radix-yew-primitive",
