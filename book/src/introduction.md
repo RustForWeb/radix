@@ -59,7 +59,7 @@ The tables below show the support for the various frameworks.
 | Avatar                 | ❌     | 🚧 [#22](https://github.com/RustForWeb/radix/issues/22) | ❌ [#74](https://github.com/RustForWeb/radix/issues/74)   |
 | Checkbox               | ❌     | 🚧 [#23](https://github.com/RustForWeb/radix/issues/23) | ❌ [#75](https://github.com/RustForWeb/radix/issues/75)   |
 | Collapsible            | ❌     | ❌ [#24](https://github.com/RustForWeb/radix/issues/24) | ❌ [#76](https://github.com/RustForWeb/radix/issues/76)   |
-| Collection             | ❌     | 🟦 [#25](https://github.com/RustForWeb/radix/issues/25) | ❌ [#77](https://github.com/RustForWeb/radix/issues/77)   |
+| Collection             | ❌     | 🟦 [#25](https://github.com/RustForWeb/radix/issues/25) | 🟦 [#77](https://github.com/RustForWeb/radix/issues/77)   |
 | Compose Refs           | ❌     | 🟦 [#26](https://github.com/RustForWeb/radix/issues/26) | 🟦 [#78](https://github.com/RustForWeb/radix/issues/78)   |
 | Context Menu           | ❌     | ❌ [#27](https://github.com/RustForWeb/radix/issues/27) | ❌ [#79](https://github.com/RustForWeb/radix/issues/79)   |
 | Context                | ❌     | ❌ [#28](https://github.com/RustForWeb/radix/issues/28) | ❌ [#80](https://github.com/RustForWeb/radix/issues/80)   |
@@ -68,11 +68,11 @@ The tables below show the support for the various frameworks.
 | Dismissable Layer      | ❌     | 🚧 [#31](https://github.com/RustForWeb/radix/issues/31) | ❌ [#83](https://github.com/RustForWeb/radix/issues/83)   |
 | Dropdown Menu          | ❌     | ❌ [#32](https://github.com/RustForWeb/radix/issues/32) | ❌ [#84](https://github.com/RustForWeb/radix/issues/84)   |
 | Focus Guards           | ❌     | 🟦 [#33](https://github.com/RustForWeb/radix/issues/33) | 🟦 [#85](https://github.com/RustForWeb/radix/issues/85)   |
-| Focus Scope            | ❌     | 🚧 [#34](https://github.com/RustForWeb/radix/issues/34) | ❌ [#86](https://github.com/RustForWeb/radix/issues/86)   |
+| Focus Scope            | ❌     | 🚧 [#34](https://github.com/RustForWeb/radix/issues/34) | 🚧 [#86](https://github.com/RustForWeb/radix/issues/86)   |
 | Form                   | ❌     | ❌ [#35](https://github.com/RustForWeb/radix/issues/35) | ❌ [#87](https://github.com/RustForWeb/radix/issues/87)   |
 | Hover Card             | ❌     | ❌ [#36](https://github.com/RustForWeb/radix/issues/36) | ❌ [#88](https://github.com/RustForWeb/radix/issues/88)   |
 | ID                     | ❌     | 🟦                                                      | 🟦                                                        |
-| Label                  | ❌     | 🟦 [#37](https://github.com/RustForWeb/radix/issues/37) | 🚧 [#89](https://github.com/RustForWeb/radix/issues/89)   |
+| Label                  | ❌     | 🟦 [#37](https://github.com/RustForWeb/radix/issues/37) | 🟦 [#89](https://github.com/RustForWeb/radix/issues/89)   |
 | Menu                   | ❌     | 🚧 [#38](https://github.com/RustForWeb/radix/issues/38) | ❌ [#90](https://github.com/RustForWeb/radix/issues/90)   |
 | Menubar                | ❌     | ❌ [#39](https://github.com/RustForWeb/radix/issues/39) | ❌ [#91](https://github.com/RustForWeb/radix/issues/91)   |
 | Navigation Menu        | ❌     | ❌ [#40](https://github.com/RustForWeb/radix/issues/40) | ❌ [#92](https://github.com/RustForWeb/radix/issues/92)   |
@@ -88,7 +88,7 @@ The tables below show the support for the various frameworks.
 | Select                 | ❌     | ❌ [#50](https://github.com/RustForWeb/radix/issues/50) | 🚧 [#102](https://github.com/RustForWeb/radix/issues/102) |
 | Separator              | ❌     | 🟦 [#51](https://github.com/RustForWeb/radix/issues/51) | 🟦 [#103](https://github.com/RustForWeb/radix/issues/103) |
 | Slider                 | ❌     | ❌ [#52](https://github.com/RustForWeb/radix/issues/52) | ❌ [#104](https://github.com/RustForWeb/radix/issues/104) |
-| Slot                   | ❌     | 🚧 [#53](https://github.com/RustForWeb/radix/issues/53) | 🚧 [#105](https://github.com/RustForWeb/radix/issues/105) |
+| Slot                   | ❌     | 🚧 [#53](https://github.com/RustForWeb/radix/issues/53) | ❌ [#105](https://github.com/RustForWeb/radix/issues/105) |
 | Switch                 | ❌     | 🟦 [#54](https://github.com/RustForWeb/radix/issues/54) | 🟦 [#106](https://github.com/RustForWeb/radix/issues/106) |
 | Tabs                   | ❌     | ❌ [#55](https://github.com/RustForWeb/radix/issues/55) | ❌ [#107](https://github.com/RustForWeb/radix/issues/107) |
 | Toast                  | ❌     | ❌ [#56](https://github.com/RustForWeb/radix/issues/56) | ❌ [#108](https://github.com/RustForWeb/radix/issues/108) |
