@@ -23,7 +23,7 @@
         -   [Progress](./primitives/components/progress.md)
         -   [Radio Group]()
         -   [Scroll Area]()
-        -   [Select]()
+        -   [Select](./primitives/components/select.md)
         -   [Separator](./primitives/components/separator.md)
         -   [Slider]()
         -   [Switch](./primitives/components/switch.md)

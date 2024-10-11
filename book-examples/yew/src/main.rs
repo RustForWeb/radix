@@ -1,5 +1,9 @@
 mod app;
 
+#[cfg(feature = "label")]
+mod label;
+#[cfg(feature = "select")]
+mod select;
 #[cfg(feature = "separator")]
 mod separator;
 #[cfg(feature = "switch")]

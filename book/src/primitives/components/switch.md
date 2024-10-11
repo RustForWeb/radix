@@ -121,16 +121,16 @@ Contains all the parts of a switch. An `input` will also render when used within
 {{#endtab }}
 {{#tab name="Yew" }}
 
-| Prop                | Type             | Default |
-| ------------------- | ---------------- | ------- |
-| `as_child`          | `bool`           | `false` |
-| `default_checked`   | `Option<bool>`   | -       |
-| `checked`           | `Option<bool>`   | -       |
-| `on_checked_change` | `Callback<bool>` | -       |
-| `disabled`          | `Option<bool>`   | -       |
-| `required`          | `Option<bool>`   | -       |
-| `name`              | `Option<String>` | -       |
-| `value`             | `String`         | `"on"`  |
+| Prop                | Type                                       | Default |
+| ------------------- | ------------------------------------------ | ------- |
+| `as_child`          | `Option<Callback<SwitchChildProps, Html>>` | -       |
+| `default_checked`   | `Option<bool>`                             | -       |
+| `checked`           | `Option<bool>`                             | -       |
+| `on_checked_change` | `Callback<bool>`                           | -       |
+| `disabled`          | `Option<bool>`                             | -       |
+| `required`          | `Option<bool>`                             | -       |
+| `name`              | `Option<String>`                           | -       |
+| `value`             | `String`                                   | `"on"`  |
 
 {{#endtab }}
 {{#endtabs }}
@@ -156,9 +156,9 @@ The thumb that is used to visually indicate whether the switch is on or off.
 {{#endtab }}
 {{#tab name="Yew" }}
 
-| Prop       | Type   | Default |
-| ---------- | ------ | ------- |
-| `as_child` | `bool` | `false` |
+| Prop       | Type                                            | Default |
+| ---------- | ----------------------------------------------- | ------- |
+| `as_child` | `Option<Callback<SwitchThumbChildProps, Html>>` | -       |
 
 {{#endtab }}
 {{#endtabs }}

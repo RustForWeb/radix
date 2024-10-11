@@ -5,6 +5,7 @@
 -   [Checkbox](./checkbox.md)
 -   [Label](./label.md)
 -   [Progress](./progress.md)
+-   [Select](./select.md)
 -   [Separator](./separator.md)
 -   [Switch](./switch.md)
 -   [Toggle](./toggle.md)

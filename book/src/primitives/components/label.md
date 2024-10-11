@@ -12,6 +12,15 @@ files = ["src/label.rs"]
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```toml,trunk
+package = "radix-yew-book"
+features = ["label"]
+files = ["src/label.rs"]
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Features
@@ -35,6 +44,17 @@ cargo add radix-leptos-label
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/label)
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-label
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-label)
+-   [View on docs.rs](https://docs.rs/radix-yew-label/latest/radix_yew_label/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/label)
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Anatomy
@@ -47,6 +67,21 @@ Import the component.
 ```rust,ignore
 use leptos::*;
 use radix_leptos_label::*;
+
+#[component]
+fn Anatomy() -> impl IntoView {
+    view! {
+        <Label />
+    }
+}
+```
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_label::*;
+use yew::prelude::*;
 
 #[component]
 fn Anatomy() -> impl IntoView {
@@ -72,6 +107,14 @@ Contains the content for the label.
 | --------------- | ------------------------------ | ------- |
 | `as_child`      | `MaybeProp<bool>`              | `false` |
 | `on_mouse_down` | `Option<Callback<MouseEvent>>` | -       |
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop            | Type                                      | Default |
+| --------------- | ----------------------------------------- | ------- |
+| `as_child`      | `Option<Callback<LabelChildProps, Html>>` | -       |
+| `on_mouse_down` | `Option<Callback<MouseEvent>>`            | -       |
 
 {{#endtab }}
 {{#endtabs }}

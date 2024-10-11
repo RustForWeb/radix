@@ -111,11 +111,11 @@ The separator.
 {{#endtab }}
 {{#tab name="Yew" }}
 
-| Prop          | Type          | Default                   |
-| ------------- | ------------- | ------------------------- |
-| `as_child`    | `bool`        | `false`                   |
-| `orientation` | `Orientation` | `Orientation::Horizontal` |
-| `decorative`  | `bool`        | `false`                   |
+| Prop          | Type                                          | Default                   |
+| ------------- | --------------------------------------------- | ------------------------- |
+| `as_child`    | `Option<Callback<SeparatorChildProps, Html>>` | -                         |
+| `orientation` | `Orientation`                                 | `Orientation::Horizontal` |
+| `decorative`  | `bool`                                        | `false`                   |
 
 {{#endtab }}
 {{#endtabs }}

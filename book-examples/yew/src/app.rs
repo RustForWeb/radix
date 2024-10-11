@@ -4,6 +4,20 @@ use yew::{prelude::*, virtual_dom::VNode};
 pub fn App() -> Html {
     let mut children: Vec<VNode> = vec![];
 
+    #[cfg(feature = "label")]
+    {
+        use crate::label::LabelDemo;
+        children.push(html! {
+            <LabelDemo />
+        });
+    }
+    #[cfg(feature = "select")]
+    {
+        use crate::select::SelectDemo;
+        children.push(html! {
+            <SelectDemo />
+        });
+    }
     #[cfg(feature = "separator")]
     {
         use crate::separator::SeparatorDemo;
