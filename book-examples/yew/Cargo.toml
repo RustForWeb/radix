@@ -22,6 +22,7 @@ yew = { workspace = true, features = ["csr"] }
 
 [features]
 default = ["label", "select", "separator", "switch"]
+icons = ["dep:radix-yew-icons", "radix-yew-icons/full"]
 label = ["dep:radix-yew-label"]
 select = [
     "dep:radix-yew-select",

@@ -4,6 +4,13 @@ use yew::{prelude::*, virtual_dom::VNode};
 pub fn App() -> Html {
     let mut children: Vec<VNode> = vec![];
 
+    #[cfg(feature = "icons")]
+    {
+        use crate::icons::IconsDemo;
+        children.push(html! {
+            <IconsDemo />
+        });
+    }
     #[cfg(feature = "label")]
     {
         use crate::label::LabelDemo;

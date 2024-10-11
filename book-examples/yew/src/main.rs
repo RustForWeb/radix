@@ -1,5 +1,7 @@
 mod app;
 
+#[cfg(feature = "icons")]
+mod icons;
 #[cfg(feature = "label")]
 mod label;
 #[cfg(feature = "select")]

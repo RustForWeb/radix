@@ -1,1281 +1,1281 @@
-use leptos::*;
-use radix_leptos_icons::*;
+use radix_yew_icons::*;
+use yew::prelude::*;
 
-#[component]
-pub fn IconsDemo() -> impl IntoView {
-    view! {
+#[function_component]
+pub fn IconsDemo() -> Html {
+    html! {
         <div class="w-full max-w-[300px]">
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AccessibilityIcon />
-                <span>Accessibility</span>
+                <span>{"Accessibility"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ActivityLogIcon />
-                <span>Activity Log</span>
+                <span>{"Activity Log"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignBaselineIcon />
-                <span>Align Baseline</span>
+                <span>{"Align Baseline"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignBottomIcon />
-                <span>Align Bottom</span>
+                <span>{"Align Bottom"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignCenterHorizontallyIcon />
-                <span>Align Center Horizontally</span>
+                <span>{"Align Center Horizontally"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignCenterVerticallyIcon />
-                <span>Align Center Vertically</span>
+                <span>{"Align Center Vertically"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignLeftIcon />
-                <span>Align Left</span>
+                <span>{"Align Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignRightIcon />
-                <span>Align Right</span>
+                <span>{"Align Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AlignTopIcon />
-                <span>Align Top</span>
+                <span>{"Align Top"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AllSidesIcon />
-                <span>All Sides</span>
+                <span>{"All Sides"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AngleIcon />
-                <span>Angle</span>
+                <span>{"Angle"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArchiveIcon />
-                <span>Archive</span>
+                <span>{"Archive"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowBottomLeftIcon />
-                <span>Arrow Bottom Left</span>
+                <span>{"Arrow Bottom Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowBottomRightIcon />
-                <span>Arrow Bottom Right</span>
+                <span>{"Arrow Bottom Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowDownIcon />
-                <span>Arrow Down</span>
+                <span>{"Arrow Down"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowLeftIcon />
-                <span>Arrow Left</span>
+                <span>{"Arrow Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowRightIcon />
-                <span>Arrow Right</span>
+                <span>{"Arrow Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowTopLeftIcon />
-                <span>Arrow Top Left</span>
+                <span>{"Arrow Top Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowTopRightIcon />
-                <span>Arrow Top Right</span>
+                <span>{"Arrow Top Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ArrowUpIcon />
-                <span>Arrow Up</span>
+                <span>{"Arrow Up"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AspectRatioIcon />
-                <span>Aspect Ratio</span>
+                <span>{"Aspect Ratio"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <AvatarIcon />
-                <span>Avatar</span>
+                <span>{"Avatar"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BackpackIcon />
-                <span>Backpack</span>
+                <span>{"Backpack"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BadgeIcon />
-                <span>Badge</span>
+                <span>{"Badge"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BarChartIcon />
-                <span>Bar Chart</span>
+                <span>{"Bar Chart"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BellIcon />
-                <span>Bell</span>
+                <span>{"Bell"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BlendingModeIcon />
-                <span>Blending Mode</span>
+                <span>{"Blending Mode"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BookmarkFilledIcon />
-                <span>Bookmark Filled</span>
+                <span>{"Bookmark Filled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BookmarkIcon />
-                <span>Bookmark</span>
+                <span>{"Bookmark"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderAllIcon />
-                <span>Border All</span>
+                <span>{"Border All"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderBottomIcon />
-                <span>Border Bottom</span>
+                <span>{"Border Bottom"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderDashedIcon />
-                <span>Border Dashed</span>
+                <span>{"Border Dashed"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderDottedIcon />
-                <span>Border Dotted</span>
+                <span>{"Border Dotted"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderLeftIcon />
-                <span>Border Left</span>
+                <span>{"Border Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderNoneIcon />
-                <span>Border None</span>
+                <span>{"Border None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderRightIcon />
-                <span>Border Right</span>
+                <span>{"Border Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderSolidIcon />
-                <span>Border Solid</span>
+                <span>{"Border Solid"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderSplitIcon />
-                <span>Border Split</span>
+                <span>{"Border Split"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderStyleIcon />
-                <span>Border Style</span>
+                <span>{"Border Style"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderTopIcon />
-                <span>Border Top</span>
+                <span>{"Border Top"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BorderWidthIcon />
-                <span>Border Width</span>
+                <span>{"Border Width"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BoxModelIcon />
-                <span>Box Model</span>
+                <span>{"Box Model"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <BoxIcon />
-                <span>Box</span>
+                <span>{"Box"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ButtonIcon />
-                <span>Button</span>
+                <span>{"Button"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CalendarIcon />
-                <span>Calendar</span>
+                <span>{"Calendar"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CameraIcon />
-                <span>Camera</span>
+                <span>{"Camera"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CardStackMinusIcon />
-                <span>Card Stack Minus</span>
+                <span>{"Card Stack Minus"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CardStackPlusIcon />
-                <span>Card Stack Plus</span>
+                <span>{"Card Stack Plus"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CardStackIcon />
-                <span>Card Stack</span>
+                <span>{"Card Stack"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CaretDownIcon />
-                <span>Caret Down</span>
+                <span>{"Caret Down"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CaretLeftIcon />
-                <span>Caret Left</span>
+                <span>{"Caret Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CaretRightIcon />
-                <span>Caret Right</span>
+                <span>{"Caret Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CaretSortIcon />
-                <span>Caret Sort</span>
+                <span>{"Caret Sort"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CaretUpIcon />
-                <span>Caret Up</span>
+                <span>{"Caret Up"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ChatBubbleIcon />
-                <span>Chat Bubble</span>
+                <span>{"Chat Bubble"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CheckCircledIcon />
-                <span>Check Circled</span>
+                <span>{"Check Circled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CheckIcon />
-                <span>Check</span>
+                <span>{"Check"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CheckboxIcon />
-                <span>Checkbox</span>
+                <span>{"Checkbox"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ChevronDownIcon />
-                <span>Chevron Down</span>
+                <span>{"Chevron Down"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ChevronLeftIcon />
-                <span>Chevron Left</span>
+                <span>{"Chevron Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ChevronRightIcon />
-                <span>Chevron Right</span>
+                <span>{"Chevron Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ChevronUpIcon />
-                <span>Chevron Up</span>
+                <span>{"Chevron Up"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CircleBackslashIcon />
-                <span>Circle Backslash</span>
+                <span>{"Circle Backslash"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CircleIcon />
-                <span>Circle</span>
+                <span>{"Circle"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ClipboardCopyIcon />
-                <span>Clipboard Copy</span>
+                <span>{"Clipboard Copy"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ClipboardIcon />
-                <span>Clipboard</span>
+                <span>{"Clipboard"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ClockIcon />
-                <span>Clock</span>
+                <span>{"Clock"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CodeIcon />
-                <span>Code</span>
+                <span>{"Code"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CodesandboxLogoIcon />
-                <span>Codesandbox Logo</span>
+                <span>{"Codesandbox Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ColorWheelIcon />
-                <span>Color Wheel</span>
+                <span>{"Color Wheel"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ColumnSpacingIcon />
-                <span>Column Spacing</span>
+                <span>{"Column Spacing"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ColumnsIcon />
-                <span>Columns</span>
+                <span>{"Columns"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CommitIcon />
-                <span>Commit</span>
+                <span>{"Commit"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Component1Icon />
-                <span>Component 1</span>
+                <span>{"Component 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Component2Icon />
-                <span>Component 2</span>
+                <span>{"Component 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ComponentBooleanIcon />
-                <span>Component Boolean</span>
+                <span>{"Component Boolean"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ComponentInstanceIcon />
-                <span>Component Instance</span>
+                <span>{"Component Instance"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ComponentNoneIcon />
-                <span>Component None</span>
+                <span>{"Component None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ComponentPlaceholderIcon />
-                <span>Component Placeholder</span>
+                <span>{"Component Placeholder"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ContainerIcon />
-                <span>Container</span>
+                <span>{"Container"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CookieIcon />
-                <span>Cookie</span>
+                <span>{"Cookie"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CopyIcon />
-                <span>Copy</span>
+                <span>{"Copy"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CornerBottomLeftIcon />
-                <span>Corner Bottom Left</span>
+                <span>{"Corner Bottom Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CornerBottomRightIcon />
-                <span>Corner Bottom Right</span>
+                <span>{"Corner Bottom Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CornerTopLeftIcon />
-                <span>Corner Top Left</span>
+                <span>{"Corner Top Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CornerTopRightIcon />
-                <span>Corner Top Right</span>
+                <span>{"Corner Top Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CornersIcon />
-                <span>Corners</span>
+                <span>{"Corners"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CountdownTimerIcon />
-                <span>Countdown Timer</span>
+                <span>{"Countdown Timer"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CounterClockwiseClockIcon />
-                <span>Counter Clockwise Clock</span>
+                <span>{"Counter Clockwise Clock"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CropIcon />
-                <span>Crop</span>
+                <span>{"Crop"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Cross1Icon />
-                <span>Cross 1</span>
+                <span>{"Cross 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Cross2Icon />
-                <span>Cross 2</span>
+                <span>{"Cross 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CrossCircledIcon />
-                <span>Cross Circled</span>
+                <span>{"Cross Circled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Crosshair1Icon />
-                <span>Crosshair 1</span>
+                <span>{"Crosshair 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Crosshair2Icon />
-                <span>Crosshair 2</span>
+                <span>{"Crosshair 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CrumpledPaperIcon />
-                <span>Crumpled Paper</span>
+                <span>{"Crumpled Paper"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CubeIcon />
-                <span>Cube</span>
+                <span>{"Cube"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CursorArrowIcon />
-                <span>Cursor Arrow</span>
+                <span>{"Cursor Arrow"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <CursorTextIcon />
-                <span>Cursor Text</span>
+                <span>{"Cursor Text"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DashIcon />
-                <span>Dash</span>
+                <span>{"Dash"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DashboardIcon />
-                <span>Dashboard</span>
+                <span>{"Dashboard"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DesktopIcon />
-                <span>Desktop</span>
+                <span>{"Desktop"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DimensionsIcon />
-                <span>Dimensions</span>
+                <span>{"Dimensions"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DiscIcon />
-                <span>Disc</span>
+                <span>{"Disc"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DiscordLogoIcon />
-                <span>Discord Logo</span>
+                <span>{"Discord Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DividerHorizontalIcon />
-                <span>Divider Horizontal</span>
+                <span>{"Divider Horizontal"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DividerVerticalIcon />
-                <span>Divider Vertical</span>
+                <span>{"Divider Vertical"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DotFilledIcon />
-                <span>Dot Filled</span>
+                <span>{"Dot Filled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DotIcon />
-                <span>Dot</span>
+                <span>{"Dot"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DotsHorizontalIcon />
-                <span>Dots Horizontal</span>
+                <span>{"Dots Horizontal"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DotsVerticalIcon />
-                <span>Dots Vertical</span>
+                <span>{"Dots Vertical"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DoubleArrowDownIcon />
-                <span>Double Arrow Down</span>
+                <span>{"Double Arrow Down"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DoubleArrowLeftIcon />
-                <span>Double Arrow Left</span>
+                <span>{"Double Arrow Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DoubleArrowRightIcon />
-                <span>Double Arrow Right</span>
+                <span>{"Double Arrow Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DoubleArrowUpIcon />
-                <span>Double Arrow Up</span>
+                <span>{"Double Arrow Up"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DownloadIcon />
-                <span>Download</span>
+                <span>{"Download"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DragHandleDots1Icon />
-                <span>Drag Handle Dots 1</span>
+                <span>{"Drag Handle Dots 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DragHandleDots2Icon />
-                <span>Drag Handle Dots 2</span>
+                <span>{"Drag Handle Dots 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DragHandleHorizontalIcon />
-                <span>Drag Handle Horizontal</span>
+                <span>{"Drag Handle Horizontal"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DragHandleVerticalIcon />
-                <span>Drag Handle Vertical</span>
+                <span>{"Drag Handle Vertical"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DrawingPinFilledIcon />
-                <span>Drawing Pin Filled</span>
+                <span>{"Drawing Pin Filled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DrawingPinIcon />
-                <span>Drawing Pin</span>
+                <span>{"Drawing Pin"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <DropdownMenuIcon />
-                <span>Dropdown Menu</span>
+                <span>{"Dropdown Menu"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EnterFullScreenIcon />
-                <span>Enter Full Screen</span>
+                <span>{"Enter Full Screen"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EnterIcon />
-                <span>Enter</span>
+                <span>{"Enter"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EnvelopeClosedIcon />
-                <span>Envelope Closed</span>
+                <span>{"Envelope Closed"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EnvelopeOpenIcon />
-                <span>Envelope Open</span>
+                <span>{"Envelope Open"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EraserIcon />
-                <span>Eraser</span>
+                <span>{"Eraser"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ExclamationTriangleIcon />
-                <span>Exclamation Triangle</span>
+                <span>{"Exclamation Triangle"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ExitFullScreenIcon />
-                <span>Exit Full Screen</span>
+                <span>{"Exit Full Screen"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ExitIcon />
-                <span>Exit</span>
+                <span>{"Exit"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ExternalLinkIcon />
-                <span>External Link</span>
+                <span>{"External Link"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EyeClosedIcon />
-                <span>Eye Closed</span>
+                <span>{"Eye Closed"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EyeNoneIcon />
-                <span>Eye None</span>
+                <span>{"Eye None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <EyeOpenIcon />
-                <span>Eye Open</span>
+                <span>{"Eye Open"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FaceIcon />
-                <span>Face</span>
+                <span>{"Face"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FigmaLogoIcon />
-                <span>Figma Logo</span>
+                <span>{"Figma Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FileMinusIcon />
-                <span>File Minus</span>
+                <span>{"File Minus"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FilePlusIcon />
-                <span>File Plus</span>
+                <span>{"File Plus"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FileTextIcon />
-                <span>File Text</span>
+                <span>{"File Text"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FileIcon />
-                <span>File</span>
+                <span>{"File"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FontBoldIcon />
-                <span>Font Bold</span>
+                <span>{"Font Bold"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FontFamilyIcon />
-                <span>Font Family</span>
+                <span>{"Font Family"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FontItalicIcon />
-                <span>Font Italic</span>
+                <span>{"Font Italic"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FontRomanIcon />
-                <span>Font Roman</span>
+                <span>{"Font Roman"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FontSizeIcon />
-                <span>Font Size</span>
+                <span>{"Font Size"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FontStyleIcon />
-                <span>Font Style</span>
+                <span>{"Font Style"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FrameIcon />
-                <span>Frame</span>
+                <span>{"Frame"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <FramerLogoIcon />
-                <span>Framer Logo</span>
+                <span>{"Framer Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <GearIcon />
-                <span>Gear</span>
+                <span>{"Gear"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <GithubLogoIcon />
-                <span>Github Logo</span>
+                <span>{"Github Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <GlobeIcon />
-                <span>Globe</span>
+                <span>{"Globe"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <GridIcon />
-                <span>Grid</span>
+                <span>{"Grid"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <GroupIcon />
-                <span>Group</span>
+                <span>{"Group"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Half1Icon />
-                <span>Half 1</span>
+                <span>{"Half 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Half2Icon />
-                <span>Half 2</span>
+                <span>{"Half 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HamburgerMenuIcon />
-                <span>Hamburger Menu</span>
+                <span>{"Hamburger Menu"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HandIcon />
-                <span>Hand</span>
+                <span>{"Hand"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HeadingIcon />
-                <span>Heading</span>
+                <span>{"Heading"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HeartFilledIcon />
-                <span>Heart Filled</span>
+                <span>{"Heart Filled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HeartIcon />
-                <span>Heart</span>
+                <span>{"Heart"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HeightIcon />
-                <span>Height</span>
+                <span>{"Height"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HobbyKnifeIcon />
-                <span>Hobby Knife</span>
+                <span>{"Hobby Knife"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <HomeIcon />
-                <span>Home</span>
+                <span>{"Home"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <IconjarLogoIcon />
-                <span>Iconjar Logo</span>
+                <span>{"Iconjar Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <IdCardIcon />
-                <span>Id Card</span>
+                <span>{"Id Card"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ImageIcon />
-                <span>Image</span>
+                <span>{"Image"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <InfoCircledIcon />
-                <span>Info Circled</span>
+                <span>{"Info Circled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <InputIcon />
-                <span>Input</span>
+                <span>{"Input"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <InstagramLogoIcon />
-                <span>Instagram Logo</span>
+                <span>{"Instagram Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <KeyboardIcon />
-                <span>Keyboard</span>
+                <span>{"Keyboard"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LapTimerIcon />
-                <span>Lap Timer</span>
+                <span>{"Lap Timer"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LaptopIcon />
-                <span>Laptop</span>
+                <span>{"Laptop"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LayersIcon />
-                <span>Layers</span>
+                <span>{"Layers"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LayoutIcon />
-                <span>Layout</span>
+                <span>{"Layout"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LetterCaseCapitalizeIcon />
-                <span>Letter Case Capitalize</span>
+                <span>{"Letter Case Capitalize"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LetterCaseLowercaseIcon />
-                <span>Letter Case Lowercase</span>
+                <span>{"Letter Case Lowercase"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LetterCaseToggleIcon />
-                <span>Letter Case Toggle</span>
+                <span>{"Letter Case Toggle"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LetterCaseUppercaseIcon />
-                <span>Letter Case Uppercase</span>
+                <span>{"Letter Case Uppercase"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LetterSpacingIcon />
-                <span>Letter Spacing</span>
+                <span>{"Letter Spacing"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LightningBoltIcon />
-                <span>Lightning Bolt</span>
+                <span>{"Lightning Bolt"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LineHeightIcon />
-                <span>Line Height</span>
+                <span>{"Line Height"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Link1Icon />
-                <span>Link 1</span>
+                <span>{"Link 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Link2Icon />
-                <span>Link 2</span>
+                <span>{"Link 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LinkBreak1Icon />
-                <span>Link Break 1</span>
+                <span>{"Link Break 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LinkBreak2Icon />
-                <span>Link Break 2</span>
+                <span>{"Link Break 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LinkNone1Icon />
-                <span>Link None 1</span>
+                <span>{"Link None 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LinkNone2Icon />
-                <span>Link None 2</span>
+                <span>{"Link None 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LinkedinLogoIcon />
-                <span>Linkedin Logo</span>
+                <span>{"Linkedin Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ListBulletIcon />
-                <span>List Bullet</span>
+                <span>{"List Bullet"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LockClosedIcon />
-                <span>Lock Closed</span>
+                <span>{"Lock Closed"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LockOpen1Icon />
-                <span>Lock Open 1</span>
+                <span>{"Lock Open 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LockOpen2Icon />
-                <span>Lock Open 2</span>
+                <span>{"Lock Open 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <LoopIcon />
-                <span>Loop</span>
+                <span>{"Loop"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MagicWandIcon />
-                <span>Magic Wand</span>
+                <span>{"Magic Wand"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MagnifyingGlassIcon />
-                <span>Magnifying Glass</span>
+                <span>{"Magnifying Glass"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MarginIcon />
-                <span>Margin</span>
+                <span>{"Margin"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MaskOffIcon />
-                <span>Mask Off</span>
+                <span>{"Mask Off"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MaskOnIcon />
-                <span>Mask On</span>
+                <span>{"Mask On"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MinusCircledIcon />
-                <span>Minus Circled</span>
+                <span>{"Minus Circled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MinusIcon />
-                <span>Minus</span>
+                <span>{"Minus"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MixIcon />
-                <span>Mix</span>
+                <span>{"Mix"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MixerHorizontalIcon />
-                <span>Mixer Horizontal</span>
+                <span>{"Mixer Horizontal"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MixerVerticalIcon />
-                <span>Mixer Vertical</span>
+                <span>{"Mixer Vertical"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MobileIcon />
-                <span>Mobile</span>
+                <span>{"Mobile"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ModulzLogoIcon />
-                <span>Modulz Logo</span>
+                <span>{"Modulz Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MoonIcon />
-                <span>Moon</span>
+                <span>{"Moon"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <MoveIcon />
-                <span>Move</span>
+                <span>{"Move"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <NotionLogoIcon />
-                <span>Notion Logo</span>
+                <span>{"Notion Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <OpacityIcon />
-                <span>Opacity</span>
+                <span>{"Opacity"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <OpenInNewWindowIcon />
-                <span>Open In New Window</span>
+                <span>{"Open In New Window"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <OverlineIcon />
-                <span>Overline</span>
+                <span>{"Overline"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PaddingIcon />
-                <span>Padding</span>
+                <span>{"Padding"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PaperPlaneIcon />
-                <span>Paper Plane</span>
+                <span>{"Paper Plane"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PauseIcon />
-                <span>Pause</span>
+                <span>{"Pause"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Pencil1Icon />
-                <span>Pencil 1</span>
+                <span>{"Pencil 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Pencil2Icon />
-                <span>Pencil 2</span>
+                <span>{"Pencil 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PersonIcon />
-                <span>Person</span>
+                <span>{"Person"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PieChartIcon />
-                <span>Pie Chart</span>
+                <span>{"Pie Chart"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PilcrowIcon />
-                <span>Pilcrow</span>
+                <span>{"Pilcrow"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PinBottomIcon />
-                <span>Pin Bottom</span>
+                <span>{"Pin Bottom"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PinLeftIcon />
-                <span>Pin Left</span>
+                <span>{"Pin Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PinRightIcon />
-                <span>Pin Right</span>
+                <span>{"Pin Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PinTopIcon />
-                <span>Pin Top</span>
+                <span>{"Pin Top"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PlayIcon />
-                <span>Play</span>
+                <span>{"Play"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PlusCircledIcon />
-                <span>Plus Circled</span>
+                <span>{"Plus Circled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <PlusIcon />
-                <span>Plus</span>
+                <span>{"Plus"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <QuestionMarkCircledIcon />
-                <span>Question Mark Circled</span>
+                <span>{"Question Mark Circled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <QuestionMarkIcon />
-                <span>Question Mark</span>
+                <span>{"Question Mark"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <QuoteIcon />
-                <span>Quote</span>
+                <span>{"Quote"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RadiobuttonIcon />
-                <span>Radiobutton</span>
+                <span>{"Radiobutton"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ReaderIcon />
-                <span>Reader</span>
+                <span>{"Reader"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ReloadIcon />
-                <span>Reload</span>
+                <span>{"Reload"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ResetIcon />
-                <span>Reset</span>
+                <span>{"Reset"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ResumeIcon />
-                <span>Resume</span>
+                <span>{"Resume"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RocketIcon />
-                <span>Rocket</span>
+                <span>{"Rocket"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RotateCounterClockwiseIcon />
-                <span>Rotate Counter Clockwise</span>
+                <span>{"Rotate Counter Clockwise"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RowSpacingIcon />
-                <span>Row Spacing</span>
+                <span>{"Row Spacing"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RowsIcon />
-                <span>Rows</span>
+                <span>{"Rows"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RulerHorizontalIcon />
-                <span>Ruler Horizontal</span>
+                <span>{"Ruler Horizontal"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <RulerSquareIcon />
-                <span>Ruler Square</span>
+                <span>{"Ruler Square"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ScissorsIcon />
-                <span>Scissors</span>
+                <span>{"Scissors"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SectionIcon />
-                <span>Section</span>
+                <span>{"Section"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SewingPinFilledIcon />
-                <span>Sewing Pin Filled</span>
+                <span>{"Sewing Pin Filled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SewingPinIcon />
-                <span>Sewing Pin</span>
+                <span>{"Sewing Pin"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ShadowInnerIcon />
-                <span>Shadow Inner</span>
+                <span>{"Shadow Inner"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ShadowNoneIcon />
-                <span>Shadow None</span>
+                <span>{"Shadow None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ShadowOuterIcon />
-                <span>Shadow Outer</span>
+                <span>{"Shadow Outer"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ShadowIcon />
-                <span>Shadow</span>
+                <span>{"Shadow"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Share1Icon />
-                <span>Share 1</span>
+                <span>{"Share 1"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <Share2Icon />
-                <span>Share 2</span>
+                <span>{"Share 2"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ShuffleIcon />
-                <span>Shuffle</span>
+                <span>{"Shuffle"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SizeIcon />
-                <span>Size</span>
+                <span>{"Size"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SketchLogoIcon />
-                <span>Sketch Logo</span>
+                <span>{"Sketch Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SlashIcon />
-                <span>Slash</span>
+                <span>{"Slash"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SliderIcon />
-                <span>Slider</span>
+                <span>{"Slider"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpaceBetweenHorizontallyIcon />
-                <span>Space Between Horizontally</span>
+                <span>{"Space Between Horizontally"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpaceBetweenVerticallyIcon />
-                <span>Space Between Vertically</span>
+                <span>{"Space Between Vertically"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpaceEvenlyHorizontallyIcon />
-                <span>Space Evenly Horizontally</span>
+                <span>{"Space Evenly Horizontally"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpaceEvenlyVerticallyIcon />
-                <span>Space Evenly Vertically</span>
+                <span>{"Space Evenly Vertically"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpeakerLoudIcon />
-                <span>Speaker Loud</span>
+                <span>{"Speaker Loud"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpeakerModerateIcon />
-                <span>Speaker Moderate</span>
+                <span>{"Speaker Moderate"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpeakerOffIcon />
-                <span>Speaker Off</span>
+                <span>{"Speaker Off"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SpeakerQuietIcon />
-                <span>Speaker Quiet</span>
+                <span>{"Speaker Quiet"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SquareIcon />
-                <span>Square</span>
+                <span>{"Square"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StackIcon />
-                <span>Stack</span>
+                <span>{"Stack"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StarFilledIcon />
-                <span>Star Filled</span>
+                <span>{"Star Filled"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StarIcon />
-                <span>Star</span>
+                <span>{"Star"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StitchesLogoIcon />
-                <span>Stitches Logo</span>
+                <span>{"Stitches Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StopIcon />
-                <span>Stop</span>
+                <span>{"Stop"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StopwatchIcon />
-                <span>Stopwatch</span>
+                <span>{"Stopwatch"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StretchHorizontallyIcon />
-                <span>Stretch Horizontally</span>
+                <span>{"Stretch Horizontally"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StretchVerticallyIcon />
-                <span>Stretch Vertically</span>
+                <span>{"Stretch Vertically"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <StrikethroughIcon />
-                <span>Strikethrough</span>
+                <span>{"Strikethrough"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SunIcon />
-                <span>Sun</span>
+                <span>{"Sun"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SwitchIcon />
-                <span>Switch</span>
+                <span>{"Switch"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <SymbolIcon />
-                <span>Symbol</span>
+                <span>{"Symbol"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TableIcon />
-                <span>Table</span>
+                <span>{"Table"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TargetIcon />
-                <span>Target</span>
+                <span>{"Target"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignBottomIcon />
-                <span>Text Align Bottom</span>
+                <span>{"Text Align Bottom"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignCenterIcon />
-                <span>Text Align Center</span>
+                <span>{"Text Align Center"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignJustifyIcon />
-                <span>Text Align Justify</span>
+                <span>{"Text Align Justify"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignLeftIcon />
-                <span>Text Align Left</span>
+                <span>{"Text Align Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignMiddleIcon />
-                <span>Text Align Middle</span>
+                <span>{"Text Align Middle"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignRightIcon />
-                <span>Text Align Right</span>
+                <span>{"Text Align Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextAlignTopIcon />
-                <span>Text Align Top</span>
+                <span>{"Text Align Top"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextNoneIcon />
-                <span>Text None</span>
+                <span>{"Text None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TextIcon />
-                <span>Text</span>
+                <span>{"Text"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ThickArrowDownIcon />
-                <span>Thick Arrow Down</span>
+                <span>{"Thick Arrow Down"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ThickArrowLeftIcon />
-                <span>Thick Arrow Left</span>
+                <span>{"Thick Arrow Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ThickArrowRightIcon />
-                <span>Thick Arrow Right</span>
+                <span>{"Thick Arrow Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ThickArrowUpIcon />
-                <span>Thick Arrow Up</span>
+                <span>{"Thick Arrow Up"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TimerIcon />
-                <span>Timer</span>
+                <span>{"Timer"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TokensIcon />
-                <span>Tokens</span>
+                <span>{"Tokens"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TrackNextIcon />
-                <span>Track Next</span>
+                <span>{"Track Next"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TrackPreviousIcon />
-                <span>Track Previous</span>
+                <span>{"Track Previous"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TransformIcon />
-                <span>Transform</span>
+                <span>{"Transform"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TransparencyGridIcon />
-                <span>Transparency Grid</span>
+                <span>{"Transparency Grid"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TrashIcon />
-                <span>Trash</span>
+                <span>{"Trash"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TriangleDownIcon />
-                <span>Triangle Down</span>
+                <span>{"Triangle Down"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TriangleLeftIcon />
-                <span>Triangle Left</span>
+                <span>{"Triangle Left"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TriangleRightIcon />
-                <span>Triangle Right</span>
+                <span>{"Triangle Right"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TriangleUpIcon />
-                <span>Triangle Up</span>
+                <span>{"Triangle Up"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <TwitterLogoIcon />
-                <span>Twitter Logo</span>
+                <span>{"Twitter Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <UnderlineIcon />
-                <span>Underline</span>
+                <span>{"Underline"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <UpdateIcon />
-                <span>Update</span>
+                <span>{"Update"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <UploadIcon />
-                <span>Upload</span>
+                <span>{"Upload"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ValueNoneIcon />
-                <span>Value None</span>
+                <span>{"Value None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ValueIcon />
-                <span>Value</span>
+                <span>{"Value"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <VercelLogoIcon />
-                <span>Vercel Logo</span>
+                <span>{"Vercel Logo"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <VideoIcon />
-                <span>Video</span>
+                <span>{"Video"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ViewGridIcon />
-                <span>View Grid</span>
+                <span>{"View Grid"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ViewHorizontalIcon />
-                <span>View Horizontal</span>
+                <span>{"View Horizontal"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ViewNoneIcon />
-                <span>View None</span>
+                <span>{"View None"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ViewVerticalIcon />
-                <span>View Vertical</span>
+                <span>{"View Vertical"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <WidthIcon />
-                <span>Width</span>
+                <span>{"Width"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ZoomInIcon />
-                <span>Zoom In</span>
+                <span>{"Zoom In"}</span>
             </div>
             <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
                 <ZoomOutIcon />
-                <span>Zoom Out</span>
+                <span>{"Zoom Out"}</span>
             </div>
         </div>
     }

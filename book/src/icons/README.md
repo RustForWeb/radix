@@ -14,7 +14,12 @@ files = ["src/icons.rs"]
 {{#endtab }}
 {{#tab name="Yew" }}
 
-TODO
+<!-- TODO: does compile: too many locals -->
+<!-- ```toml,trunk
+package = "radix-yew-book"
+features = ["icons"]
+files = ["src/icons.rs"]
+``` -->
 
 {{#endtab }}
 {{#endtabs }}

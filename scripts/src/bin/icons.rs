@@ -6,8 +6,9 @@ use std::{error::Error, process::Command};
 
 use convert_case::{Case, Casing};
 use http_body_util::BodyExt;
-use proc_macro2::TokenStream;
-use quote::quote;
+use proc_macro2::{Span, TokenStream};
+use quote::{quote, ToTokens};
+use syn::{token, Block, Expr, ExprLit, Lit, LitStr, Stmt};
 
 const GITHUB_OWNER: &str = "radix-ui";
 const GITHUB_REPO: &str = "icons";
@@ -140,7 +141,6 @@ impl Framework for Leptos {
     }
 }
 
-#[allow(dead_code)]
 struct Yew;
 
 impl Framework for Yew {
@@ -182,9 +182,45 @@ impl Framework for Yew {
         })
     }
 
-    fn generate_example(&self, _component_names: &[String]) -> Result<TokenStream, Box<dyn Error>> {
-        // TODO
-        todo!()
+    fn generate_example(&self, component_names: &[String]) -> Result<TokenStream, Box<dyn Error>> {
+        let mut component_name: Vec<TokenStream> = vec![];
+        let mut human_name: Vec<TokenStream> = vec![];
+
+        for name in component_names {
+            component_name.push(name.parse()?);
+            human_name.push(
+                Block {
+                    brace_token: token::Brace(Span::call_site()),
+                    stmts: vec![Stmt::Expr(
+                        Expr::Lit(ExprLit {
+                            attrs: vec![],
+                            lit: Lit::Str(LitStr::new(
+                                name.trim_end_matches("Icon").to_case(Case::Title).as_str(),
+                                Span::call_site(),
+                            )),
+                        }),
+                        None,
+                    )],
+                }
+                .to_token_stream(),
+            );
+        }
+
+        Ok(quote! {
+            use radix_yew_icons::*;
+            use yew::prelude::*;
+
+            #[function_component]
+            pub fn IconsDemo() -> Html {
+                html! {
+                    <div class="w-full max-w-[300px]">
+                        #(<div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
+                            <#component_name /><span>#human_name</span>
+                        </div>)*
+                    </div>
+                }
+            }
+        })
     }
 
     fn format(&self, package: String, _path: PathBuf) -> Result<(), Box<dyn Error>> {
@@ -204,8 +240,7 @@ impl Framework for Yew {
 async fn main() -> Result<(), Box<dyn Error>> {
     env_logger::init();
 
-    // let frameworks: [Box<dyn Framework>; 2] = [Box::new(Leptos), Box::new(Yew)];
-    let frameworks: [Box<dyn Framework>; 1] = [Box::new(Leptos)];
+    let frameworks: [Box<dyn Framework>; 2] = [Box::new(Leptos), Box::new(Yew)];
 
     octocrab::initialise(
         octocrab::OctocrabBuilder::new()
