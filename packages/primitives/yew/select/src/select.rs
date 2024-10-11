@@ -717,8 +717,8 @@ struct SelectContentImplProps {
 
 #[derive(Clone, Default, PartialEq)]
 pub struct SelectContentImplChildProps {
-    item_aligned: Option<SelectItemAlignedPositionChildProps>,
-    popper: Option<SelectPopperPositionChildProps>,
+    pub item_aligned: Option<SelectItemAlignedPositionChildProps>,
+    pub popper: Option<SelectPopperPositionChildProps>,
 }
 
 impl SetSelectItemAlignedPositionChildProps for SelectContentImplChildProps {
@@ -962,6 +962,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             // TODO: RemoveScrol, DismissableLayer
 
             <FocusScope
+                node_ref={composed_refs}
                 // We make sure we're not trapping once it's been closed
                 // (closed !== unmounted when animating out).
                 trapped={context.open}
@@ -990,37 +991,38 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                     let children = props.children.clone();
                     let is_positioned = is_positioned.clone();
 
-                    // TODO: propagte onkeydown
-                    move |FocusScopeChildProps {onkeydown: _, ..}| html! {
-                        if position == Position::Popper {
-                            <SelectPopperPosition<SelectContentImplChildProps>
-                                // TODO
-                                node_ref={composed_refs.clone()}
-                                id={id.clone()}
-                                class={class.clone()}
-                                style={style.clone()}
-                                as_child={as_child.clone()}
-                                // as_child_props={}
-                            >
-                                {children.clone()}
-                            </SelectPopperPosition<SelectContentImplChildProps>>
-                        } else {
-                            <SelectItemAlignedPosition<SelectContentImplChildProps>
-                                // TODO
-                                on_placed={Callback::from({
-                                    let is_positioned = is_positioned.clone();
+                    move |FocusScopeChildProps {node_ref, onkeydown, ..}| {
+                        html! {
+                            if position == Position::Popper {
+                                <SelectPopperPosition<SelectContentImplChildProps>
+                                    // TODO
+                                    on_key_down={onkeydown}
+                                    node_ref={node_ref}
+                                    id={id.clone()}
+                                    class={class.clone()}
+                                    style={style.clone()}
+                                    as_child={as_child.clone()}
+                                >
+                                    {children.clone()}
+                                </SelectPopperPosition<SelectContentImplChildProps>>
+                            } else {
+                                <SelectItemAlignedPosition<SelectContentImplChildProps>
+                                    // TODO
+                                    on_placed={Callback::from({
+                                        let is_positioned = is_positioned.clone();
 
-                                    move |_| is_positioned.set(true)
-                                })}
-                                node_ref={composed_refs.clone()}
-                                id={id.clone()}
-                                class={class.clone()}
-                                style={style.clone()}
-                                as_child={as_child.clone()}
-                                // as_child_props={}
-                            >
-                                {children.clone()}
-                            </SelectItemAlignedPosition<SelectContentImplChildProps>>
+                                        move |_| is_positioned.set(true)
+                                    })}
+                                    on_key_down={onkeydown}
+                                    node_ref={node_ref}
+                                    id={id.clone()}
+                                    class={class.clone()}
+                                    style={style.clone()}
+                                    as_child={as_child.clone()}
+                                >
+                                    {children.clone()}
+                                </SelectItemAlignedPosition<SelectContentImplChildProps>>
+                            }
                         }
                     }
                 })}
@@ -1036,6 +1038,8 @@ struct SelectItemAlignedPositionProps<
     // TODO
     #[prop_or_default]
     pub on_placed: Callback<()>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -1065,6 +1069,7 @@ pub struct SelectItemAlignedPositionChildProps {
     pub id: Option<String>,
     pub class: Option<String>,
     pub style: String,
+    pub onkeydown: Callback<KeyboardEvent>,
 }
 
 impl SelectItemAlignedPositionChildProps {
@@ -1075,6 +1080,7 @@ impl SelectItemAlignedPositionChildProps {
                 id={self.id}
                 class={self.class}
                 style={self.style}
+                onkeydown={self.onkeydown}
             >
                 {children}
             </div>
@@ -1446,6 +1452,7 @@ where
             "box-sizing: border-box; max-height: 100%;{}",
             props.style.clone().unwrap_or_default()
         ),
+        onkeydown: props.on_key_down.clone(),
         // TODO
     };
 
@@ -1480,6 +1487,8 @@ struct SelectPopperPositionProps<
     #[prop_or(Padding::All(CONTENT_MARGIN))]
     pub collision_padding: Padding,
     #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
+    #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
     pub id: Option<String>,
@@ -1507,6 +1516,7 @@ pub struct SelectPopperPositionChildProps {
     pub style: String,
     pub data_side: String,
     pub data_align: String,
+    pub onkeydown: Callback<KeyboardEvent>,
 }
 
 impl SetSelectPopperPositionChildProps for SelectPopperPositionChildProps {
@@ -1549,6 +1559,7 @@ where
             {}",
             props.style.clone().unwrap_or_default()
         ),
+        onkeydown: props.on_key_down.clone(),
         ..SelectPopperPositionChildProps::default()
     };
 
