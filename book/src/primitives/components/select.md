@@ -2,7 +2,7 @@
 
 <div class="warning">
 
-This component is work in progress and yet not available for use.
+This component is work in progress and not yet available for use.
 
 </div>
 
