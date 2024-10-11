@@ -87,11 +87,11 @@ fn Anatomy() -> Html {
                         </SelectGroup>
 
                         <SelectSeparator />
-                    </Select.Viewport>
+                    </SelectViewport>
                     <SelectScrollDownButton />
                     <SelectArrow />
                 </SelectContent>
-            </Select.Portal>
+            </SelectPortal>
         </Select>
     }
 }
@@ -116,13 +116,13 @@ See the W3C [Select-Only Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/comb
 
 ### Keyboard Interactions
 
-| Key         | Description                                                                                                                           |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `Space`     | When focus is on `SelectTrigger`, opens the select and focuses the selected item. When focus is on an item, selects the focused item. |
-| `Enter`     | When focus is on `SelectTrigger`, opens the select and focuses the first item. When focus is on an item, selects the focused item.    |
-| `ArrowDown` | When focus is on `SelectTrigger`, opens the select. When focus is on an item, moves focus to the next item.                           |
-| `ArrowUp`   | When focus is on `SelectTrigger`, opens the select. When focus is on an item, moves focus to the previous item.                       |
-| `Esc`       | Closes the select and moves focus to `Select.Trigger`.                                                                                |
+| Key         | Description                                                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Space`     | When focus is on `SelectTrigger`, opens the select and focuses the selected item.<br />When focus is on an item, selects the focused item. |
+| `Enter`     | When focus is on `SelectTrigger`, opens the select and focuses the first item.<br />When focus is on an item, selects the focused item.    |
+| `ArrowDown` | When focus is on `SelectTrigger`, opens the select.<br />When focus is on an item, moves focus to the next item.                           |
+| `ArrowUp`   | When focus is on `SelectTrigger`, opens the select.<br />When focus is on an item, moves focus to the previous item.                       |
+| `Esc`       | Closes the select and moves focus to `Select.Trigger`.                                                                                     |
 
 ### Labelling
 
@@ -153,7 +153,7 @@ fn Labelling() -> Html {
 
                 <SelectPortal>
                     <SelectContent>...</SelectContent>
-                </Select.Portal>
+                </SelectPortal>
             </Select>
         </>
     }
@@ -169,4 +169,4 @@ TODO
 
 ## See Also
 
--   [Radix documentation](https://www.radix-ui.com/primitives/docs/components/switch)
+-   [Radix documentation](https://www.radix-ui.com/primitives/docs/components/select)
