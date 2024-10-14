@@ -36,5 +36,4 @@ web-sys = "0.3.70"
 
 [patch.crates-io]
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
-yew-attrs = { git = "https://github.com/RustForWeb/yew-attrs.git", branch = "feature/use-composed-ref" }
 yew-router = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }

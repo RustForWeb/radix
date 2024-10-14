@@ -7,8 +7,8 @@ use std::{
 
 use radix_number::clamp;
 use radix_yew_collection::{
-    use_collection, CollectionItemSlot, CollectionItemSlotChildProps, CollectionProvider,
-    CollectionSlot, CollectionSlotChildProps,
+    use_collection, CollectionItemSlot, CollectionItemSlotChildProps, CollectionItemValue,
+    CollectionProvider, CollectionSlot, CollectionSlotChildProps,
 };
 use radix_yew_direction::{use_direction, Direction};
 use radix_yew_focus_guards::use_focus_guards;
@@ -17,6 +17,7 @@ use radix_yew_id::use_id;
 use radix_yew_popper::{
     Align, Padding, Popper, PopperAnchor, PopperAnchorChildProps, PopperArrow,
     PopperArrowChildProps, PopperContent, PopperContentChildProps, SetPopperContentChildProps,
+    Side, Sticky, UpdatePositionStrategy,
 };
 use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
@@ -48,7 +49,7 @@ impl Display for Position {
     }
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 struct ItemData {
     value: String,
     disabled: bool,
@@ -337,20 +338,50 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
     let is_disabled = context.disabled.unwrap_or(props.disabled);
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.trigger_ref.clone()]);
-    let _get_items = use_collection::<ItemData>();
+    let get_items = use_collection::<ItemData>();
     let pointer_type_ref = use_mut_ref(|| "touch".to_string());
 
+    let on_search_change = use_callback(
+        (context.value.clone(), context.on_value_change, get_items),
+        |search, (context_value, on_value_change, get_items)| {
+            let enabled_items = get_items
+                .emit(())
+                .into_iter()
+                .filter(|item| !item.data.disabled)
+                .collect::<Vec<_>>();
+            let current_item = enabled_items
+                .iter()
+                .find(|item| {
+                    context_value
+                        .as_ref()
+                        .is_some_and(|value| item.data.value == *value)
+                })
+                .cloned();
+            let next_item = find_next_item(enabled_items, search, current_item);
+            if let Some(next_item) = next_item {
+                on_value_change.emit(next_item.data.value);
+            }
+        },
+    );
+    let (search_ref, handle_typeahead_search, reset_typeahead) =
+        use_typeahead_search(on_search_change);
+
     let handle_open = use_callback(
-        (context.clone(), is_disabled),
-        |event_page_coords: Option<(i32, i32)>, (context, is_disabled)| {
+        (
+            context.on_open_change,
+            context.trigger_pointer_down_pos_ref,
+            is_disabled,
+        ),
+        move |event_page_coords: Option<(i32, i32)>,
+              (on_open_change, trigger_pointer_down_pos_ref, is_disabled)| {
             if !is_disabled {
-                context.on_open_change.emit(true);
+                on_open_change.emit(true);
                 // Reset typeahead when we open.
-                // TODO: reset_typeahead();
+                reset_typeahead.emit(());
             }
 
             if let Some(event_page_coords) = event_page_coords {
-                *context.trigger_pointer_down_pos_ref.borrow_mut() = Some(event_page_coords);
+                *trigger_pointer_down_pos_ref.borrow_mut() = Some(event_page_coords);
             }
         },
     );
@@ -448,10 +479,19 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                         })), None),
                         onkeydown: compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
                             let handle_open = handle_open.clone();
+                            let search_ref = search_ref.clone();
+                            let handle_typeahead_search = handle_typeahead_search.clone();
 
                             move |event: KeyboardEvent| {
-                                // TODO: typeahead
+                                let is_typing_ahead = !search_ref.borrow().is_empty();
+                                let is_modifier_key = event.ctrl_key() || event.alt_key() || event.meta_key();
 
+                                if !is_modifier_key && event.key().len() == 1 {
+                                    handle_typeahead_search.emit(event.key());
+                                }
+                                if is_typing_ahead && event.key() == " " {
+                                    return;
+                                }
                                 if OPEN_KEYS.contains(&event.key().as_str()) {
                                     handle_open.emit(None);
                                     event.prevent_default();
@@ -690,7 +730,7 @@ struct SelectContentContextValue {
     selected_item_text: Option<web_sys::HtmlElement>,
     position: Position,
     is_positioned: bool,
-    // search_ref: Rc<RefCell<String>>,
+    search_ref: Rc<RefCell<String>>,
 }
 
 #[derive(PartialEq, Properties)]
@@ -701,6 +741,8 @@ struct SelectContentImplProps {
     pub on_close_auto_focus: Callback<Event>,
     #[prop_or(Position::ItemAligned)]
     pub position: Position,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -762,7 +804,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
     use_focus_guards();
 
     let focus_first = use_callback(
-        (get_items, viewport_ref.clone()),
+        (get_items.clone(), viewport_ref.clone()),
         |candidates: Vec<Option<web_sys::HtmlElement>>, (get_items, viewport_ref)| {
             let items = get_items
                 .emit(())
@@ -822,7 +864,11 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
     );
 
     let focus_selected_item = use_callback(
-        (focus_first, selected_item.clone(), content_ref.clone()),
+        (
+            focus_first.clone(),
+            selected_item.clone(),
+            content_ref.clone(),
+        ),
         |_: (), (focus_first, selected_item, content_ref)| {
             focus_first.emit(vec![
                 (**selected_item).clone(),
@@ -898,6 +944,35 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
         }
     });
 
+    let on_search_change = use_callback(get_items.clone(), |search, get_items| {
+        let enabled_items = get_items
+            .emit(())
+            .into_iter()
+            .filter(|item| !item.data.disabled)
+            .collect::<Vec<_>>();
+        let current_item = enabled_items
+            .iter()
+            .find(|item| {
+                item.r#ref.cast::<web_sys::Element>()
+                    == window()
+                        .expect("Window should exist.")
+                        .document()
+                        .expect("Document should exist.")
+                        .active_element()
+            })
+            .cloned();
+        let next_item = find_next_item(enabled_items, search, current_item);
+        if let Some(next_item) = next_item {
+            next_item
+                .r#ref
+                .cast::<web_sys::HtmlElement>()
+                .expect("Element should exist.")
+                .focus()
+                .expect("Element should be focused.");
+        }
+    });
+    let (search_ref, handle_typeahead_search, _) = use_typeahead_search(on_search_change);
+
     let item_ref_callback = use_callback(context.value.clone(), {
         let first_valid_item_found_ref = first_valid_item_found_ref.clone();
         let selected_item = selected_item.clone();
@@ -954,6 +1029,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
             selected_item_text: (**selected_item_text).clone(),
             position: *position,
             is_positioned: **is_positioned,
+            search_ref,
         },
     );
 
@@ -984,40 +1060,109 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                 })), None)}
                 as_child={Callback::from({
                     let position = props.position;
-                    let id = props.id.clone();
+                    let on_key_down = props.on_key_down.clone();
+                    let id = props.id.clone().unwrap_or(context.content_id);
                     let class = props.class.clone();
                     let style = props.style.clone();
                     let as_child = props.as_child.clone();
                     let children = props.children.clone();
                     let is_positioned = is_positioned.clone();
+                    let dir = context.dir.to_string();
 
                     move |FocusScopeChildProps {node_ref, onkeydown, ..}| {
+                        // TODO: as_child_props?
+
+                        let role = "listbox".to_string();
+                        let data_state = if context.open {"open"} else {"closed"}.to_string();
+                        let on_context_menu = Callback::from(|event: MouseEvent| event.prevent_default());
+
+                        let on_placed = Callback::from({
+                            let is_positioned = is_positioned.clone();
+
+                            move |_| is_positioned.set(true)
+                        });
+
+                        // Flex layout so we can place the scroll buttons properly.
+                        //
+                        // Reset the outline by default as the content MAY get focused.
+                        let style = format!("display: flex; flex-direction: column; outline: none;{}", style.clone().unwrap_or_default());
+
+                        let on_key_down = compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
+                            let get_items = get_items.clone();
+                            let handle_typeahead_search = handle_typeahead_search.clone();
+                            let focus_first = focus_first.clone();
+
+                            move |event: KeyboardEvent| {
+                                let is_modifier_key = event.ctrl_key() || event.alt_key() || event.meta_key();
+
+                                // Select should not be navigated using tab key so we prevent it.
+                                if event.key() == "Tab" {
+                                    event.prevent_default();
+                                }
+
+                                if !is_modifier_key && event.key().len() == 1 {
+                                    handle_typeahead_search.emit(event.key());
+                                }
+
+                                if ["ArrowUp", "ArrowDown", "Home", "End"].contains(&event.key().as_str()) {
+                                    let items = get_items.emit(()).into_iter().filter(|item| !item.data.disabled);
+                                    let mut candidate_nodes = items
+                                        .map(|item| item.r#ref.cast::<web_sys::HtmlElement>())
+                                        .collect::<Vec<_>>();
+
+                                    if ["ArrowUp", "End"].contains(&event.key().as_str()) {
+                                        candidate_nodes.reverse();
+                                    }
+                                    if ["ArrowUp", "ArrowDown"].contains(&event.key().as_str()) {
+                                        let current_element = event
+                                            .target()
+                                            .expect("Event should have target.")
+                                            .dyn_into::<web_sys::HtmlElement>()
+                                            .expect("Event target should be an HtmlElement.");
+                                        let current_index = candidate_nodes.iter().position(|node| node.as_ref().is_some_and(|node| *node == current_element));
+                                        candidate_nodes = candidate_nodes[current_index.map(|current_index| current_index + 1).unwrap_or(0)..].to_vec();
+                                    }
+
+                                    // TODO: set timeout?
+                                    focus_first.emit(candidate_nodes);
+
+                                    event.prevent_default();
+                                }
+
+                                onkeydown.emit(event);
+                            }
+                        })), None);
+
                         html! {
                             if position == Position::Popper {
                                 <SelectPopperPosition<SelectContentImplChildProps>
-                                    // TODO
-                                    on_key_down={onkeydown}
+                                    // TODO: popper props
+                                    role={role}
+                                    data_state={data_state}
+                                    dir={dir.clone()}
+                                    on_context_menu={on_context_menu}
+                                    on_placed={on_placed}
+                                    on_key_down={on_key_down}
                                     node_ref={node_ref}
                                     id={id.clone()}
                                     class={class.clone()}
-                                    style={style.clone()}
+                                    style={style}
                                     as_child={as_child.clone()}
                                 >
                                     {children.clone()}
                                 </SelectPopperPosition<SelectContentImplChildProps>>
                             } else {
                                 <SelectItemAlignedPosition<SelectContentImplChildProps>
-                                    // TODO
-                                    on_placed={Callback::from({
-                                        let is_positioned = is_positioned.clone();
-
-                                        move |_| is_positioned.set(true)
-                                    })}
-                                    on_key_down={onkeydown}
+                                    role={role}
+                                    data_state={data_state}
+                                    dir={dir.clone()}
+                                    on_context_menu={on_context_menu}
+                                    on_placed={on_placed}
+                                    on_key_down={on_key_down}
                                     node_ref={node_ref}
                                     id={id.clone()}
                                     class={class.clone()}
-                                    style={style.clone()}
+                                    style={style}
                                     as_child={as_child.clone()}
                                 >
                                     {children.clone()}
@@ -1035,7 +1180,14 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
 struct SelectItemAlignedPositionProps<
     ChildProps: Clone + Default + PartialEq + SetSelectItemAlignedPositionChildProps,
 > {
-    // TODO
+    #[prop_or_default]
+    pub role: String,
+    #[prop_or_default]
+    pub data_state: String,
+    #[prop_or_default]
+    pub dir: Option<String>,
+    #[prop_or_default]
+    pub on_context_menu: Callback<MouseEvent>,
     #[prop_or_default]
     pub on_placed: Callback<()>,
     #[prop_or_default]
@@ -1043,7 +1195,7 @@ struct SelectItemAlignedPositionProps<
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
+    pub id: String,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
@@ -1066,9 +1218,13 @@ pub trait SetSelectItemAlignedPositionChildProps {
 #[derive(Clone, Default, PartialEq)]
 pub struct SelectItemAlignedPositionChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub id: String,
     pub class: Option<String>,
     pub style: String,
+    pub role: String,
+    pub data_state: String,
+    pub dir: Option<String>,
+    pub oncontextmenu: Callback<MouseEvent>,
     pub onkeydown: Callback<KeyboardEvent>,
 }
 
@@ -1080,6 +1236,10 @@ impl SelectItemAlignedPositionChildProps {
                 id={self.id}
                 class={self.class}
                 style={self.style}
+                role={self.role}
+                data-state={self.data_state}
+                dir={self.dir}
+                oncontextmenu={self.oncontextmenu}
                 onkeydown={self.onkeydown}
             >
                 {children}
@@ -1452,8 +1612,11 @@ where
             "box-sizing: border-box; max-height: 100%;{}",
             props.style.clone().unwrap_or_default()
         ),
+        role: props.role.clone(),
+        data_state: props.data_state.clone(),
+        dir: props.dir.clone(),
+        oncontextmenu: props.on_context_menu.clone(),
         onkeydown: props.on_key_down.clone(),
-        // TODO
     };
 
     html! {
@@ -1481,11 +1644,38 @@ where
 struct SelectPopperPositionProps<
     ChildProps: Clone + Default + PartialEq + SetPopperContentChildProps + SetSelectPopperPositionChildProps,
 > {
-    // TODO
+    #[prop_or(Side::Bottom)]
+    pub side: Side,
+    #[prop_or(0.0)]
+    pub side_offset: f64,
     #[prop_or(Align::Start)]
     pub align: Align,
+    #[prop_or(0.0)]
+    pub align_offset: f64,
+    #[prop_or(0.0)]
+    pub arrow_padding: f64,
+    #[prop_or(true)]
+    pub avoid_collisions: bool,
+    #[prop_or_default]
+    pub collision_boundary: Vec<web_sys::Element>,
     #[prop_or(Padding::All(CONTENT_MARGIN))]
     pub collision_padding: Padding,
+    #[prop_or(Sticky::Partial)]
+    pub sticky: Sticky,
+    #[prop_or(false)]
+    pub hide_when_detached: bool,
+    #[prop_or(UpdatePositionStrategy::Optimized)]
+    pub update_position_strategy: UpdatePositionStrategy,
+    #[prop_or_default]
+    pub on_placed: Callback<()>,
+    #[prop_or_default]
+    pub dir: Option<String>,
+    #[prop_or_default]
+    pub role: String,
+    #[prop_or_default]
+    pub data_state: String,
+    #[prop_or_default]
+    pub on_context_menu: Callback<MouseEvent>,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or_default]
@@ -1514,8 +1704,12 @@ pub struct SelectPopperPositionChildProps {
     pub id: Option<String>,
     pub class: Option<String>,
     pub style: String,
+    pub role: String,
     pub data_side: String,
     pub data_align: String,
+    pub data_state: String,
+    pub dir: Option<String>,
+    pub oncontextmenu: Callback<MouseEvent>,
     pub onkeydown: Callback<KeyboardEvent>,
 }
 
@@ -1525,8 +1719,18 @@ impl SetSelectPopperPositionChildProps for SelectPopperPositionChildProps {
 
 impl SetPopperContentChildProps for SelectPopperPositionChildProps {
     fn set_popper_content_child_props(&mut self, props: PopperContentChildProps) {
+        self.node_ref = props.node_ref;
+        self.id = props.id;
+        self.class = props.class;
+        self.style = props.style;
+        self.role = props.role.expect("Prop `role` should always be set.");
         self.data_side = props.data_side;
         self.data_align = props.data_align;
+        self.data_state = props
+            .data_state
+            .expect("Prop `data-state` should always be set.");
+        self.oncontextmenu = props.oncontextmenu;
+        self.onkeydown = props.onkeydown;
     }
 }
 
@@ -1543,23 +1747,6 @@ where
         + 'static,
 {
     let child_props = SelectPopperPositionChildProps {
-        node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: props.class.clone(),
-        style: format!(
-            // Ensure border-box for Floating UI calculations.
-            // Re-namespace exposed content custom properties.
-            "\
-            box-sizing: border-box;\
-            --radix-select-content-transform-origin: var(--radix-popper-transform-origin);\
-            --radix-select-content-available-width: var(--radix-popper-available-width);\
-            --radix-select-content-available-height: var(--radix-popper-available-height);\
-            --radix-select-trigger-width: var(--radix-popper-anchor-width);\
-            --radix-select-trigger-height: var(--radix-popper-anchor-height);\
-            {}",
-            props.style.clone().unwrap_or_default()
-        ),
-        onkeydown: props.on_key_down.clone(),
         ..SelectPopperPositionChildProps::default()
     };
 
@@ -1568,9 +1755,39 @@ where
 
     html! {
         <PopperContent<ChildProps>
-            // TODO: other PopperContent props
+            side={props.side}
+            side_offset={props.side_offset}
             align={props.align}
+            align_offset={props.align_offset}
+            arrow_padding={props.arrow_padding}
+            avoid_collisions={props.avoid_collisions}
+            collision_boundary={props.collision_boundary.clone()}
+            collision_padding={props.collision_padding.clone()}
+            sticky={props.sticky}
+            hide_when_detached={props.hide_when_detached}
+            update_position_strategy={props.update_position_strategy}
+            on_placed={props.on_placed.clone()}
+            dir={props.dir.clone()}
             node_ref={props.node_ref.clone()}
+            id={props.id.clone()}
+            class={props.class.clone()}
+            style={format!(
+                // Ensure border-box for Floating UI calculations.
+                // Re-namespace exposed content custom properties.
+                "\
+                box-sizing: border-box;\
+                --radix-select-content-transform-origin: var(--radix-popper-transform-origin);\
+                --radix-select-content-available-width: var(--radix-popper-available-width);\
+                --radix-select-content-available-height: var(--radix-popper-available-height);\
+                --radix-select-trigger-width: var(--radix-popper-anchor-width);\
+                --radix-select-trigger-height: var(--radix-popper-anchor-height);\
+                {}",
+                props.style.clone().unwrap_or_default()
+            )}
+            role={props.role.clone()}
+            data_state={props.data_state.clone()}
+            on_context_menu={props.on_context_menu.clone()}
+            on_key_down={props.on_key_down.clone()}
             as_child={props.as_child.clone()}
             as_child_props={as_child_props}
         >
@@ -1965,6 +2182,20 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         },
     );
 
+    let on_item_text_change = use_callback((), {
+        let text_value = text_value.clone();
+
+        move |node: web_sys::HtmlElement, _| {
+            text_value.set(if text_value.is_empty() {
+                node.text_content()
+                    .map(|text_content| text_content.trim().to_string())
+                    .unwrap_or_default()
+            } else {
+                (*text_value).clone()
+            });
+        }
+    });
+
     let item_context_value = use_memo(
         (
             props.value.clone(),
@@ -1977,7 +2208,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             disabled: *disabled,
             text_id: (*text_id).clone(),
             is_selected: *is_selected,
-            on_item_text_change: Callback::from(|_| {}),
+            on_item_text_change,
         },
     );
 
@@ -2113,8 +2344,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
         Some(props.on_key_down.clone()),
         Some(Callback::from({
             move |event: KeyboardEvent| {
-                // TODO: typeahead
-                let is_typing_ahead = false;
+                let is_typing_ahead = !content_context.search_ref.borrow().is_empty();
                 if is_typing_ahead && event.key() == " " {
                     return;
                 }
@@ -2394,11 +2624,11 @@ pub fn SelectScrollUpButton(props: &SelectScrollUpButtonProps) -> Html {
     // TODO
     html! {
         <SelectScrollButtonImpl
-            as_child={props.as_child.clone()}
             node_ref={props.node_ref.clone()}
             id={props.id.clone()}
             class={props.class.clone()}
             style={props.style.clone()}
+            as_child={props.as_child.clone()}
         >
             {props.children.clone()}
         </SelectScrollButtonImpl>
@@ -2428,11 +2658,11 @@ pub fn SelectScrollDownButton(props: &SelectScrollDownButtonProps) -> Html {
     // TODO
     html! {
         <SelectScrollButtonImpl
-            as_child={props.as_child.clone()}
             node_ref={props.node_ref.clone()}
             id={props.id.clone()}
             class={props.class.clone()}
             style={props.style.clone()}
+            as_child={props.as_child.clone()}
         >
             {props.children.clone()}
         </SelectScrollButtonImpl>
@@ -2563,7 +2793,10 @@ pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectArrowProps {
-    // TODO
+    #[prop_or(10.0)]
+    pub width: f64,
+    #[prop_or(5.0)]
+    pub height: f64,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -2573,7 +2806,6 @@ pub struct SelectArrowProps {
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
-    // TODO: change to SelectArrowChildProps
     pub as_child: Option<Callback<PopperArrowChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
@@ -2581,19 +2813,165 @@ pub struct SelectArrowProps {
 
 #[function_component]
 pub fn SelectArrow(props: &SelectArrowProps) -> Html {
-    // TODO
+    let context = use_context::<SelectContextValue>().expect("Select context required.");
+    let content_context =
+        use_context::<SelectContentContextValue>().expect("Select content context required.");
+
     html! {
-        <PopperArrow
-            as_child={props.as_child.clone()}
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
-            class={props.class.clone()}
-            style={props.style.clone()}
-        >
-            {props.children.clone()}
-        </PopperArrow>
+        if context.open && content_context.position == Position::Popper {
+            <PopperArrow
+                width={props.width}
+                height={props.height}
+                node_ref={props.node_ref.clone()}
+                id={props.id.clone()}
+                class={props.class.clone()}
+                style={props.style.clone()}
+                as_child={props.as_child.clone()}
+            >
+                {props.children.clone()}
+            </PopperArrow>
+        }
     }
 }
 fn should_show_placeholder(value: Option<String>) -> bool {
     value.is_none() || value.is_some_and(|value| value.is_empty())
+}
+
+#[derive(PartialEq, Properties)]
+struct BubbleSelectProps {}
+
+#[function_component]
+fn BubbleSelect(_props: &BubbleSelectProps) -> Html {
+    html! {
+        // TODO
+    }
+}
+
+#[hook]
+fn use_typeahead_search(
+    on_search_change: Callback<String>,
+) -> (Rc<RefCell<String>>, Callback<String>, Callback<()>) {
+    let search_ref = use_mut_ref(|| "".to_string());
+    let timer_ref = use_mut_ref(|| 0);
+
+    let clear_search: Closure<dyn Fn()> = Closure::new({
+        let search_ref = search_ref.clone();
+
+        move || {
+            *search_ref.borrow_mut() = "".to_string();
+        }
+    });
+
+    let handle_typeahead_search = use_callback(on_search_change, {
+        let search_ref = search_ref.clone();
+        let timer_ref = timer_ref.clone();
+
+        move |key, on_search_change| {
+            let search = format!("{}{}", search_ref.borrow(), key);
+            on_search_change.emit(search.clone());
+
+            *search_ref.borrow_mut() = search.clone();
+
+            let window = window().expect("Window should exist.");
+            window.clear_timeout_with_handle(*timer_ref.borrow());
+
+            if !search.is_empty() {
+                // Reset `search_ref` 1 second after it was last updated.
+                *timer_ref.borrow_mut() = window
+                    .set_timeout_with_callback_and_timeout_and_arguments_0(
+                        clear_search.as_ref().unchecked_ref(),
+                        1000,
+                    )
+                    .expect("Timeout should be set.")
+            }
+        }
+    });
+
+    let reset_typeahead = use_callback((), {
+        let search_ref = search_ref.clone();
+        let timer_ref = timer_ref.clone();
+
+        move |_, _| {
+            *search_ref.borrow_mut() = "".to_string();
+
+            window()
+                .expect("Window should exist.")
+                .clear_timeout_with_handle(*timer_ref.borrow());
+        }
+    });
+
+    use_effect(move || {
+        move || {
+            window()
+                .expect("Window should exist.")
+                .clear_timeout_with_handle(*timer_ref.borrow());
+        }
+    });
+
+    (search_ref, handle_typeahead_search, reset_typeahead)
+}
+
+/// This is the "meat" of the typeahead matching logic. It takes in a list of items,
+/// the search and the current item, and returns the next item (or `None`).
+///
+/// We normalize the search because if a user has repeatedly pressed a character,
+/// we want the exact same behavior as if we only had that one character
+/// (ie. cycle through items starting with that character).
+///
+/// We also reorder the items by wrapping the array around the current item.
+/// This is so we always look forward from the current item, and picking the first
+/// item will always be the correct one.
+///
+/// Finally, if the normalized search is exactly one character, we exclude the
+/// current item from the values because otherwise it would be the first to match always
+/// and focus would never move. This is as opposed to the regular case, where we
+/// don't want focus to move if the current item still matches.
+fn find_next_item(
+    items: Vec<CollectionItemValue<ItemData>>,
+    search: String,
+    current_item: Option<CollectionItemValue<ItemData>>,
+) -> Option<CollectionItemValue<ItemData>> {
+    let is_repeated = search.chars().count() > 1
+        && search.chars().all(|char| {
+            char == search
+                .chars()
+                .next()
+                .expect("String is at least one character long.")
+        });
+    let normalized_search = if is_repeated {
+        search.chars().take(1).collect()
+    } else {
+        search
+    };
+    let current_item_index = current_item
+        .as_ref()
+        .and_then(|current_item| items.iter().position(|item| item == current_item));
+    let mut wrapped_items =
+        wrap_array(&mut items.clone(), current_item_index.unwrap_or(0)).to_vec();
+    let exclude_current_item = normalized_search.chars().count() == 1;
+    if exclude_current_item {
+        wrapped_items.retain(|item| {
+            current_item
+                .as_ref()
+                .is_none_or(|current_item| item != current_item)
+        });
+    }
+    let next_item = wrapped_items.into_iter().find(|item| {
+        item.data
+            .text_value
+            .to_lowercase()
+            .starts_with(&normalized_search.to_lowercase())
+    });
+
+    if next_item != current_item {
+        next_item
+    } else {
+        None
+    }
+}
+
+/// Wraps an array around itself at a given start index.
+fn wrap_array<T: Clone>(array: &mut [T], start_index: usize) -> &[T] {
+    array.rotate_right(start_index);
+    array
 }

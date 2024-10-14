@@ -965,27 +965,23 @@ fn get_next_match(
 ) -> Option<String> {
     let is_repeated =
         search.chars().count() > 1 && search.chars().all(|c| c == search.chars().next().unwrap());
-    let normilized_search = match is_repeated {
-        true => search.chars().take(1).collect(),
-        false => search,
+    let normilized_search = if is_repeated {
+        search.chars().take(1).collect()
+    } else {
+        search
     };
-    let current_match_index = match current_match.as_ref() {
-        Some(current_match) => values.iter().position(|value| value == current_match),
-        None => None,
-    };
+    let current_match_index = current_match
+        .as_ref()
+        .and_then(|current_match| values.iter().position(|value| value == current_match));
     let mut wrapped_values =
         wrap_array(&mut values.clone(), current_match_index.unwrap_or(0)).to_vec();
     let exclude_current_match = normilized_search.chars().count() == 1;
     if exclude_current_match {
-        wrapped_values = wrapped_values
-            .into_iter()
-            .filter(|v| {
-                current_match.is_none()
-                    || current_match
-                        .as_ref()
-                        .is_some_and(|current_match| v != current_match)
-            })
-            .collect::<Vec<_>>();
+        wrapped_values.retain(|v| {
+            current_match
+                .as_ref()
+                .is_none_or(|current_match| v != current_match)
+        });
     }
     let next_match = wrapped_values.into_iter().find(|value| {
         value
@@ -993,9 +989,10 @@ fn get_next_match(
             .starts_with(&normilized_search.to_lowercase())
     });
 
-    match next_match != current_match {
-        true => next_match,
-        false => None,
+    if next_match != current_match {
+        next_match
+    } else {
+        None
     }
 }
 

@@ -4742,8 +4742,3 @@ name = "zeroize"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ced3678a2879b30306d323f4542626697a464a97c0a07c9aebf7ebca65cd4dde"
-
-[[patch.unused]]
-name = "yew-attrs"
-version = "0.2.4"
-source = "git+https://github.com/RustForWeb/yew-attrs.git?branch=feature%2Fuse-composed-ref#56334ae26bb64bed931cd0d9abd92e0d4723f627"

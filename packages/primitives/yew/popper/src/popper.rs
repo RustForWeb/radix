@@ -187,6 +187,14 @@ pub struct PopperContentProps<ChildProps: Clone + Default + PartialEq + SetPoppe
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
+    pub role: Option<String>,
+    #[prop_or_default]
+    pub data_state: Option<String>,
+    #[prop_or_default]
+    pub on_context_menu: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
+    #[prop_or_default]
     pub as_child: Option<Callback<ChildProps, Html>>,
     #[prop_or_default]
     pub as_child_props: Option<ChildProps>,
@@ -204,8 +212,12 @@ pub struct PopperContentChildProps {
     pub id: Option<String>,
     pub class: Option<String>,
     pub style: String,
+    pub role: Option<String>,
     pub data_side: String,
     pub data_align: String,
+    pub data_state: Option<String>,
+    pub oncontextmenu: Callback<MouseEvent>,
+    pub onkeydown: Callback<KeyboardEvent>,
 }
 
 impl SetPopperContentChildProps for PopperContentChildProps {
@@ -220,8 +232,12 @@ impl PopperContentChildProps {
                 id={self.id}
                 class={self.class}
                 style={self.style}
+                role={self.role}
                 data-side={self.data_side}
                 data-align={self.data_align}
+                data-state={self.data_state}
+                oncontextmenu={self.oncontextmenu}
+                onkeydown={self.onkeydown}
             >
                 {children}
             </div>
@@ -458,9 +474,12 @@ where
         node_ref: composed_refs,
         id: props.id.clone(),
         class: props.class.clone(),
+        role: props.role.clone(),
+        data_state: props.data_state.clone(),
+        oncontextmenu: props.on_context_menu.clone(),
+        onkeydown: props.on_key_down.clone(),
         data_side: format!("{:?}", placed_side).to_lowercase(),
         data_align: format!("{:?}", placed_align).to_lowercase(),
-        // TODO: merge with style attr if present
         // If the PopperContent hasn't been placed yet (not all measurements done),
         // we prevent animations so that users's animation don't kick in too early referring wrong sides.
         style: format!(
@@ -547,14 +566,18 @@ pub struct PopperArrowProps {
 #[derive(Clone, Default, PartialEq)]
 pub struct PopperArrowChildProps {
     pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: Option<String>,
+    pub style: String,
     pub width: String,
     pub height: String,
-    pub style: String,
 }
 
 impl SetArrowChildProps for PopperArrowChildProps {
     fn set_arrow_child_props(&mut self, props: ArrowChildProps) {
         self.node_ref = props.node_ref;
+        self.id = props.id;
+        self.class = props.class;
         self.width = props.width;
         self.height = props.height;
     }
@@ -567,7 +590,7 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
     let base_side = content_context.placed_side.opposite();
 
     let child_props = PopperArrowChildProps {
-        style: "display: block;".into(),
+        style: format!("display: block;{}", props.style.clone().unwrap_or_default()),
         ..PopperArrowChildProps::default()
     };
 
@@ -620,6 +643,8 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
             width={props.width}
             height={props.height}
             node_ref={props.node_ref.clone()}
+            id={props.id.clone()}
+            class={props.class.clone()}
             as_child={props.as_child.clone()}
             as_child_props={child_props}
         >
