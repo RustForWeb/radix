@@ -3127,6 +3127,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-dismissable-layer"
+version = "0.0.2"
+dependencies = [
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-focus-guards"
 version = "0.0.2"
 dependencies = [
