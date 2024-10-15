@@ -21,6 +21,7 @@ use radix_yew_popper::{
 };
 use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
+use radix_yew_visually_hidden::{VisuallyHidden, VisuallyHiddenChildProps};
 use web_sys::{
     wasm_bindgen::{prelude::Closure, JsCast},
     window,
@@ -113,6 +114,8 @@ pub struct SelectProps {
     #[prop_or_default]
     pub required: Option<bool>,
     #[prop_or_default]
+    pub form: Option<String>,
+    #[prop_or_default]
     pub children: Children,
 }
 
@@ -154,7 +157,7 @@ pub fn Select(props: &SelectProps) -> Html {
         on_change: Some(on_value_change),
         default_prop: props.default_value.clone(),
     });
-    let on_value_change = use_callback(set_value, |value: String, set_value| {
+    let on_value_change = use_callback(set_value.clone(), |value: String, set_value| {
         set_value.emit(Some(value));
     });
 
@@ -175,6 +178,17 @@ pub fn Select(props: &SelectProps) -> Html {
         }
     });
 
+    // The native `select` only associates the correct default value if the corresponding
+    // `option` is rendered as a child **at the same time** as itself.
+    // Because it might take a few renders for our items to gather the information to build
+    // the native `option`(s), we generate a key on the `select` to make sure Yew re-builds it
+    // each time the options change.
+    let native_select_key = native_options_set
+        .iter()
+        .map(|native_option| native_option.value.clone())
+        .collect::<Vec<_>>()
+        .join(";");
+
     let content_id = use_id(None);
     let context_value = use_memo(
         (
@@ -184,7 +198,7 @@ pub fn Select(props: &SelectProps) -> Html {
             direction,
             open,
             on_open_change,
-            value,
+            value.clone(),
             on_value_change,
             trigger_pointer_down_pos_ref,
         ),
@@ -221,25 +235,29 @@ pub fn Select(props: &SelectProps) -> Html {
         },
     );
 
-    let native_options_context_value = use_memo((), move |_| SelectNativeOptionsContextValue {
-        on_native_option_add: Callback::from({
-            let native_options_set = native_options_set.clone();
+    let native_options_context_value = use_memo((), {
+        let native_options_set = native_options_set.clone();
 
-            move |option| {
-                let mut set = (*native_options_set).clone();
-                set.insert(option);
-                native_options_set.set(set);
-            }
-        }),
-        on_native_option_remove: Callback::from({
-            let native_options_set = native_options_set.clone();
+        move |_| SelectNativeOptionsContextValue {
+            on_native_option_add: Callback::from({
+                let native_options_set = native_options_set.clone();
 
-            move |option| {
-                let mut set = (*native_options_set).clone();
-                set.remove(&option);
-                native_options_set.set(set);
-            }
-        }),
+                move |option| {
+                    let mut set = (*native_options_set).clone();
+                    set.insert(option);
+                    native_options_set.set(set);
+                }
+            }),
+            on_native_option_remove: Callback::from({
+                let native_options_set = native_options_set.clone();
+
+                move |option| {
+                    let mut set = (*native_options_set).clone();
+                    set.remove(&option);
+                    native_options_set.set(set);
+                }
+            }),
+        }
     });
 
     html! {
@@ -252,7 +270,41 @@ pub fn Select(props: &SelectProps) -> Html {
                 </CollectionProvider<ItemData>>
 
                 if *is_form_control {
-                    // TODO: BubbleSelect
+                    <BubbleSelect
+                        key={native_select_key}
+                        name={props.name.clone()}
+                        value={value.clone()}
+                        required={props.required}
+                        disabled={props.disabled}
+                        form={props.form.clone()}
+                        autocomplete={props.autocomplete.clone()}
+                        tabindex="-1"
+                        aria_hidden="true"
+                        // Enable form autofill.
+                        on_change={Callback::from(move |event: Event| {
+                            set_value.emit(
+                                event
+                                    .target()
+                                    .and_then(|target| target.dyn_into::<web_sys::HtmlSelectElement>().ok())
+                                    .map(|select_element| select_element.value())
+                            )
+                        })}
+                    >
+                        if value.is_none() {
+                            <option value="" />
+                        }
+                        {
+                            native_options_set.iter().map(|native_option| html! {
+                                <option
+                                    key={native_option.key.clone()}
+                                    value={native_option.value.clone()}
+                                    disabled={native_option.disabled}
+                                >
+                                    {native_option.text_content.clone().unwrap_or_default()}
+                                </option>
+                            }).collect::<Html>()
+                        }
+                    </BubbleSelect>
                 }
             </ContextProvider<SelectContextValue>>
         </Popper>
@@ -766,12 +818,33 @@ struct SelectContentContextValue {
 
 #[derive(PartialEq, Properties)]
 struct SelectContentImplProps {
-    // TODO
     /// Event handler called when auto-focusing on close. Can be prevented.
     #[prop_or_default]
     pub on_close_auto_focus: Callback<Event>,
     #[prop_or(Position::ItemAligned)]
     pub position: Position,
+    #[prop_or(Side::Bottom)]
+    pub side: Side,
+    #[prop_or(0.0)]
+    pub side_offset: f64,
+    #[prop_or(Align::Start)]
+    pub align: Align,
+    #[prop_or(0.0)]
+    pub align_offset: f64,
+    #[prop_or(0.0)]
+    pub arrow_padding: f64,
+    #[prop_or(true)]
+    pub avoid_collisions: bool,
+    #[prop_or_default]
+    pub collision_boundary: Vec<web_sys::Element>,
+    #[prop_or(Padding::All(CONTENT_MARGIN))]
+    pub collision_padding: Padding,
+    #[prop_or(Sticky::Partial)]
+    pub sticky: Sticky,
+    #[prop_or(false)]
+    pub hide_when_detached: bool,
+    #[prop_or(UpdatePositionStrategy::Optimized)]
+    pub update_position_strategy: UpdatePositionStrategy,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or_default]
@@ -1091,6 +1164,17 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                 })), None)}
                 as_child={Callback::from({
                     let position = props.position;
+                    let side = props.side;
+                    let side_offset = props.side_offset;
+                    let align = props.align;
+                    let align_offset = props.align_offset;
+                    let arrow_padding = props.arrow_padding;
+                    let avoid_collisions = props.avoid_collisions;
+                    let collision_boundary = props.collision_boundary.clone();
+                    let collision_padding = props.collision_padding.clone();
+                    let sticky = props.sticky;
+                    let hide_when_detached = props.hide_when_detached;
+                    let update_position_strategy = props.update_position_strategy;
                     let on_key_down = props.on_key_down.clone();
                     let id = props.id.clone().unwrap_or(context.content_id);
                     let class = props.class.clone();
@@ -1167,7 +1251,17 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                         html! {
                             if position == Position::Popper {
                                 <SelectPopperPosition<SelectContentImplChildProps>
-                                    // TODO: popper props
+                                    side={side}
+                                    side_offset={side_offset}
+                                    align={align}
+                                    align_offset={align_offset}
+                                    arrow_padding={arrow_padding}
+                                    avoid_collisions={avoid_collisions}
+                                    collision_boundary={collision_boundary.clone()}
+                                    collision_padding={collision_padding.clone()}
+                                    sticky={sticky}
+                                    hide_when_detached={hide_when_detached}
+                                    update_position_strategy={update_position_strategy}
                                     role={role}
                                     data_state={data_state}
                                     dir={dir.clone()}
@@ -2869,12 +2963,77 @@ fn should_show_placeholder(value: Option<String>) -> bool {
 }
 
 #[derive(PartialEq, Properties)]
-struct BubbleSelectProps {}
+struct BubbleSelectProps {
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub value: Option<String>,
+    #[prop_or_default]
+    pub required: Option<bool>,
+    #[prop_or_default]
+    pub disabled: Option<bool>,
+    #[prop_or_default]
+    pub form: Option<String>,
+    #[prop_or_default]
+    pub autocomplete: Option<String>,
+    #[prop_or_default]
+    pub tabindex: Option<String>,
+    #[prop_or_default]
+    pub aria_hidden: Option<String>,
+    #[prop_or_default]
+    pub on_change: Callback<Event>,
+    #[prop_or_default]
+    pub children: Html,
+}
 
 #[function_component]
-fn BubbleSelect(_props: &BubbleSelectProps) -> Html {
+fn BubbleSelect(props: &BubbleSelectProps) -> Html {
     html! {
-        // TODO
+        <VisuallyHidden
+            id={props.id.clone()}
+            class={props.class.clone()}
+            style={props.style.clone()}
+            as_child={Callback::from({
+                let name = props.name.clone();
+                let value = props.value.clone();
+                let required = props.required;
+                let disabled = props.disabled;
+                let form = props.form.clone();
+                let autocomplete = props.autocomplete.clone();
+                let tabindex = props.tabindex.clone();
+                let aria_hidden = props.aria_hidden.clone();
+                let on_change = props.on_change.clone();
+                let children = props.children.clone();
+
+                move |VisuallyHiddenChildProps {node_ref, id, class, style}| html! {
+                    <select
+                        ref={node_ref}
+                        id={id}
+                        class={class}
+                        style={style}
+                        name={name.clone()}
+                        value={value.clone()}
+                        required={required.unwrap_or(false)}
+                        disabled={disabled.unwrap_or(false)}
+                        form={form.clone()}
+                        autocomplete={autocomplete.clone()}
+                        tabindex={tabindex.clone()}
+                        aria-hidden={aria_hidden.clone()}
+                        onchange={on_change.clone()}
+                    >
+                        {children.clone()}
+                    </select>
+                }
+            })}
+        />
     }
 }
 

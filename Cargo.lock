@@ -3208,6 +3208,7 @@ dependencies = [
  "radix-yew-popper",
  "radix-yew-primitive",
  "radix-yew-use-controllable-state",
+ "radix-yew-visually-hidden",
  "web-sys",
  "yew",
 ]
