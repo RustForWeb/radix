@@ -2738,7 +2738,6 @@ pub struct SelectScrollUpButtonProps {
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
-    // TODO: change to SelectScrollUpButtonChildProps
     pub as_child: Option<Callback<SelectScrollButtonImplChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
@@ -2772,7 +2771,6 @@ pub struct SelectScrollDownButtonProps {
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
-    // TODO: change to SelectScrollDownButtonChildProps
     pub as_child: Option<Callback<SelectScrollButtonImplChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
@@ -2796,7 +2794,14 @@ pub fn SelectScrollDownButton(props: &SelectScrollDownButtonProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 struct SelectScrollButtonImplProps {
-    // TODO
+    #[prop_or_default]
+    pub on_auto_scroll: Callback<()>,
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_move: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_leave: Callback<PointerEvent>,
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -2816,8 +2821,11 @@ pub struct SelectScrollButtonImplChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
     pub class: Option<String>,
-    pub style: Option<String>,
+    pub style: String,
     pub aria_hidden: String,
+    pub onpointerdown: Callback<PointerEvent>,
+    pub onpointermove: Callback<PointerEvent>,
+    pub onpointerleave: Callback<PointerEvent>,
 }
 
 impl SelectScrollButtonImplChildProps {
@@ -2829,6 +2837,9 @@ impl SelectScrollButtonImplChildProps {
                 class={self.class}
                 style={self.style}
                 aria-hidden={self.aria_hidden}
+                onpointerdown={self.onpointerdown}
+                onpointermove={self.onpointermove}
+                onpointerleave={self.onpointerleave}
             >
                 {children}
             </div>
@@ -2838,17 +2849,121 @@ impl SelectScrollButtonImplChildProps {
 
 #[function_component]
 fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
-    let _content_context =
+    let content_context =
         use_context::<SelectContentContextValue>().expect("Select content context required.");
-    let _get_items = use_collection::<ItemData>();
+    let auto_scroll_timer_ref = use_mut_ref(|| None);
+    let get_items = use_collection::<ItemData>();
+
+    let on_auto_scroll: Rc<Closure<dyn Fn()>> = Rc::new(Closure::new({
+        let on_auto_scroll = props.on_auto_scroll.clone();
+
+        move || {
+            on_auto_scroll.emit(());
+        }
+    }));
+
+    let clear_auto_scroll_timer = use_callback((), {
+        let auto_scroll_timer_ref = auto_scroll_timer_ref.clone();
+
+        move |_: (), _| {
+            let auto_scroll_timer = *auto_scroll_timer_ref.borrow();
+            if let Some(auto_scroll_timer) = auto_scroll_timer {
+                window()
+                    .expect("Window should exist.")
+                    .clear_interval_with_handle(auto_scroll_timer);
+                *auto_scroll_timer_ref.borrow_mut() = None;
+            }
+        }
+    });
+
+    use_effect({
+        let clear_auto_scroll_timer = clear_auto_scroll_timer.clone();
+
+        move || {
+            move || {
+                clear_auto_scroll_timer.emit(());
+            }
+        }
+    });
+
+    use_effect_with(get_items, |get_items| {
+        let active_item = get_items.emit(()).into_iter().find(|item| {
+            item.r#ref.cast::<web_sys::Element>()
+                == window()
+                    .expect("Window should exist.")
+                    .document()
+                    .expect("Document should exist.")
+                    .active_element()
+        });
+        if let Some(active_item) =
+            active_item.and_then(|active_item| active_item.r#ref.cast::<web_sys::Element>())
+        {
+            let options = web_sys::ScrollIntoViewOptions::new();
+            options.set_block(web_sys::ScrollLogicalPosition::Nearest);
+            active_item.scroll_into_view_with_scroll_into_view_options(&options);
+        }
+    });
 
     let child_props = SelectScrollButtonImplChildProps {
         node_ref: props.node_ref.clone(),
         id: props.id.clone(),
         class: props.class.clone(),
-        style: props.style.clone(),
+        style: format!("flex-shrink: 0;{}", props.style.clone().unwrap_or_default()),
         aria_hidden: "true".into(),
-        // TODO
+        onpointerdown: compose_callbacks(
+            Some(props.on_pointer_down.clone()),
+            Some(Callback::from({
+                let auto_scroll_timer_ref = auto_scroll_timer_ref.clone();
+                let on_auto_scroll = on_auto_scroll.clone();
+
+                move |_| {
+                    if auto_scroll_timer_ref.borrow().is_none() {
+                        *auto_scroll_timer_ref.borrow_mut() = Some(
+                            window()
+                                .expect("Window should exist.")
+                                .set_interval_with_callback_and_timeout_and_arguments_0(
+                                    (*on_auto_scroll).as_ref().unchecked_ref(),
+                                    50,
+                                )
+                                .expect("Interval should be set."),
+                        );
+                    }
+                }
+            })),
+            None,
+        ),
+        onpointermove: compose_callbacks(
+            Some(props.on_pointer_move.clone()),
+            Some(Callback::from({
+                let on_item_leave = content_context.on_item_leave.clone();
+                let auto_scroll_timer_ref = auto_scroll_timer_ref.clone();
+                let on_auto_scroll = on_auto_scroll.clone();
+
+                move |_| {
+                    on_item_leave.emit(());
+
+                    if auto_scroll_timer_ref.borrow().is_none() {
+                        *auto_scroll_timer_ref.borrow_mut() = Some(
+                            window()
+                                .expect("Window should exist.")
+                                .set_interval_with_callback_and_timeout_and_arguments_0(
+                                    (*on_auto_scroll).as_ref().unchecked_ref(),
+                                    50,
+                                )
+                                .expect("Interval should be set."),
+                        );
+                    }
+                }
+            })),
+            None,
+        ),
+        onpointerleave: compose_callbacks(
+            Some(props.on_pointer_leave.clone()),
+            Some(Callback::from(move |_| {
+                clear_auto_scroll_timer.emit(());
+            })),
+            None,
+        ),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -2996,6 +3111,8 @@ struct BubbleSelectProps {
 
 #[function_component]
 fn BubbleSelect(props: &BubbleSelectProps) -> Html {
+    // TODO: effect
+
     html! {
         <VisuallyHidden
             id={props.id.clone()}
