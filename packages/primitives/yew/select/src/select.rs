@@ -30,8 +30,9 @@ use yew::{prelude::*, virtual_dom::VNode};
 const OPEN_KEYS: [&str; 4] = [" ", "Enter", "ArrowUp", "ArrowDown"];
 const SELECTION_KEYS: [&str; 2] = [" ", "Enter"];
 
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Position {
+    #[default]
     ItemAligned,
     Popper,
 }
@@ -56,7 +57,7 @@ struct ItemData {
     text_value: String,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 struct SelectContextValue {
     trigger_ref: NodeRef,
     value_node_ref: NodeRef,
@@ -692,9 +693,25 @@ pub struct SelectContentProps {
 #[function_component]
 pub fn SelectContent(props: &SelectContentProps) -> Html {
     let context = use_context::<SelectContextValue>().expect("Select context required.");
+    let fragment = use_state_eq(|| None);
 
-    html! {
-        if context.open {
+    use_effect_with((), {
+        let fragment = fragment.clone();
+
+        move |_| {
+            fragment.set(Some(
+                window()
+                    .expect("Window should exist.")
+                    .document()
+                    .expect("Document should exist.")
+                    .create_element("div")
+                    .expect("Element should be created."),
+            ));
+        }
+    });
+
+    if context.open {
+        html! {
             <SelectContentImpl
                 position={props.position}
                 id={props.id.clone()}
@@ -705,20 +722,34 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
             >
                 {props.children.clone()}
             </SelectContentImpl>
-        } else {
-            // TODO: Portal to DocumentFragment?
-            // <ContextProvider<SelectContentContextValue>>
-            //     <CollectionSlot<ItemData>>
-            //         <div>{props.children.clone()}</div>
-            //     </CollectionSlot<ItemData>>
-            // </ContextProvider<SelectContentContextValue>>
         }
+    } else if let Some(fragment) = fragment.as_ref() {
+        create_portal(
+            html! {
+                <ContextProvider<SelectContentContextValue> context={SelectContentContextValue::default()}>
+                    <CollectionSlot<ItemData>
+                        as_child={Callback::from({
+                            let children = props.children.clone();
+
+                            move |CollectionSlotChildProps { node_ref }| html! {
+                                <div ref={node_ref}>
+                                    {children.clone()}
+                                </div>
+                            }
+                        })}
+                    />
+                </ContextProvider<SelectContentContextValue>>
+            },
+            fragment.clone(),
+        )
+    } else {
+        Html::default()
     }
 }
 
 const CONTENT_MARGIN: f64 = 10.0;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Default, PartialEq)]
 struct SelectContentContextValue {
     content_ref: NodeRef,
     viewport_ref: NodeRef,
@@ -2528,8 +2559,8 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
             }
 
             if item_context.is_selected && !context.value_node_has_children {
-                if let Some(_value_node) = context.value_node_ref.get() {
-                    // TODO: portal
+                if let Some(value_node) = context.value_node_ref.cast::<web_sys::Element>() {
+                    {create_portal(props.children.clone(), value_node)}
                 }
             }
         </>
@@ -2834,7 +2865,7 @@ pub fn SelectArrow(props: &SelectArrowProps) -> Html {
     }
 }
 fn should_show_placeholder(value: Option<String>) -> bool {
-    value.is_none() || value.is_some_and(|value| value.is_empty())
+    value.is_none_or(|value| value.is_empty())
 }
 
 #[derive(PartialEq, Properties)]

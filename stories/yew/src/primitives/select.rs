@@ -28,7 +28,7 @@ pub fn Styled() -> Html {
                                 <SelectViewport class={(*viewport_class).clone()}>
                                     <SelectItem class={(*item_class).clone()} value="one">
                                         <SelectItemText>
-                                            {"One"}<span aria-hidden="">{" 👍"}</span>
+                                            {"One"}<span aria-hidden="true">{" 👍"}</span>
                                         </SelectItemText>
                                         <SelectItemIndicator class={(*indicator_class).clone()}>
                                             <TickIcon />
@@ -36,7 +36,7 @@ pub fn Styled() -> Html {
                                     </SelectItem>
                                     <SelectItem class={(*item_class).clone()} value="two">
                                         <SelectItemText>
-                                            {"Two"}<span aria-hidden="">{" 👌"}</span>
+                                            {"Two"}<span aria-hidden="true">{" 👌"}</span>
                                         </SelectItemText>
                                         <SelectItemIndicator class={(*indicator_class).clone()}>
                                             <TickIcon />
@@ -44,7 +44,7 @@ pub fn Styled() -> Html {
                                     </SelectItem>
                                     <SelectItem class={(*item_class).clone()} value="three">
                                         <SelectItemText>
-                                            {"Three"}<span aria-hidden="">{" 🤘"}</span>
+                                            {"Three"}<span aria-hidden="true">{" 🤘"}</span>
                                         </SelectItemText>
                                         <SelectItemIndicator class={(*indicator_class).clone()}>
                                             <TickIcon />
