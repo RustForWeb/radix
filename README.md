@@ -15,11 +15,11 @@ Rust port of [Radix](https://www.radix-ui.com).
 Rust Radix is available for these Rust frameworks:
 
 -   [Leptos](./packages/primitives/leptos)
+-   [Yew](https://yew.rs/)
 
 The following frameworks are under consideration:
 
 -   [Dioxus](https://dioxuslabs.com/)
--   [Yew](https://yew.rs/)
 
 See [the Rust Radix book](https://radix.rustforweb.org/introduction.html#frameworks) for more information.
 
