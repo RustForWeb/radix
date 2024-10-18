@@ -1,9 +1,11 @@
+use std::collections::HashMap;
+
 use radix_yew_switch::{Switch as SwitchPrimitive, SwitchThumb as SwitchThumbPrimitive};
 use yew::prelude::*;
 
 use crate::{
     components::switch_props::{SwitchSize, SwitchVariant},
-    helpers::extract_props::extract_props,
+    helpers::{extract_props::extract_props, merge_classes::merge_classes},
     props::{
         color_prop::Color,
         high_contrast_prop::HighContrast,
@@ -42,7 +44,7 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Option<HashMap<String, String>>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -54,7 +56,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
     // TODO: data-*
     // TODO: other props
 
-    let (_class, _style) = extract_props(
+    let (class, _style) = extract_props(
         &[
             &props.size,
             &props.variant,
@@ -77,9 +79,9 @@ pub fn Switch(props: &SwitchProps) -> Html {
     html! {
         <SwitchPrimitive
             node_ref={props.node_ref.clone()}
-            class="rt-reset rt-SwitchRoot"
+            class={merge_classes(&[&"rt-reset", &"rt-SwitchRoot", &class])}
         >
-            <SwitchThumbPrimitive class="rt-SwitchThumb" />
+            <SwitchThumbPrimitive class={merge_classes(&[&"rt-SwitchThumb", &("rt-high-contrast", &props.high_contrast)])} />
         </SwitchPrimitive>
     }
 }
