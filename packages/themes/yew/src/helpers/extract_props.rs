@@ -1,8 +1,10 @@
+use std::collections::HashMap;
+
 use crate::{
     helpers::{
         get_responsive::{get_responsive_classes, get_responsive_styles},
         merge_classes::merge_classes,
-        // merge_styles::merge_styles,
+        merge_styles::merge_styles,
     },
     props::prop_def::{PropDef, PropDefType},
 };
@@ -10,36 +12,35 @@ use crate::{
 pub fn extract_props(
     props: &[&dyn PropDef],
     props_class: Option<String>,
-    _props_style: Option<String>,
-) -> (String, String) {
+    props_style: Option<HashMap<String, String>>,
+) -> (String, HashMap<String, String>) {
     let mut class: String = "".to_string();
-    let style: String = "".to_string();
+    let mut style: HashMap<String, String> = HashMap::new();
 
     for prop in props {
         if prop.class().is_some() {
             match prop.r#type() {
                 PropDefType::Enum => {
-                    let prop_classes = get_responsive_classes(*prop);
+                    let prop_classes = get_responsive_classes(*prop, false);
 
-                    class = merge_classes(class, prop_classes);
+                    class = merge_classes(&[&class, &prop_classes]);
                 }
                 PropDefType::String | PropDefType::EnumOrString => {
-                    let (prop_classes, _prop_custom_properties) = get_responsive_styles(*prop);
+                    let (prop_classes, prop_custom_properties) = get_responsive_styles(*prop);
 
-                    class = merge_classes(class, prop_classes);
-                    // style = merge_styles(style, prop_custom_properties);
+                    class = merge_classes(&[&class, &prop_classes]);
+                    style = merge_styles(style, prop_custom_properties);
                 }
                 PropDefType::Bool => {
                     // TODO: handle responsive boolean props.
-                    class = merge_classes(class, prop.class().map(|class| class.into()));
+                    class = merge_classes(&[&class, &prop.class()]);
                 }
             }
         }
     }
 
     (
-        merge_classes(class, props_class),
-        // merge_styles(style, props_style),
-        style,
+        merge_classes(&[&class, &props_class]),
+        merge_styles(style, props_style),
     )
 }

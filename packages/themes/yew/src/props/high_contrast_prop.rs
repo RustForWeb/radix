@@ -1,9 +1,19 @@
+use std::ops::Deref;
+
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType};
+use crate::props::prop_def::{PropDef, PropDefType, ResponsiveValues, StringValue};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct HighContrast(pub Option<bool>);
+
+impl Deref for HighContrast {
+    type Target = Option<bool>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 impl IntoPropValue<HighContrast> for bool {
     fn into_prop_value(self) -> HighContrast {
@@ -25,6 +35,14 @@ impl PropDef for HighContrast {
     }
 
     fn custom_properties(&self) -> Option<&[&str]> {
+        None
+    }
+
+    fn string_value(&self) -> Option<StringValue> {
+        None
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
         None
     }
 }

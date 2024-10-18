@@ -1,37 +1,57 @@
+use std::fmt::{self, Display};
+
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, Responsive};
+use crate::props::prop_def::{PropDef, PropDefType, Responsive, ResponsiveValues, StringValue};
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Margin {
-    Value(i8),
-    String(String),
+    Defined(i8),
+    Arbitrary(String),
+}
+
+impl Display for Margin {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Margin::Defined(value) => write!(f, "{}", value),
+            Margin::Arbitrary(value) => write!(f, "{}", value),
+        }
+    }
 }
 
 impl TryFrom<i8> for Margin {
     type Error = String;
 
     fn try_from(value: i8) -> Result<Self, Self::Error> {
-        if value <= -10 || value >= 10 {
+        if !(-9..=9).contains(&value) {
             Err(format!(
                 "Margin must be between -9 and 9, but is {}.",
                 value
             ))
         } else {
-            Ok(Self::Value(value))
+            Ok(Self::Defined(value))
         }
     }
 }
 
 impl From<&str> for Margin {
     fn from(value: &str) -> Self {
-        Self::String(value.into())
+        Self::Arbitrary(value.into())
     }
 }
 
 impl From<String> for Margin {
     fn from(value: String) -> Self {
-        Self::String(value)
+        Self::Arbitrary(value)
+    }
+}
+
+impl From<Margin> for StringValue {
+    fn from(value: Margin) -> Self {
+        match value {
+            Margin::Defined(value) => StringValue::Defined(value.to_string()),
+            Margin::Arbitrary(value) => StringValue::Arbitrary(value.to_string()),
+        }
     }
 }
 
@@ -84,6 +104,14 @@ impl PropDef for M {
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--m"])
     }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
+    }
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -134,6 +162,14 @@ impl PropDef for Mx {
 
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--ml", "--mr"])
+    }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
     }
 }
 
@@ -186,6 +222,14 @@ impl PropDef for My {
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--mt", "--mb"])
     }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
+    }
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -236,6 +280,14 @@ impl PropDef for Mt {
 
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--mt"])
+    }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
     }
 }
 
@@ -288,6 +340,14 @@ impl PropDef for Mr {
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--mr"])
     }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
+    }
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -339,6 +399,14 @@ impl PropDef for Mb {
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--mb"])
     }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
+    }
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -389,5 +457,13 @@ impl PropDef for Ml {
 
     fn custom_properties(&self) -> Option<&[&str]> {
         Some(&["--ml"])
+    }
+
+    fn string_value(&self) -> Option<StringValue> {
+        self.0.as_ref().and_then(|value| value.string_value())
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        self.0.as_ref().and_then(|value| value.responsive_values())
     }
 }

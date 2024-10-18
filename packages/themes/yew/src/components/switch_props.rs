@@ -1,4 +1,6 @@
-use crate::props::prop_def::{PropDef, PropDefType};
+use std::fmt::{self, Display};
+
+use crate::props::prop_def::{PropDef, PropDefType, ResponsiveValues, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum SwitchSize {
@@ -6,6 +8,20 @@ pub enum SwitchSize {
     #[default]
     S2,
     S3,
+}
+
+impl Display for SwitchSize {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                SwitchSize::S1 => "1",
+                SwitchSize::S2 => "2",
+                SwitchSize::S3 => "3",
+            }
+        )
+    }
 }
 
 impl PropDef for SwitchSize {
@@ -24,6 +40,14 @@ impl PropDef for SwitchSize {
     fn custom_properties(&self) -> Option<&[&str]> {
         None
     }
+
+    fn string_value(&self) -> Option<StringValue> {
+        Some(StringValue::Defined(self.to_string()))
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
+        None
+    }
 }
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
@@ -32,6 +56,20 @@ pub enum SwitchVariant {
     #[default]
     Surface,
     Soft,
+}
+
+impl Display for SwitchVariant {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                SwitchVariant::Classic => "classic",
+                SwitchVariant::Surface => "surface",
+                SwitchVariant::Soft => "soft",
+            }
+        )
+    }
 }
 
 impl PropDef for SwitchVariant {
@@ -48,6 +86,14 @@ impl PropDef for SwitchVariant {
     }
 
     fn custom_properties(&self) -> Option<&[&str]> {
+        None
+    }
+
+    fn string_value(&self) -> Option<StringValue> {
+        Some(StringValue::Defined(self.to_string()))
+    }
+
+    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
         None
     }
 }
