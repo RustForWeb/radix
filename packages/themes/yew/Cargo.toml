@@ -10,4 +10,6 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+radix-yew-select = { path = "../../primitives/yew/select", version = "0.0.2" }
+radix-yew-switch = { path = "../../primitives/yew/switch", version = "0.0.2" }
 yew.workspace = true
