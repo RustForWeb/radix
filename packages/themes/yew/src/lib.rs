@@ -11,3 +11,4 @@ mod helpers;
 mod props;
 
 pub use components::*;
+pub use props::*;

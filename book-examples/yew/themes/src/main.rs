@@ -1,6 +1,4 @@
 mod app;
-
-#[cfg(feature = "switch")]
 mod switch;
 
 use crate::app::App;

@@ -2,7 +2,7 @@ use std::ops::Deref;
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, ResponsiveValues, StringValue};
+use crate::props::prop_def::{PropDef, PropDefType, PropValue};
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct HighContrast(pub Option<bool>);
@@ -38,11 +38,7 @@ impl PropDef for HighContrast {
         None
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        None
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        None
+    fn value(&self) -> Option<PropValue> {
+        self.0.map(PropValue::Bool)
     }
 }

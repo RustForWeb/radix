@@ -30,6 +30,14 @@ impl Display for Breakpoint {
     }
 }
 
+#[derive(Clone, Debug, PartialEq)]
+pub enum PropValue {
+    Bool(bool),
+    String(StringValue),
+    Responsive(ResponsiveValues<StringValue>),
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub enum StringValue {
     Defined(String),
     Arbitrary(String),
@@ -44,23 +52,16 @@ pub enum Responsive<T> {
 pub type ResponsiveValues<T> = HashMap<Breakpoint, T>;
 
 impl<T: Clone + Into<StringValue>> Responsive<T> {
-    pub fn string_value(&self) -> Option<StringValue> {
-        match self {
-            Responsive::Value(value) => Some(value.clone().into()),
-            Responsive::Values(_) => None,
-        }
-    }
-
-    pub fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        match self {
-            Responsive::Value(_) => None,
-            Responsive::Values(values) => Some(
+    pub fn value(&self) -> Option<PropValue> {
+        Some(match self {
+            Responsive::Value(value) => PropValue::String(value.clone().into()),
+            Responsive::Values(values) => PropValue::Responsive(
                 values
                     .iter()
                     .map(|(key, value)| (*key, value.clone().into()))
                     .collect(),
             ),
-        }
+        })
     }
 }
 
@@ -80,7 +81,5 @@ pub trait PropDef {
 
     fn custom_properties(&self) -> Option<&[&str]>;
 
-    fn string_value(&self) -> Option<StringValue>;
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>>;
+    fn value(&self) -> Option<PropValue>;
 }

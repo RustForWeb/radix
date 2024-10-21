@@ -2,9 +2,9 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, ResponsiveValues, StringValue};
+use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
 
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum AccentColor {
     Gray,
     Gold,
@@ -22,6 +22,7 @@ pub enum AccentColor {
     Purple,
     Violet,
     Iris,
+    #[default]
     Indigo,
     Blue,
     Cyan,
@@ -88,17 +89,14 @@ impl PropDef for AccentColor {
         None
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        Some(StringValue::Defined(self.to_string()))
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        None
+    fn value(&self) -> Option<PropValue> {
+        Some(PropValue::String(StringValue::Defined(self.to_string())))
     }
 }
 
-#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum GrayColor {
+    #[default]
     Auto,
     Gray,
     Mauve,
@@ -146,12 +144,9 @@ impl PropDef for Color {
         None
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.map(|value| StringValue::Defined(value.to_string()))
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        None
+    fn value(&self) -> Option<PropValue> {
+        self.0
+            .map(|value| PropValue::String(StringValue::Defined(value.to_string())))
     }
 }
 

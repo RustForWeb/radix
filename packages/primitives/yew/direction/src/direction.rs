@@ -25,9 +25,9 @@ type DirectionContextValue = Direction;
 
 #[derive(PartialEq, Properties)]
 pub struct DirectionProviderProps {
-    direction: Direction,
+    pub direction: Direction,
     #[prop_or_default]
-    children: Html,
+    pub children: Html,
 }
 
 #[function_component]

@@ -1,3 +1,4 @@
+use radix_yew_themes::{AccentColor, Theme};
 use yew::{prelude::*, virtual_dom::VNode};
 
 #[function_component]
@@ -20,8 +21,10 @@ pub fn App() -> Html {
     }
 
     html! {
-        <div class="w-full h-full flex justify-center items-start">
-            {children}
-        </div>
+        <Theme accent_color={AccentColor::Indigo}>
+            <div style="padding: var(--space-4); line-height: 1;">
+                {children}
+            </div>
+        </Theme>
     }
 }

@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{PropDef, PropDefType, ResponsiveValues, StringValue};
+use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum SwitchSize {
@@ -41,12 +41,8 @@ impl PropDef for SwitchSize {
         None
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        Some(StringValue::Defined(self.to_string()))
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        None
+    fn value(&self) -> Option<PropValue> {
+        Some(PropValue::String(StringValue::Defined(self.to_string())))
     }
 }
 
@@ -89,11 +85,7 @@ impl PropDef for SwitchVariant {
         None
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        Some(StringValue::Defined(self.to_string()))
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        None
+    fn value(&self) -> Option<PropValue> {
+        Some(PropValue::String(StringValue::Defined(self.to_string())))
     }
 }

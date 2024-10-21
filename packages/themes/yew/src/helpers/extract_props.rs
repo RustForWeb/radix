@@ -6,7 +6,7 @@ use crate::{
         merge_classes::merge_classes,
         merge_styles::merge_styles,
     },
-    props::prop_def::{PropDef, PropDefType},
+    props::prop_def::{PropDef, PropDefType, PropValue},
 };
 
 pub fn extract_props(
@@ -32,8 +32,10 @@ pub fn extract_props(
                     style = merge_styles(style, prop_custom_properties);
                 }
                 PropDefType::Bool => {
-                    // TODO: handle responsive boolean props.
-                    class = merge_classes(&[&class, &prop.class()]);
+                    if let Some(PropValue::Bool(true)) = prop.value() {
+                        // TODO: handle responsive boolean props.
+                        class = merge_classes(&[&class, &prop.class()]);
+                    }
                 }
             }
         }

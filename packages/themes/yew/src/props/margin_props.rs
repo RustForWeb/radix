@@ -2,7 +2,7 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, Responsive, ResponsiveValues, StringValue};
+use crate::props::prop_def::{PropDef, PropDefType, PropValue, Responsive, StringValue};
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Margin {
@@ -105,12 +105,8 @@ impl PropDef for M {
         Some(&["--m"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
 
@@ -164,12 +160,8 @@ impl PropDef for Mx {
         Some(&["--ml", "--mr"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
 
@@ -223,12 +215,8 @@ impl PropDef for My {
         Some(&["--mt", "--mb"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
 
@@ -282,12 +270,8 @@ impl PropDef for Mt {
         Some(&["--mt"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
 
@@ -341,12 +325,8 @@ impl PropDef for Mr {
         Some(&["--mr"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
 
@@ -400,12 +380,8 @@ impl PropDef for Mb {
         Some(&["--mb"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
 
@@ -459,11 +435,7 @@ impl PropDef for Ml {
         Some(&["--ml"])
     }
 
-    fn string_value(&self) -> Option<StringValue> {
-        self.0.as_ref().and_then(|value| value.string_value())
-    }
-
-    fn responsive_values(&self) -> Option<ResponsiveValues<StringValue>> {
-        self.0.as_ref().and_then(|value| value.responsive_values())
+    fn value(&self) -> Option<PropValue> {
+        self.0.as_ref().and_then(|value| value.value())
     }
 }
