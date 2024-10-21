@@ -6,7 +6,7 @@ Displays content within a desired ratio.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["aspect-ratio"]
 files = ["src/aspect_ratio.rs"]
 ```

@@ -42,12 +42,30 @@ pub struct SwitchProps {
     pub ml: Ml,
 
     #[prop_or_default]
-    pub class: Option<String>,
+    pub name: Option<String>,
     #[prop_or_default]
-    pub style: Option<HashMap<String, String>>,
+    pub checked: Option<bool>,
+    #[prop_or_default]
+    pub default_checked: Option<bool>,
+    #[prop_or_default]
+    pub on_checked_change: Callback<bool>,
+    #[prop_or(false)]
+    pub required: bool,
+    #[prop_or(false)]
+    pub disabled: bool,
+    #[prop_or("on".to_string())]
+    pub value: String,
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub style: Option<HashMap<String, String>>,
 }
 
 #[function_component]
@@ -56,7 +74,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
     // TODO: data-*
     // TODO: other props
 
-    let (class, _style) = extract_props(
+    let (class, style) = extract_props(
         &[
             &props.size,
             &props.variant,
@@ -77,9 +95,19 @@ pub fn Switch(props: &SwitchProps) -> Html {
     );
 
     html! {
+        // TODO: data-accent-color, data-radius
         <SwitchPrimitive
             node_ref={props.node_ref.clone()}
             class={merge_classes(&[&"rt-reset", &"rt-SwitchRoot", &class])}
+            style={style.into_iter().map(|(key, value)| format!("{key}: {value};")).collect::<Vec<_>>().join(" ")}
+            name={props.name.clone()}
+            checked={props.checked}
+            default_checked={props.default_checked}
+            on_checked_change={props.on_checked_change.clone()}
+            required={props.required}
+            disabled={props.disabled}
+            value={props.value.clone()}
+            on_click={props.on_click.clone()}
         >
             <SwitchThumbPrimitive class={merge_classes(&[&"rt-SwitchThumb", &("rt-high-contrast", &props.high_contrast)])} />
         </SwitchPrimitive>

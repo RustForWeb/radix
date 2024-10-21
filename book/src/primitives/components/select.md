@@ -12,7 +12,7 @@ Displays a list of options for the user to pick from - triggered by a button.
 {{#tab name="Yew" }}
 
 ```toml,trunk
-package = "radix-yew-book"
+package = "radix-yew-book-primitives"
 features = ["select"]
 files = ["src/select.rs"]
 ```

@@ -1,6 +1,6 @@
 [package]
-name = "radix-yew-book"
-description = "Book examples for Radix Yew."
+name = "radix-yew-book-primitives"
+description = "Book examples for Radix Primitives Yew."
 publish = false
 
 authors.workspace = true
@@ -13,11 +13,11 @@ version.workspace = true
 console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
-radix-yew-icons = { path = "../../packages/icons/yew", optional = true }
-radix-yew-label = { path = "../../packages/primitives/yew/label", optional = true }
-radix-yew-select = { path = "../../packages/primitives/yew/select", optional = true }
-radix-yew-separator = { path = "../../packages/primitives/yew/separator", optional = true }
-radix-yew-switch = { path = "../../packages/primitives/yew/switch", optional = true }
+radix-yew-icons = { path = "../../../packages/icons/yew", optional = true }
+radix-yew-label = { path = "../../../packages/primitives/yew/label", optional = true }
+radix-yew-select = { path = "../../../packages/primitives/yew/select", optional = true }
+radix-yew-separator = { path = "../../../packages/primitives/yew/separator", optional = true }
+radix-yew-switch = { path = "../../../packages/primitives/yew/switch", optional = true }
 yew = { workspace = true, features = ["csr"] }
 
 [features]

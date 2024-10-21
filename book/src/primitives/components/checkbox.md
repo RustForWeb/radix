@@ -6,7 +6,7 @@ A control that allows the user to toggle between checked and not checked.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["checkbox"]
 files = ["src/checkbox.rs"]
 ```

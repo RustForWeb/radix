@@ -6,7 +6,7 @@ A two-state button that can be either on or off.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["toggle"]
 files = ["src/toggle.rs"]
 ```

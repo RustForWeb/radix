@@ -6,7 +6,7 @@ An image element with a fallback for representing the user.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["avatar"]
 files = ["src/avatar.rs"]
 ```

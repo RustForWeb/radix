@@ -6,7 +6,7 @@ A crisp set of 15×15 icons. All icons are available as individual components.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["icons"]
 files = ["src/icons.rs"]
 ```
@@ -16,7 +16,7 @@ files = ["src/icons.rs"]
 
 <!-- TODO: does compile: too many locals -->
 <!-- ```toml,trunk
-package = "radix-yew-book"
+package = "radix-yew-book-primitives"
 features = ["icons"]
 files = ["src/icons.rs"]
 ``` -->

@@ -6,7 +6,7 @@ Displays an indicator showing the completion progress of a task, typically displ
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["progress"]
 files = ["src/progress.rs"]
 ```

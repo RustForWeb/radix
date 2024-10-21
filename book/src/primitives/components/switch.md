@@ -6,7 +6,7 @@ A control that allows the user to toggle between checked and not checked.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["switch"]
 files = ["src/switch.rs"]
 ```
@@ -15,7 +15,7 @@ files = ["src/switch.rs"]
 {{#tab name="Yew" }}
 
 ```toml,trunk
-package = "radix-yew-book"
+package = "radix-yew-book-primitives"
 features = ["switch"]
 files = ["src/switch.rs"]
 ```

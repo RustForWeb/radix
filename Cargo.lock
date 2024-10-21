@@ -2691,7 +2691,7 @@ name = "radix-colors"
 version = "0.0.2"
 
 [[package]]
-name = "radix-dioxus-book"
+name = "radix-dioxus-book-primitives"
 version = "0.0.2"
 dependencies = [
  "console_error_panic_hook",
@@ -2763,7 +2763,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "radix-leptos-book"
+name = "radix-leptos-book-primitives"
 version = "0.0.2"
 dependencies = [
  "console_error_panic_hook",
@@ -3096,7 +3096,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "radix-yew-book"
+name = "radix-yew-book-primitives"
 version = "0.0.2"
 dependencies = [
  "console_error_panic_hook",
@@ -3107,6 +3107,17 @@ dependencies = [
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",
+ "yew",
+]
+
+[[package]]
+name = "radix-yew-book-themes"
+version = "0.0.2"
+dependencies = [
+ "console_error_panic_hook",
+ "console_log",
+ "log",
+ "radix-yew-themes",
  "yew",
 ]
 

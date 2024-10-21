@@ -1,6 +1,6 @@
 [package]
-name = "radix-leptos-book"
-description = "Book examples for Radix Leptos."
+name = "radix-leptos-book-primitives"
+description = "Book examples for Radix Primitives Leptos."
 publish = false
 
 authors.workspace = true
@@ -14,15 +14,15 @@ console_error_panic_hook.workspace = true
 console_log.workspace = true
 leptos = { workspace = true, features = ["csr"] }
 log.workspace = true
-radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio", optional = true }
-radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar", optional = true }
-radix-leptos-checkbox = { path = "../../packages/primitives/leptos/checkbox", optional = true }
-radix-leptos-icons = { path = "../../packages/icons/leptos", optional = true }
-radix-leptos-label = { path = "../../packages/primitives/leptos/label", optional = true }
-radix-leptos-progress = { path = "../../packages/primitives/leptos/progress", optional = true }
-radix-leptos-separator = { path = "../../packages/primitives/leptos/separator", optional = true }
-radix-leptos-switch = { path = "../../packages/primitives/leptos/switch", optional = true }
-radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle", optional = true }
+radix-leptos-aspect-ratio = { path = "../../../packages/primitives/leptos/aspect-ratio", optional = true }
+radix-leptos-avatar = { path = "../../../packages/primitives/leptos/avatar", optional = true }
+radix-leptos-checkbox = { path = "../../../packages/primitives/leptos/checkbox", optional = true }
+radix-leptos-icons = { path = "../../../packages/icons/leptos", optional = true }
+radix-leptos-label = { path = "../../../packages/primitives/leptos/label", optional = true }
+radix-leptos-progress = { path = "../../../packages/primitives/leptos/progress", optional = true }
+radix-leptos-separator = { path = "../../../packages/primitives/leptos/separator", optional = true }
+radix-leptos-switch = { path = "../../../packages/primitives/leptos/switch", optional = true }
+radix-leptos-toggle = { path = "../../../packages/primitives/leptos/toggle", optional = true }
 
 [features]
 default = [

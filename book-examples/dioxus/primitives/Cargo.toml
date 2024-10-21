@@ -1,6 +1,6 @@
 [package]
-name = "radix-dioxus-book"
-description = "Book examples for Radix Dioxus."
+name = "radix-dioxus-book-primitives"
+description = "Book examples for Radix Primitives Dioxus."
 publish = false
 
 authors.workspace = true

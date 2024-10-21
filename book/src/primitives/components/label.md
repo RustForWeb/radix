@@ -6,7 +6,7 @@ Renders an accessible label associated with controls.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["label"]
 files = ["src/label.rs"]
 ```
@@ -15,7 +15,7 @@ files = ["src/label.rs"]
 {{#tab name="Yew" }}
 
 ```toml,trunk
-package = "radix-yew-book"
+package = "radix-yew-book-primitives"
 features = ["label"]
 files = ["src/label.rs"]
 ```

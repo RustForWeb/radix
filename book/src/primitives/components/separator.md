@@ -6,7 +6,7 @@ Visually or semantically separates content.
 {{#tab name="Leptos" }}
 
 ```toml,trunk
-package = "radix-leptos-book"
+package = "radix-leptos-book-primitives"
 features = ["separator"]
 files = ["src/separator.rs"]
 ```
@@ -15,7 +15,7 @@ files = ["src/separator.rs"]
 {{#tab name="Yew" }}
 
 ```toml,trunk
-package = "radix-yew-book"
+package = "radix-yew-book-primitives"
 features = ["separator"]
 files = ["src/separator.rs"]
 ```

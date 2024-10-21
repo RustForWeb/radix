@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "book-examples/*",
+    "book-examples/*/*",
     "packages/colors",
     "packages/icons/*",
     "packages/primitives/*/*",
