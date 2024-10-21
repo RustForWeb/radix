@@ -1,5 +1,7 @@
 use std::fmt::{self, Display};
 
+use yew::html::IntoPropValue;
+
 use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
@@ -28,7 +30,16 @@ impl Display for Radius {
     }
 }
 
-impl PropDef for Option<Radius> {
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct RadiusProp(pub Option<Radius>);
+
+impl IntoPropValue<RadiusProp> for Radius {
+    fn into_prop_value(self) -> RadiusProp {
+        RadiusProp(Some(self))
+    }
+}
+
+impl PropDef for RadiusProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::Enum
     }
@@ -46,6 +57,7 @@ impl PropDef for Option<Radius> {
     }
 
     fn value(&self) -> Option<PropValue> {
-        self.map(|value| PropValue::String(StringValue::Defined(value.to_string())))
+        self.0
+            .map(|value| PropValue::String(StringValue::Defined(value.to_string())))
     }
 }

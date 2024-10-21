@@ -48,6 +48,7 @@ pub struct ThemeProps {
     pub radius: Option<Radius>,
     #[prop_or_default]
     pub scaling: Option<Scaling>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -56,6 +57,8 @@ pub struct ThemeProps {
     pub class: Option<String>,
     #[prop_or_default]
     pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
@@ -82,6 +85,7 @@ pub fn Theme(props: &ThemeProps) -> Html {
                     id={props.id.clone()}
                     class={props.class.clone()}
                     style={props.style.clone()}
+                    as_child={props.as_child.clone()}
                 >
                     {props.children.clone()}
                 </ThemeRoot>
@@ -100,6 +104,7 @@ pub fn Theme(props: &ThemeProps) -> Html {
                 id={props.id.clone()}
                 class={props.class.clone()}
                 style={props.style.clone()}
+                as_child={props.as_child.clone()}
             >
                 {props.children.clone()}
             </ThemeImpl>
@@ -123,6 +128,7 @@ pub struct ThemeRootProps {
     pub radius: Option<Radius>,
     #[prop_or_default]
     pub scaling: Option<Scaling>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -131,6 +137,8 @@ pub struct ThemeRootProps {
     pub class: Option<String>,
     #[prop_or_default]
     pub style: Option<String>,
+    #[prop_or_default]
+    pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
@@ -210,6 +218,7 @@ pub fn ThemeRoot(props: &ThemeRootProps) -> Html {
             id={props.id.clone()}
             class={props.class.clone()}
             style={props.style.clone()}
+            as_child={props.as_child.clone()}
         >
             {props.children.clone()}
         </ThemeImpl>
@@ -246,6 +255,7 @@ pub struct ThemeImplProps {
     pub on_radius_change: Callback<Radius>,
     #[prop_or_default]
     pub on_scaling_change: Callback<Scaling>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -255,7 +265,46 @@ pub struct ThemeImplProps {
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
+    pub as_child: Option<Callback<ThemeChildProps, Html>>,
+    #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, PartialEq)]
+pub struct ThemeChildProps {
+    pub node_ref: NodeRef,
+    pub id: Option<String>,
+    pub class: String,
+    pub style: Option<String>,
+    pub data_is_root_theme: String,
+    pub data_accent_color: String,
+    pub data_gray_color: String,
+    pub data_has_background: String,
+    pub data_panel_background: String,
+    pub data_radius: String,
+    pub data_scaling: String,
+}
+
+impl ThemeChildProps {
+    pub fn render(self, children: Html) -> Html {
+        html! {
+            <div
+                ref={self.node_ref}
+                id={self.id}
+                class={self.class}
+                style={self.style}
+                data-is-root-theme={self.data_is_root_theme}
+                data-accent-color={self.data_accent_color}
+                data-gray-color={self.data_gray_color}
+                data-has-background={self.data_has_background}
+                data-panel-background={self.data_panel_background}
+                data-radius={self.data_radius}
+                data-scaling={self.data_scaling}
+            >
+                {children}
+            </div>
+        }
+    }
 }
 
 #[function_component]
@@ -363,29 +412,44 @@ pub fn ThemeImpl(props: &ThemeImplProps) -> Html {
         },
     );
 
+    let child_props = ThemeChildProps {
+        node_ref: props.node_ref.clone(),
+        id: props.id.clone(),
+        class: merge_classes(&[
+            &"radix-themes",
+            &match appearance {
+                Appearance::Inherit => None,
+                Appearance::Light => Some("light"),
+                Appearance::Dark => Some("dark"),
+            },
+            &props.class,
+        ]),
+        style: props.style.clone(),
+        data_is_root_theme: if is_root {
+            "true".into()
+        } else {
+            "false".into()
+        },
+        data_accent_color: accent_color.to_string(),
+        data_gray_color: resolved_gray_color.to_string(),
+        // For nested `Theme` background.
+        data_has_background: if has_background {
+            "true".into()
+        } else {
+            "false".into()
+        },
+        data_panel_background: panel_background.to_string(),
+        data_radius: radius.to_string(),
+        data_scaling: scaling.to_string(),
+    };
+
     html! {
         <ContextProvider<ThemeContextValue> context={(*context_value).clone()}>
-            // TODO: as child?
-            <div
-                ref={props.node_ref.clone()}
-                data-is-root-theme={if is_root { "true" } else { "false "}}
-                data-accent-color={accent_color.to_string()}
-                data-gray-color={resolved_gray_color.to_string()}
-                // For nested `Theme` background.
-                data-has-background={if has_background { "true" } else { "false" }}
-                data-panel-background={panel_background.to_string()}
-                data-radius={radius.to_string()}
-                data-scaling={scaling.to_string()}
-                id={props.id.clone()}
-                class={merge_classes(&[&"radix-themes", &match appearance {
-                    Appearance::Inherit => None,
-                    Appearance::Light => Some("light"),
-                    Appearance::Dark => Some("dark"),
-                }, &props.class])}
-                style={props.style.clone()}
-            >
-                {props.children.clone()}
-            </div>
+            if let Some(as_child) = props.as_child.as_ref() {
+                {as_child.emit(child_props)}
+            } else {
+                {child_props.render(props.children.clone())}
+            }
         </ContextProvider<ThemeContextValue>>
     }
 }

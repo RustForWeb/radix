@@ -130,7 +130,7 @@ The tables below show the support for the various frameworks.
 | Dialog            | ❌     | ❌     | ❌  |
 | Dropdown Menu     | ❌     | ❌     | ❌  |
 | Em                | ❌     | ❌     | ❌  |
-| Flex              | ❌     | ❌     | ❌  |
+| Flex              | ❌     | ❌     | 🟦  |
 | Grid              | ❌     | ❌     | ❌  |
 | Heading           | ❌     | ❌     | ❌  |
 | Hover Card        | ❌     | ❌     | ❌  |
@@ -165,7 +165,7 @@ The tables below show the support for the various frameworks.
 | Text Field        | ❌     | ❌     | ❌  |
 | Text              | ❌     | ❌     | ❌  |
 | Theme Panel       | ❌     | ❌     | ❌  |
-| Theme             | ❌     | ❌     | ❌  |
+| Theme             | ❌     | ❌     | 🟦  |
 | Tooltip           | ❌     | ❌     | ❌  |
 | Visually Hidden   | ❌     | ❌     | ❌  |
 

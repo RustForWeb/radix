@@ -2,7 +2,9 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, PropValue, Responsive, StringValue};
+use crate::props::prop_def::{
+    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
+};
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Margin {
@@ -56,39 +58,39 @@ impl From<Margin> for StringValue {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct M(pub Option<Responsive<Margin>>);
+pub struct MProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<M> for Margin {
-    fn into_prop_value(self) -> M {
-        M(Some(Responsive::Value(self)))
+impl IntoPropValue<MProp> for Margin {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<M> for i8 {
-    fn into_prop_value(self) -> M {
-        M(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MProp> for i8 {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<M> for &str {
-    fn into_prop_value(self) -> M {
-        M(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MProp> for &str {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<M> for String {
-    fn into_prop_value(self) -> M {
-        M(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MProp> for String {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<M> for Responsive<Margin> {
-    fn into_prop_value(self) -> M {
-        M(Some(self))
+impl IntoPropValue<MProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for M {
+impl PropDef for MProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -111,39 +113,39 @@ impl PropDef for M {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Mx(pub Option<Responsive<Margin>>);
+pub struct MxProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<Mx> for Margin {
-    fn into_prop_value(self) -> Mx {
-        Mx(Some(Responsive::Value(self)))
+impl IntoPropValue<MxProp> for Margin {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Mx> for i8 {
-    fn into_prop_value(self) -> Mx {
-        Mx(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MxProp> for i8 {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Mx> for &str {
-    fn into_prop_value(self) -> Mx {
-        Mx(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MxProp> for &str {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mx> for String {
-    fn into_prop_value(self) -> Mx {
-        Mx(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MxProp> for String {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mx> for Responsive<Margin> {
-    fn into_prop_value(self) -> Mx {
-        Mx(Some(self))
+impl IntoPropValue<MxProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Mx {
+impl PropDef for MxProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -166,39 +168,39 @@ impl PropDef for Mx {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct My(pub Option<Responsive<Margin>>);
+pub struct MyProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<My> for Margin {
-    fn into_prop_value(self) -> My {
-        My(Some(Responsive::Value(self)))
+impl IntoPropValue<MyProp> for Margin {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<My> for i8 {
-    fn into_prop_value(self) -> My {
-        My(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MyProp> for i8 {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<My> for &str {
-    fn into_prop_value(self) -> My {
-        My(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MyProp> for &str {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<My> for String {
-    fn into_prop_value(self) -> My {
-        My(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MyProp> for String {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<My> for Responsive<Margin> {
-    fn into_prop_value(self) -> My {
-        My(Some(self))
+impl IntoPropValue<MyProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for My {
+impl PropDef for MyProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -221,39 +223,39 @@ impl PropDef for My {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Mt(pub Option<Responsive<Margin>>);
+pub struct MtProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<Mt> for Margin {
-    fn into_prop_value(self) -> Mt {
-        Mt(Some(Responsive::Value(self)))
+impl IntoPropValue<MtProp> for Margin {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Mt> for i8 {
-    fn into_prop_value(self) -> Mt {
-        Mt(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MtProp> for i8 {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Mt> for &str {
-    fn into_prop_value(self) -> Mt {
-        Mt(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MtProp> for &str {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mt> for String {
-    fn into_prop_value(self) -> Mt {
-        Mt(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MtProp> for String {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mt> for Responsive<Margin> {
-    fn into_prop_value(self) -> Mt {
-        Mt(Some(self))
+impl IntoPropValue<MtProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Mt {
+impl PropDef for MtProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -276,39 +278,39 @@ impl PropDef for Mt {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Mr(pub Option<Responsive<Margin>>);
+pub struct MrProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<Mr> for Margin {
-    fn into_prop_value(self) -> Mr {
-        Mr(Some(Responsive::Value(self)))
+impl IntoPropValue<MrProp> for Margin {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Mr> for i8 {
-    fn into_prop_value(self) -> Mr {
-        Mr(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MrProp> for i8 {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Mr> for &str {
-    fn into_prop_value(self) -> Mr {
-        Mr(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MrProp> for &str {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mr> for String {
-    fn into_prop_value(self) -> Mr {
-        Mr(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MrProp> for String {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mr> for Responsive<Margin> {
-    fn into_prop_value(self) -> Mr {
-        Mr(Some(self))
+impl IntoPropValue<MrProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Mr {
+impl PropDef for MrProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -331,39 +333,39 @@ impl PropDef for Mr {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Mb(pub Option<Responsive<Margin>>);
+pub struct MbProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<Mb> for Margin {
-    fn into_prop_value(self) -> Mb {
-        Mb(Some(Responsive::Value(self)))
+impl IntoPropValue<MbProp> for Margin {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Mb> for i8 {
-    fn into_prop_value(self) -> Mb {
-        Mb(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MbProp> for i8 {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Mb> for &str {
-    fn into_prop_value(self) -> Mb {
-        Mb(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MbProp> for &str {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mb> for String {
-    fn into_prop_value(self) -> Mb {
-        Mb(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MbProp> for String {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Mb> for Responsive<Margin> {
-    fn into_prop_value(self) -> Mb {
-        Mb(Some(self))
+impl IntoPropValue<MbProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Mb {
+impl PropDef for MbProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -386,39 +388,39 @@ impl PropDef for Mb {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Ml(pub Option<Responsive<Margin>>);
+pub struct MlProp(pub Option<Responsive<Margin>>);
 
-impl IntoPropValue<Ml> for Margin {
-    fn into_prop_value(self) -> Ml {
-        Ml(Some(Responsive::Value(self)))
+impl IntoPropValue<MlProp> for Margin {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Ml> for i8 {
-    fn into_prop_value(self) -> Ml {
-        Ml(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<MlProp> for i8 {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Ml> for &str {
-    fn into_prop_value(self) -> Ml {
-        Ml(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MlProp> for &str {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Ml> for String {
-    fn into_prop_value(self) -> Ml {
-        Ml(Some(Responsive::Value(self.into())))
+impl IntoPropValue<MlProp> for String {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Ml> for Responsive<Margin> {
-    fn into_prop_value(self) -> Ml {
-        Ml(Some(self))
+impl IntoPropValue<MlProp> for ResponsiveValues<Margin> {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Ml {
+impl PropDef for MlProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }

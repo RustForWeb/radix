@@ -72,28 +72,6 @@ impl Display for AccentColor {
     }
 }
 
-impl PropDef for AccentColor {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        None
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.to_string())))
-    }
-}
-
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum GrayColor {
     #[default]
@@ -125,9 +103,15 @@ impl Display for GrayColor {
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct Color(pub Option<AccentColor>);
+pub struct ColorProp(pub Option<AccentColor>);
 
-impl PropDef for Color {
+impl IntoPropValue<ColorProp> for AccentColor {
+    fn into_prop_value(self) -> ColorProp {
+        ColorProp(Some(self))
+    }
+}
+
+impl PropDef for ColorProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::Enum
     }
@@ -147,11 +131,5 @@ impl PropDef for Color {
     fn value(&self) -> Option<PropValue> {
         self.0
             .map(|value| PropValue::String(StringValue::Defined(value.to_string())))
-    }
-}
-
-impl IntoPropValue<Color> for AccentColor {
-    fn into_prop_value(self) -> Color {
-        Color(Some(self))
     }
 }

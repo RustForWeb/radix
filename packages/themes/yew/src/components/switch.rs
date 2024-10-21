@@ -4,42 +4,42 @@ use radix_yew_switch::{Switch as SwitchPrimitive, SwitchThumb as SwitchThumbPrim
 use yew::prelude::*;
 
 use crate::{
-    components::switch_props::{SwitchSize, SwitchVariant},
+    components::switch_props::{SwitchSizeProp, SwitchVariantProp},
     helpers::{extract_props::extract_props, merge_classes::merge_classes},
     props::{
-        color_prop::Color,
-        high_contrast_prop::HighContrast,
-        margin_props::{Mb, Ml, Mr, Mt, Mx, My, M},
-        radius_prop::Radius,
+        color_prop::ColorProp,
+        high_contrast_prop::HighContrastProp,
+        margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
+        radius_prop::RadiusProp,
     },
 };
 
 #[derive(PartialEq, Properties)]
 pub struct SwitchProps {
     #[prop_or_default]
-    pub size: SwitchSize,
+    pub size: SwitchSizeProp,
     #[prop_or_default]
-    pub variant: SwitchVariant,
+    pub variant: SwitchVariantProp,
     #[prop_or_default]
-    pub color: Color,
+    pub color: ColorProp,
     #[prop_or_default]
-    pub high_contrast: HighContrast,
+    pub high_contrast: HighContrastProp,
     #[prop_or_default]
-    pub radius: Option<Radius>,
+    pub radius: RadiusProp,
     #[prop_or_default]
-    pub m: M,
+    pub m: MProp,
     #[prop_or_default]
-    pub mx: Mx,
+    pub mx: MxProp,
     #[prop_or_default]
-    pub mr: Mr,
+    pub my: MyProp,
     #[prop_or_default]
-    pub mt: Mt,
+    pub mr: MrProp,
     #[prop_or_default]
-    pub my: My,
+    pub mt: MtProp,
     #[prop_or_default]
-    pub mb: Mb,
+    pub mb: MbProp,
     #[prop_or_default]
-    pub ml: Ml,
+    pub ml: MlProp,
 
     #[prop_or_default]
     pub name: Option<String>,
@@ -70,10 +70,6 @@ pub struct SwitchProps {
 
 #[function_component]
 pub fn Switch(props: &SwitchProps) -> Html {
-    // TODO: classNames(...)
-    // TODO: data-*
-    // TODO: other props
-
     let (class, style) = extract_props(
         &[
             &props.size,
@@ -99,6 +95,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
         <SwitchPrimitive
             node_ref={props.node_ref.clone()}
             class={merge_classes(&[&"rt-reset", &"rt-SwitchRoot", &class])}
+            // TODO: abstract into Style class
             style={style.into_iter().map(|(key, value)| format!("{key}: {value};")).collect::<Vec<_>>().join(" ")}
             name={props.name.clone()}
             checked={props.checked}

@@ -1,5 +1,7 @@
 use std::fmt::{self, Display};
 
+use yew::html::IntoPropValue;
+
 use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
@@ -24,7 +26,16 @@ impl Display for SwitchSize {
     }
 }
 
-impl PropDef for SwitchSize {
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct SwitchSizeProp(pub SwitchSize);
+
+impl IntoPropValue<SwitchSizeProp> for SwitchSize {
+    fn into_prop_value(self) -> SwitchSizeProp {
+        SwitchSizeProp(self)
+    }
+}
+
+impl PropDef for SwitchSizeProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::Enum
     }
@@ -42,7 +53,7 @@ impl PropDef for SwitchSize {
     }
 
     fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.to_string())))
+        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
     }
 }
 
@@ -68,7 +79,16 @@ impl Display for SwitchVariant {
     }
 }
 
-impl PropDef for SwitchVariant {
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct SwitchVariantProp(pub SwitchVariant);
+
+impl IntoPropValue<SwitchVariantProp> for SwitchVariant {
+    fn into_prop_value(self) -> SwitchVariantProp {
+        SwitchVariantProp(self)
+    }
+}
+
+impl PropDef for SwitchVariantProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::Enum
     }
@@ -86,6 +106,6 @@ impl PropDef for SwitchVariant {
     }
 
     fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.to_string())))
+        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
     }
 }

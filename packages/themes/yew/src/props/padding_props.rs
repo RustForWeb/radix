@@ -2,7 +2,9 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, PropValue, Responsive, StringValue};
+use crate::props::prop_def::{
+    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
+};
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Padding {
@@ -56,39 +58,39 @@ impl From<Padding> for StringValue {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct P(pub Option<Responsive<Padding>>);
+pub struct PProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<P> for Padding {
-    fn into_prop_value(self) -> P {
-        P(Some(Responsive::Value(self)))
+impl IntoPropValue<PProp> for Padding {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<P> for i8 {
-    fn into_prop_value(self) -> P {
-        P(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PProp> for i8 {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<P> for &str {
-    fn into_prop_value(self) -> P {
-        P(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PProp> for &str {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<P> for String {
-    fn into_prop_value(self) -> P {
-        P(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PProp> for String {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<P> for Responsive<Padding> {
-    fn into_prop_value(self) -> P {
-        P(Some(self))
+impl IntoPropValue<PProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for P {
+impl PropDef for PProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -111,39 +113,39 @@ impl PropDef for P {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Px(pub Option<Responsive<Padding>>);
+pub struct PxProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<Px> for Padding {
-    fn into_prop_value(self) -> Px {
-        Px(Some(Responsive::Value(self)))
+impl IntoPropValue<PxProp> for Padding {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Px> for i8 {
-    fn into_prop_value(self) -> Px {
-        Px(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PxProp> for i8 {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Px> for &str {
-    fn into_prop_value(self) -> Px {
-        Px(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PxProp> for &str {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Px> for String {
-    fn into_prop_value(self) -> Px {
-        Px(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PxProp> for String {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Px> for Responsive<Padding> {
-    fn into_prop_value(self) -> Px {
-        Px(Some(self))
+impl IntoPropValue<PxProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Px {
+impl PropDef for PxProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -166,39 +168,39 @@ impl PropDef for Px {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Py(pub Option<Responsive<Padding>>);
+pub struct PyProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<Py> for Padding {
-    fn into_prop_value(self) -> Py {
-        Py(Some(Responsive::Value(self)))
+impl IntoPropValue<PyProp> for Padding {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Py> for i8 {
-    fn into_prop_value(self) -> Py {
-        Py(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PyProp> for i8 {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Py> for &str {
-    fn into_prop_value(self) -> Py {
-        Py(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PyProp> for &str {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Py> for String {
-    fn into_prop_value(self) -> Py {
-        Py(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PyProp> for String {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Py> for Responsive<Padding> {
-    fn into_prop_value(self) -> Py {
-        Py(Some(self))
+impl IntoPropValue<PyProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Py {
+impl PropDef for PyProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -221,39 +223,39 @@ impl PropDef for Py {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Pt(pub Option<Responsive<Padding>>);
+pub struct PtProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<Pt> for Padding {
-    fn into_prop_value(self) -> Pt {
-        Pt(Some(Responsive::Value(self)))
+impl IntoPropValue<PtProp> for Padding {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Pt> for i8 {
-    fn into_prop_value(self) -> Pt {
-        Pt(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PtProp> for i8 {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Pt> for &str {
-    fn into_prop_value(self) -> Pt {
-        Pt(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PtProp> for &str {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pt> for String {
-    fn into_prop_value(self) -> Pt {
-        Pt(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PtProp> for String {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pt> for Responsive<Padding> {
-    fn into_prop_value(self) -> Pt {
-        Pt(Some(self))
+impl IntoPropValue<PtProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Pt {
+impl PropDef for PtProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -276,39 +278,39 @@ impl PropDef for Pt {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Pr(pub Option<Responsive<Padding>>);
+pub struct PrProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<Pr> for Padding {
-    fn into_prop_value(self) -> Pr {
-        Pr(Some(Responsive::Value(self)))
+impl IntoPropValue<PrProp> for Padding {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Pr> for i8 {
-    fn into_prop_value(self) -> Pr {
-        Pr(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PrProp> for i8 {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Pr> for &str {
-    fn into_prop_value(self) -> Pr {
-        Pr(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PrProp> for &str {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pr> for String {
-    fn into_prop_value(self) -> Pr {
-        Pr(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PrProp> for String {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pr> for Responsive<Padding> {
-    fn into_prop_value(self) -> Pr {
-        Pr(Some(self))
+impl IntoPropValue<PrProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Pr {
+impl PropDef for PrProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -331,39 +333,39 @@ impl PropDef for Pr {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Pb(pub Option<Responsive<Padding>>);
+pub struct PbProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<Pb> for Padding {
-    fn into_prop_value(self) -> Pb {
-        Pb(Some(Responsive::Value(self)))
+impl IntoPropValue<PbProp> for Padding {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Pb> for i8 {
-    fn into_prop_value(self) -> Pb {
-        Pb(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PbProp> for i8 {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Pb> for &str {
-    fn into_prop_value(self) -> Pb {
-        Pb(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PbProp> for &str {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pb> for String {
-    fn into_prop_value(self) -> Pb {
-        Pb(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PbProp> for String {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pb> for Responsive<Padding> {
-    fn into_prop_value(self) -> Pb {
-        Pb(Some(self))
+impl IntoPropValue<PbProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Pb {
+impl PropDef for PbProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
@@ -386,39 +388,39 @@ impl PropDef for Pb {
 }
 
 #[derive(Clone, Debug, Default, PartialEq)]
-pub struct Pl(pub Option<Responsive<Padding>>);
+pub struct PlProp(pub Option<Responsive<Padding>>);
 
-impl IntoPropValue<Pl> for Padding {
-    fn into_prop_value(self) -> Pl {
-        Pl(Some(Responsive::Value(self)))
+impl IntoPropValue<PlProp> for Padding {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<Pl> for i8 {
-    fn into_prop_value(self) -> Pl {
-        Pl(Some(Responsive::Value(self.try_into().unwrap())))
+impl IntoPropValue<PlProp> for i8 {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
 }
 
-impl IntoPropValue<Pl> for &str {
-    fn into_prop_value(self) -> Pl {
-        Pl(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PlProp> for &str {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pl> for String {
-    fn into_prop_value(self) -> Pl {
-        Pl(Some(Responsive::Value(self.into())))
+impl IntoPropValue<PlProp> for String {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Value(self.into())))
     }
 }
 
-impl IntoPropValue<Pl> for Responsive<Padding> {
-    fn into_prop_value(self) -> Pl {
-        Pl(Some(self))
+impl IntoPropValue<PlProp> for ResponsiveValues<Padding> {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for Pl {
+impl PropDef for PlProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
     }
