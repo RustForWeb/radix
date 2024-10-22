@@ -148,7 +148,7 @@ The tables below show the support for the various frameworks.
 | Radio             | ❌     | ❌     | ❌  |
 | Reset             | ❌     | ❌     | ❌  |
 | Scroll Area       | ❌     | ❌     | ❌  |
-| Section           | ❌     | ❌     | ❌  |
+| Section           | ❌     | ❌     | 🟦  |
 | Segmented Control | ❌     | ❌     | ❌  |
 | Select            | ❌     | ❌     | ❌  |
 | Separator         | ❌     | ❌     | ❌  |
