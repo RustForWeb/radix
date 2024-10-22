@@ -26,8 +26,30 @@ impl Display for SwitchSize {
     }
 }
 
+impl TryFrom<u8> for SwitchSize {
+    type Error = String;
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        match value {
+            1 => Ok(SwitchSize::S1),
+            2 => Ok(SwitchSize::S2),
+            3 => Ok(SwitchSize::S3),
+            value => Err(format!(
+                "Switch size must be between 0 and 3, but is {}.",
+                value
+            )),
+        }
+    }
+}
+
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SwitchSizeProp(pub SwitchSize);
+
+impl IntoPropValue<SwitchSizeProp> for u8 {
+    fn into_prop_value(self) -> SwitchSizeProp {
+        SwitchSizeProp(self.try_into().unwrap())
+    }
+}
 
 impl IntoPropValue<SwitchSizeProp> for SwitchSize {
     fn into_prop_value(self) -> SwitchSizeProp {

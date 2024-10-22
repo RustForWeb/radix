@@ -587,7 +587,7 @@ impl PropDef for FlexBasisProp {
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum FlexShrink {
-    Defined(i8),
+    Defined(u8),
     Arbitrary(String),
 }
 
@@ -600,10 +600,10 @@ impl Display for FlexShrink {
     }
 }
 
-impl TryFrom<i8> for FlexShrink {
+impl TryFrom<u8> for FlexShrink {
     type Error = String;
 
-    fn try_from(value: i8) -> Result<Self, Self::Error> {
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(0..=1).contains(&value) {
             Err(format!("Flex shrink must be 0 or 1, but is {}.", value))
         } else {
@@ -642,7 +642,7 @@ impl IntoPropValue<FlexShrinkProp> for FlexShrink {
     }
 }
 
-impl IntoPropValue<FlexShrinkProp> for i8 {
+impl IntoPropValue<FlexShrinkProp> for u8 {
     fn into_prop_value(self) -> FlexShrinkProp {
         FlexShrinkProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
@@ -690,7 +690,7 @@ impl PropDef for FlexShrinkProp {
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum FlexGrow {
-    Defined(i8),
+    Defined(u8),
     Arbitrary(String),
 }
 
@@ -703,10 +703,10 @@ impl Display for FlexGrow {
     }
 }
 
-impl TryFrom<i8> for FlexGrow {
+impl TryFrom<u8> for FlexGrow {
     type Error = String;
 
-    fn try_from(value: i8) -> Result<Self, Self::Error> {
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(0..=1).contains(&value) {
             Err(format!("Flex grow must be 0 or 1, but is {}.", value))
         } else {
@@ -745,7 +745,7 @@ impl IntoPropValue<FlexGrowProp> for FlexGrow {
     }
 }
 
-impl IntoPropValue<FlexGrowProp> for i8 {
+impl IntoPropValue<FlexGrowProp> for u8 {
     fn into_prop_value(self) -> FlexGrowProp {
         FlexGrowProp(Some(Responsive::Value(self.try_into().unwrap())))
     }

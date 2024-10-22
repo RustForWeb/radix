@@ -8,7 +8,7 @@ use crate::props::prop_def::{
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Gap {
-    Defined(i8),
+    Defined(u8),
     Arbitrary(String),
 }
 
@@ -21,10 +21,10 @@ impl Display for Gap {
     }
 }
 
-impl TryFrom<i8> for Gap {
+impl TryFrom<u8> for Gap {
     type Error = String;
 
-    fn try_from(value: i8) -> Result<Self, Self::Error> {
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(0..=9).contains(&value) {
             Err(format!("Gap must be between 0 and 9, but is {}.", value))
         } else {
@@ -63,7 +63,7 @@ impl IntoPropValue<GapProp> for Gap {
     }
 }
 
-impl IntoPropValue<GapProp> for i8 {
+impl IntoPropValue<GapProp> for u8 {
     fn into_prop_value(self) -> GapProp {
         GapProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
@@ -118,7 +118,7 @@ impl IntoPropValue<GapXProp> for Gap {
     }
 }
 
-impl IntoPropValue<GapXProp> for i8 {
+impl IntoPropValue<GapXProp> for u8 {
     fn into_prop_value(self) -> GapXProp {
         GapXProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
@@ -173,7 +173,7 @@ impl IntoPropValue<GapYProp> for Gap {
     }
 }
 
-impl IntoPropValue<GapYProp> for i8 {
+impl IntoPropValue<GapYProp> for u8 {
     fn into_prop_value(self) -> GapYProp {
         GapYProp(Some(Responsive::Value(self.try_into().unwrap())))
     }
