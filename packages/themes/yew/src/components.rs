@@ -1,5 +1,7 @@
 mod r#box;
 mod box_props;
+mod container;
+mod container_props;
 mod flex;
 mod flex_props;
 mod section;
@@ -10,6 +12,8 @@ mod theme;
 mod theme_props;
 
 pub use box_props::*;
+pub use container::*;
+pub use container_props::*;
 pub use flex::*;
 pub use flex_props::*;
 pub use r#box::*;

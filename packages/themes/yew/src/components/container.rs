@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use yew::prelude::*;
 
 use crate::{
-    components::section_props::{SectionDisplayProp, SectionSizeProp},
+    components::container_props::{ContainerAlignProp, ContainerDisplayProp, ContainerSizeProp},
     helpers::{extract_props::extract_props, merge_classes::merge_classes},
     props::{
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
@@ -20,11 +20,13 @@ use crate::{
 };
 
 #[derive(PartialEq, Properties)]
-pub struct SectionProps {
+pub struct ContainerProps {
     #[prop_or_default]
-    pub size: SectionSizeProp,
+    pub size: ContainerSizeProp,
     #[prop_or_default]
-    pub display: SectionDisplayProp,
+    pub display: ContainerDisplayProp,
+    #[prop_or_default]
+    pub align: ContainerAlignProp,
     #[prop_or_default]
     pub p: PProp,
     #[prop_or_default]
@@ -113,20 +115,22 @@ pub struct SectionProps {
     #[prop_or_default]
     pub style: Option<HashMap<String, String>>,
     #[prop_or_default]
-    pub as_child: Option<Callback<SectionChildProps, Html>>,
+    pub as_child: Option<Callback<ContainerChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
 #[derive(Clone, PartialEq)]
-pub struct SectionChildProps {
+pub struct ContainerChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
     pub class: String,
     pub style: String,
+    pub inner_class: String,
+    pub inner_style: String,
 }
 
-impl SectionChildProps {
+impl ContainerChildProps {
     pub fn render(self, children: Html) -> Html {
         html! {
             <div
@@ -135,18 +139,21 @@ impl SectionChildProps {
                 class={self.class}
                 style={self.style}
             >
-                {children}
+                <div class={self.inner_class} style={self.inner_style}>
+                    {children}
+                </div>
             </div>
         }
     }
 }
 
 #[function_component]
-pub fn Section(props: &SectionProps) -> Html {
+pub fn Container(props: &ContainerProps) -> Html {
     let (class, style) = extract_props(
         &[
             &props.size,
             &props.display,
+            &props.align,
             &props.p,
             &props.px,
             &props.py,
@@ -191,12 +198,32 @@ pub fn Section(props: &SectionProps) -> Html {
         props.style.clone(),
     );
 
-    let child_props = SectionChildProps {
+    let (inner_class, inner_style) = extract_props(
+        &[
+            &props.width,
+            &props.min_width,
+            &props.max_width,
+            &props.height,
+            &props.min_height,
+            &props.max_height,
+        ],
+        None,
+        None,
+    );
+
+    let child_props = ContainerChildProps {
         node_ref: props.node_ref.clone(),
         id: props.id.clone(),
-        class: merge_classes(&[&"rt-Section", &class]),
+        class: merge_classes(&[&"rt-Container", &class]),
         // TODO: abstract into Style class
         style: style
+            .into_iter()
+            .map(|(key, value)| format!("{key}: {value};"))
+            .collect::<Vec<_>>()
+            .join(" "),
+        inner_class: merge_classes(&[&"rt-ContainerInner", &inner_class]),
+        // TODO: abstract into Style class
+        inner_style: inner_style
             .into_iter()
             .map(|(key, value)| format!("{key}: {value};"))
             .collect::<Vec<_>>()

@@ -124,7 +124,7 @@ The tables below show the support for the various frameworks.
 | Checkbox Group    | ❌     | ❌     | ❌  |
 | Checkbox          | ❌     | ❌     | ❌  |
 | Code              | ❌     | ❌     | ❌  |
-| Container         | ❌     | ❌     | ❌  |
+| Container         | ❌     | ❌     | 🟦  |
 | Context Menu      | ❌     | ❌     | ❌  |
 | Data List         | ❌     | ❌     | ❌  |
 | Dialog            | ❌     | ❌     | ❌  |
