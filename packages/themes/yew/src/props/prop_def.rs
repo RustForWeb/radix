@@ -43,7 +43,7 @@ pub enum StringValue {
     Arbitrary(String),
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum Responsive<T> {
     Value(T),
     Values(ResponsiveValues<T>),
@@ -59,6 +59,20 @@ impl<T: Clone + Into<StringValue>> Responsive<T> {
                 values
                     .iter()
                     .map(|(key, value)| (*key, value.clone().into()))
+                    .collect(),
+            ),
+        })
+    }
+}
+
+impl Responsive<String> {
+    pub fn value_arbitrary(&self) -> Option<PropValue> {
+        Some(match self {
+            Responsive::Value(value) => PropValue::String(StringValue::Arbitrary(value.clone())),
+            Responsive::Values(values) => PropValue::Responsive(
+                values
+                    .iter()
+                    .map(|(key, value)| (*key, StringValue::Arbitrary(value.clone())))
                     .collect(),
             ),
         })
