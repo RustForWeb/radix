@@ -116,7 +116,7 @@ The tables below show the support for the various frameworks.
 | Badge             | ❌     | ❌     | ❌  |
 | Base-button       | ❌     | ❌     | ❌  |
 | Blockquote        | ❌     | ❌     | ❌  |
-| Box               | ❌     | ❌     | ❌  |
+| Box               | ❌     | ❌     | 🟦  |
 | Button            | ❌     | ❌     | ❌  |
 | Callout           | ❌     | ❌     | ❌  |
 | Card              | ❌     | ❌     | ❌  |
