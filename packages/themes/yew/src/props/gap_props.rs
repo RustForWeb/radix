@@ -87,6 +87,26 @@ impl IntoPropValue<GapProp> for ResponsiveValues<Gap> {
     }
 }
 
+impl IntoPropValue<GapProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> GapProp {
+        GapProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<GapProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> GapProp {
+        GapProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for GapProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -142,6 +162,26 @@ impl IntoPropValue<GapXProp> for ResponsiveValues<Gap> {
     }
 }
 
+impl IntoPropValue<GapXProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> GapXProp {
+        GapXProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<GapXProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> GapXProp {
+        GapXProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for GapXProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -194,6 +234,26 @@ impl IntoPropValue<GapYProp> for String {
 impl IntoPropValue<GapYProp> for ResponsiveValues<Gap> {
     fn into_prop_value(self) -> GapYProp {
         GapYProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<GapYProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> GapYProp {
+        GapYProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<GapYProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> GapYProp {
+        GapYProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 

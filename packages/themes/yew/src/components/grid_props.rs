@@ -261,6 +261,26 @@ impl IntoPropValue<GridColumnsProp> for ResponsiveValues<GridColumns> {
     }
 }
 
+impl IntoPropValue<GridColumnsProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> GridColumnsProp {
+        GridColumnsProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<GridColumnsProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> GridColumnsProp {
+        GridColumnsProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for GridColumnsProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -370,6 +390,26 @@ impl IntoPropValue<GridRowsProp> for String {
 impl IntoPropValue<GridRowsProp> for ResponsiveValues<GridRows> {
     fn into_prop_value(self) -> GridRowsProp {
         GridRowsProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<GridRowsProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> GridRowsProp {
+        GridRowsProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<GridRowsProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> GridRowsProp {
+        GridRowsProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 

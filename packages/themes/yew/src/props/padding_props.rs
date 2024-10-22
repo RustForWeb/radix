@@ -90,6 +90,26 @@ impl IntoPropValue<PProp> for ResponsiveValues<Padding> {
     }
 }
 
+impl IntoPropValue<PProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PProp {
+        PProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for PProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -142,6 +162,26 @@ impl IntoPropValue<PxProp> for String {
 impl IntoPropValue<PxProp> for ResponsiveValues<Padding> {
     fn into_prop_value(self) -> PxProp {
         PxProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<PxProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PxProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PxProp {
+        PxProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 
@@ -200,6 +240,26 @@ impl IntoPropValue<PyProp> for ResponsiveValues<Padding> {
     }
 }
 
+impl IntoPropValue<PyProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PyProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PyProp {
+        PyProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for PyProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -252,6 +312,26 @@ impl IntoPropValue<PtProp> for String {
 impl IntoPropValue<PtProp> for ResponsiveValues<Padding> {
     fn into_prop_value(self) -> PtProp {
         PtProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<PtProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PtProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PtProp {
+        PtProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 
@@ -310,6 +390,26 @@ impl IntoPropValue<PrProp> for ResponsiveValues<Padding> {
     }
 }
 
+impl IntoPropValue<PrProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PrProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PrProp {
+        PrProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for PrProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -365,6 +465,26 @@ impl IntoPropValue<PbProp> for ResponsiveValues<Padding> {
     }
 }
 
+impl IntoPropValue<PbProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PbProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PbProp {
+        PbProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for PbProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -417,6 +537,26 @@ impl IntoPropValue<PlProp> for String {
 impl IntoPropValue<PlProp> for ResponsiveValues<Padding> {
     fn into_prop_value(self) -> PlProp {
         PlProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<PlProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<PlProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> PlProp {
+        PlProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 

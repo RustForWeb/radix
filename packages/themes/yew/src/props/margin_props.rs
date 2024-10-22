@@ -90,6 +90,26 @@ impl IntoPropValue<MProp> for ResponsiveValues<Margin> {
     }
 }
 
+impl IntoPropValue<MProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MProp {
+        MProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for MProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -142,6 +162,26 @@ impl IntoPropValue<MxProp> for String {
 impl IntoPropValue<MxProp> for ResponsiveValues<Margin> {
     fn into_prop_value(self) -> MxProp {
         MxProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<MxProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MxProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MxProp {
+        MxProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 
@@ -200,6 +240,26 @@ impl IntoPropValue<MyProp> for ResponsiveValues<Margin> {
     }
 }
 
+impl IntoPropValue<MyProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MyProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MyProp {
+        MyProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for MyProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -252,6 +312,26 @@ impl IntoPropValue<MtProp> for String {
 impl IntoPropValue<MtProp> for ResponsiveValues<Margin> {
     fn into_prop_value(self) -> MtProp {
         MtProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<MtProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MtProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MtProp {
+        MtProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 
@@ -310,6 +390,26 @@ impl IntoPropValue<MrProp> for ResponsiveValues<Margin> {
     }
 }
 
+impl IntoPropValue<MrProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MrProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MrProp {
+        MrProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for MrProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -365,6 +465,26 @@ impl IntoPropValue<MbProp> for ResponsiveValues<Margin> {
     }
 }
 
+impl IntoPropValue<MbProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MbProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MbProp {
+        MbProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
+    }
+}
+
 impl PropDef for MbProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::EnumOrString
@@ -417,6 +537,26 @@ impl IntoPropValue<MlProp> for String {
 impl IntoPropValue<MlProp> for ResponsiveValues<Margin> {
     fn into_prop_value(self) -> MlProp {
         MlProp(Some(Responsive::Values(self)))
+    }
+}
+
+impl IntoPropValue<MlProp> for ResponsiveValues<i8> {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        )))
+    }
+}
+
+impl IntoPropValue<MlProp> for ResponsiveValues<String> {
+    fn into_prop_value(self) -> MlProp {
+        MlProp(Some(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.into()))
+                .collect(),
+        )))
     }
 }
 

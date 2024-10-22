@@ -1,4 +1,6 @@
 mod app;
+mod decorative_box;
+mod grid;
 mod switch;
 
 use crate::app::App;

@@ -5,6 +5,20 @@ use yew::{prelude::*, virtual_dom::VNode};
 pub fn App() -> Html {
     let mut children: Vec<VNode> = vec![];
 
+    #[cfg(feature = "grid")]
+    {
+        use crate::grid::grid::GridExample;
+        children.push(html! {
+            <GridExample />
+        });
+    }
+    #[cfg(feature = "grid-responsive")]
+    {
+        use crate::grid::grid_responsive::GridResponsiveExample;
+        children.push(html! {
+            <GridResponsiveExample />
+        });
+    }
     #[cfg(feature = "switch")]
     {
         use crate::switch::switch::SwitchExample;
