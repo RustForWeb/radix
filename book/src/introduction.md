@@ -131,7 +131,7 @@ The tables below show the support for the various frameworks.
 | Dropdown Menu     | ❌     | ❌     | ❌  |
 | Em                | ❌     | ❌     | ❌  |
 | Flex              | ❌     | ❌     | 🟦  |
-| Grid              | ❌     | ❌     | ❌  |
+| Grid              | ❌     | ❌     | 🟦  |
 | Heading           | ❌     | ❌     | ❌  |
 | Hover Card        | ❌     | ❌     | ❌  |
 | Icon Button       | ❌     | ❌     | ❌  |
