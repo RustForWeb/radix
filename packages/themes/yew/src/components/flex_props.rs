@@ -2,9 +2,8 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::{
-    props::prop_def::{PropDef, PropDefType, PropValue, Responsive},
-    ResponsiveValues, StringValue,
+use crate::props::prop_def::{
+    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
 };
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]

@@ -2104,9 +2104,8 @@ pub struct SelectLabelProps {
     // TODO
     #[prop_or_default]
     pub node_ref: NodeRef,
-    // TODO: can be removed because generated?
-    // #[prop_or_default]
-    // pub id: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
@@ -2147,7 +2146,7 @@ pub fn SelectLabel(props: &SelectLabelProps) -> Html {
 
     let child_props = SelectLabelChildProps {
         node_ref: props.node_ref.clone(),
-        id: group_context.id,
+        id: props.id.clone().unwrap_or(group_context.id),
         class: props.class.clone(),
         style: props.style.clone(),
         // TODO

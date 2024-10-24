@@ -47,6 +47,13 @@ pub fn App() -> Html {
             <SectionExample />
         });
     }
+    #[cfg(feature = "select")]
+    {
+        use crate::select::select::SelectExample;
+        children.push(html! {
+            <SelectExample />
+        });
+    }
     #[cfg(feature = "switch")]
     {
         use crate::switch::switch::SwitchExample;

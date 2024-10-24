@@ -104,7 +104,7 @@
         -   [Radio Cards]()
         -   [Scroll Area]()
         -   [Segmented Control]()
-        -   [Select]()
+        -   [Select](./themes/components/select.md)
         -   [Separator]()
         -   [Skeleton]()
         -   [Slider]()
