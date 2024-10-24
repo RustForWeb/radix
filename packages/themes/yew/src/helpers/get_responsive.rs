@@ -1,10 +1,9 @@
-use std::collections::HashMap;
+use crate::{
+    helpers::merge_styles::Style,
+    props::prop_def::{Breakpoint, PropDef, PropValue, StringValue},
+};
 
-use crate::props::prop_def::{Breakpoint, PropDef, PropValue, StringValue};
-
-pub fn get_responsive_styles(
-    prop: &dyn PropDef,
-) -> (Option<String>, Option<HashMap<String, String>>) {
+pub fn get_responsive_styles(prop: &dyn PropDef) -> (Option<String>, Option<Style>) {
     let responsive_class = get_responsive_classes(prop, true);
     let responsive_custom_properties = get_responsive_custom_properties(prop);
 
@@ -78,7 +77,7 @@ fn get_base_class(prop: &dyn PropDef, matched_value: String) -> String {
     format!("{minus}{class}-{absolute_value}")
 }
 
-pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<HashMap<String, String>> {
+pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<Style> {
     let custom_properties = prop
         .custom_properties()
         .expect("Custom properties should exist.");
@@ -95,13 +94,15 @@ pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<HashMap<St
             return None;
         }
 
-        let mut styles: HashMap<String, String> = HashMap::new();
+        let mut style = Style::new();
 
         if let PropValue::String(StringValue::Arbitrary(value)) = &value {
-            styles = custom_properties
-                .iter()
-                .map(|custom_property| (custom_property.to_string(), value.clone()))
-                .collect();
+            style = Style(
+                custom_properties
+                    .iter()
+                    .map(|custom_property| (custom_property.to_string(), value.clone()))
+                    .collect(),
+            );
         }
 
         if let PropValue::Responsive(values) = value {
@@ -110,7 +111,7 @@ pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<HashMap<St
                     // Don't generate a custom property if the value is not arbitrary.
                     StringValue::Defined(_) => {}
                     StringValue::Arbitrary(value) => {
-                        styles.extend(custom_properties.iter().map(|custom_property| {
+                        style.extend(custom_properties.iter().map(|custom_property| {
                             let bp_property = if bp == Breakpoint::Initial {
                                 custom_property.to_string()
                             } else {
@@ -124,7 +125,7 @@ pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<HashMap<St
             }
         }
 
-        Some(styles)
+        Some(style)
     } else {
         None
     }

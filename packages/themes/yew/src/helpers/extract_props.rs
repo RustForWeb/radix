@@ -1,10 +1,8 @@
-use std::collections::HashMap;
-
 use crate::{
     helpers::{
         get_responsive::{get_responsive_classes, get_responsive_styles},
         merge_classes::merge_classes,
-        merge_styles::merge_styles,
+        merge_styles::{merge_styles, Style},
     },
     props::prop_def::{PropDef, PropDefType, PropValue},
 };
@@ -12,10 +10,10 @@ use crate::{
 pub fn extract_props(
     props: &[&dyn PropDef],
     props_class: Option<String>,
-    props_style: Option<HashMap<String, String>>,
-) -> (String, HashMap<String, String>) {
+    props_style: Option<Style>,
+) -> (String, Style) {
     let mut class: String = "".to_string();
-    let mut style: HashMap<String, String> = HashMap::new();
+    let mut style = Style::new();
 
     for prop in props {
         if prop.class().is_some() {

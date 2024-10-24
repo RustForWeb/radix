@@ -3,7 +3,10 @@ use yew::prelude::*;
 
 use crate::{
     components::theme_props::{Appearance, PanelBackground, Scaling},
-    helpers::{get_matching_gray_color::get_matching_gray_color, merge_classes::merge_classes},
+    helpers::{
+        get_matching_gray_color::get_matching_gray_color, merge_classes::merge_classes,
+        merge_styles::Style,
+    },
     props::{
         color_prop::{AccentColor, GrayColor},
         radius_prop::Radius,
@@ -56,7 +59,7 @@ pub struct ThemeProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
     #[prop_or_default]
     pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
@@ -136,7 +139,7 @@ pub struct ThemeRootProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
     #[prop_or_default]
     pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
@@ -263,7 +266,7 @@ pub struct ThemeImplProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
     #[prop_or_default]
     pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
@@ -275,7 +278,7 @@ pub struct ThemeChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
     pub class: String,
-    pub style: Option<String>,
+    pub style: Style,
     pub data_is_root_theme: String,
     pub data_accent_color: String,
     pub data_gray_color: String,
@@ -292,7 +295,7 @@ impl ThemeChildProps {
                 ref={self.node_ref}
                 id={self.id}
                 class={self.class}
-                style={self.style}
+                style={self.style.to_string()}
                 data-is-root-theme={self.data_is_root_theme}
                 data-accent-color={self.data_accent_color}
                 data-gray-color={self.data_gray_color}

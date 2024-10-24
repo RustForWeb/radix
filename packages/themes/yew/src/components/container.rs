@@ -1,10 +1,8 @@
-use std::collections::HashMap;
-
 use yew::prelude::*;
 
 use crate::{
     components::container_props::{ContainerAlignProp, ContainerDisplayProp, ContainerSizeProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes},
+    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
     props::{
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
         layout_props::{
@@ -113,7 +111,7 @@ pub struct ContainerProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<HashMap<String, String>>,
+    pub style: Style,
     #[prop_or_default]
     pub as_child: Option<Callback<ContainerChildProps, Html>>,
     #[prop_or_default]
@@ -125,9 +123,9 @@ pub struct ContainerChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
     pub class: String,
-    pub style: String,
+    pub style: Style,
     pub inner_class: String,
-    pub inner_style: String,
+    pub inner_style: Style,
 }
 
 impl ContainerChildProps {
@@ -137,9 +135,9 @@ impl ContainerChildProps {
                 ref={self.node_ref}
                 id={self.id}
                 class={self.class}
-                style={self.style}
+                style={self.style.to_string()}
             >
-                <div class={self.inner_class} style={self.inner_style}>
+                <div class={self.inner_class} style={self.inner_style.to_string()}>
                     {children}
                 </div>
             </div>
@@ -195,7 +193,7 @@ pub fn Container(props: &ContainerProps) -> Html {
             &props.ml,
         ],
         props.class.clone(),
-        props.style.clone(),
+        props.style.clone().into(),
     );
 
     let (inner_class, inner_style) = extract_props(
@@ -215,19 +213,9 @@ pub fn Container(props: &ContainerProps) -> Html {
         node_ref: props.node_ref.clone(),
         id: props.id.clone(),
         class: merge_classes(&[&"rt-Container", &class]),
-        // TODO: abstract into Style class
-        style: style
-            .into_iter()
-            .map(|(key, value)| format!("{key}: {value};"))
-            .collect::<Vec<_>>()
-            .join(" "),
+        style,
         inner_class: merge_classes(&[&"rt-ContainerInner", &inner_class]),
-        // TODO: abstract into Style class
-        inner_style: inner_style
-            .into_iter()
-            .map(|(key, value)| format!("{key}: {value};"))
-            .collect::<Vec<_>>()
-            .join(" "),
+        inner_style,
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

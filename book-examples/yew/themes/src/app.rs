@@ -5,6 +5,27 @@ use yew::{prelude::*, virtual_dom::VNode};
 pub fn App() -> Html {
     let mut children: Vec<VNode> = vec![];
 
+    #[cfg(feature = "box")]
+    {
+        use crate::r#box::r#box::BoxExample;
+        children.push(html! {
+            <BoxExample />
+        });
+    }
+    #[cfg(feature = "container")]
+    {
+        use crate::container::container::ContainerExample;
+        children.push(html! {
+            <ContainerExample />
+        });
+    }
+    #[cfg(feature = "flex")]
+    {
+        use crate::flex::flex::FlexExample;
+        children.push(html! {
+            <FlexExample />
+        });
+    }
     #[cfg(feature = "grid")]
     {
         use crate::grid::grid::GridExample;
@@ -17,6 +38,13 @@ pub fn App() -> Html {
         use crate::grid::grid_responsive::GridResponsiveExample;
         children.push(html! {
             <GridResponsiveExample />
+        });
+    }
+    #[cfg(feature = "section")]
+    {
+        use crate::section::section::SectionExample;
+        children.push(html! {
+            <SectionExample />
         });
     }
     #[cfg(feature = "switch")]

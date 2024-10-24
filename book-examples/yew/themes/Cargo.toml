@@ -18,8 +18,12 @@ yew = { workspace = true, features = ["csr"] }
 
 [features]
 default = [
+    "box",
+    "container",
+    "flex",
     "grid",
     "grid-responsive",
+    "section",
     "switch",
     "switch-size",
     "switch-variant",
@@ -29,8 +33,12 @@ default = [
     "switch-alignment",
     "switch-disabled",
 ]
+box = []
+container = []
+flex = []
 grid = []
 grid-responsive = []
+section = []
 switch = []
 switch-size = []
 switch-variant = []

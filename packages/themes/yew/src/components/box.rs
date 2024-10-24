@@ -1,10 +1,8 @@
-use std::collections::HashMap;
-
 use yew::prelude::*;
 
 use crate::{
     components::box_props::{BoxAs, BoxAsProp, BoxDisplayProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes},
+    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
     props::{
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
         layout_props::{
@@ -111,7 +109,7 @@ pub struct BoxProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<HashMap<String, String>>,
+    pub style: Style,
     #[prop_or_default]
     pub as_child: Option<Callback<BoxChildProps, Html>>,
     #[prop_or_default]
@@ -123,7 +121,7 @@ pub struct BoxChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
     pub class: String,
-    pub style: String,
+    pub style: Style,
     pub r#as: BoxAs,
 }
 
@@ -135,7 +133,7 @@ impl BoxChildProps {
                     ref={self.node_ref}
                     id={self.id}
                     class={self.class}
-                    style={self.style}
+                    style={self.style.to_string()}
                 >
                     {children}
                 </div>
@@ -144,7 +142,7 @@ impl BoxChildProps {
                     ref={self.node_ref}
                     id={self.id}
                     class={self.class}
-                    style={self.style}
+                    style={self.style.to_string()}
                 >
                     {children}
                 </span>
@@ -200,19 +198,14 @@ pub fn Box(props: &BoxProps) -> Html {
             &props.ml,
         ],
         props.class.clone(),
-        props.style.clone(),
+        props.style.clone().into(),
     );
 
     let child_props = BoxChildProps {
         node_ref: props.node_ref.clone(),
         id: props.id.clone(),
         class: merge_classes(&[&"rt-Box", &class]),
-        // TODO: abstract into Style class
-        style: style
-            .into_iter()
-            .map(|(key, value)| format!("{key}: {value};"))
-            .collect::<Vec<_>>()
-            .join(" "),
+        style,
         r#as: props.r#as.0,
     };
 

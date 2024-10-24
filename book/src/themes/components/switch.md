@@ -9,6 +9,7 @@ Toggle switch alternative to the checkbox.
 package = "radix-yew-book-themes"
 features = ["switch"]
 files = ["src/switch/switch.rs"]
+show_files = true
 ```
 
 {{#endtab }}
@@ -31,6 +32,7 @@ Use the `size` prop to control the size of the switch.
 package = "radix-yew-book-themes"
 features = ["switch-size"]
 files = ["src/switch/switch_size.rs"]
+show_files = true
 ```
 
 {{#endtab }}

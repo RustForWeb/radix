@@ -1,11 +1,9 @@
-use std::collections::HashMap;
-
 use radix_yew_switch::{Switch as SwitchPrimitive, SwitchThumb as SwitchThumbPrimitive};
 use yew::prelude::*;
 
 use crate::{
     components::switch_props::{SwitchSizeProp, SwitchVariantProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes},
+    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -65,7 +63,7 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<HashMap<String, String>>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -87,7 +85,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
             &props.radius,
         ],
         props.class.clone(),
-        props.style.clone(),
+        props.style.clone().into(),
     );
 
     html! {
@@ -95,8 +93,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
         <SwitchPrimitive
             node_ref={props.node_ref.clone()}
             class={merge_classes(&[&"rt-reset", &"rt-SwitchRoot", &class])}
-            // TODO: abstract into Style class
-            style={style.into_iter().map(|(key, value)| format!("{key}: {value};")).collect::<Vec<_>>().join(" ")}
+            style={style.to_string()}
             name={props.name.clone()}
             checked={props.checked}
             default_checked={props.default_checked}

@@ -1,10 +1,8 @@
-use std::collections::HashMap;
-
 use yew::prelude::*;
 
 use crate::{
     components::section_props::{SectionDisplayProp, SectionSizeProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes},
+    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
     props::{
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
         layout_props::{
@@ -111,7 +109,7 @@ pub struct SectionProps {
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<HashMap<String, String>>,
+    pub style: Style,
     #[prop_or_default]
     pub as_child: Option<Callback<SectionChildProps, Html>>,
     #[prop_or_default]
@@ -123,7 +121,7 @@ pub struct SectionChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
     pub class: String,
-    pub style: String,
+    pub style: Style,
 }
 
 impl SectionChildProps {
@@ -133,7 +131,7 @@ impl SectionChildProps {
                 ref={self.node_ref}
                 id={self.id}
                 class={self.class}
-                style={self.style}
+                style={self.style.to_string()}
             >
                 {children}
             </div>
@@ -188,19 +186,14 @@ pub fn Section(props: &SectionProps) -> Html {
             &props.ml,
         ],
         props.class.clone(),
-        props.style.clone(),
+        props.style.clone().into(),
     );
 
     let child_props = SectionChildProps {
         node_ref: props.node_ref.clone(),
         id: props.id.clone(),
         class: merge_classes(&[&"rt-Section", &class]),
-        // TODO: abstract into Style class
-        style: style
-            .into_iter()
-            .map(|(key, value)| format!("{key}: {value};"))
-            .collect::<Vec<_>>()
-            .join(" "),
+        style,
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
