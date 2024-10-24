@@ -51,7 +51,9 @@ pub fn App() -> Html {
     {
         use crate::select::select::SelectExample;
         children.push(html! {
-            <SelectExample />
+            <div style="min-height: 300px;">
+                <SelectExample />
+            </div>
         });
     }
     #[cfg(feature = "switch")]
