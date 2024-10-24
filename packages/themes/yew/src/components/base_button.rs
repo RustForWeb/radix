@@ -71,7 +71,7 @@ pub struct BaseButtonChildProps {
     pub class: String,
     pub style: Style,
     pub data_disabled: Option<String>,
-    pub data_accent: Option<String>,
+    pub data_accent_color: Option<String>,
     pub data_radius: Option<String>,
     pub disabled: bool,
     pub on_click: Callback<MouseEvent>,
@@ -88,7 +88,7 @@ impl BaseButtonChildProps {
                 style={self.style.to_string()}
 
                 data-disabled={self.data_disabled}
-                data-accent={self.data_accent}
+                data-accent-color={self.data_accent_color}
                 data-radius={self.data_radius}
                 disabled={self.disabled}
                 onclick={self.on_click}
@@ -129,7 +129,7 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
         class: merge_classes(&[&"rt-reset", &"rt-BaseButton", &class]),
         style,
         data_disabled: disabled.then_some("".into()),
-        data_accent: props.color.0.map(|color| color.to_string()),
+        data_accent_color: props.color.0.map(|color| color.to_string()),
         data_radius: props.radius.0.map(|radius| radius.to_string()),
         disabled,
         on_click: props.on_click.clone(),
