@@ -31,9 +31,9 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub my: MyProp,
     #[prop_or_default]
-    pub mr: MrProp,
-    #[prop_or_default]
     pub mt: MtProp,
+    #[prop_or_default]
+    pub mr: MrProp,
     #[prop_or_default]
     pub mb: MbProp,
     #[prop_or_default]

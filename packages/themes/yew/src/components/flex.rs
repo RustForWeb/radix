@@ -48,9 +48,9 @@ pub struct FlexProps {
     #[prop_or_default]
     pub py: PyProp,
     #[prop_or_default]
-    pub pr: PrProp,
-    #[prop_or_default]
     pub pt: PtProp,
+    #[prop_or_default]
+    pub pr: PrProp,
     #[prop_or_default]
     pub pb: PbProp,
     #[prop_or_default]
@@ -112,9 +112,9 @@ pub struct FlexProps {
     #[prop_or_default]
     pub my: MyProp,
     #[prop_or_default]
-    pub mr: MrProp,
-    #[prop_or_default]
     pub mt: MtProp,
+    #[prop_or_default]
+    pub mr: MrProp,
     #[prop_or_default]
     pub mb: MbProp,
     #[prop_or_default]

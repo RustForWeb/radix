@@ -12,6 +12,76 @@ pub fn App() -> Html {
             <BoxExample />
         });
     }
+    #[cfg(feature = "button")]
+    {
+        use crate::button::button::ButtonExample;
+        children.push(html! {
+            <ButtonExample />
+        });
+    }
+    #[cfg(feature = "button-color")]
+    {
+        use crate::button::button_color::ButtonColorExample;
+        children.push(html! {
+            <ButtonColorExample />
+        });
+    }
+    #[cfg(feature = "button-high-contrast")]
+    {
+        use crate::button::button_high_contrast::ButtonHighContrastExample;
+        children.push(html! {
+            <ButtonHighContrastExample />
+        });
+    }
+    #[cfg(feature = "button-loading")]
+    {
+        use crate::button::button_loading::ButtonLoadingExample;
+        children.push(html! {
+            <ButtonLoadingExample />
+        });
+    }
+    #[cfg(feature = "button-loading-spinner")]
+    {
+        use crate::button::button_loading_spinner::ButtonLoadingSpinnerExample;
+        children.push(html! {
+            <ButtonLoadingSpinnerExample />
+        });
+    }
+    #[cfg(feature = "button-radius")]
+    {
+        use crate::button::button_radius::ButtonRadiusExample;
+        children.push(html! {
+            <ButtonRadiusExample />
+        });
+    }
+    #[cfg(feature = "button-size")]
+    {
+        use crate::button::button_size::ButtonSizeExample;
+        children.push(html! {
+            <ButtonSizeExample />
+        });
+    }
+    #[cfg(feature = "button-variant")]
+    {
+        use crate::button::button_variant::ButtonVariantExample;
+        children.push(html! {
+            <ButtonVariantExample />
+        });
+    }
+    #[cfg(feature = "button-variant-ghost")]
+    {
+        use crate::button::button_variant_ghost::ButtonVariantGhostExample;
+        children.push(html! {
+            <ButtonVariantGhostExample />
+        });
+    }
+    #[cfg(feature = "button-with-icons")]
+    {
+        use crate::button::button_with_icons::ButtonWithIconsExample;
+        children.push(html! {
+            <ButtonWithIconsExample />
+        });
+    }
     #[cfg(feature = "container")]
     {
         use crate::container::container::ContainerExample;

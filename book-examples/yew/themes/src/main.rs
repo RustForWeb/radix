@@ -1,5 +1,6 @@
 mod app;
 mod r#box;
+mod button;
 mod container;
 mod decorative_box;
 mod flex;

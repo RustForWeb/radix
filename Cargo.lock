@@ -3117,6 +3117,7 @@ dependencies = [
  "console_error_panic_hook",
  "console_log",
  "log",
+ "radix-yew-icons",
  "radix-yew-themes",
  "yew",
 ]

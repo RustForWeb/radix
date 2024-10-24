@@ -133,3 +133,36 @@ impl PropDef for ColorProp {
             .map(|value| PropValue::String(StringValue::Defined(value.to_string())))
     }
 }
+
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct AccentColorProp(pub Option<AccentColor>);
+
+impl IntoPropValue<AccentColorProp> for AccentColor {
+    fn into_prop_value(self) -> AccentColorProp {
+        AccentColorProp(Some(self))
+    }
+}
+
+impl PropDef for AccentColorProp {
+    fn r#type(&self) -> PropDefType {
+        PropDefType::Enum
+    }
+
+    fn class(&self) -> Option<&str> {
+        None
+    }
+
+    fn responsive(&self) -> bool {
+        false
+    }
+
+    fn custom_properties(&self) -> Option<&[&str]> {
+        None
+    }
+
+    fn value(&self) -> Option<PropValue> {
+        Some(PropValue::String(StringValue::Defined(
+            self.0.map(|value| value.to_string()).unwrap_or_default(),
+        )))
+    }
+}

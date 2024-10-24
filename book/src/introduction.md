@@ -114,10 +114,10 @@ The tables below show the support for the various frameworks.
 | Aspect Ratio      | ❌     | ❌     | ❌  |
 | Avatar            | ❌     | ❌     | ❌  |
 | Badge             | ❌     | ❌     | ❌  |
-| Base-button       | ❌     | ❌     | ❌  |
+| Base Button       | ❌     | ❌     | 🚧  |
 | Blockquote        | ❌     | ❌     | ❌  |
 | Box               | ❌     | ❌     | 🟦  |
-| Button            | ❌     | ❌     | ❌  |
+| Button            | ❌     | ❌     | 🚧  |
 | Callout           | ❌     | ❌     | ❌  |
 | Card              | ❌     | ❌     | ❌  |
 | Checkbox Cards    | ❌     | ❌     | ❌  |
@@ -150,7 +150,7 @@ The tables below show the support for the various frameworks.
 | Scroll Area       | ❌     | ❌     | ❌  |
 | Section           | ❌     | ❌     | 🟦  |
 | Segmented Control | ❌     | ❌     | ❌  |
-| Select            | ❌     | ❌     | ❌  |
+| Select            | ❌     | ❌     | 🚧  |
 | Separator         | ❌     | ❌     | ❌  |
 | Skeleton          | ❌     | ❌     | ❌  |
 | Slider            | ❌     | ❌     | ❌  |

@@ -13,12 +13,23 @@ version.workspace = true
 console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
+radix-yew-icons = { path = "../../../packages/icons/yew" }
 radix-yew-themes = { path = "../../../packages/themes/yew" }
 yew = { workspace = true, features = ["csr"] }
 
 [features]
 default = [
     "box",
+    "button",
+    "button-color",
+    "button-high-contrast",
+    "button-loading",
+    "button-loading-spinner",
+    "button-radius",
+    "button-size",
+    "button-variant",
+    "button-variant-ghost",
+    "button-with-icons",
     "container",
     "flex",
     "grid",
@@ -26,15 +37,25 @@ default = [
     "section",
     "select",
     "switch",
-    "switch-size",
-    "switch-variant",
+    "switch-alignment",
     "switch-color",
+    "switch-disabled",
     "switch-high-contrast",
     "switch-radius",
-    "switch-alignment",
-    "switch-disabled",
+    "switch-size",
+    "switch-variant",
 ]
 box = []
+button = ["radix-yew-icons/bookmark"]
+button-color = []
+button-high-contrast = []
+button-loading = []
+button-loading-spinner = ["radix-yew-icons/bookmark"]
+button-radius = []
+button-size = []
+button-variant = []
+button-variant-ghost = []
+button-with-icons = ["radix-yew-icons/bookmark"]
 container = []
 flex = []
 grid = []
@@ -42,10 +63,10 @@ grid-responsive = []
 section = []
 select = []
 switch = []
-switch-size = []
-switch-variant = []
+switch-alignment = []
 switch-color = []
+switch-disabled = []
 switch-high-contrast = []
 switch-radius = []
-switch-alignment = []
-switch-disabled = []
+switch-size = []
+switch-variant = []

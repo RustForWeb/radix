@@ -65,14 +65,34 @@ impl<T: Clone + Into<StringValue>> Responsive<T> {
     }
 }
 
-impl Responsive<String> {
-    pub fn value_arbitrary(&self) -> Option<PropValue> {
+impl<T: Default> Default for Responsive<T> {
+    fn default() -> Self {
+        Self::Value(T::default())
+    }
+}
+
+impl<T: ToString> Responsive<T> {
+    pub fn value_defined(&self) -> Option<PropValue> {
         Some(match self {
-            Responsive::Value(value) => PropValue::String(StringValue::Arbitrary(value.clone())),
+            Responsive::Value(value) => PropValue::String(StringValue::Defined(value.to_string())),
             Responsive::Values(values) => PropValue::Responsive(
                 values
                     .iter()
-                    .map(|(key, value)| (*key, StringValue::Arbitrary(value.clone())))
+                    .map(|(key, value)| (*key, StringValue::Defined(value.to_string())))
+                    .collect(),
+            ),
+        })
+    }
+
+    pub fn value_arbitrary(&self) -> Option<PropValue> {
+        Some(match self {
+            Responsive::Value(value) => {
+                PropValue::String(StringValue::Arbitrary(value.to_string()))
+            }
+            Responsive::Values(values) => PropValue::Responsive(
+                values
+                    .iter()
+                    .map(|(key, value)| (*key, StringValue::Arbitrary(value.to_string())))
                     .collect(),
             ),
         })
