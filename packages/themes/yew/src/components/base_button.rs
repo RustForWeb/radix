@@ -75,11 +75,10 @@ pub struct BaseButtonChildProps {
     pub data_radius: Option<String>,
     pub disabled: bool,
     pub on_click: Callback<MouseEvent>,
-    pub children: Html,
 }
 
 impl BaseButtonChildProps {
-    pub fn render(self) -> Html {
+    pub fn render(self, children: Html) -> Html {
         html! {
             <button
                 ref={self.node_ref}
@@ -93,7 +92,7 @@ impl BaseButtonChildProps {
                 disabled={self.disabled}
                 onclick={self.on_click}
             >
-                {self.children}
+                {children}
             </button>
         }
     }
@@ -133,7 +132,12 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
         data_radius: props.radius.0.map(|radius| radius.to_string()),
         disabled,
         on_click: props.on_click.clone(),
-        children: html! {
+    };
+
+    if let Some(as_child) = props.as_child.as_ref() {
+        as_child.emit(child_props)
+    } else {
+        child_props.render(html! {
             if props.loading.0 {
                 <>
                     // We need a wrapper to set `visibility: hidden` to hide the button content whilst we show the `Spinner`.
@@ -154,12 +158,6 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
             } else {
                 {props.children.clone()}
             }
-        },
-    };
-
-    if let Some(as_child) = props.as_child.as_ref() {
-        as_child.emit(child_props)
-    } else {
-        child_props.render()
+        })
     }
 }
