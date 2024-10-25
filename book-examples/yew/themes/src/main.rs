@@ -5,6 +5,7 @@ mod container;
 mod decorative_box;
 mod flex;
 mod grid;
+mod heading;
 mod section;
 mod select;
 mod switch;

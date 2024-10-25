@@ -34,6 +34,17 @@ default = [
     "flex",
     "grid",
     "grid-responsive",
+    "heading",
+    "heading-align",
+    "heading-as",
+    "heading-color",
+    "heading-high-contrast",
+    "heading-size",
+    "heading-trim",
+    "heading-trim-box",
+    "heading-truncate",
+    "heading-weight",
+    "heading-wrap",
     "section",
     "select",
     "switch",
@@ -60,6 +71,17 @@ container = []
 flex = []
 grid = []
 grid-responsive = []
+heading = []
+heading-align = []
+heading-as = []
+heading-color = []
+heading-high-contrast = []
+heading-size = []
+heading-trim = []
+heading-trim-box = []
+heading-truncate = []
+heading-weight = []
+heading-wrap = []
 section = []
 select = []
 switch = []

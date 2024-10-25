@@ -132,7 +132,7 @@ The tables below show the support for the various frameworks.
 | Em                | ❌     | ❌     | ❌  |
 | Flex              | ❌     | ❌     | 🟦  |
 | Grid              | ❌     | ❌     | 🟦  |
-| Heading           | ❌     | ❌     | ❌  |
+| Heading           | ❌     | ❌     | 🟦  |
 | Hover Card        | ❌     | ❌     | ❌  |
 | Icon Button       | ❌     | ❌     | ❌  |
 | Icons             | ❌     | ❌     | ❌  |

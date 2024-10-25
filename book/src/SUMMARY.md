@@ -71,7 +71,7 @@
         -   [Section](./themes/layout/section.md)
     -   [Typography](./themes/typography/README.md)
         -   [Text]()
-        -   [Heading]()
+        -   [Heading](./themes/typography/heading.md)
         -   [Blockquote]()
         -   [Code]()
         -   [Em]()

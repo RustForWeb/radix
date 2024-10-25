@@ -7,48 +7,50 @@ use crate::props::prop_def::{
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-pub enum TextAlign {
-    Left,
-    Center,
-    Right,
+pub enum TextWrap {
+    Wrap,
+    Nowrap,
+    Pretty,
+    Balance,
 }
 
-impl Display for TextAlign {
+impl Display for TextWrap {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
             f,
             "{}",
             match self {
-                TextAlign::Left => "left",
-                TextAlign::Center => "center",
-                TextAlign::Right => "right",
+                TextWrap::Wrap => "wrap",
+                TextWrap::Nowrap => "nowrap",
+                TextWrap::Pretty => "pretty",
+                TextWrap::Balance => "balance",
             }
         )
     }
 }
 
-impl From<TextAlign> for StringValue {
-    fn from(value: TextAlign) -> Self {
+impl From<TextWrap> for StringValue {
+    fn from(value: TextWrap) -> Self {
         StringValue::Defined(value.to_string())
     }
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct TextAlignProp(pub Option<Responsive<TextAlign>>);
+pub struct TextWrapProp(pub Option<Responsive<TextWrap>>);
 
-impl IntoPropValue<TextAlignProp> for TextAlign {
-    fn into_prop_value(self) -> TextAlignProp {
-        TextAlignProp(Some(Responsive::Value(self)))
+impl IntoPropValue<TextWrapProp> for TextWrap {
+    fn into_prop_value(self) -> TextWrapProp {
+        TextWrapProp(Some(Responsive::Value(self)))
     }
 }
 
-impl IntoPropValue<TextAlignProp> for ResponsiveValues<TextAlign> {
-    fn into_prop_value(self) -> TextAlignProp {
-        TextAlignProp(Some(Responsive::Values(self)))
+impl IntoPropValue<TextWrapProp> for ResponsiveValues<TextWrap> {
+    fn into_prop_value(self) -> TextWrapProp {
+        TextWrapProp(Some(Responsive::Values(self)))
     }
 }
 
-impl PropDef for TextAlignProp {
+impl PropDef for TextWrapProp {
     fn r#type(&self) -> PropDefType {
         PropDefType::Enum
     }

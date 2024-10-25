@@ -110,6 +110,83 @@ pub fn App() -> Html {
             <GridResponsiveExample />
         });
     }
+    #[cfg(feature = "heading")]
+    {
+        use crate::heading::heading::HeadingExample;
+        children.push(html! {
+            <HeadingExample />
+        });
+    }
+    #[cfg(feature = "heading-align")]
+    {
+        use crate::heading::heading_align::HeadingAlignExample;
+        children.push(html! {
+            <HeadingAlignExample />
+        });
+    }
+    #[cfg(feature = "heading-as")]
+    {
+        use crate::heading::heading_as::HeadingAsExample;
+        children.push(html! {
+            <HeadingAsExample />
+        });
+    }
+    #[cfg(feature = "heading-color")]
+    {
+        use crate::heading::heading_color::HeadingColorExample;
+        children.push(html! {
+            <HeadingColorExample />
+        });
+    }
+    #[cfg(feature = "heading-high-contrast")]
+    {
+        use crate::heading::heading_high_contrast::HeadingHighContrastExample;
+        children.push(html! {
+            <HeadingHighContrastExample />
+        });
+    }
+    #[cfg(feature = "heading-size")]
+    {
+        use crate::heading::heading_size::HeadingSizeExample;
+        children.push(html! {
+            <HeadingSizeExample />
+        });
+    }
+    #[cfg(feature = "heading-trim")]
+    {
+        use crate::heading::heading_trim::HeadingTrimExample;
+        children.push(html! {
+            <HeadingTrimExample />
+        });
+    }
+    #[cfg(feature = "heading-trim-box")]
+    {
+        use crate::heading::heading_trim_box::HeadingTrimBoxExample;
+        children.push(html! {
+            <HeadingTrimBoxExample />
+        });
+    }
+    #[cfg(feature = "heading-truncate")]
+    {
+        use crate::heading::heading_truncate::HeadingTruncateExample;
+        children.push(html! {
+            <HeadingTruncateExample />
+        });
+    }
+    #[cfg(feature = "heading-weight")]
+    {
+        use crate::heading::heading_weight::HeadingWeightExample;
+        children.push(html! {
+            <HeadingWeightExample />
+        });
+    }
+    #[cfg(feature = "heading-wrap")]
+    {
+        use crate::heading::heading_wrap::HeadingWrapExample;
+        children.push(html! {
+            <HeadingWrapExample />
+        });
+    }
     #[cfg(feature = "section")]
     {
         use crate::section::section::SectionExample;

@@ -27,7 +27,7 @@ impl TryFrom<u8> for SectionSize {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=4).contains(&value) {
             Err(format!(
-                "Section size must be between 1 and 4, but is {}.",
+                "Heading size must be between 1 and 4, but is {}.",
                 value
             ))
         } else {
@@ -37,17 +37,33 @@ impl TryFrom<u8> for SectionSize {
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SectionSizeProp(pub SectionSize);
+pub struct SectionSizeProp(pub Responsive<SectionSize>);
 
 impl IntoPropValue<SectionSizeProp> for u8 {
     fn into_prop_value(self) -> SectionSizeProp {
-        SectionSizeProp(self.try_into().unwrap())
+        SectionSizeProp(Responsive::Value(self.try_into().unwrap()))
     }
 }
 
 impl IntoPropValue<SectionSizeProp> for SectionSize {
     fn into_prop_value(self) -> SectionSizeProp {
-        SectionSizeProp(self)
+        SectionSizeProp(Responsive::Value(self))
+    }
+}
+
+impl IntoPropValue<SectionSizeProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> SectionSizeProp {
+        SectionSizeProp(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        ))
+    }
+}
+
+impl IntoPropValue<SectionSizeProp> for ResponsiveValues<SectionSize> {
+    fn into_prop_value(self) -> SectionSizeProp {
+        SectionSizeProp(Responsive::Values(self))
     }
 }
 
@@ -69,7 +85,7 @@ impl PropDef for SectionSizeProp {
     }
 
     fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
+        self.0.value_defined()
     }
 }
 

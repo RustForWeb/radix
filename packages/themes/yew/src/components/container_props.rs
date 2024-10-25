@@ -11,7 +11,7 @@ pub struct ContainerSize(u8);
 
 impl Default for ContainerSize {
     fn default() -> Self {
-        Self(3)
+        Self(4)
     }
 }
 
@@ -37,17 +37,33 @@ impl TryFrom<u8> for ContainerSize {
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct ContainerSizeProp(pub ContainerSize);
+pub struct ContainerSizeProp(pub Responsive<ContainerSize>);
 
 impl IntoPropValue<ContainerSizeProp> for u8 {
     fn into_prop_value(self) -> ContainerSizeProp {
-        ContainerSizeProp(self.try_into().unwrap())
+        ContainerSizeProp(Responsive::Value(self.try_into().unwrap()))
     }
 }
 
 impl IntoPropValue<ContainerSizeProp> for ContainerSize {
     fn into_prop_value(self) -> ContainerSizeProp {
-        ContainerSizeProp(self)
+        ContainerSizeProp(Responsive::Value(self))
+    }
+}
+
+impl IntoPropValue<ContainerSizeProp> for ResponsiveValues<u8> {
+    fn into_prop_value(self) -> ContainerSizeProp {
+        ContainerSizeProp(Responsive::Values(
+            self.into_iter()
+                .map(|(key, value)| (key, value.try_into().unwrap()))
+                .collect(),
+        ))
+    }
+}
+
+impl IntoPropValue<ContainerSizeProp> for ResponsiveValues<ContainerSize> {
+    fn into_prop_value(self) -> ContainerSizeProp {
+        ContainerSizeProp(Responsive::Values(self))
     }
 }
 
@@ -69,7 +85,7 @@ impl PropDef for ContainerSizeProp {
     }
 
     fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
+        self.0.value_defined()
     }
 }
 
