@@ -57,7 +57,7 @@
         -   [Overview]()
         -   [Color](./themes/theme/color.md)
         -   [Dark mode]()
-        -   [Typography]()
+        -   [Typography](./themes/theme/typography.md)
         -   [Spacing]()
         -   [Breakpoints](./themes/theme/breakpoints.md)
         -   [Radius]()

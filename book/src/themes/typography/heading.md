@@ -42,7 +42,7 @@ show_files = true
 
 Use the `size` prop to control the size of the heading. The prop also provides correct line height and corrective letter spacing - as text size increases, the relative line height and letter spacing decrease.
 
-<!-- Heading sizes match Text sizes. However, the line heights are set a bit tighter as headings tend to be shorter than running text. -->
+Heading sizes match [Text](./text.md) sizes. However, the line heights are set a bit tighter as headings tend to be shorter than running text.
 
 {{#tabs global="framework" }}
 {{#tab name="Yew" }}
@@ -125,7 +125,7 @@ show_files = true
 {{#endtab }}
 {{#endtabs }}
 
-The default trim values are configured for the system font stack that's used by Radix Themes. If you are using custom fonts, you can [adjust]() the trim values using the corresponding CSS variables.
+The default trim values are configured for the system font stack that's used by Radix Themes. If you are using custom fonts, you can [adjust](../theme/typography.md) the trim values using the corresponding CSS variables.
 
 ```css
 .radix-themes {
@@ -170,7 +170,11 @@ show_files = true
 {{#endtab }}
 {{#endtabs }}
 
-<!-- text-wrap: pretty is an experimental value that is not yet supported in all browsers. However, it can be treated as a progressive enhancement for browsers that do support it. -->
+<div class="warning">
+
+`text-wrap: pretty` is an experimental value that is [not yet supported in all browsers](https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap#browser_compatibility). However, it can be treated as a progressive enhancement for browsers that do support it.
+
+</div>
 
 ### Color
 
