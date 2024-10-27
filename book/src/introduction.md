@@ -6,7 +6,7 @@
 
 Rust Radix is a Rust port of [Radix](https://www.radix-ui.com/primitives).
 
-TODO: introduction text
+[Radix](https://www.radix-ui.com/) is a library of components, icons, colors, and templates for building high-quality, accessible UI.
 
 ## Parts
 
@@ -157,7 +157,7 @@ The tables below show the support for the various frameworks.
 | Slot              | ❌     | ❌     | ❌  |
 | Spinner           | ❌     | ❌     | ❌  |
 | Strong            | ❌     | ❌     | ❌  |
-| Switch            | ❌     | ❌     | ❌  |
+| Switch            | ❌     | ❌     | 🚧  |
 | Table             | ❌     | ❌     | ❌  |
 | Tab Nav           | ❌     | ❌     | ❌  |
 | Tabs              | ❌     | ❌     | ❌  |
