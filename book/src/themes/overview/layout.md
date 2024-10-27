@@ -43,7 +43,7 @@ Layout components are used to separate layout responsibilities from content and 
 
 ## Common Layout Props
 
-Each layout component has a set of it’s own specialized props and also a shared set of common layout props. All layout props support [responsive values](../theme/breakpoints.md).
+Each layout component has a set of it's own specialized props and also a shared set of common layout props. All layout props support [responsive values](../theme/breakpoints.md).
 
 ### Padding
 

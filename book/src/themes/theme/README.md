@@ -1,5 +1,6 @@
 # Theme
 
--   [Breakpoints](./breakpoints.md)
+-   [Overview](./overview.md)
 -   [Color](./color.md)
 -   [Typography](./typography.md)
+-   [Breakpoints](./breakpoints.md)
