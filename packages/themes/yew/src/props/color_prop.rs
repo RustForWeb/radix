@@ -2,7 +2,7 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
+use crate::props::prop_def::{prop_optional_enum, PropDef, PropDefType, PropValue, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum AccentColor {
@@ -102,37 +102,7 @@ impl Display for GrayColor {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct ColorProp(pub Option<AccentColor>);
-
-impl IntoPropValue<ColorProp> for AccentColor {
-    fn into_prop_value(self) -> ColorProp {
-        ColorProp(Some(self))
-    }
-}
-
-impl PropDef for ColorProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        None
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0
-            .map(|value| PropValue::String(StringValue::Defined(value.to_string())))
-    }
-}
+prop_optional_enum!(ColorProp, AccentColor, None, None);
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct AccentColorProp(pub Option<AccentColor>);
@@ -150,10 +120,6 @@ impl PropDef for AccentColorProp {
 
     fn class(&self) -> Option<&str> {
         None
-    }
-
-    fn responsive(&self) -> bool {
-        false
     }
 
     fn custom_properties(&self) -> Option<&[&str]> {

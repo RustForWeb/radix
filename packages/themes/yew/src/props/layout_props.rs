@@ -1,9 +1,8 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
 use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
+    prop_optional_arbitary_responsive_string, prop_optional_responsive_enum,
+    prop_optional_responsive_number_enum_or_string, StringValue,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -37,42 +36,7 @@ impl From<Position> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct PositionProp(pub Option<Responsive<Position>>);
-
-impl IntoPropValue<PositionProp> for Position {
-    fn into_prop_value(self) -> PositionProp {
-        PositionProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<PositionProp> for ResponsiveValues<Position> {
-    fn into_prop_value(self) -> PositionProp {
-        PositionProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for PositionProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-position")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(PositionProp, Position, Some("rt-r-position"), None);
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum PositionEdge {
@@ -125,380 +89,41 @@ impl From<PositionEdge> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct InsetProp(pub Option<Responsive<PositionEdge>>);
-
-impl IntoPropValue<InsetProp> for PositionEdge {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<InsetProp> for i8 {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<InsetProp> for &str {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<InsetProp> for String {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<InsetProp> for ResponsiveValues<PositionEdge> {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<InsetProp> for ResponsiveValues<i8> {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<InsetProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> InsetProp {
-        InsetProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for InsetProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-inset")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--inset"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct TopProp(pub Option<Responsive<PositionEdge>>);
-
-impl IntoPropValue<TopProp> for PositionEdge {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<TopProp> for i8 {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<TopProp> for &str {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<TopProp> for String {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<TopProp> for ResponsiveValues<PositionEdge> {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<TopProp> for ResponsiveValues<i8> {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<TopProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> TopProp {
-        TopProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for TopProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-top")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--top"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct RightProp(pub Option<Responsive<PositionEdge>>);
-
-impl IntoPropValue<RightProp> for PositionEdge {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<RightProp> for i8 {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<RightProp> for &str {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<RightProp> for String {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<RightProp> for ResponsiveValues<PositionEdge> {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<RightProp> for ResponsiveValues<i8> {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<RightProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> RightProp {
-        RightProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for RightProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-right")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--right"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct BottomProp(pub Option<Responsive<PositionEdge>>);
-
-impl IntoPropValue<BottomProp> for PositionEdge {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<BottomProp> for i8 {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<BottomProp> for &str {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<BottomProp> for String {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<BottomProp> for ResponsiveValues<PositionEdge> {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<BottomProp> for ResponsiveValues<i8> {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<BottomProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> BottomProp {
-        BottomProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for BottomProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-bottom")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--bottom"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct LeftProp(pub Option<Responsive<PositionEdge>>);
-
-impl IntoPropValue<LeftProp> for PositionEdge {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<LeftProp> for i8 {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<LeftProp> for &str {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<LeftProp> for String {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<LeftProp> for ResponsiveValues<PositionEdge> {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<LeftProp> for ResponsiveValues<i8> {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<LeftProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> LeftProp {
-        LeftProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for LeftProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-left")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--left"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_number_enum_or_string!(
+    InsetProp,
+    PositionEdge,
+    Some("rt-r-inset"),
+    Some(&["--inset"]),
+    i8
+);
+prop_optional_responsive_number_enum_or_string!(
+    TopProp,
+    PositionEdge,
+    Some("rt-r-top"),
+    Some(&["--top"]),
+    i8
+);
+prop_optional_responsive_number_enum_or_string!(
+    RightProp,
+    PositionEdge,
+    Some("rt-r-right"),
+    Some(&["--right"]),
+    i8
+);
+prop_optional_responsive_number_enum_or_string!(
+    BottomProp,
+    PositionEdge,
+    Some("rt-r-bottom"),
+    Some(&["--bottom"]),
+    i8
+);
+prop_optional_responsive_number_enum_or_string!(
+    LeftProp,
+    PositionEdge,
+    Some("rt-r-left"),
+    Some(&["--left"]),
+    i8
+);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Overflow {
@@ -531,159 +156,11 @@ impl From<Overflow> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct OverflowProp(pub Option<Responsive<Overflow>>);
+prop_optional_responsive_enum!(OverflowProp, Overflow, Some("rt-r-overflow"), None);
+prop_optional_responsive_enum!(OverflowXProp, Overflow, Some("rt-r-ox"), None);
+prop_optional_responsive_enum!(OverflowYProp, Overflow, Some("rt-r-oy"), None);
 
-impl IntoPropValue<OverflowProp> for Overflow {
-    fn into_prop_value(self) -> OverflowProp {
-        OverflowProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<OverflowProp> for ResponsiveValues<Overflow> {
-    fn into_prop_value(self) -> OverflowProp {
-        OverflowProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for OverflowProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-overflow")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct OverflowXProp(pub Option<Responsive<Overflow>>);
-
-impl IntoPropValue<OverflowXProp> for Overflow {
-    fn into_prop_value(self) -> OverflowXProp {
-        OverflowXProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<OverflowXProp> for ResponsiveValues<Overflow> {
-    fn into_prop_value(self) -> OverflowXProp {
-        OverflowXProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for OverflowXProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-ox")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct OverflowYProp(pub Option<Responsive<Overflow>>);
-
-impl IntoPropValue<OverflowYProp> for Overflow {
-    fn into_prop_value(self) -> OverflowYProp {
-        OverflowYProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<OverflowYProp> for ResponsiveValues<Overflow> {
-    fn into_prop_value(self) -> OverflowYProp {
-        OverflowYProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for OverflowYProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-oy")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexBasisProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<FlexBasisProp> for &str {
-    fn into_prop_value(self) -> FlexBasisProp {
-        FlexBasisProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<FlexBasisProp> for String {
-    fn into_prop_value(self) -> FlexBasisProp {
-        FlexBasisProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexBasisProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> FlexBasisProp {
-        FlexBasisProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for FlexBasisProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-fb")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--flex-basis"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
+prop_optional_arbitary_responsive_string!(FlexBasisProp, Some("rt-r-fb"), Some(&["--flex-basis"]));
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum FlexShrink {
@@ -733,80 +210,13 @@ impl From<FlexShrink> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexShrinkProp(pub Option<Responsive<FlexShrink>>);
-
-impl IntoPropValue<FlexShrinkProp> for FlexShrink {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexShrinkProp> for u8 {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<FlexShrinkProp> for &str {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<FlexShrinkProp> for String {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<FlexShrinkProp> for ResponsiveValues<FlexShrink> {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<FlexShrinkProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<FlexShrinkProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> FlexShrinkProp {
-        FlexShrinkProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for FlexShrinkProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-fs")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--flex-shrink"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_number_enum_or_string!(
+    FlexShrinkProp,
+    FlexShrink,
+    Some("rt-r-fs"),
+    Some(&["--flex-shrink"]),
+    u8
+);
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum FlexGrow {
@@ -856,378 +266,40 @@ impl From<FlexGrow> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexGrowProp(pub Option<Responsive<FlexGrow>>);
-
-impl IntoPropValue<FlexGrowProp> for FlexGrow {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexGrowProp> for u8 {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<FlexGrowProp> for &str {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<FlexGrowProp> for String {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<FlexGrowProp> for ResponsiveValues<FlexGrow> {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<FlexGrowProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<FlexGrowProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> FlexGrowProp {
-        FlexGrowProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for FlexGrowProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-fg")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--flex-grow"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridAreaProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridAreaProp> for &str {
-    fn into_prop_value(self) -> GridAreaProp {
-        GridAreaProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridAreaProp> for String {
-    fn into_prop_value(self) -> GridAreaProp {
-        GridAreaProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridAreaProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridAreaProp {
-        GridAreaProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridAreaProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-ga")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-area"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridColumnProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridColumnProp> for &str {
-    fn into_prop_value(self) -> GridColumnProp {
-        GridColumnProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridColumnProp> for String {
-    fn into_prop_value(self) -> GridColumnProp {
-        GridColumnProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridColumnProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridColumnProp {
-        GridColumnProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridColumnProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gc")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-column"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridColumnStartProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridColumnStartProp> for &str {
-    fn into_prop_value(self) -> GridColumnStartProp {
-        GridColumnStartProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridColumnStartProp> for String {
-    fn into_prop_value(self) -> GridColumnStartProp {
-        GridColumnStartProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridColumnStartProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridColumnStartProp {
-        GridColumnStartProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridColumnStartProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gcs")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-column-start"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridColumnEndProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridColumnEndProp> for &str {
-    fn into_prop_value(self) -> GridColumnEndProp {
-        GridColumnEndProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridColumnEndProp> for String {
-    fn into_prop_value(self) -> GridColumnEndProp {
-        GridColumnEndProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridColumnEndProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridColumnEndProp {
-        GridColumnEndProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridColumnEndProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gce")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-column-end"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridRowProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridRowProp> for &str {
-    fn into_prop_value(self) -> GridRowProp {
-        GridRowProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridRowProp> for String {
-    fn into_prop_value(self) -> GridRowProp {
-        GridRowProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridRowProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridRowProp {
-        GridRowProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridRowProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gr")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-row"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridRowStartProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridRowStartProp> for &str {
-    fn into_prop_value(self) -> GridRowStartProp {
-        GridRowStartProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridRowStartProp> for String {
-    fn into_prop_value(self) -> GridRowStartProp {
-        GridRowStartProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridRowStartProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridRowStartProp {
-        GridRowStartProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridRowStartProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-grs")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-row-start"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridRowEndProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridRowEndProp> for &str {
-    fn into_prop_value(self) -> GridRowEndProp {
-        GridRowEndProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridRowEndProp> for String {
-    fn into_prop_value(self) -> GridRowEndProp {
-        GridRowEndProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridRowEndProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridRowEndProp {
-        GridRowEndProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridRowEndProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gre")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-row-end"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
+prop_optional_responsive_number_enum_or_string!(
+    FlexGrowProp,
+    FlexGrow,
+    Some("rt-r-fg"),
+    Some(&["--flex-grow"]),
+    u8
+);
+
+prop_optional_arbitary_responsive_string!(GridAreaProp, Some("rt-r-ga"), Some(&["--grid-area"]));
+
+prop_optional_arbitary_responsive_string!(
+    GridColumnProp,
+    Some("rt-r-gc"),
+    Some(&["--grid-column"])
+);
+prop_optional_arbitary_responsive_string!(
+    GridColumnStartProp,
+    Some("rt-r-gcs"),
+    Some(&["--grid-column-start"])
+);
+prop_optional_arbitary_responsive_string!(
+    GridColumnEndProp,
+    Some("rt-r-gce"),
+    Some(&["--grid-column-end"])
+);
+
+prop_optional_arbitary_responsive_string!(GridRowProp, Some("rt-r-gr"), Some(&["--grid-row"]));
+prop_optional_arbitary_responsive_string!(
+    GridRowStartProp,
+    Some("rt-r-grs"),
+    Some(&["--grid-row-start"])
+);
+prop_optional_arbitary_responsive_string!(
+    GridRowEndProp,
+    Some("rt-r-gre"),
+    Some(&["--grid-row-end"])
+);

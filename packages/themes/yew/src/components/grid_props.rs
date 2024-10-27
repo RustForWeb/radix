@@ -1,9 +1,8 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
+use crate::{
+    prop_enum, prop_optional_arbitary_responsive_string, prop_optional_responsive_enum,
+    prop_optional_responsive_number_enum_or_string, props::prop_def::StringValue,
 };
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
@@ -32,36 +31,7 @@ impl From<GridAs> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridAsProp(pub GridAs);
-
-impl IntoPropValue<GridAsProp> for GridAs {
-    fn into_prop_value(self) -> GridAsProp {
-        GridAsProp(self)
-    }
-}
-
-impl PropDef for GridAsProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        None
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_enum!(GridAsProp, GridAs, None, None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum GridDisplay {
@@ -90,85 +60,13 @@ impl From<GridDisplay> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridDisplayProp(pub Option<Responsive<GridDisplay>>);
+prop_optional_responsive_enum!(GridDisplayProp, GridDisplay, Some("rt-r-display"), None);
 
-impl IntoPropValue<GridDisplayProp> for GridDisplay {
-    fn into_prop_value(self) -> GridDisplayProp {
-        GridDisplayProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridDisplayProp> for ResponsiveValues<GridDisplay> {
-    fn into_prop_value(self) -> GridDisplayProp {
-        GridDisplayProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridDisplayProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-display")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridAreasProp(pub Option<Responsive<String>>);
-
-impl IntoPropValue<GridAreasProp> for &str {
-    fn into_prop_value(self) -> GridAreasProp {
-        GridAreasProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridAreasProp> for String {
-    fn into_prop_value(self) -> GridAreasProp {
-        GridAreasProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridAreasProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridAreasProp {
-        GridAreasProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridAreasProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::String
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gta")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-template-areas"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value_arbitrary())
-    }
-}
+prop_optional_arbitary_responsive_string!(
+    GridAreasProp,
+    Some("rt-r-gta"),
+    Some(&["--grid-template-areas"])
+);
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum GridColumns {
@@ -227,80 +125,13 @@ impl From<GridColumns> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridColumnsProp(pub Option<Responsive<GridColumns>>);
-
-impl IntoPropValue<GridColumnsProp> for GridColumns {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridColumnsProp> for u8 {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<GridColumnsProp> for &str {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridColumnsProp> for String {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridColumnsProp> for ResponsiveValues<GridColumns> {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<GridColumnsProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<GridColumnsProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridColumnsProp {
-        GridColumnsProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for GridColumnsProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gtc")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-template-columns"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_number_enum_or_string!(
+    GridColumnsProp,
+    GridColumns,
+    Some("rt-r-gtc"),
+    Some(&["--grid-template-columns"]),
+    u8
+);
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum GridRows {
@@ -359,80 +190,13 @@ impl From<GridRows> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridRowsProp(pub Option<Responsive<GridRows>>);
-
-impl IntoPropValue<GridRowsProp> for GridRows {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridRowsProp> for u8 {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Value(self.try_into().unwrap())))
-    }
-}
-
-impl IntoPropValue<GridRowsProp> for &str {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridRowsProp> for String {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Value(self.into())))
-    }
-}
-
-impl IntoPropValue<GridRowsProp> for ResponsiveValues<GridRows> {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl IntoPropValue<GridRowsProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        )))
-    }
-}
-
-impl IntoPropValue<GridRowsProp> for ResponsiveValues<String> {
-    fn into_prop_value(self) -> GridRowsProp {
-        GridRowsProp(Some(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.into()))
-                .collect(),
-        )))
-    }
-}
-
-impl PropDef for GridRowsProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::EnumOrString
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gtr")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        Some(&["--grid-template-rows"])
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_number_enum_or_string!(
+    GridRowsProp,
+    GridRows,
+    Some("rt-r-gtr"),
+    Some(&["--grid-template-rows"]),
+    u8
+);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum GridFlow {
@@ -465,42 +229,7 @@ impl From<GridFlow> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridFlowProp(pub Option<Responsive<GridFlow>>);
-
-impl IntoPropValue<GridFlowProp> for GridFlow {
-    fn into_prop_value(self) -> GridFlowProp {
-        GridFlowProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridFlowProp> for ResponsiveValues<GridFlow> {
-    fn into_prop_value(self) -> GridFlowProp {
-        GridFlowProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridFlowProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-gaf")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(GridFlowProp, GridFlow, Some("rt-r-gaf"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum GridAlign {
@@ -533,42 +262,7 @@ impl From<GridAlign> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridAlignProp(pub Option<Responsive<GridAlign>>);
-
-impl IntoPropValue<GridAlignProp> for GridAlign {
-    fn into_prop_value(self) -> GridAlignProp {
-        GridAlignProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridAlignProp> for ResponsiveValues<GridAlign> {
-    fn into_prop_value(self) -> GridAlignProp {
-        GridAlignProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridAlignProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-ai")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(GridAlignProp, GridAlign, Some("rt-r-ai"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum GridJustify {
@@ -599,39 +293,4 @@ impl From<GridJustify> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct GridJustifyProp(pub Option<Responsive<GridJustify>>);
-
-impl IntoPropValue<GridJustifyProp> for GridJustify {
-    fn into_prop_value(self) -> GridJustifyProp {
-        GridJustifyProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<GridJustifyProp> for ResponsiveValues<GridJustify> {
-    fn into_prop_value(self) -> GridJustifyProp {
-        GridJustifyProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for GridJustifyProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-jc")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(GridJustifyProp, GridJustify, Some("rt-r-jc"), None);

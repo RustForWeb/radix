@@ -1,8 +1,6 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
+use crate::{prop_enum, props::prop_def::prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct SelectSize(u8);
@@ -34,42 +32,7 @@ impl TryFrom<u8> for SelectSize {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SelectSizeProp(pub SelectSize);
-
-impl IntoPropValue<SelectSizeProp> for u8 {
-    fn into_prop_value(self) -> SelectSizeProp {
-        SelectSizeProp(self.try_into().unwrap())
-    }
-}
-
-impl IntoPropValue<SelectSizeProp> for SelectSize {
-    fn into_prop_value(self) -> SelectSizeProp {
-        SelectSizeProp(self)
-    }
-}
-
-impl PropDef for SelectSizeProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-size")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_responsive_number_enum!(SelectSizeProp, SelectSize, Some("rt-r-size"), None);
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum SelectTriggerVariant {
@@ -95,36 +58,12 @@ impl Display for SelectTriggerVariant {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SelectTriggerVariantProp(pub SelectTriggerVariant);
-
-impl IntoPropValue<SelectTriggerVariantProp> for SelectTriggerVariant {
-    fn into_prop_value(self) -> SelectTriggerVariantProp {
-        SelectTriggerVariantProp(self)
-    }
-}
-
-impl PropDef for SelectTriggerVariantProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-variant")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_enum!(
+    SelectTriggerVariantProp,
+    SelectTriggerVariant,
+    Some("rt-variant"),
+    None
+);
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum SelectContentVariant {
@@ -146,33 +85,9 @@ impl Display for SelectContentVariant {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SelectContentVariantProp(pub SelectContentVariant);
-
-impl IntoPropValue<SelectContentVariantProp> for SelectContentVariant {
-    fn into_prop_value(self) -> SelectContentVariantProp {
-        SelectContentVariantProp(self)
-    }
-}
-
-impl PropDef for SelectContentVariantProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-variant")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_enum!(
+    SelectContentVariantProp,
+    SelectContentVariant,
+    Some("rt-variant"),
+    None
+);

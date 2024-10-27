@@ -1,10 +1,6 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
-};
+use crate::props::prop_def::{prop_enum, prop_responsive_number_enum, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum HeadingAs {
@@ -40,36 +36,7 @@ impl From<HeadingAs> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct HeadingAsProp(pub HeadingAs);
-
-impl IntoPropValue<HeadingAsProp> for HeadingAs {
-    fn into_prop_value(self) -> HeadingAsProp {
-        HeadingAsProp(self)
-    }
-}
-
-impl PropDef for HeadingAsProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        None
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_enum!(HeadingAsProp, HeadingAs, None, None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct HeadingSize(u8);
@@ -101,55 +68,4 @@ impl TryFrom<u8> for HeadingSize {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct HeadingSizeProp(pub Responsive<HeadingSize>);
-
-impl IntoPropValue<HeadingSizeProp> for u8 {
-    fn into_prop_value(self) -> HeadingSizeProp {
-        HeadingSizeProp(Responsive::Value(self.try_into().unwrap()))
-    }
-}
-
-impl IntoPropValue<HeadingSizeProp> for HeadingSize {
-    fn into_prop_value(self) -> HeadingSizeProp {
-        HeadingSizeProp(Responsive::Value(self))
-    }
-}
-
-impl IntoPropValue<HeadingSizeProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> HeadingSizeProp {
-        HeadingSizeProp(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        ))
-    }
-}
-
-impl IntoPropValue<HeadingSizeProp> for ResponsiveValues<HeadingSize> {
-    fn into_prop_value(self) -> HeadingSizeProp {
-        HeadingSizeProp(Responsive::Values(self))
-    }
-}
-
-impl PropDef for HeadingSizeProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-size")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.value_defined()
-    }
-}
+prop_responsive_number_enum!(HeadingSizeProp, HeadingSize, Some("rt-r-size"), None);

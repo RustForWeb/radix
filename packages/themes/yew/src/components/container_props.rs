@@ -1,9 +1,7 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
 use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
+    prop_optional_responsive_enum, prop_responsive_number_enum, StringValue,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -36,58 +34,7 @@ impl TryFrom<u8> for ContainerSize {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct ContainerSizeProp(pub Responsive<ContainerSize>);
-
-impl IntoPropValue<ContainerSizeProp> for u8 {
-    fn into_prop_value(self) -> ContainerSizeProp {
-        ContainerSizeProp(Responsive::Value(self.try_into().unwrap()))
-    }
-}
-
-impl IntoPropValue<ContainerSizeProp> for ContainerSize {
-    fn into_prop_value(self) -> ContainerSizeProp {
-        ContainerSizeProp(Responsive::Value(self))
-    }
-}
-
-impl IntoPropValue<ContainerSizeProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> ContainerSizeProp {
-        ContainerSizeProp(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        ))
-    }
-}
-
-impl IntoPropValue<ContainerSizeProp> for ResponsiveValues<ContainerSize> {
-    fn into_prop_value(self) -> ContainerSizeProp {
-        ContainerSizeProp(Responsive::Values(self))
-    }
-}
-
-impl PropDef for ContainerSizeProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-size")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.value_defined()
-    }
-}
+prop_responsive_number_enum!(ContainerSizeProp, ContainerSize, Some("rt-r-size"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum ContainerDisplay {
@@ -114,42 +61,12 @@ impl From<ContainerDisplay> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct ContainerDisplayProp(pub Option<Responsive<ContainerDisplay>>);
-
-impl IntoPropValue<ContainerDisplayProp> for ContainerDisplay {
-    fn into_prop_value(self) -> ContainerDisplayProp {
-        ContainerDisplayProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<ContainerDisplayProp> for ResponsiveValues<ContainerDisplay> {
-    fn into_prop_value(self) -> ContainerDisplayProp {
-        ContainerDisplayProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for ContainerDisplayProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-display")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(
+    ContainerDisplayProp,
+    ContainerDisplay,
+    Some("rt-r-display"),
+    None
+);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum ContainerAlign {
@@ -178,39 +95,4 @@ impl From<ContainerAlign> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct ContainerAlignProp(pub Option<Responsive<ContainerAlign>>);
-
-impl IntoPropValue<ContainerAlignProp> for ContainerAlign {
-    fn into_prop_value(self) -> ContainerAlignProp {
-        ContainerAlignProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<ContainerAlignProp> for ResponsiveValues<ContainerAlign> {
-    fn into_prop_value(self) -> ContainerAlignProp {
-        ContainerAlignProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for ContainerAlignProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-ai")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(ContainerAlignProp, ContainerAlign, Some("rt-r-ai"), None);

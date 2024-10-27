@@ -1,8 +1,6 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue};
+use crate::props::prop_def::{prop_enum, prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct SwitchSize(u8);
@@ -34,42 +32,7 @@ impl TryFrom<u8> for SwitchSize {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SwitchSizeProp(pub SwitchSize);
-
-impl IntoPropValue<SwitchSizeProp> for u8 {
-    fn into_prop_value(self) -> SwitchSizeProp {
-        SwitchSizeProp(self.try_into().unwrap())
-    }
-}
-
-impl IntoPropValue<SwitchSizeProp> for SwitchSize {
-    fn into_prop_value(self) -> SwitchSizeProp {
-        SwitchSizeProp(self)
-    }
-}
-
-impl PropDef for SwitchSizeProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-size")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_responsive_number_enum!(SwitchSizeProp, SwitchSize, Some("rt-r-size"), None);
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum SwitchVariant {
@@ -93,33 +56,4 @@ impl Display for SwitchVariant {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SwitchVariantProp(pub SwitchVariant);
-
-impl IntoPropValue<SwitchVariantProp> for SwitchVariant {
-    fn into_prop_value(self) -> SwitchVariantProp {
-        SwitchVariantProp(self)
-    }
-}
-
-impl PropDef for SwitchVariantProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-variant")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_enum!(SwitchVariantProp, SwitchVariant, Some("rt-variant"), None);

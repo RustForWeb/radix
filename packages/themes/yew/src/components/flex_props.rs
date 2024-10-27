@@ -1,10 +1,6 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
-};
+use crate::props::prop_def::{prop_enum, prop_optional_enum, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum FlexAs {
@@ -32,36 +28,7 @@ impl From<FlexAs> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexAsProp(pub FlexAs);
-
-impl IntoPropValue<FlexAsProp> for FlexAs {
-    fn into_prop_value(self) -> FlexAsProp {
-        FlexAsProp(self)
-    }
-}
-
-impl PropDef for FlexAsProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        None
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        Some(PropValue::String(StringValue::Defined(self.0.to_string())))
-    }
-}
+prop_enum!(FlexAsProp, FlexAs, None, None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FlexDisplay {
@@ -90,42 +57,7 @@ impl From<FlexDisplay> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexDisplayProp(pub Option<Responsive<FlexDisplay>>);
-
-impl IntoPropValue<FlexDisplayProp> for FlexDisplay {
-    fn into_prop_value(self) -> FlexDisplayProp {
-        FlexDisplayProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexDisplayProp> for ResponsiveValues<FlexDisplay> {
-    fn into_prop_value(self) -> FlexDisplayProp {
-        FlexDisplayProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for FlexDisplayProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-display")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_enum!(FlexDisplayProp, FlexDisplay, Some("rt-r-display"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FlexDirection {
@@ -156,42 +88,7 @@ impl From<FlexDirection> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexDirectionProp(pub Option<Responsive<FlexDirection>>);
-
-impl IntoPropValue<FlexDirectionProp> for FlexDirection {
-    fn into_prop_value(self) -> FlexDirectionProp {
-        FlexDirectionProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexDirectionProp> for ResponsiveValues<FlexDirection> {
-    fn into_prop_value(self) -> FlexDirectionProp {
-        FlexDirectionProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for FlexDirectionProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-fd")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_enum!(FlexDirectionProp, FlexDirection, Some("rt-r-fd"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FlexAlign {
@@ -224,42 +121,7 @@ impl From<FlexAlign> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexAlignProp(pub Option<Responsive<FlexAlign>>);
-
-impl IntoPropValue<FlexAlignProp> for FlexAlign {
-    fn into_prop_value(self) -> FlexAlignProp {
-        FlexAlignProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexAlignProp> for ResponsiveValues<FlexAlign> {
-    fn into_prop_value(self) -> FlexAlignProp {
-        FlexAlignProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for FlexAlignProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-ai")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_enum!(FlexAlignProp, FlexAlign, Some("rt-r-ai"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FlexJustify {
@@ -289,43 +151,7 @@ impl From<FlexJustify> for StringValue {
         StringValue::Defined(value.to_string())
     }
 }
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexJustifyProp(pub Option<Responsive<FlexJustify>>);
-
-impl IntoPropValue<FlexJustifyProp> for FlexJustify {
-    fn into_prop_value(self) -> FlexJustifyProp {
-        FlexJustifyProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexJustifyProp> for ResponsiveValues<FlexJustify> {
-    fn into_prop_value(self) -> FlexJustifyProp {
-        FlexJustifyProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for FlexJustifyProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-jc")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_enum!(FlexJustifyProp, FlexJustify, Some("rt-r-jc"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum FlexWrap {
@@ -354,39 +180,4 @@ impl From<FlexWrap> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct FlexWrapProp(pub Option<Responsive<FlexWrap>>);
-
-impl IntoPropValue<FlexWrapProp> for FlexWrap {
-    fn into_prop_value(self) -> FlexWrapProp {
-        FlexWrapProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<FlexWrapProp> for ResponsiveValues<FlexWrap> {
-    fn into_prop_value(self) -> FlexWrapProp {
-        FlexWrapProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for FlexWrapProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-fw")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_enum!(FlexWrapProp, FlexWrap, Some("rt-r-fw"), None);

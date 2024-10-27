@@ -1,10 +1,6 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
-};
+use crate::props::prop_def::{prop_optional_responsive_enum, StringValue};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum TextWrap {
@@ -35,39 +31,4 @@ impl From<TextWrap> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct TextWrapProp(pub Option<Responsive<TextWrap>>);
-
-impl IntoPropValue<TextWrapProp> for TextWrap {
-    fn into_prop_value(self) -> TextWrapProp {
-        TextWrapProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<TextWrapProp> for ResponsiveValues<TextWrap> {
-    fn into_prop_value(self) -> TextWrapProp {
-        TextWrapProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for TextWrapProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-tw")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(TextWrapProp, TextWrap, Some("rt-r-tw"), None);

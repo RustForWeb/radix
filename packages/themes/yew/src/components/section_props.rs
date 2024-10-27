@@ -1,9 +1,8 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
+use crate::{
+    prop_optional_responsive_enum,
+    props::prop_def::{prop_responsive_number_enum, StringValue},
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -36,58 +35,7 @@ impl TryFrom<u8> for SectionSize {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct SectionSizeProp(pub Responsive<SectionSize>);
-
-impl IntoPropValue<SectionSizeProp> for u8 {
-    fn into_prop_value(self) -> SectionSizeProp {
-        SectionSizeProp(Responsive::Value(self.try_into().unwrap()))
-    }
-}
-
-impl IntoPropValue<SectionSizeProp> for SectionSize {
-    fn into_prop_value(self) -> SectionSizeProp {
-        SectionSizeProp(Responsive::Value(self))
-    }
-}
-
-impl IntoPropValue<SectionSizeProp> for ResponsiveValues<u8> {
-    fn into_prop_value(self) -> SectionSizeProp {
-        SectionSizeProp(Responsive::Values(
-            self.into_iter()
-                .map(|(key, value)| (key, value.try_into().unwrap()))
-                .collect(),
-        ))
-    }
-}
-
-impl IntoPropValue<SectionSizeProp> for ResponsiveValues<SectionSize> {
-    fn into_prop_value(self) -> SectionSizeProp {
-        SectionSizeProp(Responsive::Values(self))
-    }
-}
-
-impl PropDef for SectionSizeProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-size")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.value_defined()
-    }
-}
+prop_responsive_number_enum!(SectionSizeProp, SectionSize, Some("rt-r-size"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum SectionDisplay {
@@ -114,39 +62,9 @@ impl From<SectionDisplay> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct SectionDisplayProp(pub Option<Responsive<SectionDisplay>>);
-
-impl IntoPropValue<SectionDisplayProp> for SectionDisplay {
-    fn into_prop_value(self) -> SectionDisplayProp {
-        SectionDisplayProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<SectionDisplayProp> for ResponsiveValues<SectionDisplay> {
-    fn into_prop_value(self) -> SectionDisplayProp {
-        SectionDisplayProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for SectionDisplayProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-display")
-    }
-
-    fn responsive(&self) -> bool {
-        true
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(
+    SectionDisplayProp,
+    SectionDisplay,
+    Some("rt-r-display"),
+    None
+);

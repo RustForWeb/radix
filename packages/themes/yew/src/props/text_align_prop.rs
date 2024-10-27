@@ -1,10 +1,6 @@
 use std::fmt::{self, Display};
 
-use yew::html::IntoPropValue;
-
-use crate::props::prop_def::{
-    PropDef, PropDefType, PropValue, Responsive, ResponsiveValues, StringValue,
-};
+use crate::props::prop_def::{prop_optional_responsive_enum, StringValue};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum TextAlign {
@@ -33,39 +29,4 @@ impl From<TextAlign> for StringValue {
     }
 }
 
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct TextAlignProp(pub Option<Responsive<TextAlign>>);
-
-impl IntoPropValue<TextAlignProp> for TextAlign {
-    fn into_prop_value(self) -> TextAlignProp {
-        TextAlignProp(Some(Responsive::Value(self)))
-    }
-}
-
-impl IntoPropValue<TextAlignProp> for ResponsiveValues<TextAlign> {
-    fn into_prop_value(self) -> TextAlignProp {
-        TextAlignProp(Some(Responsive::Values(self)))
-    }
-}
-
-impl PropDef for TextAlignProp {
-    fn r#type(&self) -> PropDefType {
-        PropDefType::Enum
-    }
-
-    fn class(&self) -> Option<&str> {
-        Some("rt-r-ta")
-    }
-
-    fn responsive(&self) -> bool {
-        false
-    }
-
-    fn custom_properties(&self) -> Option<&[&str]> {
-        None
-    }
-
-    fn value(&self) -> Option<PropValue> {
-        self.0.as_ref().and_then(|value| value.value())
-    }
-}
+prop_optional_responsive_enum!(TextAlignProp, TextAlign, Some("rt-r-ta"), None);
