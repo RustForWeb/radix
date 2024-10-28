@@ -121,4 +121,4 @@
         -   [Portal]()
         -   [Reset]()
         -   [Theme](./themes/utilities/theme.md)
-        -   [Visually Hidden]()
+        -   [Visually Hidden](./themes/utilities/visually-hidden.md)

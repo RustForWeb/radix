@@ -3274,6 +3274,7 @@ dependencies = [
  "radix-yew-direction",
  "radix-yew-select",
  "radix-yew-switch",
+ "radix-yew-visually-hidden",
  "yew",
 ]
 

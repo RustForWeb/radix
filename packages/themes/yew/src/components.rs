@@ -28,6 +28,7 @@ mod text;
 mod text_props;
 mod theme;
 mod theme_props;
+mod visually_hidden;
 
 pub use base_button_props::*;
 pub use box_props::*;
@@ -58,3 +59,4 @@ pub use text::*;
 pub use text_props::*;
 pub use theme::*;
 pub use theme_props::*;
+pub use visually_hidden::*;

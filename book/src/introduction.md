@@ -167,7 +167,7 @@ The tables below show the support for the various frameworks.
 | Theme Panel       | ❌     | ❌     | ❌  |
 | Theme             | ❌     | ❌     | 🟦  |
 | Tooltip           | ❌     | ❌     | ❌  |
-| Visually Hidden   | ❌     | ❌     | ❌  |
+| Visually Hidden   | ❌     | ❌     | 🟦  |
 
 ## License
 
