@@ -3,11 +3,15 @@ mod r#box;
 mod button;
 mod container;
 mod decorative_box;
+mod em;
 mod flex;
 mod grid;
 mod heading;
+mod kbd;
+mod quote;
 mod section;
 mod select;
+mod strong;
 mod switch;
 mod text;
 

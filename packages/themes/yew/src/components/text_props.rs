@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_enum, prop_responsive_number_enum, StringValue};
+use crate::props::prop_def::{prop_enum, prop_optional_responsive_number_enum, StringValue};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum TextAs {
@@ -37,12 +37,6 @@ prop_enum!(TextAsProp, TextAs, None, None);
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct TextSize(u8);
 
-impl Default for TextSize {
-    fn default() -> Self {
-        Self(6)
-    }
-}
-
 impl Display for TextSize {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
@@ -64,4 +58,4 @@ impl TryFrom<u8> for TextSize {
     }
 }
 
-prop_responsive_number_enum!(TextSizeProp, TextSize, Some("rt-r-size"), None);
+prop_optional_responsive_number_enum!(TextSizeProp, TextSize, Some("rt-r-size"), None);

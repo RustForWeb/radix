@@ -89,6 +89,20 @@ pub fn App() -> Html {
             <ContainerExample />
         });
     }
+    #[cfg(feature = "em")]
+    {
+        use crate::em::em::EmExample;
+        children.push(html! {
+            <EmExample />
+        });
+    }
+    #[cfg(feature = "em-truncate")]
+    {
+        use crate::em::em_truncate::EmTruncateExample;
+        children.push(html! {
+            <EmTruncateExample />
+        });
+    }
     #[cfg(feature = "flex")]
     {
         use crate::flex::flex::FlexExample;
@@ -187,6 +201,34 @@ pub fn App() -> Html {
             <HeadingWrapExample />
         });
     }
+    #[cfg(feature = "kbd")]
+    {
+        use crate::kbd::kbd::KbdExample;
+        children.push(html! {
+            <KbdExample />
+        });
+    }
+    #[cfg(feature = "kbd-size")]
+    {
+        use crate::kbd::kbd_size::KbdSizeExample;
+        children.push(html! {
+            <KbdSizeExample />
+        });
+    }
+    #[cfg(feature = "quote")]
+    {
+        use crate::quote::quote::QuoteExample;
+        children.push(html! {
+            <QuoteExample />
+        });
+    }
+    #[cfg(feature = "quote-truncate")]
+    {
+        use crate::quote::quote_truncate::QuoteTruncateExample;
+        children.push(html! {
+            <QuoteTruncateExample />
+        });
+    }
     #[cfg(feature = "section")]
     {
         use crate::section::section::SectionExample;
@@ -201,6 +243,20 @@ pub fn App() -> Html {
             <div style="min-height: 300px;">
                 <SelectExample />
             </div>
+        });
+    }
+    #[cfg(feature = "strong")]
+    {
+        use crate::strong::strong::StrongExample;
+        children.push(html! {
+            <StrongExample />
+        });
+    }
+    #[cfg(feature = "strong-truncate")]
+    {
+        use crate::strong::strong_truncate::StrongTruncateExample;
+        children.push(html! {
+            <StrongTruncateExample />
         });
     }
     #[cfg(feature = "switch")]

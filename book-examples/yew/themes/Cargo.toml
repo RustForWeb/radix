@@ -31,6 +31,8 @@ default = [
     "button-variant-ghost",
     "button-with-icons",
     "container",
+    "em",
+    "em-truncate",
     "flex",
     "grid",
     "grid-responsive",
@@ -45,8 +47,14 @@ default = [
     "heading-truncate",
     "heading-weight",
     "heading-wrap",
+    "kbd",
+    "kbd-size",
+    "quote",
+    "quote-truncate",
     "section",
     "select",
+    "strong",
+    "strong-truncate",
     "switch",
     "switch-alignment",
     "switch-color",
@@ -83,6 +91,8 @@ button-variant = []
 button-variant-ghost = []
 button-with-icons = ["radix-yew-icons/bookmark"]
 container = []
+em = []
+em-truncate = []
 flex = []
 grid = []
 grid-responsive = []
@@ -97,8 +107,14 @@ heading-trim-box = []
 heading-truncate = []
 heading-weight = []
 heading-wrap = []
+kbd = []
+kbd-size = []
+quote = []
+quote-truncate = []
 section = []
 select = []
+strong = []
+strong-truncate = []
 switch = []
 switch-alignment = []
 switch-color = []

@@ -17,7 +17,26 @@ show_files = true
 
 ## API Reference
 
-TODO
+This component is based on the `h1` element and supports [common margin props](../overview/layout.md#margin-props).
+
+{{#tabs global="framework" }}
+{{#tab name="Yew" }}
+
+| Prop            | Type                                  | Default         |
+| --------------- | ------------------------------------- | --------------- |
+| `as`            | `HeadingAs`                           | `HeadingAs::H1` |
+| `as_child`      | `Option<Callback<HeadingChildProps>>` | -               |
+| `size`          | `Responsive<1..9>`                    | `6`             |
+| `weight`        | `Option<Weight>`                      | -               |
+| `align`         | `Option<TextAlign>`                   | -               |
+| `trim`          | `Option<LeadingTrim>`                 | -               |
+| `truncate`      | `Option<bool>`                        | -               |
+| `wrap`          | `Option<TextWrap>`                    | -               |
+| `color`         | `Option<AccentColor>`                 | -               |
+| `high_contrast` | `Option<bool>`                        | -               |
+
+{{#endtab }}
+{{#endtabs }}
 
 ## Examples
 

@@ -129,7 +129,7 @@ The tables below show the support for the various frameworks.
 | Data List         | ❌     | ❌     | ❌  |
 | Dialog            | ❌     | ❌     | ❌  |
 | Dropdown Menu     | ❌     | ❌     | ❌  |
-| Em                | ❌     | ❌     | ❌  |
+| Em                | ❌     | ❌     | 🟦  |
 | Flex              | ❌     | ❌     | 🟦  |
 | Grid              | ❌     | ❌     | 🟦  |
 | Heading           | ❌     | ❌     | 🟦  |
@@ -137,12 +137,12 @@ The tables below show the support for the various frameworks.
 | Icon Button       | ❌     | ❌     | ❌  |
 | Icons             | ❌     | ❌     | ❌  |
 | Inset             | ❌     | ❌     | ❌  |
-| Kbd               | ❌     | ❌     | ❌  |
+| Kbd               | ❌     | ❌     | 🟦  |
 | Link              | ❌     | ❌     | ❌  |
 | Popover           | ❌     | ❌     | ❌  |
 | Portal            | ❌     | ❌     | ❌  |
 | Progress          | ❌     | ❌     | ❌  |
-| Quote             | ❌     | ❌     | ❌  |
+| Quote             | ❌     | ❌     | 🟦  |
 | Radio Cards       | ❌     | ❌     | ❌  |
 | Radio Group       | ❌     | ❌     | ❌  |
 | Radio             | ❌     | ❌     | ❌  |
@@ -156,14 +156,14 @@ The tables below show the support for the various frameworks.
 | Slider            | ❌     | ❌     | ❌  |
 | Slot              | ❌     | ❌     | ❌  |
 | Spinner           | ❌     | ❌     | ❌  |
-| Strong            | ❌     | ❌     | ❌  |
+| Strong            | ❌     | ❌     | 🟦  |
 | Switch            | ❌     | ❌     | 🚧  |
 | Table             | ❌     | ❌     | ❌  |
 | Tab Nav           | ❌     | ❌     | ❌  |
 | Tabs              | ❌     | ❌     | ❌  |
 | Text Area         | ❌     | ❌     | ❌  |
 | Text Field        | ❌     | ❌     | ❌  |
-| Text              | ❌     | ❌     | ❌  |
+| Text              | ❌     | ❌     | 🟦  |
 | Theme Panel       | ❌     | ❌     | ❌  |
 | Theme             | ❌     | ❌     | 🟦  |
 | Tooltip           | ❌     | ❌     | ❌  |

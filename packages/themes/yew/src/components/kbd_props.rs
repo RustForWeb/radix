@@ -5,12 +5,6 @@ use crate::props::prop_def::prop_optional_responsive_number_enum;
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct KbdSize(u8);
 
-impl Default for KbdSize {
-    fn default() -> Self {
-        Self(6)
-    }
-}
-
 impl Display for KbdSize {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)

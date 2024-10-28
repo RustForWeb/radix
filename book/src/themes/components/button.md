@@ -19,15 +19,21 @@ show_files = true
 
 This component is based on the `button` element and supports [common margin props](../overview/layout.md#margin-props).
 
+{{#tabs global="framework" }}
+{{#tab name="Yew" }}
+
 | Prop            | Type                                 | Default                |
 | --------------- | ------------------------------------ | ---------------------- |
 | `as_child`      | `Option<Callback<ButtonChildProps>>` | -                      |
 | `size`          | `Responsive<1..4>`                   | `2`                    |
 | `variant`       | `ButtonVariant`                      | `ButtonVariant::Solid` |
-| `color`         | `AccentColor`                        | -                      |
+| `color`         | `Option<AccentColor>`                | -                      |
 | `high_contrast` | `Option<bool>`                       | -                      |
 | `radius`        | `Option<Radius>`                     | -                      |
 | `loading`       | `bool`                               | `false`                |
+
+{{#endtab }}
+{{#endtabs }}
 
 ## Examples
 
