@@ -2,7 +2,7 @@ use radix_yew_themes::{AccentColor, Flex, FlexDirection, Grid, GridAlign, Text, 
 use yew::prelude::*;
 
 #[function_component]
-pub fn TextLabelsExample() -> Html {
+pub fn TextSizeLabelsExample() -> Html {
     html! {
         <Grid align={GridAlign::Center} columns=2 gap=5 p=3>
             <Flex direction={FlexDirection::Column}>

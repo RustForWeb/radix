@@ -1,8 +1,8 @@
 use std::fmt::{self, Display};
 
 use crate::props::prop_def::{
-    prop_optional_arbitary_responsive_string, prop_optional_responsive_enum,
-    prop_optional_responsive_number_enum_or_string, StringValue,
+    prop_optional_responsive_enum, prop_optional_responsive_number_enum_or_string,
+    prop_optional_responsive_string, StringValue,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -160,7 +160,7 @@ prop_optional_responsive_enum!(OverflowProp, Overflow, Some("rt-r-overflow"), No
 prop_optional_responsive_enum!(OverflowXProp, Overflow, Some("rt-r-ox"), None);
 prop_optional_responsive_enum!(OverflowYProp, Overflow, Some("rt-r-oy"), None);
 
-prop_optional_arbitary_responsive_string!(FlexBasisProp, Some("rt-r-fb"), Some(&["--flex-basis"]));
+prop_optional_responsive_string!(FlexBasisProp, Some("rt-r-fb"), Some(&["--flex-basis"]));
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum FlexShrink {
@@ -274,32 +274,24 @@ prop_optional_responsive_number_enum_or_string!(
     u8
 );
 
-prop_optional_arbitary_responsive_string!(GridAreaProp, Some("rt-r-ga"), Some(&["--grid-area"]));
+prop_optional_responsive_string!(GridAreaProp, Some("rt-r-ga"), Some(&["--grid-area"]));
 
-prop_optional_arbitary_responsive_string!(
-    GridColumnProp,
-    Some("rt-r-gc"),
-    Some(&["--grid-column"])
-);
-prop_optional_arbitary_responsive_string!(
+prop_optional_responsive_string!(GridColumnProp, Some("rt-r-gc"), Some(&["--grid-column"]));
+prop_optional_responsive_string!(
     GridColumnStartProp,
     Some("rt-r-gcs"),
     Some(&["--grid-column-start"])
 );
-prop_optional_arbitary_responsive_string!(
+prop_optional_responsive_string!(
     GridColumnEndProp,
     Some("rt-r-gce"),
     Some(&["--grid-column-end"])
 );
 
-prop_optional_arbitary_responsive_string!(GridRowProp, Some("rt-r-gr"), Some(&["--grid-row"]));
-prop_optional_arbitary_responsive_string!(
+prop_optional_responsive_string!(GridRowProp, Some("rt-r-gr"), Some(&["--grid-row"]));
+prop_optional_responsive_string!(
     GridRowStartProp,
     Some("rt-r-grs"),
     Some(&["--grid-row-start"])
 );
-prop_optional_arbitary_responsive_string!(
-    GridRowEndProp,
-    Some("rt-r-gre"),
-    Some(&["--grid-row-end"])
-);
+prop_optional_responsive_string!(GridRowEndProp, Some("rt-r-gre"), Some(&["--grid-row-end"]));

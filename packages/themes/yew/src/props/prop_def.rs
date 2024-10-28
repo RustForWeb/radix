@@ -278,7 +278,7 @@ macro_rules! prop_optional_bool {
     };
 }
 
-macro_rules! prop_optional_arbitary_responsive_string {
+macro_rules! prop_optional_responsive_string {
     ($name:ident, $class:expr, $custom_properties:expr) => {
         #[derive(Clone, Debug, Default, PartialEq)]
         pub struct $name(pub Option<$crate::Responsive<String>>);
@@ -530,7 +530,7 @@ macro_rules! prop_optional_responsive_number_enum_or_string {
 }
 
 pub(crate) use {
-    prop_bool, prop_enum, prop_optional_arbitary_responsive_string, prop_optional_bool,
-    prop_optional_enum, prop_optional_responsive_enum, prop_optional_responsive_number_enum,
-    prop_optional_responsive_number_enum_or_string, prop_responsive_number_enum,
+    prop_bool, prop_enum, prop_optional_bool, prop_optional_enum, prop_optional_responsive_enum,
+    prop_optional_responsive_number_enum, prop_optional_responsive_number_enum_or_string,
+    prop_optional_responsive_string, prop_responsive_number_enum,
 };

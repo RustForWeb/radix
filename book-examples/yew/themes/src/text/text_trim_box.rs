@@ -2,7 +2,7 @@ use radix_yew_themes::{Box, Flex, FlexDirection, Heading, LeadingTrim, Text};
 use yew::prelude::*;
 
 #[function_component]
-pub fn HeadingTrimBoxExample() -> Html {
+pub fn TextTrimBoxExample() -> Html {
     html! {
         <Flex direction={FlexDirection::Column} gap=3>
             <Box

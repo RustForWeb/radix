@@ -1,8 +1,8 @@
 use std::fmt::{self, Display};
 
 use crate::{
-    prop_enum, prop_optional_arbitary_responsive_string, prop_optional_responsive_enum,
-    prop_optional_responsive_number_enum_or_string, props::prop_def::StringValue,
+    prop_enum, prop_optional_responsive_enum, prop_optional_responsive_number_enum_or_string,
+    prop_optional_responsive_string, props::prop_def::StringValue,
 };
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
@@ -62,7 +62,7 @@ impl From<GridDisplay> for StringValue {
 
 prop_optional_responsive_enum!(GridDisplayProp, GridDisplay, Some("rt-r-display"), None);
 
-prop_optional_arbitary_responsive_string!(
+prop_optional_responsive_string!(
     GridAreasProp,
     Some("rt-r-gta"),
     Some(&["--grid-template-areas"])

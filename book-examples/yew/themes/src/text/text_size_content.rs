@@ -2,7 +2,7 @@ use radix_yew_themes::{AccentColor, Text, TextAs};
 use yew::prelude::*;
 
 #[function_component]
-pub fn TextContentExample() -> Html {
+pub fn TextSizeContentExample() -> Html {
     html! {
         <>
             <Text r#as={TextAs::P} mb=5 size=4>

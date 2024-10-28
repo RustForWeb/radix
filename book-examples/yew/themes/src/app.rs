@@ -217,6 +217,111 @@ pub fn App() -> Html {
             <SwitchSizeExample />
         });
     }
+    #[cfg(feature = "text")]
+    {
+        use crate::text::text::TextExample;
+        children.push(html! {
+            <TextExample />
+        });
+    }
+    #[cfg(feature = "text-align")]
+    {
+        use crate::text::text_align::TextAlignExample;
+        children.push(html! {
+            <TextAlignExample />
+        });
+    }
+    #[cfg(feature = "text-as")]
+    {
+        use crate::text::text_as::TextAsExample;
+        children.push(html! {
+            <TextAsExample />
+        });
+    }
+    #[cfg(feature = "text-color")]
+    {
+        use crate::text::text_color::TextColorExample;
+        children.push(html! {
+            <TextColorExample />
+        });
+    }
+    #[cfg(feature = "text-form-controls")]
+    {
+        use crate::text::text_form_controls::TextFormControlsExample;
+        children.push(html! {
+            <TextFormControlsExample />
+        });
+    }
+    #[cfg(feature = "text-formatting")]
+    {
+        use crate::text::text_formatting::TextFormattingExample;
+        children.push(html! {
+            <TextFormattingExample />
+        });
+    }
+    #[cfg(feature = "text-high-contrast")]
+    {
+        use crate::text::text_high_contrast::TextHighContrastExample;
+        children.push(html! {
+            <TextHighContrastExample />
+        });
+    }
+    #[cfg(feature = "text-size")]
+    {
+        use crate::text::text_size::TextSizeExample;
+        children.push(html! {
+            <TextSizeExample />
+        });
+    }
+    #[cfg(feature = "text-size-content")]
+    {
+        use crate::text::text_size_content::TextSizeContentExample;
+        children.push(html! {
+            <TextSizeContentExample />
+        });
+    }
+    #[cfg(feature = "text-size-labels")]
+    {
+        use crate::text::text_size_labels::TextSizeLabelsExample;
+        children.push(html! {
+            <TextSizeLabelsExample />
+        });
+    }
+    #[cfg(feature = "text-trim")]
+    {
+        use crate::text::text_trim::TextTrimExample;
+        children.push(html! {
+            <TextTrimExample />
+        });
+    }
+    #[cfg(feature = "text-trim-box")]
+    {
+        use crate::text::text_trim_box::TextTrimBoxExample;
+        children.push(html! {
+            <TextTrimBoxExample />
+        });
+    }
+    #[cfg(feature = "text-truncate")]
+    {
+        use crate::text::text_truncate::TextTruncateExample;
+        children.push(html! {
+            <TextTruncateExample />
+        });
+    }
+    #[cfg(feature = "text-weight")]
+    {
+        use crate::text::text_weight::TextWeightExample;
+        children.push(html! {
+            <TextWeightExample />
+        });
+    }
+    #[cfg(feature = "text-wrap")]
+    {
+        use crate::text::text_wrap::TextWrapExample;
+        children.push(html! {
+            <TextWrapExample />
+        });
+    }
 
     html! {
         <Theme accent_color={AccentColor::Indigo}>
