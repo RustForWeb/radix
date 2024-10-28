@@ -5,6 +5,48 @@ use yew::{prelude::*, virtual_dom::VNode};
 pub fn App() -> Html {
     let mut children: Vec<VNode> = vec![];
 
+    #[cfg(feature = "blockquote")]
+    {
+        use crate::blockquote::blockquote::BlockquoteExample;
+        children.push(html! {
+            <BlockquoteExample />
+        });
+    }
+    #[cfg(feature = "blockquote-color")]
+    {
+        use crate::blockquote::blockquote_color::BlockquoteColorExample;
+        children.push(html! {
+            <BlockquoteColorExample />
+        });
+    }
+    #[cfg(feature = "blockquote-high-contrast")]
+    {
+        use crate::blockquote::blockquote_high_contrast::BlockquoteHighContrastExample;
+        children.push(html! {
+            <BlockquoteHighContrastExample />
+        });
+    }
+    #[cfg(feature = "blockquote-size")]
+    {
+        use crate::blockquote::blockquote_size::BlockquoteSizeExample;
+        children.push(html! {
+            <BlockquoteSizeExample />
+        });
+    }
+    #[cfg(feature = "blockquote-truncate")]
+    {
+        use crate::blockquote::blockquote_truncate::BlockquoteTruncateExample;
+        children.push(html! {
+            <BlockquoteTruncateExample />
+        });
+    }
+    #[cfg(feature = "blockquote-weight")]
+    {
+        use crate::blockquote::blockquote_weight::BlockquoteWeightExample;
+        children.push(html! {
+            <BlockquoteWeightExample />
+        });
+    }
     #[cfg(feature = "box")]
     {
         use crate::r#box::r#box::BoxExample;

@@ -115,7 +115,7 @@ The tables below show the support for the various frameworks.
 | Avatar            | ❌     | ❌     | ❌  |
 | Badge             | ❌     | ❌     | ❌  |
 | Base Button       | ❌     | ❌     | 🚧  |
-| Blockquote        | ❌     | ❌     | ❌  |
+| Blockquote        | ❌     | ❌     | 🟦  |
 | Box               | ❌     | ❌     | 🟦  |
 | Button            | ❌     | ❌     | 🚧  |
 | Callout           | ❌     | ❌     | ❌  |

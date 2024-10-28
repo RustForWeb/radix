@@ -19,6 +19,12 @@ yew = { workspace = true, features = ["csr"] }
 
 [features]
 default = [
+    "blockquote",
+    "blockquote-color",
+    "blockquote-high-contrast",
+    "blockquote-size",
+    "blockquote-truncate",
+    "blockquote-weight",
     "box",
     "button",
     "button-color",
@@ -79,6 +85,12 @@ default = [
     "text-weight",
     "text-wrap",
 ]
+blockquote = []
+blockquote-color = []
+blockquote-high-contrast = []
+blockquote-size = []
+blockquote-truncate = []
+blockquote-weight = []
 box = []
 button = ["radix-yew-icons/bookmark"]
 button-color = []

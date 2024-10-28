@@ -1,5 +1,6 @@
 mod base_button;
 mod base_button_props;
+mod blockquote;
 mod r#box;
 mod box_props;
 mod button;
@@ -31,6 +32,7 @@ mod theme_props;
 mod visually_hidden;
 
 pub use base_button_props::*;
+pub use blockquote::*;
 pub use box_props::*;
 pub use button::*;
 pub use button_props::*;

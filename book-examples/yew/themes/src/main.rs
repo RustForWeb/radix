@@ -1,4 +1,5 @@
 mod app;
+mod blockquote;
 mod r#box;
 mod button;
 mod container;

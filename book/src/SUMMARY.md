@@ -72,7 +72,7 @@
     -   [Typography](./themes/typography/README.md)
         -   [Text](./themes/typography/text.md)
         -   [Heading](./themes/typography/heading.md)
-        -   [Blockquote]()
+        -   [Blockquote](./themes/typography/blockquote.md)
         -   [Code]()
         -   [Em](./themes/typography/em.md)
         -   [Kbd](./themes/typography/kbd.md)
