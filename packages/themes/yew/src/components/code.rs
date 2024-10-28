@@ -63,7 +63,7 @@ pub struct CodeChildProps {
     pub id: Option<String>,
     pub class: String,
     pub style: Style,
-    pub data_accent_color: Option<String>,
+    pub data_accent_color: String,
 }
 
 impl CodeChildProps {
@@ -111,7 +111,11 @@ pub fn Code(props: &CodeProps) -> Html {
         id: props.id.clone(),
         class: merge_classes(&[&"rt-reset", &"rt-Code", &class]),
         style,
-        data_accent_color: props.color.0.map(|color| color.to_string()),
+        data_accent_color: props
+            .color
+            .0
+            .map(|color| color.to_string())
+            .unwrap_or("".to_string()),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

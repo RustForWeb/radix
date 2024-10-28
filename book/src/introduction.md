@@ -135,10 +135,10 @@ The tables below show the support for the various frameworks.
 | Heading           | ❌     | ❌     | 🟦  |
 | Hover Card        | ❌     | ❌     | ❌  |
 | Icon Button       | ❌     | ❌     | ❌  |
-| Icons             | ❌     | ❌     | ❌  |
+| Icons             | ❌     | ❌     | 🟦  |
 | Inset             | ❌     | ❌     | ❌  |
 | Kbd               | ❌     | ❌     | 🟦  |
-| Link              | ❌     | ❌     | ❌  |
+| Link              | ❌     | ❌     | 🟦  |
 | Popover           | ❌     | ❌     | ❌  |
 | Portal            | ❌     | ❌     | ❌  |
 | Progress          | ❌     | ❌     | ❌  |

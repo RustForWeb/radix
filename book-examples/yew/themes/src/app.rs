@@ -306,6 +306,55 @@ pub fn App() -> Html {
             <KbdSizeExample />
         });
     }
+    #[cfg(feature = "link")]
+    {
+        use crate::link::link::LinkExample;
+        children.push(html! {
+            <LinkExample />
+        });
+    }
+    #[cfg(feature = "link-color")]
+    {
+        use crate::link::link_color::LinkColorExample;
+        children.push(html! {
+            <LinkColorExample />
+        });
+    }
+    #[cfg(feature = "link-high-contrast")]
+    {
+        use crate::link::link_high_contrast::LinkHighContrastExample;
+        children.push(html! {
+            <LinkHighContrastExample />
+        });
+    }
+    #[cfg(feature = "link-size")]
+    {
+        use crate::link::link_size::LinkSizeExample;
+        children.push(html! {
+            <LinkSizeExample />
+        });
+    }
+    #[cfg(feature = "link-truncate")]
+    {
+        use crate::link::link_truncate::LinkTruncateExample;
+        children.push(html! {
+            <LinkTruncateExample />
+        });
+    }
+    #[cfg(feature = "link-underline")]
+    {
+        use crate::link::link_underline::LinkUnderlineExample;
+        children.push(html! {
+            <LinkUnderlineExample />
+        });
+    }
+    #[cfg(feature = "link-weight")]
+    {
+        use crate::link::link_weight::LinkWeightExample;
+        children.push(html! {
+            <LinkWeightExample />
+        });
+    }
     #[cfg(feature = "quote")]
     {
         use crate::quote::quote::QuoteExample;

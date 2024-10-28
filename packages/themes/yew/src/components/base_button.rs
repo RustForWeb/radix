@@ -5,6 +5,7 @@ use crate::{
         base_button_props::{BaseButtonLoadingProp, BaseButtonSizeProp, BaseButtonVariantProp},
         flex::Flex,
         flex_props::{FlexAlign, FlexAs, FlexJustify},
+        visually_hidden::VisuallyHidden,
     },
     helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
     props::{
@@ -45,8 +46,37 @@ pub struct BaseButtonProps {
     #[prop_or_default]
     pub ml: MlProp,
 
+    // Attributes for `button`
+    #[prop_or_default]
+    pub autofocus: bool,
+    #[prop_or_default]
+    pub command: Option<String>,
+    #[prop_or_default]
+    pub commandfor: Option<String>,
     #[prop_or_default]
     pub disabled: Option<bool>,
+    #[prop_or_default]
+    pub form: Option<String>,
+    #[prop_or_default]
+    pub formaction: Option<String>,
+    #[prop_or_default]
+    pub formenctype: Option<String>,
+    #[prop_or_default]
+    pub formmethod: Option<String>,
+    #[prop_or_default]
+    pub formnovalidate: bool,
+    #[prop_or_default]
+    pub formtarget: Option<String>,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub popovertarget: Option<String>,
+    #[prop_or_default]
+    pub popovertargetaction: Option<String>,
+    #[prop_or_default]
+    pub r#type: Option<String>,
+    #[prop_or_default]
+    pub value: Option<String>,
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
 
@@ -70,11 +100,26 @@ pub struct BaseButtonChildProps {
     pub id: Option<String>,
     pub class: String,
     pub style: Style,
-    pub data_disabled: Option<String>,
-    pub data_accent_color: Option<String>,
-    pub data_radius: Option<String>,
-    pub disabled: bool,
+    pub autofocus: bool,
+    pub command: Option<String>,
+    pub commandfor: Option<String>,
+    pub form: Option<String>,
+    pub formaction: Option<String>,
+    pub formenctype: Option<String>,
+    pub formmethod: Option<String>,
+    pub formnovalidate: bool,
+    pub formtarget: Option<String>,
+    pub name: Option<String>,
+    pub popovertarget: Option<String>,
+    pub popovertargetaction: Option<String>,
+    pub r#type: Option<String>,
+    pub value: Option<String>,
     pub on_click: Callback<MouseEvent>,
+
+    pub disabled: bool,
+    pub data_disabled: Option<String>,
+    pub data_accent_color: String,
+    pub data_radius: Option<String>,
 }
 
 impl BaseButtonChildProps {
@@ -85,12 +130,26 @@ impl BaseButtonChildProps {
                 id={self.id}
                 class={self.class}
                 style={self.style.to_string()}
+                autofocus={self.autofocus}
+                command={self.command}
+                commandfor={self.commandfor}
+                form={self.form}
+                formaction={self.formaction}
+                formenctype={self.formenctype}
+                formmethod={self.formmethod}
+                formnovalidate={self.formnovalidate}
+                formtarget={self.formtarget}
+                name={self.name}
+                popovertarget={self.popovertarget}
+                popovertargetaction={self.popovertargetaction}
+                type={self.r#type}
+                value={self.value}
+                onclick={self.on_click}
 
+                disabled={self.disabled}
                 data-disabled={self.data_disabled}
                 data-accent-color={self.data_accent_color}
                 data-radius={self.data_radius}
-                disabled={self.disabled}
-                onclick={self.on_click}
             >
                 {children}
             </button>
@@ -127,11 +186,30 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
         id: props.id.clone(),
         class: merge_classes(&[&"rt-reset", &"rt-BaseButton", &class]),
         style,
-        data_disabled: disabled.then_some("".into()),
-        data_accent_color: props.color.0.map(|color| color.to_string()),
-        data_radius: props.radius.0.map(|radius| radius.to_string()),
-        disabled,
+        autofocus: props.autofocus,
+        command: props.command.clone(),
+        commandfor: props.commandfor.clone(),
+        form: props.form.clone(),
+        formaction: props.formaction.clone(),
+        formenctype: props.formenctype.clone(),
+        formmethod: props.formmethod.clone(),
+        formnovalidate: props.formnovalidate,
+        formtarget: props.formtarget.clone(),
+        name: props.name.clone(),
+        popovertarget: props.popovertarget.clone(),
+        popovertargetaction: props.popovertargetaction.clone(),
+        r#type: props.r#type.clone(),
+        value: props.value.clone(),
         on_click: props.on_click.clone(),
+
+        disabled,
+        data_disabled: disabled.then_some("".into()),
+        data_accent_color: props
+            .color
+            .0
+            .map(|color| color.to_string())
+            .unwrap_or("".to_string()),
+        data_radius: props.radius.0.map(|radius| radius.to_string()),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -148,7 +226,7 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
                     <span style="display: contents; visibility: hidden;" aria-hidden="true">
                         {props.children.clone()}
                     </span>
-                    // <VisuallyHidden>{props.children.clone()}</VisuallyHidden>
+                    <VisuallyHidden>{props.children.clone()}</VisuallyHidden>
 
                     <Flex r#as={FlexAs::Span} align={FlexAlign::Center} justify={FlexJustify::Center} position={Position::Absolute} inset=0>
                         // TODO

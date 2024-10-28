@@ -76,7 +76,7 @@
         -   [Code](./themes/typography/code.md)
         -   [Em](./themes/typography/em.md)
         -   [Kbd](./themes/typography/kbd.md)
-        -   [Link]()
+        -   [Link](./themes/typography/link.md)
         -   [Quote](./themes/typography/quote.md)
         -   [Strong](./themes/typography/strong.md)
     -   [Components](./themes/components/README.md)

@@ -10,6 +10,7 @@ mod flex;
 mod grid;
 mod heading;
 mod kbd;
+mod link;
 mod quote;
 mod section;
 mod select;

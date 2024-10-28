@@ -43,8 +43,37 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub ml: MlProp,
 
+    // Attributes for `button`
+    #[prop_or_default]
+    pub autofocus: bool,
+    #[prop_or_default]
+    pub command: Option<String>,
+    #[prop_or_default]
+    pub commandfor: Option<String>,
     #[prop_or_default]
     pub disabled: Option<bool>,
+    #[prop_or_default]
+    pub form: Option<String>,
+    #[prop_or_default]
+    pub formaction: Option<String>,
+    #[prop_or_default]
+    pub formenctype: Option<String>,
+    #[prop_or_default]
+    pub formmethod: Option<String>,
+    #[prop_or_default]
+    pub formnovalidate: bool,
+    #[prop_or_default]
+    pub formtarget: Option<String>,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub popovertarget: Option<String>,
+    #[prop_or_default]
+    pub popovertargetaction: Option<String>,
+    #[prop_or_default]
+    pub r#type: Option<String>,
+    #[prop_or_default]
+    pub value: Option<String>,
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
 
@@ -82,7 +111,21 @@ pub fn Button(props: &ButtonProps) -> Html {
             mb={props.mb.clone()}
             ml={props.ml.clone()}
 
+            autofocus={props.autofocus}
+            command={props.command.clone()}
+            commandfor={props.commandfor.clone()}
             disabled={props.disabled}
+            form={props.form.clone()}
+            formaction={props.formaction.clone()}
+            formenctype={props.formenctype.clone()}
+            formmethod={props.formmethod.clone()}
+            formnovalidate={props.formnovalidate}
+            formtarget={props.formtarget.clone()}
+            name={props.name.clone()}
+            popovertarget={props.popovertarget.clone()}
+            popovertargetaction={props.popovertargetaction.clone()}
+            r#type={props.r#type.clone()}
+            value={props.value.clone()}
             on_click={props.on_click.clone()}
 
             node_ref={props.node_ref.clone()}

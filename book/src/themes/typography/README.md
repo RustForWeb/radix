@@ -6,5 +6,6 @@
 -   [Code](./code.md)
 -   [Em](./em.md)
 -   [Kbd](./kbd.md)
+-   [Link](./link.md)
 -   [Quote](./quote.md)
 -   [Strong](./strong.md)

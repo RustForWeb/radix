@@ -26,11 +26,11 @@ This component is based on the `blockquote` element and supports [common margin 
 | --------------- | ---------------------------------------- | ------- |
 | `as_child`      | `Option<Callback<BlockquoteChildProps>>` | -       |
 | `size`          | `Option<Responsive<1..9>>`               | -       |
-| `weight`        | `Option<Weight>`                         | -       |
+| `weight`        | `Option<Responsive<Weight>>`             | -       |
 | `color`         | `Option<AccentColor>`                    | -       |
 | `high_contrast` | `Option<bool>`                           | -       |
 | `truncate`      | `Option<bool>`                           | -       |
-| `wrap`          | `Option<TextWrap>`                       | -       |
+| `wrap`          | `Option<Responsive<TextWrap>>`           | -       |
 
 {{#endtab }}
 {{#endtabs }}

@@ -26,7 +26,7 @@ This component is based on the `q` element and supports [common margin props](..
 | ---------- | ----------------------------------- | ------- |
 | `as_child` | `Option<Callback<QuoteChildProps>>` | -       |
 | `truncate` | `Option<bool>`                      | -       |
-| `wrap`     | `Option<TextWrap>`                  | -       |
+| `wrap`     | `Option<Responsive<TextWrap>>`      | -       |
 
 {{#endtab }}
 {{#endtabs }}

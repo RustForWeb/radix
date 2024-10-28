@@ -26,7 +26,7 @@ This component is based on the `em` element and supports [common margin props](.
 | ---------- | -------------------------------- | ------- |
 | `as_child` | `Option<Callback<EmChildProps>>` | -       |
 | `truncate` | `Option<bool>`                   | -       |
-| `wrap`     | `Option<TextWrap>`               | -       |
+| `wrap`     | `Option<Responsive<TextWrap>>`   | -       |
 
 {{#endtab }}
 {{#endtabs }}

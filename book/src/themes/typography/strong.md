@@ -26,7 +26,7 @@ This component is based on the `strong` element and supports [common margin prop
 | ---------- | ------------------------------------ | ------- |
 | `as_child` | `Option<Callback<StrongChildProps>>` | -       |
 | `truncate` | `Option<bool>`                       | -       |
-| `wrap`     | `Option<TextWrap>`                   | -       |
+| `wrap`     | `Option<Responsive<TextWrap>>`       | -       |
 
 {{#endtab }}
 {{#endtabs }}

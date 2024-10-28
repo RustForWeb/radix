@@ -27,11 +27,11 @@ This component is based on the `h1` element and supports [common margin props](.
 | `as`            | `HeadingAs`                           | `HeadingAs::H1` |
 | `as_child`      | `Option<Callback<HeadingChildProps>>` | -               |
 | `size`          | `Responsive<1..9>`                    | `6`             |
-| `weight`        | `Option<Weight>`                      | -               |
-| `align`         | `Option<TextAlign>`                   | -               |
-| `trim`          | `Option<LeadingTrim>`                 | -               |
+| `weight`        | `Option<Responsive<Weight>>`          | -               |
+| `align`         | `Option<Responsive<TextAlign>>`       | -               |
+| `trim`          | `Option<Responsive<LeadingTrim>>`     | -               |
 | `truncate`      | `Option<bool>`                        | -               |
-| `wrap`          | `Option<TextWrap>`                    | -               |
+| `wrap`          | `Option<Responsive<TextWrap>>`        | -               |
 | `color`         | `Option<AccentColor>`                 | -               |
 | `high_contrast` | `Option<bool>`                        | -               |
 
