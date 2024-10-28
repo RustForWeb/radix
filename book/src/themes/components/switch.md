@@ -46,7 +46,7 @@ TODO
 
 TODO
 
-### High-contrast
+### High-Contrast
 
 TODO
 

@@ -33,7 +33,7 @@ TODO
 
 TODO
 
-### High-contrast
+### High-Contrast
 
 TODO
 
@@ -53,7 +53,7 @@ TODO
 
 TODO
 
-### With An Icon
+### With an Icon
 
 TODO
 

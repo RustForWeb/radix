@@ -70,7 +70,7 @@
         -   [Container](./themes/layout/container.md)
         -   [Section](./themes/layout/section.md)
     -   [Typography](./themes/typography/README.md)
-        -   [Text]()
+        -   [Text](./themes/typography/text.md)
         -   [Heading](./themes/typography/heading.md)
         -   [Blockquote]()
         -   [Code]()

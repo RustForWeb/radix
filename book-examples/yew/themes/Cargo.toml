@@ -55,6 +55,21 @@ default = [
     "switch-radius",
     "switch-size",
     "switch-variant",
+    "text",
+    "text-align",
+    "text-as",
+    "text-color",
+    "text-form-controls",
+    "text-formatting",
+    "text-high-contrast",
+    "text-size",
+    "text-size-content",
+    "text-size-labels",
+    "text-trim",
+    "text-trim-box",
+    "text-truncate",
+    "text-weight",
+    "text-wrap",
 ]
 box = []
 button = ["radix-yew-icons/bookmark"]
@@ -92,3 +107,18 @@ switch-high-contrast = []
 switch-radius = []
 switch-size = []
 switch-variant = []
+text = []
+text-align = []
+text-as = []
+text-color = []
+text-form-controls = []
+text-formatting = []
+text-high-contrast = []
+text-size = []
+text-size-content = []
+text-size-labels = []
+text-trim = []
+text-trim-box = []
+text-truncate = []
+text-weight = []
+text-wrap = []

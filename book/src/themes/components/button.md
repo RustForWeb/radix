@@ -99,7 +99,7 @@ show_files = true
 {{#endtab }}
 {{#endtabs }}
 
-### High-contrast
+### High-Contrast
 
 Use the `high_contrast` prop to increase color contrast with the background.
 

@@ -9,6 +9,7 @@ mod heading;
 mod section;
 mod select;
 mod switch;
+mod text;
 
 use crate::app::App;
 
