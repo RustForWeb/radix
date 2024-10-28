@@ -36,6 +36,13 @@ default = [
     "button-variant",
     "button-variant-ghost",
     "button-with-icons",
+    "code",
+    "code-color",
+    "code-high-contrast",
+    "code-size",
+    "code-truncate",
+    "code-variant",
+    "code-weight",
     "container",
     "em",
     "em-truncate",
@@ -102,6 +109,13 @@ button-size = []
 button-variant = []
 button-variant-ghost = []
 button-with-icons = ["radix-yew-icons/bookmark"]
+code = []
+code-color = []
+code-high-contrast = []
+code-size = []
+code-truncate = []
+code-variant = []
+code-weight = []
 container = []
 em = []
 em-truncate = []

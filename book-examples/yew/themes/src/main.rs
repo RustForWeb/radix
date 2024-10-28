@@ -2,6 +2,7 @@ mod app;
 mod blockquote;
 mod r#box;
 mod button;
+mod code;
 mod container;
 mod decorative_box;
 mod em;

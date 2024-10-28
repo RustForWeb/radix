@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_bool, prop_optional_enum, prop_responsive_number_enum};
+use crate::props::prop_def::{prop_bool, prop_enum, prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct BaseButtonSize(u8);
@@ -62,7 +62,7 @@ impl Display for BaseButtonVariant {
     }
 }
 
-prop_optional_enum!(
+prop_enum!(
     BaseButtonVariantProp,
     BaseButtonVariant,
     Some("rt-variant"),

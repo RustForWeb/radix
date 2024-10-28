@@ -124,6 +124,55 @@ pub fn App() -> Html {
             <ButtonWithIconsExample />
         });
     }
+    #[cfg(feature = "code")]
+    {
+        use crate::code::code::CodeExample;
+        children.push(html! {
+            <CodeExample />
+        });
+    }
+    #[cfg(feature = "code-color")]
+    {
+        use crate::code::code_color::CodeColorExample;
+        children.push(html! {
+            <CodeColorExample />
+        });
+    }
+    #[cfg(feature = "code-high-contrast")]
+    {
+        use crate::code::code_high_contrast::CodeHighContrastExample;
+        children.push(html! {
+            <CodeHighContrastExample />
+        });
+    }
+    #[cfg(feature = "code-size")]
+    {
+        use crate::code::code_size::CodeSizeExample;
+        children.push(html! {
+            <CodeSizeExample />
+        });
+    }
+    #[cfg(feature = "code-truncate")]
+    {
+        use crate::code::code_truncate::CodeTruncateExample;
+        children.push(html! {
+            <CodeTruncateExample />
+        });
+    }
+    #[cfg(feature = "code-variant")]
+    {
+        use crate::code::code_variant::CodeVariantExample;
+        children.push(html! {
+            <CodeVariantExample />
+        });
+    }
+    #[cfg(feature = "code-weight")]
+    {
+        use crate::code::code_weight::CodeWeightExample;
+        children.push(html! {
+            <CodeWeightExample />
+        });
+    }
     #[cfg(feature = "container")]
     {
         use crate::container::container::ContainerExample;

@@ -123,7 +123,7 @@ The tables below show the support for the various frameworks.
 | Checkbox Cards    | ❌     | ❌     | ❌  |
 | Checkbox Group    | ❌     | ❌     | ❌  |
 | Checkbox          | ❌     | ❌     | ❌  |
-| Code              | ❌     | ❌     | ❌  |
+| Code              | ❌     | ❌     | 🟦  |
 | Container         | ❌     | ❌     | 🟦  |
 | Context Menu      | ❌     | ❌     | ❌  |
 | Data List         | ❌     | ❌     | ❌  |
