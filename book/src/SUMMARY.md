@@ -82,7 +82,7 @@
     -   [Components](./themes/components/README.md)
         -   [Alert Dialog]()
         -   [Aspect Ratio]()
-        -   [Avatar]()
+        -   [Avatar](./themes/components/avatar.md)
         -   [Badge]()
         -   [Button](./themes/components/button.md)
         -   [Callout]()

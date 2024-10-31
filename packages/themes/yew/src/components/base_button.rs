@@ -46,7 +46,7 @@ pub struct BaseButtonProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Attributes for `button`
+    // Attributes from `button`
     #[prop_or_default]
     pub autofocus: bool,
     #[prop_or_default]

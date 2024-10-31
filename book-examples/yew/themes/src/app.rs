@@ -5,6 +5,55 @@ use yew::{prelude::*, virtual_dom::VNode};
 pub fn App() -> Html {
     let mut children: Vec<VNode> = vec![];
 
+    #[cfg(feature = "avatar")]
+    {
+        use crate::avatar::avatar::AvatarExample;
+        children.push(html! {
+            <AvatarExample />
+        });
+    }
+    #[cfg(feature = "avatar-color")]
+    {
+        use crate::avatar::avatar_color::AvatarColorExample;
+        children.push(html! {
+            <AvatarColorExample />
+        });
+    }
+    #[cfg(feature = "avatar-fallback")]
+    {
+        use crate::avatar::avatar_fallback::AvatarFallbackExample;
+        children.push(html! {
+            <AvatarFallbackExample />
+        });
+    }
+    #[cfg(feature = "avatar-high-contrast")]
+    {
+        use crate::avatar::avatar_high_contrast::AvatarHighContrastExample;
+        children.push(html! {
+            <AvatarHighContrastExample />
+        });
+    }
+    #[cfg(feature = "avatar-radius")]
+    {
+        use crate::avatar::avatar_radius::AvatarRadiusExample;
+        children.push(html! {
+            <AvatarRadiusExample />
+        });
+    }
+    #[cfg(feature = "avatar-size")]
+    {
+        use crate::avatar::avatar_size::AvatarSizeExample;
+        children.push(html! {
+            <AvatarSizeExample />
+        });
+    }
+    #[cfg(feature = "avatar-variant")]
+    {
+        use crate::avatar::avatar_variant::AvatarVariantExample;
+        children.push(html! {
+            <AvatarVariantExample />
+        });
+    }
     #[cfg(feature = "blockquote")]
     {
         use crate::blockquote::blockquote::BlockquoteExample;

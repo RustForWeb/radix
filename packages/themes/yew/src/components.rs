@@ -1,3 +1,5 @@
+mod avatar;
+mod avatar_props;
 mod base_button;
 mod base_button_props;
 mod blockquote;
@@ -35,6 +37,8 @@ mod theme;
 mod theme_props;
 mod visually_hidden;
 
+pub use avatar::*;
+pub use avatar_props::*;
 pub use base_button_props::*;
 pub use blockquote::*;
 pub use box_props::*;

@@ -39,7 +39,7 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Props from SwitchPrimitive
+    // Props from `SwitchPrimitive`
     #[prop_or_default]
     pub name: Option<String>,
     #[prop_or_default]

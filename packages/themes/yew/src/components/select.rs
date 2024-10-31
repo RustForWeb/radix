@@ -37,7 +37,7 @@ pub struct SelectProps {
     #[prop_or_default]
     pub size: SelectSizeProp,
 
-    // Props from SelectPrimitive
+    // Props from `SelectPrimitive`
     #[prop_or_default]
     pub value: Option<String>,
     #[prop_or_default]
@@ -118,7 +118,7 @@ pub struct SelectTriggerProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Props from SelectValuePrimitive
+    // Props from `SelectValuePrimitive`
     #[prop_or("".to_string())]
     pub placeholder: String,
 
@@ -342,7 +342,7 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectItemProps {
-    // Props from SelectItemPrimitive
+    // Props from `SelectItemPrimitive`
     pub value: String,
     #[prop_or(false)]
     pub disabled: bool,

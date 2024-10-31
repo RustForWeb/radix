@@ -21,7 +21,7 @@ struct AvatarContextValue {
 }
 
 #[derive(PartialEq, Properties)]
-pub struct AvatarProps {
+pub struct AvatarProps<ChildProps: Clone + Default + PartialEq + SetAvatarChildProps> {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -31,12 +31,18 @@ pub struct AvatarProps {
     #[prop_or_default]
     pub style: Option<String>,
     #[prop_or_default]
-    pub as_child: Option<Callback<AvatarChildProps, Html>>,
+    pub as_child: Option<Callback<ChildProps, Html>>,
+    #[prop_or_default]
+    pub as_child_props: Option<ChildProps>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+pub trait SetAvatarChildProps {
+    fn set_avatar_child_props(&mut self, props: AvatarChildProps);
+}
+
+#[derive(Clone, Default, PartialEq)]
 pub struct AvatarChildProps {
     pub node_ref: NodeRef,
     pub id: Option<String>,
@@ -59,8 +65,14 @@ impl AvatarChildProps {
     }
 }
 
+impl SetAvatarChildProps for AvatarChildProps {
+    fn set_avatar_child_props(&mut self, _: AvatarChildProps) {}
+}
+
 #[function_component]
-pub fn Avatar(props: &AvatarProps) -> Html {
+pub fn Avatar<ChildProps: Clone + Default + PartialEq + SetAvatarChildProps = AvatarChildProps>(
+    props: &AvatarProps<ChildProps>,
+) -> Html {
     let image_loading_status = use_state_eq(|| ImageLoadingStatus::Idle);
 
     let on_image_loading_status_change = use_callback((), {
@@ -87,7 +99,12 @@ pub fn Avatar(props: &AvatarProps) -> Html {
     html! {
         <ContextProvider<AvatarContextValue> context={(*context_value).clone()}>
             if let Some(as_child) = props.as_child.as_ref() {
-                {as_child.emit(child_props)}
+                {{
+                    let mut as_child_props = props.as_child_props.clone().unwrap_or_default();
+                    as_child_props.set_avatar_child_props(child_props);
+
+                    as_child.emit(as_child_props)
+                }}
             } else {
                 {child_props.render(props.children.clone())}
             }
@@ -100,7 +117,7 @@ pub struct AvatarImageProps {
     #[prop_or_default]
     pub on_loading_status_change: Callback<ImageLoadingStatus>,
 
-    // Attributes for `img`
+    // Attributes from `img`
     #[prop_or_default]
     pub alt: Option<String>,
     #[prop_or_default]

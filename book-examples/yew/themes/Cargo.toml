@@ -19,6 +19,13 @@ yew = { workspace = true, features = ["csr"] }
 
 [features]
 default = [
+    "avatar",
+    "avatar-color",
+    "avatar-fallback",
+    "avatar-high-contrast",
+    "avatar-radius",
+    "avatar-size",
+    "avatar-variant",
     "blockquote",
     "blockquote-color",
     "blockquote-high-contrast",
@@ -99,6 +106,13 @@ default = [
     "text-weight",
     "text-wrap",
 ]
+avatar = []
+avatar-color = []
+avatar-fallback = []
+avatar-high-contrast = []
+avatar-radius = []
+avatar-size = []
+avatar-variant = []
 blockquote = []
 blockquote-color = []
 blockquote-high-contrast = []

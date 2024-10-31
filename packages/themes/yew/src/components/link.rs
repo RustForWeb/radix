@@ -51,7 +51,7 @@ pub struct LinkProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Attributes for `a`
+    // Attributes from `a`
     #[prop_or_default]
     pub download: Option<String>,
     #[prop_or_default]
