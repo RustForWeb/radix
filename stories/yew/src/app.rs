@@ -2,7 +2,8 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::primitives::{
-    arrow, collection, focus_scope, label, popper, select, separator, switch, visually_hidden,
+    arrow, avatar, collection, focus_scope, label, popper, select, separator, switch,
+    visually_hidden,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
@@ -16,6 +17,11 @@ enum Route {
     ArrowCustomSizes,
     #[at("/arrow/custom-arrow")]
     ArrowCustomArrow,
+
+    #[at("/avatar/styled")]
+    AvatarStyled,
+    #[at("/avatar/chromatic")]
+    AvatarChromatic,
 
     #[at("/collection/basic")]
     CollectionBasic,
@@ -128,6 +134,9 @@ fn switch(routes: Route) -> Html {
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
         Route::ArrowCustomArrow => html! { <arrow::CustomArrow /> },
 
+        Route::AvatarStyled => html! { <avatar::Styled /> },
+        Route::AvatarChromatic => html! { <avatar::Chromatic /> },
+
         Route::CollectionBasic => html! { <collection::Basic /> },
         Route::CollectionWithElementsInBetween => html! { <collection::WithElementsInBetween /> },
         Route::CollectionWithWrappedItem => html! { <collection::WithWrappedItem /> },
@@ -226,6 +235,14 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::ArrowStyled}>{"Styled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::ArrowCustomSizes}>{"Custom Sizes"}</Link<Route>></li>
                             <li><Link<Route> to={Route::ArrowCustomArrow}>{"Custom Arrow"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Avatar"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::AvatarStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::AvatarChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

@@ -12,6 +12,15 @@ files = ["src/avatar.rs"]
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```toml,trunk
+package = "radix-yew-book-primitives"
+features = ["avatar"]
+files = ["src/avatar.rs"]
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Features
@@ -34,6 +43,17 @@ cargo add radix-leptos-avatar
 -   [View on crates.io](https://crates.io/crates/radix-leptos-avatar)
 -   [View on docs.rs](https://docs.rs/radix-leptos-avatar/latest/radix_leptos_avatar/)
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/avatar)
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-avatar
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-avatar)
+-   [View on docs.rs](https://docs.rs/radix-yew-avatar/latest/radix_yew_avatar/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/avatar)
 
 {{#endtab }}
 {{#endtabs }}
@@ -61,6 +81,24 @@ fn Anatomy() -> impl IntoView {
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_avatar::*;
+use yew::prelude::*;
+
+#[function_component]
+fn Anatomy() -> Html {
+    html! {
+        <Avatar>
+            <AvatarImage />
+            <AvatarFallback />
+        </Avatar>
+    }
+}
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## API Reference
@@ -75,6 +113,13 @@ Contains all the parts of an avatar.
 | Prop       | Type              | Default |
 | ---------- | ----------------- | ------- |
 | `as_child` | `MaybeProp<bool>` | `false` |
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop       | Type                                       | Default |
+| ---------- | ------------------------------------------ | ------- |
+| `as_child` | `Option<Callback<AvatarChildProps, Html>>` | -       |
 
 {{#endtab }}
 {{#endtabs }}
@@ -92,6 +137,14 @@ The image to render. By default it will only render when it has loaded. You can 
 | `on_loading_status_change` | `Option<Callback<ImageLoadingStatus>>` | -       |
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop                       | Type                                            | Default |
+| -------------------------- | ----------------------------------------------- | ------- |
+| `as_child`                 | `Option<Callback<AvatarImageChildProps, Html>>` | -       |
+| `on_loading_status_change` | `Callback<ImageLoadingStatus>`                  | -       |
+
+{{#endtab }}
 {{#endtabs }}
 
 ### Fallback
@@ -105,6 +158,14 @@ An element that renders when the image hasn't loaded. This means whilst it's loa
 | ---------- | ----------------- | ------- |
 | `as_child` | `MaybeProp<bool>` | `false` |
 | `delay_ms` | `MaybeProp<i32>`  | -       |
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop       | Type                                               | Default |
+| ---------- | -------------------------------------------------- | ------- |
+| `as_child` | `Option<Callback<AvatarFallbackChildProps, Html>>` | -       |
+| `delay_ms` | `Option<i32>`                                      | -       |
 
 {{#endtab }}
 {{#endtabs }}

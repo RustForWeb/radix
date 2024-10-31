@@ -3096,12 +3096,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-avatar"
+version = "0.0.2"
+dependencies = [
+ "log",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-book-primitives"
 version = "0.0.2"
 dependencies = [
  "console_error_panic_hook",
  "console_log",
  "log",
+ "radix-yew-avatar",
  "radix-yew-icons",
  "radix-yew-label",
  "radix-yew-select",
@@ -3240,6 +3250,7 @@ dependencies = [
  "console_log",
  "log",
  "radix-yew-arrow",
+ "radix-yew-avatar",
  "radix-yew-collection",
  "radix-yew-focus-scope",
  "radix-yew-label",

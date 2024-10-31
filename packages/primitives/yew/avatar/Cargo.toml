@@ -1,0 +1,15 @@
+[package]
+name = "radix-yew-avatar"
+description = "Yew port of Radix Avatar."
+homepage = "https://radix.rustforweb.org/primitives/components/avatar.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+log.workspace = true
+web-sys = { workspace = true, features = ["HtmlImageElement"] }
+yew.workspace = true
