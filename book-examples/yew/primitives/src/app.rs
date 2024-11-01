@@ -11,13 +11,6 @@ pub fn App() -> Html {
             <AvatarDemo />
         });
     }
-    #[cfg(feature = "icons")]
-    {
-        use crate::icons::IconsDemo;
-        children.push(html! {
-            <IconsDemo />
-        });
-    }
     #[cfg(feature = "label")]
     {
         use crate::label::LabelDemo;

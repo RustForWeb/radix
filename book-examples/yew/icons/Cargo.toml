@@ -1,0 +1,21 @@
+[package]
+name = "radix-yew-book-icons"
+description = "Book examples for Radix Icons Yew."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+log.workspace = true
+radix-yew-icons = { path = "../../../packages/icons/yew", optional = true }
+yew = { workspace = true, features = ["csr"] }
+
+[features]
+default = []
+icons = ["dep:radix-yew-icons", "radix-yew-icons/full"]

@@ -160,6 +160,8 @@ impl Framework for Yew {
         let svg: TokenStream = svg
             .replace("<svg ", "<svg ref={node_ref} ")
             .replace("fill=\"currentColor\"", "fill={&props.color}")
+            .replace("width=\"15\"", "width={&props.width}")
+            .replace("height=\"15\"", "height={&props.height}")
             .parse()?;
 
         Ok(quote! {
@@ -169,6 +171,10 @@ impl Framework for Yew {
             pub struct #props_name {
                 #[prop_or(AttrValue::from("currentColor"))]
                 pub color: AttrValue,
+                #[prop_or(AttrValue::from("15"))]
+                pub width: AttrValue,
+                #[prop_or(AttrValue::from("15"))]
+                pub height: AttrValue,
             }
 
             #[function_component]
@@ -212,11 +218,18 @@ impl Framework for Yew {
 
             #[function_component]
             pub fn IconsDemo() -> Html {
+                let icons = [
+                    #((html! { <#component_name /> }, #human_name),)*
+                ];
+
                 html! {
                     <div class="w-full max-w-[300px]">
-                        #(<div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
-                            <#component_name /><span>#human_name</span>
-                        </div>)*
+                        {icons.into_iter().map(|(icon, name)| html! {
+                            <div class="flex flex-wrap items-center gap-[15px] px-5 text-white text-[15px] leading-5">
+                                {icon}
+                                <span>{name}</span>
+                            </div>
+                        }).collect::<Html>()}
                     </div>
                 }
             }
@@ -307,11 +320,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
         )?;
 
         framework.format(
-            format!("radix-{}-book", framework.name()),
+            format!("radix-{}-book-icons", framework.name()),
             Path::new("book-examples")
                 .join(framework.name())
-                .join("src")
-                .join("icons.rs"),
+                .join("icons")
+                .join("src"),
         )?;
     }
 
@@ -343,6 +356,7 @@ fn generate_example(
 ) -> Result<(), Box<dyn Error>> {
     let output_path = Path::new("book-examples")
         .join(framework.name())
+        .join("icons")
         .join("src")
         .join("icons.rs");
 

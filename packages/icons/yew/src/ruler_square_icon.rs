@@ -3,6 +3,10 @@ use yew::prelude::*;
 pub struct RulerSquareIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
+    #[prop_or(AttrValue::from("15"))]
+    pub width: AttrValue,
+    #[prop_or(AttrValue::from("15"))]
+    pub height: AttrValue,
 }
 #[function_component]
 pub fn RulerSquareIcon(props: &RulerSquareIconProps) -> Html {
@@ -10,8 +14,8 @@ pub fn RulerSquareIcon(props: &RulerSquareIconProps) -> Html {
     html! {
         <svg
             ref={node_ref}
-            width="15"
-            height="15"
+            width={& props.width}
+            height={& props.height}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

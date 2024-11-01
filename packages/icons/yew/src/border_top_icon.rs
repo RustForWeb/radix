@@ -3,6 +3,10 @@ use yew::prelude::*;
 pub struct BorderTopIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
+    #[prop_or(AttrValue::from("15"))]
+    pub width: AttrValue,
+    #[prop_or(AttrValue::from("15"))]
+    pub height: AttrValue,
 }
 #[function_component]
 pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
@@ -10,8 +14,8 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
     html! {
         <svg
             ref={node_ref}
-            width="15"
-            height="15"
+            width={& props.width}
+            height={& props.height}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -20,8 +24,7 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M14 1.75L1 1.75L1 0.249999L14 0.25L14 1.75Z"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 x="8"
@@ -111,7 +114,8 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 10 14)"
-                fill={& props.color}
+                fill={& props
+        .color}
             />
             <rect
                 x="12"
@@ -129,7 +133,8 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 12 14)"
-                fill={& props.color}
+                fill={& props
+        .color}
             />
             <rect
                 x="6"
@@ -183,8 +188,7 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 2 6)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 x="8"
@@ -202,8 +206,7 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 2 4)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 x="14"
@@ -221,7 +224,8 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 14 12)"
-                fill={& props.color}
+                fill={& props
+        .color}
             />
             <rect
                 x="14"
@@ -239,7 +243,8 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 14 14)"
-                fill={& props.color}
+                fill={& props
+        .color}
             />
             <rect
                 x="14"
@@ -257,8 +262,7 @@ pub fn BorderTopIcon(props: &BorderTopIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="rotate(-180 14 4)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
         </svg>
     }

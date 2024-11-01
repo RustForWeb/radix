@@ -2763,6 +2763,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-book-icons"
+version = "0.0.2"
+dependencies = [
+ "console_error_panic_hook",
+ "console_log",
+ "leptos",
+ "log",
+ "radix-leptos-icons",
+]
+
+[[package]]
 name = "radix-leptos-book-primitives"
 version = "0.0.2"
 dependencies = [
@@ -3105,6 +3116,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-book-icons"
+version = "0.0.2"
+dependencies = [
+ "console_error_panic_hook",
+ "console_log",
+ "log",
+ "radix-yew-icons",
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-book-primitives"
 version = "0.0.2"
 dependencies = [
@@ -3288,6 +3310,7 @@ dependencies = [
  "radix-yew-select",
  "radix-yew-switch",
  "radix-yew-visually-hidden",
+ "web-sys",
  "yew",
 ]
 

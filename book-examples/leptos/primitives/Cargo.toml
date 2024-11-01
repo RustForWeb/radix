@@ -42,7 +42,6 @@ checkbox = [
     "dep:radix-leptos-icons",
     "radix-leptos-icons/check",
 ]
-icons = ["dep:radix-leptos-icons", "radix-leptos-icons/full"]
 label = ["dep:radix-leptos-label"]
 progress = ["dep:radix-leptos-progress"]
 separator = ["dep:radix-leptos-separator"]

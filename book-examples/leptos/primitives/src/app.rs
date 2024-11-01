@@ -25,13 +25,6 @@ pub fn App() -> impl IntoView {
             <CheckboxDemo />
         });
     }
-    #[cfg(feature = "icons")]
-    {
-        use crate::icons::IconsDemo;
-        views.push(view! {
-            <IconsDemo />
-        });
-    }
     #[cfg(feature = "label")]
     {
         use crate::label::LabelDemo;

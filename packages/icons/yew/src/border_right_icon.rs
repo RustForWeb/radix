@@ -3,6 +3,10 @@ use yew::prelude::*;
 pub struct BorderRightIconProps {
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
+    #[prop_or(AttrValue::from("15"))]
+    pub width: AttrValue,
+    #[prop_or(AttrValue::from("15"))]
+    pub height: AttrValue,
 }
 #[function_component]
 pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
@@ -10,8 +14,8 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
     html! {
         <svg
             ref={node_ref}
-            width="15"
-            height="15"
+            width={& props.width}
+            height={& props.height}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -20,15 +24,15 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M13.25 1L13.25 14L14.75 14L14.75 1L13.25 1Z"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 5 7)"
-                fill={& props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
@@ -42,8 +46,7 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 3 7)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
@@ -71,7 +74,8 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 13)"
-                fill={& props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
@@ -106,15 +110,15 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 3)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 9)"
-                fill={& props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
@@ -128,15 +132,15 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 11)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 11)"
-                fill={& props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
@@ -157,7 +161,8 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 11 7)"
-                fill={& props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
@@ -192,15 +197,15 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 1)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 9 1)"
-                fill={& props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
