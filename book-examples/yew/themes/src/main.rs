@@ -27,6 +27,8 @@ mod flex;
 mod grid;
 #[cfg(feature = "heading")]
 mod heading;
+#[cfg(feature = "icon-button")]
+mod icon_button;
 #[cfg(feature = "kbd")]
 mod kbd;
 #[cfg(feature = "link")]
@@ -43,6 +45,8 @@ mod strong;
 mod switch;
 #[cfg(feature = "text")]
 mod text;
+#[cfg(feature = "text-field")]
+mod text_field;
 
 use crate::app::App;
 

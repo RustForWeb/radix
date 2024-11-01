@@ -30,6 +30,7 @@ default = [
     "flex",
     "grid",
     "heading",
+    "icon-button",
     "kbd",
     "link",
     "quote",
@@ -38,6 +39,7 @@ default = [
     "strong",
     "switch",
     "text",
+    "text-field",
 ]
 avatar = []
 blockquote = []
@@ -49,6 +51,7 @@ em = []
 flex = []
 grid = []
 heading = []
+icon-button = ["radix-yew-icons/magnifying-glass"]
 kbd = []
 link = []
 quote = []
@@ -57,3 +60,7 @@ select = []
 strong = []
 switch = []
 text = []
+text-field = [
+    "radix-yew-icons/dots-horizontal",
+    "radix-yew-icons/magnifying-glass",
+]

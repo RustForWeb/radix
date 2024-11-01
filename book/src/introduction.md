@@ -134,7 +134,7 @@ The tables below show the support for the various frameworks.
 | Grid              | ❌     | ❌     | 🟦  |
 | Heading           | ❌     | ❌     | 🟦  |
 | Hover Card        | ❌     | ❌     | ❌  |
-| Icon Button       | ❌     | ❌     | ❌  |
+| Icon Button       | ❌     | ❌     | 🟦  |
 | Icons             | ❌     | ❌     | 🟦  |
 | Inset             | ❌     | ❌     | ❌  |
 | Kbd               | ❌     | ❌     | 🟦  |
@@ -162,7 +162,7 @@ The tables below show the support for the various frameworks.
 | Tab Nav           | ❌     | ❌     | ❌  |
 | Tabs              | ❌     | ❌     | ❌  |
 | Text Area         | ❌     | ❌     | ❌  |
-| Text Field        | ❌     | ❌     | ❌  |
+| Text Field        | ❌     | ❌     | 🟦  |
 | Text              | ❌     | ❌     | 🟦  |
 | Theme Panel       | ❌     | ❌     | ❌  |
 | Theme             | ❌     | ❌     | 🟦  |

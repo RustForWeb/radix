@@ -76,6 +76,13 @@ pub fn App() -> Html {
             <Switch<HeadingRoute> render={render} />
         });
     }
+    #[cfg(feature = "icon-button")]
+    {
+        use crate::icon_button::{render, IconButtonRoute};
+        children.push(html! {
+            <Switch<IconButtonRoute> render={render} />
+        });
+    }
     #[cfg(feature = "kbd")]
     {
         use crate::kbd::{render, KbdRoute};
@@ -132,6 +139,13 @@ pub fn App() -> Html {
         use crate::text::{render, TextRoute};
         children.push(html! {
             <Switch<TextRoute> render={render} />
+        });
+    }
+    #[cfg(feature = "text-field")]
+    {
+        use crate::text_field::{render, TextFieldRoute};
+        children.push(html! {
+            <Switch<TextFieldRoute> render={render} />
         });
     }
 

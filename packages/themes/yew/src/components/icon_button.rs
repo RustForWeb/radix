@@ -3,7 +3,7 @@ use yew::prelude::*;
 use crate::{
     components::{
         base_button::{BaseButton, BaseButtonChildProps},
-        button_props::{ButtonLoadingProp, ButtonSizeProp, ButtonVariantProp},
+        icon_button_props::{IconButtonLoadingProp, IconButtonSizeProp, IconButtonVariantProp},
     },
     helpers::{merge_classes::merge_classes, merge_styles::Style},
     props::{
@@ -15,11 +15,11 @@ use crate::{
 };
 
 #[derive(PartialEq, Properties)]
-pub struct ButtonProps {
+pub struct IconButtonProps {
     #[prop_or_default]
-    pub size: ButtonSizeProp,
+    pub size: IconButtonSizeProp,
     #[prop_or_default]
-    pub variant: ButtonVariantProp,
+    pub variant: IconButtonVariantProp,
     #[prop_or_default]
     pub color: AccentColorProp,
     #[prop_or_default]
@@ -27,7 +27,7 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub radius: RadiusProp,
     #[prop_or_default]
-    pub loading: ButtonLoadingProp,
+    pub loading: IconButtonLoadingProp,
     #[prop_or_default]
     pub m: MProp,
     #[prop_or_default]
@@ -86,15 +86,15 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub style: Style,
     #[prop_or_default]
-    pub as_child: Option<Callback<ButtonChildProps, Html>>,
+    pub as_child: Option<Callback<IconButtonChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-pub type ButtonChildProps = BaseButtonChildProps;
+pub type IconButtonChildProps = BaseButtonChildProps;
 
 #[function_component]
-pub fn Button(props: &ButtonProps) -> Html {
+pub fn IconButton(props: &IconButtonProps) -> Html {
     html! {
         <BaseButton
             size={props.size.clone()}
@@ -130,7 +130,7 @@ pub fn Button(props: &ButtonProps) -> Html {
 
             node_ref={props.node_ref.clone()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-Button", &props.class])}
+            class={merge_classes(&[&"rt-IconButton", &props.class])}
             style={props.style.clone()}
         >
             {props.children.clone()}
