@@ -1,31 +1,75 @@
 #[allow(clippy::module_inception)]
-#[cfg(feature = "text")]
-pub mod text;
-#[cfg(feature = "text-align")]
-pub mod text_align;
-#[cfg(feature = "text-as")]
-pub mod text_as;
-#[cfg(feature = "text-color")]
-pub mod text_color;
-#[cfg(feature = "text-form-controls")]
-pub mod text_form_controls;
-#[cfg(feature = "text-formatting")]
-pub mod text_formatting;
-#[cfg(feature = "text-high-contrast")]
-pub mod text_high_contrast;
-#[cfg(feature = "text-size")]
-pub mod text_size;
-#[cfg(feature = "text-size-content")]
-pub mod text_size_content;
-#[cfg(feature = "text-size-labels")]
-pub mod text_size_labels;
-#[cfg(feature = "text-trim")]
-pub mod text_trim;
-#[cfg(feature = "text-trim-box")]
-pub mod text_trim_box;
-#[cfg(feature = "text-truncate")]
-pub mod text_truncate;
-#[cfg(feature = "text-weight")]
-pub mod text_weight;
-#[cfg(feature = "text-wrap")]
-pub mod text_wrap;
+mod text;
+mod text_align;
+mod text_as;
+mod text_color;
+mod text_form_controls;
+mod text_formatting;
+mod text_high_contrast;
+mod text_size;
+mod text_size_content;
+mod text_size_labels;
+mod text_trim;
+mod text_trim_box;
+mod text_truncate;
+mod text_weight;
+mod text_wrap;
+
+use yew::prelude::*;
+use yew_router::prelude::*;
+
+#[derive(Clone, PartialEq, Routable)]
+pub enum TextRoute {
+    #[at("/")]
+    Root,
+    #[at("/align")]
+    Align,
+    #[at("/as")]
+    As,
+    #[at("/color")]
+    Color,
+    #[at("/form-controls")]
+    FormControls,
+    #[at("/formatting")]
+    Formatting,
+    #[at("/high-contrast")]
+    HighContrast,
+    #[at("/size")]
+    Size,
+    #[at("/size-content")]
+    SizeContent,
+    #[at("/size-labels")]
+    SizeLabels,
+    #[at("/trim")]
+    Trim,
+    #[at("/trim-box")]
+    TrimBox,
+    #[at("/truncate")]
+    Truncate,
+    #[at("/weight")]
+    Weight,
+    #[at("/wrap")]
+    Wrap,
+}
+
+pub fn render(route: TextRoute) -> Html {
+    match route {
+        TextRoute::Root => html! { <text::TextExample />},
+        TextRoute::Align => html! { <text_align::TextAlignExample />},
+        TextRoute::As => html! { <text_as::TextAsExample />},
+        TextRoute::Color => html! { <text_color::TextColorExample />},
+        TextRoute::FormControls => html! { <text_form_controls::TextFormControlsExample />},
+        TextRoute::Formatting => html! { <text_formatting::TextFormattingExample />},
+        TextRoute::HighContrast => {
+            html! { <text_high_contrast::TextHighContrastExample />}
+        }
+        TextRoute::Size => html! { <text_size::TextSizeExample />},
+        TextRoute::SizeContent => html! { <text_size_content::TextSizeContentExample />},
+        TextRoute::SizeLabels => html! { <text_size_labels::TextSizeLabelsExample />},
+        TextRoute::Trim => html! { <text_trim::TextTrimExample />},
+        TextRoute::TrimBox => html! { <text_trim_box::TextTrimBoxExample />},
+        TextRoute::Truncate => html! { <text_truncate::TextTruncateExample />},
+        TextRoute::Weight => html! { <text_weight::TextWeightExample />},
+        TextRoute::Wrap => html! { <text_wrap::TextWrapExample />},
+    }
+}

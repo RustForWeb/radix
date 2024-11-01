@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["kbd"]
 files = ["src/kbd/kbd.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -41,9 +42,10 @@ Use the `size` prop to control text size.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["kbd-size"]
+features = ["kbd"]
 files = ["src/kbd/kbd_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}

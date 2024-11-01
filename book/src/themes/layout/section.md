@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["section"]
 files = ["src/section/section.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}

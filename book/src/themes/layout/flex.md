@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["flex"]
 files = ["src/flex/flex.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}

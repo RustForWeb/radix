@@ -3130,6 +3130,7 @@ dependencies = [
  "radix-yew-icons",
  "radix-yew-themes",
  "yew",
+ "yew-router",
 ]
 
 [[package]]

@@ -1,5 +1,21 @@
 #[allow(clippy::module_inception)]
-#[cfg(feature = "quote")]
-pub mod quote;
-#[cfg(feature = "quote-truncate")]
-pub mod quote_truncate;
+mod quote;
+mod quote_truncate;
+
+use yew::prelude::*;
+use yew_router::prelude::*;
+
+#[derive(Clone, PartialEq, Routable)]
+pub enum QuoteRoute {
+    #[at("/")]
+    Root,
+    #[at("/truncate")]
+    Truncate,
+}
+
+pub fn render(route: QuoteRoute) -> Html {
+    match route {
+        QuoteRoute::Root => html! { <quote::QuoteExample /> },
+        QuoteRoute::Truncate => html! { <quote_truncate::QuoteTruncateExample />},
+    }
+}

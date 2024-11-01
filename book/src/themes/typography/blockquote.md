@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["blockquote"]
 files = ["src/blockquote/blockquote.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -46,9 +47,10 @@ Use the `size` prop to control the size.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["blockquote-size"]
+features = ["blockquote"]
 files = ["src/blockquote/blockquote_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -63,9 +65,10 @@ Use the `weight` prop to set the text weight.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["blockquote-weight"]
+features = ["blockquote"]
 files = ["src/blockquote/blockquote_weight.rs"]
 show_files = true
+url_fragment = "#/weight"
 ```
 
 {{#endtab }}
@@ -80,9 +83,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md).
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["blockquote-color"]
+features = ["blockquote"]
 files = ["src/blockquote/blockquote_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -97,9 +101,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["blockquote-high-contrast"]
+features = ["blockquote"]
 files = ["src/blockquote/blockquote_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}
@@ -114,9 +119,10 @@ Use the `truncate` prop to truncate text with an ellipsis when it overflows its 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["blockquote-truncate"]
+features = ["blockquote"]
 files = ["src/blockquote/blockquote_truncate.rs"]
 show_files = true
+url_fragment = "#/truncate"
 ```
 
 {{#endtab }}

@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["heading"]
 files = ["src/heading/heading.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -49,9 +50,10 @@ Use the `as` prop to change the heading level. This prop is purely semantic and 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-as"]
+features = ["heading"]
 files = ["src/heading/heading_as.rs"]
 show_files = true
+url_fragment = "#/as"
 ```
 
 {{#endtab }}
@@ -68,9 +70,10 @@ Heading sizes match [Text](./text.md) sizes. However, the line heights are set a
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-size"]
+features = ["heading"]
 files = ["src/heading/heading_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -85,9 +88,10 @@ Use the `weight` prop to set the text weight.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-weight"]
+features = ["heading"]
 files = ["src/heading/heading_weight.rs"]
 show_files = true
+url_fragment = "#/weight"
 ```
 
 {{#endtab }}
@@ -102,9 +106,10 @@ Use the `align` prop to set text alignment.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-align"]
+features = ["heading"]
 files = ["src/heading/heading_align.rs"]
 show_files = true
+url_fragment = "#/align"
 ```
 
 {{#endtab }}
@@ -121,9 +126,10 @@ The prop works similarly to the upcoming [half-leading control](https://www.w3.o
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-trim"]
+features = ["heading"]
 files = ["src/heading/heading_trim.rs"]
 show_files = true
+url_fragment = "#/trim"
 ```
 
 {{#endtab }}
@@ -136,9 +142,10 @@ Trimming the leading is useful when dialing in vertical spacing in cards or othe
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-trim-box"]
+features = ["heading"]
 files = ["src/heading/heading_trim_box.rs"]
 show_files = true
+url_fragment = "#/trim-box"
 ```
 
 {{#endtab }}
@@ -164,9 +171,10 @@ Use the `truncate` prop to truncate text with an ellipsis when it overflows its 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-truncate"]
+features = ["heading"]
 files = ["src/heading/heading_truncate.rs"]
 show_files = true
+url_fragment = "#/truncate"
 ```
 
 {{#endtab }}
@@ -181,9 +189,10 @@ Use the `wrap` prop to control text wrapping.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-wrap"]
+features = ["heading"]
 files = ["src/heading/heading_wrap.rs"]
 show_files = true
+url_fragment = "#/wrap"
 ```
 
 {{#endtab }}
@@ -204,9 +213,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md). The text c
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-color"]
+features = ["heading"]
 files = ["src/heading/heading_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -221,9 +231,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["heading-high-contrast"]
+features = ["heading"]
 files = ["src/heading/heading_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}

@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["link"]
 files = ["src/link/link.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -48,9 +49,10 @@ Use the `size` prop to control the size of the link. The prop also provides corr
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["link-size"]
+features = ["link"]
 files = ["src/link/link_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -65,9 +67,10 @@ Use the `weight` prop to set the text weight.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["link-weight"]
+features = ["link"]
 files = ["src/link/link_weight.rs"]
 show_files = true
+url_fragment = "#/weight"
 ```
 
 {{#endtab }}
@@ -82,9 +85,10 @@ Use the `truncate` prop to truncate text with an ellipsis when it overflows its 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["link-truncate"]
+features = ["link"]
 files = ["src/link/link_truncate.rs"]
 show_files = true
+url_fragment = "#/truncate"
 ```
 
 {{#endtab }}
@@ -99,9 +103,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md).
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["link-color"]
+features = ["link"]
 files = ["src/link/link_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -116,9 +121,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["link-high-contrast"]
+features = ["link"]
 files = ["src/link/link_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}
@@ -133,9 +139,10 @@ Use the `underline` prop to manage the visibility of the underline affordance.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["link-underline"]
+features = ["link"]
 files = ["src/link/link_underline.rs"]
 show_files = true
+url_fragment = "#/underline"
 ```
 
 {{#endtab }}

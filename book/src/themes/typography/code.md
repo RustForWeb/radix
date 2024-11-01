@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["code"]
 files = ["src/code/code.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -47,9 +48,10 @@ Use the `size` prop to control text size. This prop also provides correct line h
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["code-size"]
+features = ["code"]
 files = ["src/code/code_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -64,9 +66,10 @@ Use the `variant` prop to control the visual style.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["code-variant"]
+features = ["code"]
 files = ["src/code/code_variant.rs"]
 show_files = true
+url_fragment = "#/variant"
 ```
 
 {{#endtab }}
@@ -81,9 +84,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md).
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["code-color"]
+features = ["code"]
 files = ["src/code/code_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -98,9 +102,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["code-high-contrast"]
+features = ["code"]
 files = ["src/code/code_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}
@@ -115,9 +120,10 @@ Use the `weight` prop to set the text weight.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["code-weight"]
+features = ["code"]
 files = ["src/code/code_weight.rs"]
 show_files = true
+url_fragment = "#/weight"
 ```
 
 {{#endtab }}
@@ -132,9 +138,10 @@ Use the `truncate` prop to truncate text with an ellipsis when it overflows its 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["code-truncate"]
+features = ["code"]
 files = ["src/code/code_truncate.rs"]
 show_files = true
+url_fragment = "#/truncate"
 ```
 
 {{#endtab }}

@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["text"]
 files = ["src/text/text.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -49,9 +50,10 @@ Use the `as` prop to render text as a `p`, `label`, `div` or `span`. This prop i
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-as"]
+features = ["text"]
 files = ["src/text/text_as.rs"]
 show_files = true
+url_fragment = "#/as"
 ```
 
 {{#endtab }}
@@ -66,9 +68,10 @@ Use the `size` prop to control text size. This prop also provides correct line h
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-size"]
+features = ["text"]
 files = ["src/text/text_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -81,9 +84,10 @@ Sizes 2-4 are designed to work well for long-form content.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-size-content"]
+features = ["text"]
 files = ["src/text/text_size_content.rs"]
 show_files = true
+url_fragment = "#/size-content"
 ```
 
 {{#endtab }}
@@ -96,9 +100,10 @@ Sizes 1-3 are designed to work well for UI labels.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-size-labels"]
+features = ["text"]
 files = ["src/text/text_size_labels.rs"]
 show_files = true
+url_fragment = "#/size-labels"
 ```
 
 {{#endtab }}
@@ -113,9 +118,10 @@ Use the `weight` prop to set the text weight.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-weight"]
+features = ["text"]
 files = ["src/text/text_weight.rs"]
 show_files = true
+url_fragment = "#/weight"
 ```
 
 {{#endtab }}
@@ -130,9 +136,10 @@ Use the `align` prop to set text alignment.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-align"]
+features = ["text"]
 files = ["src/text/text_align.rs"]
 show_files = true
+url_fragment = "#/align"
 ```
 
 {{#endtab }}
@@ -149,9 +156,10 @@ The prop works similarly to the upcoming [half-leading control](https://www.w3.o
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-trim"]
+features = ["text"]
 files = ["src/text/text_trim.rs"]
 show_files = true
+url_fragment = "#/trim"
 ```
 
 {{#endtab }}
@@ -164,9 +172,10 @@ Trimming the leading is useful when dialing in vertical spacing in cards or othe
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-trim-box"]
+features = ["text"]
 files = ["src/text/text_trim_box.rs"]
 show_files = true
+url_fragment = "#/trim-box"
 ```
 
 {{#endtab }}
@@ -192,9 +201,10 @@ Use the `truncate` prop to truncate text with an ellipsis when it overflows its 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-truncate"]
+features = ["text"]
 files = ["src/text/text_truncate.rs"]
 show_files = true
+url_fragment = "#/truncate"
 ```
 
 {{#endtab }}
@@ -209,9 +219,10 @@ Use the `wrap` prop to control text wrapping.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-wrap"]
+features = ["text"]
 files = ["src/text/text_wrap.rs"]
 show_files = true
+url_fragment = "#/wrap"
 ```
 
 {{#endtab }}
@@ -232,9 +243,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md). The text c
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-color"]
+features = ["text"]
 files = ["src/text/text_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -249,9 +261,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-high-contrast"]
+features = ["text"]
 files = ["src/text/text_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}
@@ -264,9 +277,10 @@ show_files = true
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-formatting"]
+features = ["text"]
 files = ["src/text/text_formatting.rs"]
 show_files = true
+url_fragment = "#/formatting"
 ```
 
 {{#endtab }}
@@ -283,9 +297,10 @@ Composing `Text` with a form control like [`Checkbox`](../components/checkbox.md
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["text-form-controls"]
+features = ["text"]
 files = ["src/text/text_form_controls.rs"]
 show_files = true
+url_fragment = "#/form-controls"
 ```
 
 {{#endtab }}

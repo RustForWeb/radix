@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["quote"]
 files = ["src/quote/quote.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -42,9 +43,10 @@ Use the `truncate` prop to truncate text with an ellipsis when it overflows its 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["quote-truncate"]
+features = ["quote"]
 files = ["src/quote/quote_truncate.rs"]
 show_files = true
+url_fragment = "#/truncate"
 ```
 
 {{#endtab }}

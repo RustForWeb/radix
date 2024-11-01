@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["grid"]
 files = ["src/grid/grid.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -30,9 +31,10 @@ All props marked `Responsive`, such as `columns` and `rows` accept a [breakpoint
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["grid-responsive"]
+features = ["grid"]
 files = ["src/grid/grid_responsive.rs"]
 show_files = true
+url_fragment = "#/responsive"
 ```
 
 {{#endtab }}

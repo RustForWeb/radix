@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["avatar"]
 files = ["src/avatar/avatar.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -46,9 +47,10 @@ Use the `size` prop to control the size of the avatar.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["avatar-size"]
+features = ["avatar"]
 files = ["src/avatar/avatar_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -63,9 +65,10 @@ Use the `variant` prop to control the visual style of the avatar.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["avatar-variant"]
+features = ["avatar"]
 files = ["src/avatar/avatar_variant.rs"]
 show_files = true
+url_fragment = "#/variant"
 ```
 
 {{#endtab }}
@@ -80,9 +83,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md).
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["avatar-color"]
+features = ["avatar"]
 files = ["src/avatar/avatar_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -97,9 +101,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["avatar-high-contrast"]
+features = ["avatar"]
 files = ["src/avatar/avatar_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}
@@ -114,9 +119,10 @@ Use the `radius` prop to assign a specific radius value.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["avatar-radius"]
+features = ["avatar"]
 files = ["src/avatar/avatar_radius.rs"]
 show_files = true
+url_fragment = "#/radius"
 ```
 
 {{#endtab }}
@@ -131,9 +137,10 @@ Use the `fallback` prop to modify the rendered fallback element.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["avatar-fallback"]
+features = ["avatar"]
 files = ["src/avatar/avatar_fallback.rs"]
 show_files = true
+url_fragment = "#/fallback"
 ```
 
 {{#endtab }}

@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["box"]
 files = ["src/box/box.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}

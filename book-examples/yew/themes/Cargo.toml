@@ -16,179 +16,44 @@ log.workspace = true
 radix-yew-icons = { path = "../../../packages/icons/yew" }
 radix-yew-themes = { path = "../../../packages/themes/yew" }
 yew = { workspace = true, features = ["csr"] }
+yew-router.workspace = true
 
 [features]
 default = [
     "avatar",
-    "avatar-color",
-    "avatar-fallback",
-    "avatar-high-contrast",
-    "avatar-radius",
-    "avatar-size",
-    "avatar-variant",
     "blockquote",
-    "blockquote-color",
-    "blockquote-high-contrast",
-    "blockquote-size",
-    "blockquote-truncate",
-    "blockquote-weight",
     "box",
     "button",
-    "button-color",
-    "button-high-contrast",
-    "button-loading",
-    "button-loading-spinner",
-    "button-radius",
-    "button-size",
-    "button-variant",
-    "button-variant-ghost",
-    "button-with-icons",
     "code",
-    "code-color",
-    "code-high-contrast",
-    "code-size",
-    "code-truncate",
-    "code-variant",
-    "code-weight",
     "container",
     "em",
-    "em-truncate",
     "flex",
     "grid",
-    "grid-responsive",
     "heading",
-    "heading-align",
-    "heading-as",
-    "heading-color",
-    "heading-high-contrast",
-    "heading-size",
-    "heading-trim",
-    "heading-trim-box",
-    "heading-truncate",
-    "heading-weight",
-    "heading-wrap",
     "kbd",
-    "kbd-size",
     "link",
-    "link-color",
-    "link-high-contrast",
-    "link-size",
-    "link-truncate",
-    "link-underline",
-    "link-weight",
     "quote",
-    "quote-truncate",
     "section",
     "select",
     "strong",
-    "strong-truncate",
     "switch",
-    "switch-alignment",
-    "switch-color",
-    "switch-disabled",
-    "switch-high-contrast",
-    "switch-radius",
-    "switch-size",
-    "switch-variant",
     "text",
-    "text-align",
-    "text-as",
-    "text-color",
-    "text-form-controls",
-    "text-formatting",
-    "text-high-contrast",
-    "text-size",
-    "text-size-content",
-    "text-size-labels",
-    "text-trim",
-    "text-trim-box",
-    "text-truncate",
-    "text-weight",
-    "text-wrap",
 ]
 avatar = []
-avatar-color = []
-avatar-fallback = []
-avatar-high-contrast = []
-avatar-radius = []
-avatar-size = []
-avatar-variant = []
 blockquote = []
-blockquote-color = []
-blockquote-high-contrast = []
-blockquote-size = []
-blockquote-truncate = []
-blockquote-weight = []
 box = []
 button = ["radix-yew-icons/bookmark"]
-button-color = []
-button-high-contrast = []
-button-loading = []
-button-loading-spinner = ["radix-yew-icons/bookmark"]
-button-radius = []
-button-size = []
-button-variant = []
-button-variant-ghost = []
-button-with-icons = ["radix-yew-icons/bookmark"]
 code = []
-code-color = []
-code-high-contrast = []
-code-size = []
-code-truncate = []
-code-variant = []
-code-weight = []
 container = []
 em = []
-em-truncate = []
 flex = []
 grid = []
-grid-responsive = []
 heading = []
-heading-align = []
-heading-as = []
-heading-color = []
-heading-high-contrast = []
-heading-size = []
-heading-trim = []
-heading-trim-box = []
-heading-truncate = []
-heading-weight = []
-heading-wrap = []
 kbd = []
-kbd-size = []
 link = []
-link-color = []
-link-high-contrast = []
-link-size = []
-link-truncate = []
-link-underline = []
-link-weight = []
 quote = []
-quote-truncate = []
 section = []
 select = []
 strong = []
-strong-truncate = []
 switch = []
-switch-alignment = []
-switch-color = []
-switch-disabled = []
-switch-high-contrast = []
-switch-radius = []
-switch-size = []
-switch-variant = []
 text = []
-text-align = []
-text-as = []
-text-color = []
-text-form-controls = []
-text-formatting = []
-text-high-contrast = []
-text-size = []
-text-size-content = []
-text-size-labels = []
-text-trim = []
-text-trim-box = []
-text-truncate = []
-text-weight = []
-text-wrap = []

@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["switch"]
 files = ["src/switch/switch.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -30,9 +31,10 @@ Use the `size` prop to control the size of the switch.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["switch-size"]
+features = ["switch"]
 files = ["src/switch/switch_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}

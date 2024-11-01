@@ -10,6 +10,7 @@ package = "radix-yew-book-themes"
 features = ["button"]
 files = ["src/button/button.rs"]
 show_files = true
+url_fragment = "#/"
 ```
 
 {{#endtab }}
@@ -46,9 +47,10 @@ Use the `size` prop to control the size of the button.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-size"]
+features = ["button"]
 files = ["src/button/button_size.rs"]
 show_files = true
+url_fragment = "#/size"
 ```
 
 {{#endtab }}
@@ -63,9 +65,10 @@ Use the `variant` prop to control the visual style of the button.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-variant"]
+features = ["button"]
 files = ["src/button/button_variant.rs"]
 show_files = true
+url_fragment = "#/variant"
 ```
 
 {{#endtab }}
@@ -80,9 +83,10 @@ Use the `ghost` variant to display a button without chrome. Ghost buttons behave
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-variant-ghost"]
+features = ["button"]
 files = ["src/button/button_variant_ghost.rs"]
 show_files = true
+url_fragment = "#/variant-ghost"
 ```
 
 {{#endtab }}
@@ -97,9 +101,10 @@ Use the `color` prop to assign a specific [color](../theme/color.md).
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-color"]
+features = ["button"]
 files = ["src/button/button_color.rs"]
 show_files = true
+url_fragment = "#/color"
 ```
 
 {{#endtab }}
@@ -114,9 +119,10 @@ Use the `high_contrast` prop to increase color contrast with the background.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-high-contrast"]
+features = ["button"]
 files = ["src/button/button_high_contrast.rs"]
 show_files = true
+url_fragment = "#/high-contrast"
 ```
 
 {{#endtab }}
@@ -131,9 +137,10 @@ Use the `radius` prop to assign a specific radius value.
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-radius"]
+features = ["button"]
 files = ["src/button/button_radius.rs"]
 show_files = true
+url_fragment = "#/radius"
 ```
 
 {{#endtab }}
@@ -148,9 +155,10 @@ You can nest icons directly inside the button. An appropriate gap is provided au
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-with-icons"]
+features = ["button"]
 files = ["src/button/button_with_icons.rs"]
 show_files = true
+url_fragment = "#/with-icons"
 ```
 
 {{#endtab }}
@@ -165,9 +173,10 @@ Use the `loading` prop to display a loading spinner in place of button content, 
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-loading"]
+features = ["button"]
 files = ["src/button/button_loading.rs"]
 show_files = true
+url_fragment = "#/loading"
 ```
 
 {{#endtab }}
@@ -180,9 +189,10 @@ If you have an icon inside the button, you can use the button's `disabled` state
 
 ```toml,trunk
 package = "radix-yew-book-themes"
-features = ["button-loading-spinner"]
+features = ["button"]
 files = ["src/button/button_loading_spinner.rs"]
 show_files = true
+url_fragment = "#/loading-spinner"
 ```
 
 {{#endtab }}
