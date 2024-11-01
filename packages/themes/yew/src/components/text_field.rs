@@ -112,6 +112,14 @@ pub struct TextFieldProps {
     pub value: Option<String>,
     #[prop_or_default]
     pub width: Option<String>,
+    #[prop_or_default]
+    pub onblur: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub onchange: Callback<Event>,
+    #[prop_or_default]
+    pub onfocus: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub oninput: Callback<InputEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -245,6 +253,10 @@ pub fn TextField(props: &TextFieldProps) -> Html {
                 type={props.r#type.clone()}
                 value={props.value.clone()}
                 width={props.width.clone()}
+                onblur={props.onblur.clone()}
+                onchange={props.onchange.clone()}
+                onfocus={props.onfocus.clone()}
+                oninput={props.oninput.clone()}
             />
             {props.children.clone()}
         </div>
