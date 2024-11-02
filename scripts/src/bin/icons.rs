@@ -158,7 +158,7 @@ impl Framework for Yew {
         let component_name: TokenStream = component_name.parse()?;
         let props_name: TokenStream = format!("{}Props", component_name).parse()?;
         let svg: TokenStream = svg
-            .replace("<svg ", "<svg ref={node_ref} ")
+            .replace("<svg ", "<svg ref={node_ref} class={&props.class} ")
             .replace("fill=\"currentColor\"", "fill={&props.color}")
             .replace("width=\"15\"", "width={&props.width}")
             .replace("height=\"15\"", "height={&props.height}")
@@ -169,6 +169,8 @@ impl Framework for Yew {
 
             #[derive(PartialEq, Properties)]
             pub struct #props_name {
+                #[prop_or_default]
+                pub class: Option<AttrValue>,
                 #[prop_or(AttrValue::from("currentColor"))]
                 pub color: AttrValue,
                 #[prop_or(AttrValue::from("15"))]
