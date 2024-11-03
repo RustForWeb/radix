@@ -3,10 +3,12 @@ use yew::prelude::*;
 
 #[derive(PartialEq, Properties)]
 pub struct LabelProps {
+    // Attributes from `label`
     #[prop_or_default]
     pub r#for: Option<String>,
     #[prop_or_default]
     pub on_mouse_down: Callback<MouseEvent>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
