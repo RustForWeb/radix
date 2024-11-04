@@ -45,6 +45,8 @@ mod strong;
 mod switch;
 #[cfg(feature = "text")]
 mod text;
+#[cfg(feature = "text-area")]
+mod text_area;
 #[cfg(feature = "text-field")]
 mod text_field;
 

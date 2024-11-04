@@ -113,7 +113,7 @@
         -   [Table]()
         -   [Tabs]()
         -   [Tab Nav]()
-        -   [Text Area]()
+        -   [Text Area](./themes/components/text-area.md)
         -   [Text Field](./themes/components/text-field.md)
         -   [Tooltip]()
     -   [Utilities](./themes/utilities/README.md)

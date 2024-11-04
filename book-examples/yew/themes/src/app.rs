@@ -141,6 +141,13 @@ pub fn App() -> Html {
             <Switch<TextRoute> render={render} />
         });
     }
+    #[cfg(feature = "text-area")]
+    {
+        use crate::text_area::{render, TextAreaRoute};
+        children.push(html! {
+            <Switch<TextAreaRoute> render={render} />
+        });
+    }
     #[cfg(feature = "text-field")]
     {
         use crate::text_field::{render, TextFieldRoute};

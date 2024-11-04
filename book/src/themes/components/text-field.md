@@ -20,7 +20,7 @@ url_fragment = "#/"
 
 ### Root
 
-Groups Slot and Input parts. This component is based on the `div` element and supports [common margin props](../overview/layout.md#margin-props).
+Groups Slot and Input parts. This component is based on the `input` element and supports [common margin props](../overview/layout.md#margin-props).
 
 {{#tabs global="framework" }}
 {{#tab name="Yew" }}

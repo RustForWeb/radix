@@ -53,6 +53,10 @@ pub struct TextFieldProps {
     #[prop_or_default]
     pub autocomplete: Option<String>,
     #[prop_or_default]
+    pub autocorrect: Option<String>,
+    #[prop_or_default]
+    pub autofocus: bool,
+    #[prop_or_default]
     pub capture: Option<String>,
     #[prop_or_default]
     pub checked: bool,
@@ -223,6 +227,8 @@ pub fn TextField(props: &TextFieldProps) -> Html {
                 alt={props.alt.clone()}
                 autocapitalize={props.autocapitalize.clone()}
                 autocomplete={props.autocomplete.clone()}
+                autocorrect={props.autocorrect.clone()}
+                autofocus={props.autofocus}
                 capture={props.capture.clone()}
                 checked={props.checked}
                 dirname={props.dirname.clone()}

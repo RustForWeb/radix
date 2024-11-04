@@ -39,6 +39,7 @@ default = [
     "strong",
     "switch",
     "text",
+    "text-area",
     "text-field",
 ]
 avatar = []
@@ -60,6 +61,7 @@ select = []
 strong = []
 switch = []
 text = []
+text-area = []
 text-field = [
     "radix-yew-icons/dots-horizontal",
     "radix-yew-icons/magnifying-glass",
