@@ -5,6 +5,7 @@ use crate::{
         base_button_props::{BaseButtonLoadingProp, BaseButtonSizeProp, BaseButtonVariantProp},
         flex::Flex,
         flex_props::{FlexAlign, FlexAs, FlexJustify},
+        spinner::Spinner,
         visually_hidden::VisuallyHidden,
     },
     helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
@@ -229,8 +230,7 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
                     <VisuallyHidden>{props.children.clone()}</VisuallyHidden>
 
                     <Flex r#as={FlexAs::Span} align={FlexAlign::Center} justify={FlexJustify::Center} position={Position::Absolute} inset=0>
-                        // TODO
-                        // <Spinner size={} />
+                        <Spinner size={props.size.clone()} />
                     </Flex>
                 </>
             } else {

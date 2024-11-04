@@ -3,7 +3,7 @@ use std::fmt::{self, Display};
 use crate::props::prop_def::{prop_bool, prop_enum, prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
-pub struct BaseButtonSize(u8);
+pub struct BaseButtonSize(pub(crate) u8);
 
 impl Default for BaseButtonSize {
     fn default() -> Self {

@@ -39,6 +39,8 @@ mod quote;
 mod section;
 #[cfg(feature = "select")]
 mod select;
+#[cfg(feature = "spinner")]
+mod spinner;
 #[cfg(feature = "strong")]
 mod strong;
 #[cfg(feature = "switch")]

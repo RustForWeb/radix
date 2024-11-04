@@ -108,7 +108,7 @@
         -   [Separator]()
         -   [Skeleton]()
         -   [Slider]()
-        -   [Spinner]()
+        -   [Spinner](./themes/components/spinner.md)
         -   [Switch](./themes/components/switch.md)
         -   [Table]()
         -   [Tabs]()

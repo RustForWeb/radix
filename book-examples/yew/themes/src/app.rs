@@ -120,6 +120,13 @@ pub fn App() -> Html {
             </div>
         });
     }
+    #[cfg(feature = "spinner")]
+    {
+        use crate::spinner::{render, SpinnerRoute};
+        children.push(html! {
+            <Switch<SpinnerRoute> render={render} />
+        });
+    }
     #[cfg(feature = "strong")]
     {
         use crate::strong::{render, StrongRoute};
