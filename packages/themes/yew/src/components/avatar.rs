@@ -1,7 +1,8 @@
+pub use radix_yew_avatar::ImageLoadingStatus;
 use radix_yew_avatar::{
     Avatar as AvatarPrimitive, AvatarChildProps as AvatarPrimitiveChildProps,
     AvatarFallback as AvatarFallbackPrimitive, AvatarImage as AvatarImagePrimitive,
-    ImageLoadingStatus, SetAvatarChildProps as SetAvatarPrimitiveChildProps,
+    SetAvatarChildProps as SetAvatarPrimitiveChildProps,
 };
 use yew::{prelude::*, virtual_dom::VNode};
 

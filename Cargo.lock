@@ -3308,6 +3308,7 @@ dependencies = [
  "radix-yew-avatar",
  "radix-yew-direction",
  "radix-yew-select",
+ "radix-yew-separator",
  "radix-yew-switch",
  "radix-yew-visually-hidden",
  "web-sys",

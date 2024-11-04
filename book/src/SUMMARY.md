@@ -105,7 +105,7 @@
         -   [Scroll Area]()
         -   [Segmented Control]()
         -   [Select](./themes/components/select.md)
-        -   [Separator]()
+        -   [Separator](./themes/components/separator.md)
         -   [Skeleton]()
         -   [Slider]()
         -   [Spinner](./themes/components/spinner.md)

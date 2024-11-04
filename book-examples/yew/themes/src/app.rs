@@ -120,6 +120,13 @@ pub fn App() -> Html {
             </div>
         });
     }
+    #[cfg(feature = "separator")]
+    {
+        use crate::separator::{render, SeparatorRoute};
+        children.push(html! {
+            <Switch<SeparatorRoute> render={render} />
+        });
+    }
     #[cfg(feature = "spinner")]
     {
         use crate::spinner::{render, SpinnerRoute};

@@ -36,6 +36,7 @@ default = [
     "quote",
     "section",
     "select",
+    "separator",
     "spinner",
     "strong",
     "switch",
@@ -59,6 +60,7 @@ link = []
 quote = []
 section = []
 select = []
+separator = []
 spinner = ["radix-yew-icons/bookmark"]
 strong = []
 switch = []

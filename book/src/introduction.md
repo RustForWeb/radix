@@ -151,7 +151,7 @@ The tables below show the support for the various frameworks.
 | Section           | ❌     | ❌     | 🟦      |
 | Segmented Control | ❌     | ❌     | ❌      |
 | Select            | ❌     | ❌     | 🚧      |
-| Separator         | ❌     | ❌     | ❌      |
+| Separator         | ❌     | ❌     | 🟦      |
 | Skeleton          | ❌     | ❌     | ❌      |
 | Slider            | ❌     | ❌     | ❌      |
 | Slot              | ❌     | ❌     | ❌      |
@@ -168,7 +168,7 @@ The tables below show the support for the various frameworks.
 | Theme             | ❌     | ❌     | 🟦      |
 | Tooltip           | ❌     | ❌     | ❌      |
 | Visually Hidden   | ❌     | ❌     | 🟦      |
-| **Total**         | 0 / 59 | 0 / 59 | 26 / 59 |
+| **Total**         | 0 / 59 | 0 / 59 | 27 / 59 |
 
 ## License
 

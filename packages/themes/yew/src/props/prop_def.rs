@@ -186,6 +186,43 @@ macro_rules! prop_enum {
     };
 }
 
+macro_rules! prop_responsive_enum {
+    ($name:ident, $enum_name:ident, $class:expr, $custom_properties:expr) => {
+        #[derive(Clone, Debug, Default, Eq, PartialEq)]
+        pub struct $name(pub $crate::Responsive<$enum_name>);
+
+        impl yew::html::IntoPropValue<$name> for $enum_name {
+            fn into_prop_value(self) -> $name {
+                $name($crate::Responsive::Value(self))
+            }
+        }
+
+        impl yew::html::IntoPropValue<$name> for $crate::ResponsiveValues<$enum_name> {
+            fn into_prop_value(self) -> $name {
+                $name($crate::Responsive::Values(self))
+            }
+        }
+
+        impl $crate::PropDef for $name {
+            fn r#type(&self) -> $crate::PropDefType {
+                $crate::PropDefType::Enum
+            }
+
+            fn class(&self) -> Option<&str> {
+                $class
+            }
+
+            fn custom_properties(&self) -> Option<&[&str]> {
+                $custom_properties
+            }
+
+            fn value(&self) -> Option<$crate::PropValue> {
+                self.0.value_defined()
+            }
+        }
+    };
+}
+
 macro_rules! prop_responsive_number_enum {
     ($name:ident, $enum_name:ident, $class:expr, $custom_properties:expr) => {
         #[derive(Clone, Debug, Default, Eq, PartialEq)]
@@ -532,5 +569,5 @@ macro_rules! prop_optional_responsive_number_enum_or_string {
 pub(crate) use {
     prop_bool, prop_enum, prop_optional_bool, prop_optional_enum, prop_optional_responsive_enum,
     prop_optional_responsive_number_enum, prop_optional_responsive_number_enum_or_string,
-    prop_optional_responsive_string, prop_responsive_number_enum,
+    prop_optional_responsive_string, prop_responsive_enum, prop_responsive_number_enum,
 };
