@@ -111,7 +111,7 @@ The tables below show the support for the various frameworks.
 | ----------------- | ------ | ------ | ------- |
 | Accessible Icon   | ❌     | ❌     | ❌      |
 | Alert Dialog      | ❌     | ❌     | ❌      |
-| Aspect Ratio      | ❌     | ❌     | ❌      |
+| Aspect Ratio      | ❌     | ❌     | 🟦      |
 | Avatar            | ❌     | ❌     | 🟦      |
 | Badge             | ❌     | ❌     | ❌      |
 | Base Button       | ❌     | ❌     | 🟦      |
@@ -168,7 +168,7 @@ The tables below show the support for the various frameworks.
 | Theme             | ❌     | ❌     | 🟦      |
 | Tooltip           | ❌     | ❌     | ❌      |
 | Visually Hidden   | ❌     | ❌     | 🟦      |
-| **Total**         | 0 / 59 | 0 / 59 | 27 / 59 |
+| **Total**         | 0 / 59 | 0 / 59 | 28 / 59 |
 
 ## License
 

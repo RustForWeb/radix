@@ -1,0 +1,13 @@
+[package]
+name = "radix-yew-aspect-ratio"
+description = "Yew port of Radix Aspect Ratio."
+homepage = "https://radix.rustforweb.org/primitives/components/aspect-ratio.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+yew.workspace = true

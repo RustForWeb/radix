@@ -1,4 +1,6 @@
 mod app;
+#[cfg(feature = "aspect-ratio")]
+mod aspect_ratio;
 #[cfg(feature = "avatar")]
 mod avatar;
 #[cfg(feature = "blockquote")]

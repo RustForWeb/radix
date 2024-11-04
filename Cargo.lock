@@ -3107,6 +3107,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-aspect-ratio"
+version = "0.0.2"
+dependencies = [
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-avatar"
 version = "0.0.2"
 dependencies = [
@@ -3133,6 +3140,7 @@ dependencies = [
  "console_error_panic_hook",
  "console_log",
  "log",
+ "radix-yew-aspect-ratio",
  "radix-yew-avatar",
  "radix-yew-icons",
  "radix-yew-label",
@@ -3305,6 +3313,7 @@ dependencies = [
 name = "radix-yew-themes"
 version = "0.0.2"
 dependencies = [
+ "radix-yew-aspect-ratio",
  "radix-yew-avatar",
  "radix-yew-direction",
  "radix-yew-select",

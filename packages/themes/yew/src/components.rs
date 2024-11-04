@@ -1,3 +1,4 @@
+mod aspect_ratio;
 mod avatar;
 mod avatar_props;
 mod base_button;
@@ -47,6 +48,7 @@ mod theme;
 mod theme_props;
 mod visually_hidden;
 
+pub use aspect_ratio::*;
 pub use avatar::*;
 pub use avatar_props::*;
 pub use base_button_props::*;

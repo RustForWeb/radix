@@ -6,6 +6,13 @@ use yew_router::prelude::*;
 pub fn App() -> Html {
     let mut children: Vec<Html> = vec![];
 
+    #[cfg(feature = "aspect-ratio")]
+    {
+        use crate::aspect_ratio::{render, AspectRatioRoute};
+        children.push(html! {
+            <Switch<AspectRatioRoute> render={render} />
+        });
+    }
     #[cfg(feature = "avatar")]
     {
         use crate::avatar::{render, AvatarRoute};

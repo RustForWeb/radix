@@ -1,5 +1,6 @@
 # Components
 
+-   [Aspect Ratio](./aspect-ratio.md)
 -   [Avatar](./avatar.md)
 -   [Button](./button.md)
 -   [Icon Button](./icon-button.md)

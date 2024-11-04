@@ -20,6 +20,7 @@ yew-router.workspace = true
 
 [features]
 default = [
+    "aspect-ratio",
     "avatar",
     "blockquote",
     "box",
@@ -44,6 +45,7 @@ default = [
     "text-area",
     "text-field",
 ]
+aspect-ratio = []
 avatar = []
 blockquote = []
 box = []

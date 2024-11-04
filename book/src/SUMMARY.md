@@ -81,7 +81,7 @@
         -   [Strong](./themes/typography/strong.md)
     -   [Components](./themes/components/README.md)
         -   [Alert Dialog]()
-        -   [Aspect Ratio]()
+        -   [Aspect Ratio](./themes/components/aspect-ratio.md)
         -   [Avatar](./themes/components/avatar.md)
         -   [Badge]()
         -   [Button](./themes/components/button.md)

@@ -13,6 +13,7 @@ version.workspace = true
 console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
+radix-yew-aspect-ratio = { path = "../../../packages/primitives/yew/aspect-ratio", optional = true }
 radix-yew-avatar = { path = "../../../packages/primitives/yew/avatar", optional = true }
 radix-yew-icons = { path = "../../../packages/icons/yew", optional = true }
 radix-yew-label = { path = "../../../packages/primitives/yew/label", optional = true }
@@ -22,7 +23,8 @@ radix-yew-switch = { path = "../../../packages/primitives/yew/switch", optional 
 yew = { workspace = true, features = ["csr"] }
 
 [features]
-default = ["avatar", "label", "select", "separator", "switch"]
+default = ["aspect-ratio", "avatar", "label", "select", "separator", "switch"]
+aspect-ratio = ["dep:radix-yew-aspect-ratio"]
 avatar = ["dep:radix-yew-avatar"]
 label = ["dep:radix-yew-label"]
 select = [
