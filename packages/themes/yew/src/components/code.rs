@@ -1,8 +1,9 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::code_props::{CodeSizeProp, CodeVariantProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -43,44 +44,35 @@ pub struct CodeProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<CodeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "code")]
 pub struct CodeChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: String,
-    pub style: Style,
     pub data_accent_color: String,
-}
-
-impl CodeChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <code
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-
-                data-accent-color={self.data_accent_color}
-            >
-                {children}
-            </code>
-        }
-    }
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -108,14 +100,17 @@ pub fn Code(props: &CodeProps) -> Html {
 
     let child_props = CodeChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[&"rt-reset", &"rt-Code", &class]),
-        style,
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-reset", "rt-Code", class).to_string(),
         data_accent_color: props
             .color
             .0
             .map(|color| color.to_string())
-            .unwrap_or("".to_string()),
+            .unwrap_or("".to_owned()),
+        id: props.id.clone(),
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

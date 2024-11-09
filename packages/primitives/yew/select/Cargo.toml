@@ -28,3 +28,4 @@ web-sys = { workspace = true, features = [
     "ScrollLogicalPosition",
 ] }
 yew.workspace = true
+yew-struct-component.workspace = true

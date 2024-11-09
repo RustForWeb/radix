@@ -13,3 +13,4 @@ version.workspace = true
 log.workspace = true
 web-sys = { workspace = true, features = ["HtmlImageElement"] }
 yew.workspace = true
+yew-struct-component.workspace = true

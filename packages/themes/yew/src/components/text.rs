@@ -1,8 +1,9 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::text_props::{TextAs, TextAsProp, TextSizeProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -50,83 +51,36 @@ pub struct TextProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<TextChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
 pub struct TextChildProps {
-    pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
+    #[struct_component(dynamic_tag = true)]
     pub r#as: TextAs,
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
+    pub class: String,
     pub data_accent_color: Option<String>,
-}
-
-impl TextChildProps {
-    pub fn render(self, children: Html) -> Html {
-        match self.r#as {
-            TextAs::Span => html! {
-                <span
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </span>
-            },
-            TextAs::Div => html! {
-                <div
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </div>
-            },
-            TextAs::Label => html! {
-                <label
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </label>
-            },
-            TextAs::P => html! {
-                <p
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </p>
-            },
-        }
-    }
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -155,12 +109,15 @@ pub fn Text(props: &TextProps) -> Html {
     );
 
     let child_props = TextChildProps {
-        node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[&"rt-Text", &class]),
-        style,
         r#as: props.r#as.0,
+        node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-Text", class).to_string(),
         data_accent_color: props.color.0.map(|color| color.to_string()),
+        id: props.id.clone(),
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

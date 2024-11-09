@@ -16,3 +16,4 @@ radix-yew-use-previous = { path = "../use-previous", version = "0.0.2" }
 radix-yew-use-size = { path = "../use-size", version = "0.0.2" }
 web-sys = { workspace = true, features = ["Event", "EventInit"] }
 yew.workspace = true
+yew-struct-component.workspace = true

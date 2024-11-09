@@ -8,7 +8,7 @@ use yew::{prelude::*, virtual_dom::VNode};
 
 use crate::{
     components::avatar_props::{AvatarSizeProp, AvatarVariantProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -45,7 +45,15 @@ pub struct AvatarProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Props from `AvatarImagePrimitive`
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
+    // Attributes from `img`
     #[prop_or_default]
     pub alt: Option<String>,
     #[prop_or_default]
@@ -76,30 +84,27 @@ pub struct AvatarProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
-    #[prop_or_default]
     pub as_child: Option<Callback<AvatarChildProps, Html>>,
 }
 
 #[derive(Clone, Default, PartialEq)]
 pub struct AvatarChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+
+    // Globla attributes
     pub class: Option<String>,
-    pub style: Option<String>,
     pub data_accent_color: String,
     pub data_radius: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 impl SetAvatarPrimitiveChildProps for AvatarChildProps {
     fn set_avatar_child_props(&mut self, props: AvatarPrimitiveChildProps) {
         self.node_ref = props.node_ref;
-        self.id = props.id;
+
         self.class = props.class;
+        self.id = props.id;
         self.style = props.style;
     }
 }
@@ -129,7 +134,7 @@ pub fn Avatar(props: &AvatarProps) -> Html {
         data_accent_color: props
             .color
             .0
-            .map(|radius| radius.to_string())
+            .map(|color| color.to_string())
             .unwrap_or_default(),
         data_radius: props.radius.0.map(|radius| radius.to_string()),
         ..AvatarChildProps::default()
@@ -137,15 +142,19 @@ pub fn Avatar(props: &AvatarProps) -> Html {
 
     html! {
         <AvatarPrimitive<AvatarChildProps>
+            attributes={[
+                ("data-accent-color", Some(child_props.data_accent_color.clone())),
+                ("data-radius", child_props.data_radius.clone()),
+            ]}
+
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-reset", &"rt-AvatarRoot", &class])}
+            class={classes!("rt-reset", "rt-AvatarRoot", class).to_string()}
             style={style.to_string()}
-            // TODO: `data-accent-color` and `data-radius` attributes
+
             as_child={props.as_child.clone()}
             as_child_props={child_props}
         >
             <AvatarImpl
-                node_ref={props.node_ref.clone()}
                 fallback={props.fallback.clone()}
                 alt={props.alt.clone()}
                 crossorigin={props.crossorigin.clone()}
@@ -160,6 +169,8 @@ pub fn Avatar(props: &AvatarProps) -> Html {
                 srcset={props.srcset.clone()}
                 width={props.width.clone()}
                 usemap={props.usemap.clone()}
+
+                node_ref={props.node_ref.clone()}
             />
         </AvatarPrimitive<AvatarChildProps>>
     }
@@ -224,14 +235,17 @@ fn AvatarImpl(props: &AvatarImplProps) -> Html {
 
             if *status == ImageLoadingStatus::Error {
                 <AvatarFallbackPrimitive
-                    class={merge_classes(&[&"rt-AvatarFallback", &match &props.fallback {
-                        VNode::VText(text) => match text.text.chars().count() {
-                            1 => Some("rt-one-letter"),
-                            2 => Some("rt-two-letters"),
+                    class={classes!(
+                        "rt-AvatarFallback",
+                        match &props.fallback {
+                            VNode::VText(text) => match text.text.chars().count() {
+                                1 => Some("rt-one-letter"),
+                                2 => Some("rt-two-letters"),
+                                _ => None
+                            },
                             _ => None
                         },
-                        _ => None
-                    }])}
+                    ).to_string()}
                     delay_ms={0}
                 >
                     {props.fallback.clone()}
@@ -239,7 +253,8 @@ fn AvatarImpl(props: &AvatarImplProps) -> Html {
             }
 
             <AvatarImagePrimitive
-                node_ref={props.node_ref.clone()}
+                on_loading_status_change={on_loading_status_change}
+
                 class="rt-AvatarImage"
 
                 alt={props.alt.clone()}
@@ -255,7 +270,8 @@ fn AvatarImpl(props: &AvatarImplProps) -> Html {
                 srcset={props.srcset.clone()}
                 width={props.width.clone()}
                 usemap={props.usemap.clone()}
-                on_loading_status_change={on_loading_status_change}
+
+                node_ref={props.node_ref.clone()}
             />
         </>
     }

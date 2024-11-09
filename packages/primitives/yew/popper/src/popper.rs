@@ -11,6 +11,7 @@ use radix_yew_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use web_sys::{wasm_bindgen::JsCast, window};
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Align {
@@ -79,45 +80,41 @@ pub fn Popper(props: &PopperProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct PopperAnchorProps {
-    #[prop_or_default]
-    pub on_click: Callback<MouseEvent>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    // Event handler attributes
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<PopperAnchorChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct PopperAnchorChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub onclick: Callback<MouseEvent>,
-}
+    pub attributes: Attributes,
 
-impl PopperAnchorChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                onclick={self.onclick}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
+
+    // Event handler attributes
+    pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component]
@@ -127,9 +124,14 @@ pub fn PopperAnchor(props: &PopperAnchorProps) -> Html {
 
     let child_props = PopperAnchorChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
+
+        // Event handler attributes
         onclick: props.on_click.clone(),
     };
 
@@ -176,24 +178,29 @@ pub struct PopperContentProps<ChildProps: Clone + Default + PartialEq + SetPoppe
     pub update_position_strategy: UpdatePositionStrategy,
     #[prop_or_default]
     pub on_placed: Callback<()>,
-    #[prop_or_default]
-    pub dir: Option<String>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub dir: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
     #[prop_or_default]
     pub role: Option<String>,
     #[prop_or_default]
-    pub data_state: Option<String>,
+    pub style: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_context_menu: Callback<MouseEvent>,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ChildProps, Html>>,
     #[prop_or_default]
@@ -206,43 +213,27 @@ pub trait SetPopperContentChildProps {
     fn set_popper_content_child_props(&mut self, props: PopperContentChildProps);
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct PopperContentChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: Option<String>,
-    pub style: String,
-    pub role: Option<String>,
-    pub data_side: String,
     pub data_align: String,
-    pub data_state: Option<String>,
+    pub data_side: String,
+    pub id: Option<String>,
+    pub role: Option<String>,
+    pub style: String,
+
+    // Event handler attributes
     pub oncontextmenu: Callback<MouseEvent>,
     pub onkeydown: Callback<KeyboardEvent>,
 }
 
 impl SetPopperContentChildProps for PopperContentChildProps {
     fn set_popper_content_child_props(&mut self, _: PopperContentChildProps) {}
-}
-
-impl PopperContentChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                role={self.role}
-                data-side={self.data_side}
-                data-align={self.data_align}
-                data-state={self.data_state}
-                oncontextmenu={self.oncontextmenu}
-                onkeydown={self.onkeydown}
-            >
-                {children}
-            </div>
-        }
-    }
 }
 
 #[function_component]
@@ -472,14 +463,14 @@ where
 
     let child_props = PopperContentChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
-        role: props.role.clone(),
-        data_state: props.data_state.clone(),
-        oncontextmenu: props.on_context_menu.clone(),
-        onkeydown: props.on_key_down.clone(),
-        data_side: format!("{:?}", placed_side).to_lowercase(),
         data_align: format!("{:?}", placed_align).to_lowercase(),
+        data_side: format!("{:?}", placed_side).to_lowercase(),
+        id: props.id.clone(),
+        role: props.role.clone(),
         // If the PopperContent hasn't been placed yet (not all measurements done),
         // we prevent animations so that users's animation don't kick in too early referring wrong sides.
         style: format!(
@@ -489,6 +480,10 @@ where
                 .unwrap_or_default(),
             props.style.clone().unwrap_or_default()
         ),
+
+        // Event handler attributes
+        oncontextmenu: props.on_context_menu.clone(),
+        onkeydown: props.on_key_down.clone(),
     };
 
     html! {
@@ -501,24 +496,24 @@ where
                     let mut floating_styles = (*floating_styles).clone();
                     if *is_positioned {
                         // Keep off the page when measuring
-                        floating_styles.transform = Some("translate(0, -200%)".into());
+                        floating_styles.transform = Some("translate(0, -200%)".to_owned());
                     }
 
                     floating_styles
                 },
                 match content_z_index.as_ref() {
                     Some(content_z_index) => format!(" z-index: {content_z_index};"),
-                    None => "".into(),
+                    None => "".to_owned(),
                 },
                 match transform_origin.as_ref() {
                     Some(transform_origin) => format!(" --radix-popper-transform-origin: {transform_origin};"),
-                    None => "".into()
+                    None => "".to_owned()
                 },
                 // Hide the content if using the hide middleware and should be hidden set visibility to hidden
                 // and disable pointer events so the UI behaves as if the PopperContent isn't there at all.
                 match reference_hidden {
                     true => " visibility: hidden; pointer-events: none;",
-                    false => "".into()
+                    false => ""
                 }
             )}
 
@@ -545,30 +540,39 @@ where
 
 #[derive(PartialEq, Properties)]
 pub struct PopperArrowProps {
+    // Props from `Arrow`
     #[prop_or(10.0)]
     pub width: f64,
     #[prop_or(5.0)]
     pub height: f64,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
+
+    // Global attributes
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<PopperArrowChildProps, Html>>,
-    #[prop_or_default]
-    pub children: Html,
 }
 
 #[derive(Clone, Default, PartialEq)]
 pub struct PopperArrowChildProps {
     pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub id: Option<String>,
     pub class: Option<String>,
     pub style: String,
+
+    // Attributes from `svg`
     pub width: String,
     pub height: String,
 }
@@ -576,8 +580,14 @@ pub struct PopperArrowChildProps {
 impl SetArrowChildProps for PopperArrowChildProps {
     fn set_arrow_child_props(&mut self, props: ArrowChildProps) {
         self.node_ref = props.node_ref;
-        self.id = props.id;
+        self.attributes = props.attributes;
+
         self.class = props.class;
+        self.id = props.id;
+        if let Some(style) = props.style {
+            self.style = style;
+        }
+
         self.width = props.width;
         self.height = props.height;
     }
@@ -600,17 +610,17 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
             style={format!(
                 "position: absolute;{}{}{}{} transform-origin: {}; transform: {};{}",
                 match base_side {
-                    Side::Left => " left: 0px;".into(),
+                    Side::Left => " left: 0px;".to_owned(),
                     _ => match content_context.arrow_x {
                         Some(arrow_x) => format!(" left: {}px;", arrow_x),
-                        None => "".into(),
+                        None => "".to_owned(),
                     }
                 },
                 match base_side {
-                    Side::Top => " top: 0px;".into(),
+                    Side::Top => " top: 0px;".to_owned(),
                     _ => match content_context.arrow_y {
                         Some(arrow_y) => format!(" top: {}px;", arrow_y),
-                        None => "".into(),
+                        None => "".to_owned(),
                     },
                 },
                 match base_side {
@@ -642,14 +652,15 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
         <ArrowPrimitive<PopperArrowChildProps>
             width={props.width}
             height={props.height}
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
+
             class={props.class.clone()}
+            id={props.id.clone()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={props.as_child.clone()}
             as_child_props={child_props}
-        >
-            {props.children.clone()}
-        </ArrowPrimitive<PopperArrowChildProps>>
+        />
     </span>
     }
 }

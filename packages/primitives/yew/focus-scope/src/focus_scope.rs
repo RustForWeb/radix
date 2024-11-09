@@ -12,6 +12,7 @@ use web_sys::{
     MutationObserverInit, MutationRecord, NodeFilter,
 };
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
 const AUTOFOCUS_ON_UNMOUNT: &str = "focusScope.autoFocusOnUnmount";
@@ -28,45 +29,39 @@ pub struct FocusScopeProps {
     pub on_mount_auto_focus: Callback<Event>,
     #[prop_or_default]
     pub on_unmount_auto_focus: Callback<Event>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<FocusScopeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct FocusScopeChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: Option<String>,
+    pub id: Option<String>,
     pub style: Option<String>,
     pub tabindex: String,
-    pub onkeydown: Callback<KeyboardEvent>,
-}
 
-impl FocusScopeChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                tabindex={self.tabindex}
-                onkeydown={self.onkeydown}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Event handler attributes
+    pub onkeydown: Callback<KeyboardEvent>,
 }
 
 #[function_component]
@@ -450,10 +445,15 @@ pub fn FocusScope(props: &FocusScopeProps) -> Html {
 
     let child_props = FocusScopeChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
-        tabindex: "-1".into(),
+        tabindex: "-1".to_owned(),
+
+        // Event handler attributes
         onkeydown: handle_key_down,
     };
 

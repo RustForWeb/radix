@@ -1,11 +1,12 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::flex_props::{
         FlexAlignProp, FlexAs, FlexAsProp, FlexDirectionProp, FlexDisplayProp, FlexJustifyProp,
         FlexWrapProp,
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         gap_props::{GapProp, GapXProp, GapYProp},
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
@@ -120,53 +121,35 @@ pub struct FlexProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<FlexChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
 pub struct FlexChildProps {
-    pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
+    #[struct_component(dynamic_tag = true)]
     pub r#as: FlexAs,
-}
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
 
-impl FlexChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            if self.r#as == FlexAs::Div {
-                <div
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-                >
-                    {children}
-                </div>
-            } else {
-                <span
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-                >
-                    {children}
-                </span>
-            }
-        }
-    }
+    // Global attributes
+    pub class: String,
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -227,11 +210,14 @@ pub fn Flex(props: &FlexProps) -> Html {
     );
 
     let child_props = FlexChildProps {
-        node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[&"rt-Flex", &class]),
-        style,
         r#as: props.r#as.0,
+        node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-Flex", class).to_string(),
+        id: props.id.clone(),
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

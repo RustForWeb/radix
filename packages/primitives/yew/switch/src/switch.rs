@@ -3,6 +3,7 @@ use radix_yew_use_controllable_state::{use_controllable_state, UseControllableSt
 use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 #[derive(Clone, Debug, PartialEq)]
 struct SwitchContextValue {
@@ -13,74 +14,67 @@ struct SwitchContextValue {
 #[derive(PartialEq, Properties)]
 pub struct SwitchProps {
     #[prop_or_default]
-    pub name: Option<String>,
-    #[prop_or_default]
     pub checked: Option<bool>,
     #[prop_or_default]
     pub default_checked: Option<bool>,
     #[prop_or_default]
     pub on_checked_change: Callback<bool>,
-    #[prop_or(false)]
-    pub required: bool,
-    #[prop_or(false)]
-    pub disabled: bool,
-    #[prop_or("on".to_string())]
-    pub value: String,
-    #[prop_or_default]
-    pub on_click: Callback<MouseEvent>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    // Attributes from `button`
+    #[prop_or_default]
+    pub disabled: bool,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub required: bool,
+    #[prop_or("on".to_owned())]
+    pub value: String,
+
+    // Event handler attributes
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SwitchChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "button")]
 pub struct SwitchChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub r#type: String,
-    pub role: String,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub aria_checked: String,
     pub aria_required: String,
-    pub data_state: String,
+    pub class: Option<String>,
     pub data_disabled: Option<String>,
-    pub disabled: bool,
-    pub value: String,
-    pub onclick: Callback<MouseEvent>,
-}
+    pub data_state: String,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: Option<String>,
 
-impl SwitchChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <button
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                type={self.r#type}
-                role={self.role}
-                aria-checked={self.aria_checked}
-                aria-required={self.aria_required}
-                data-state={self.data_state}
-                data-disabled={self.data_disabled}
-                disabled={self.disabled}
-                value={self.value}
-                onclick={self.onclick}
-            >
-                {children}
-            </button>
-        }
-    }
+    // Attributes from `button`
+    pub disabled: bool,
+    pub r#type: String,
+    pub value: String,
+
+    // Event handler attributes
+    pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component]
@@ -146,25 +140,32 @@ pub fn Switch(props: &SwitchProps) -> Html {
 
     let child_props = SwitchChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
-        class: props.class.clone(),
-        style: props.style.clone(),
-        r#type: "button".into(),
-        role: "switch".into(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         aria_checked: match checked {
             true => "true",
             false => "false",
         }
-        .into(),
+        .to_owned(),
         aria_required: match props.required {
             true => "true",
             false => "false",
         }
-        .into(),
+        .to_owned(),
+        class: props.class.clone(),
+        data_disabled: props.disabled.then_some("".to_owned()),
         data_state: get_state(checked),
-        data_disabled: props.disabled.then_some("".into()),
+        id: props.id.clone(),
+        role: "switch".to_owned(),
+        style: props.style.clone(),
+
+        // Attributes from `button`
         disabled: props.disabled,
+        r#type: "button".to_owned(),
         value: props.value.clone(),
+
+        // Event handler attributes
         onclick: on_click.clone(),
     };
 
@@ -177,13 +178,14 @@ pub fn Switch(props: &SwitchProps) -> Html {
             }
             if *is_form_control {
                 <BubbleInput
-                    name={props.name.clone()}
                     control_ref={button_ref}
                     bubbles={true}
-                    value={props.value.clone()}
+
                     checked={checked}
-                    required={props.required}
                     disabled={props.disabled}
+                    name={props.name.clone()}
+                    required={props.required}
+                    value={props.value.clone()}
                 />
             }
         </ContextProvider<SwitchContextValue>>
@@ -192,45 +194,36 @@ pub fn Switch(props: &SwitchProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SwitchThumbProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SwitchThumbChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct SwitchThumbChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub data_state: String,
-    pub data_disabled: Option<String>,
-}
+    pub attributes: Attributes,
 
-impl SwitchThumbChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                data-state={self.data_state}
-                data-disabled={self.data_disabled}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub data_disabled: Option<String>,
+    pub data_state: String,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -239,11 +232,14 @@ pub fn SwitchThumb(props: &SwitchThumbProps) -> Html {
 
     let child_props = SwitchThumbChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
-        style: props.style.clone(),
+        data_disabled: context.disabled.then_some("".to_owned()),
         data_state: get_state(context.checked),
-        data_disabled: context.disabled.then_some("".into()),
+        id: props.id.clone(),
+        style: props.style.clone(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -257,13 +253,14 @@ pub fn SwitchThumb(props: &SwitchThumbProps) -> Html {
 struct BubbleInputProps {
     #[prop_or_default]
     pub control_ref: NodeRef,
-    pub checked: bool,
     #[prop_or(true)]
     pub bubbles: bool,
+
+    pub checked: bool,
+    pub disabled: bool,
     #[prop_or_default]
     pub name: Option<String>,
     pub required: bool,
-    pub disabled: bool,
     pub value: String,
 }
 
@@ -298,22 +295,24 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
     html! {
         <input
             ref={node_ref}
-            type="checkbox"
+
             aria-hidden="true"
-            checked={props.checked}
-            name={props.name.clone()}
-            required={props.required}
-            disabled={props.disabled}
-            value={props.value.clone()}
-            tabindex="-1"
             // We transform because the input is absolutely positioned, but we have
             // rendered it **after** the button. This pulls it back to sit on top
             // of the button.
             style={format!(
                 "transform: translateX(-100%);{}{} position: absolute; pointer-events: none; opacity: 0; margin: 0px;",
-                control_size.as_ref().map(|size| format!("{}px", size.width)).unwrap_or("".into()),
-                control_size.as_ref().map(|size| format!("{}px", size.height)).unwrap_or("".into()),
+                control_size.as_ref().map(|size| format!("{}px", size.width)).unwrap_or("".to_owned()),
+                control_size.as_ref().map(|size| format!("{}px", size.height)).unwrap_or("".to_owned()),
             )}
+            tabindex="-1"
+
+            checked={props.checked}
+            disabled={props.disabled}
+            name={props.name.clone()}
+            required={props.required}
+            type="checkbox"
+            value={props.value.clone()}
         />
     }
 }

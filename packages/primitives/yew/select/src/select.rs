@@ -27,6 +27,7 @@ use web_sys::{
     window,
 };
 use yew::{prelude::*, virtual_dom::VNode};
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 const OPEN_KEYS: [&str; 4] = [" ", "Enter", "ArrowUp", "ArrowDown"];
 const SELECTION_KEYS: [&str; 2] = [" ", "Enter"];
@@ -103,18 +104,24 @@ pub struct SelectProps {
     pub default_open: Option<bool>,
     #[prop_or_default]
     pub on_open_change: Callback<bool>,
+
+    // Global attributes
+    // TODO: class, id, style?
     #[prop_or_default]
     pub dir: Option<Direction>,
-    #[prop_or_default]
-    pub name: Option<String>,
+
+    // Attributes from `select`
     #[prop_or_default]
     pub autocomplete: Option<String>,
     #[prop_or_default]
     pub disabled: Option<bool>,
     #[prop_or_default]
-    pub required: Option<bool>,
-    #[prop_or_default]
     pub form: Option<String>,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub required: Option<bool>,
+
     #[prop_or_default]
     pub children: Children,
 }
@@ -272,14 +279,17 @@ pub fn Select(props: &SelectProps) -> Html {
                 if *is_form_control {
                     <BubbleSelect
                         key={native_select_key}
-                        name={props.name.clone()}
-                        value={value.clone()}
-                        required={props.required}
-                        disabled={props.disabled}
-                        form={props.form.clone()}
-                        autocomplete={props.autocomplete.clone()}
-                        tabindex="-1"
+
                         aria_hidden="true"
+                        tabindex="-1"
+
+                        autocomplete={props.autocomplete.clone()}
+                        disabled={props.disabled.unwrap_or_default()}
+                        form={props.form.clone()}
+                        name={props.name.clone()}
+                        required={props.required.unwrap_or_default()}
+                        value={value.clone()}
+
                         // Enable form autofill.
                         on_change={Callback::from(move |event: Event| {
                             set_value.emit(
@@ -313,77 +323,64 @@ pub fn Select(props: &SelectProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectTriggerProps {
-    #[prop_or(false)]
-    pub disabled: bool,
-    #[prop_or_default]
-    pub on_click: Callback<MouseEvent>,
-    #[prop_or_default]
-    pub on_pointer_down: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub on_key_down: Callback<KeyboardEvent>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    // Attributes from `button`
+    #[prop_or_default]
+    pub disabled: bool,
+
+    // Event handler attributes
+    #[prop_or_default]
+    pub on_click: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectTriggerChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "button")]
 pub struct SelectTriggerChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub r#type: String,
-    pub role: String,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub aria_controls: String,
     pub aria_expanded: String,
     pub aria_required: Option<String>,
     pub aria_autocomplete: String,
-    pub dir: String,
-    pub data_state: String,
-    pub disabled: bool,
     pub data_disabled: Option<String>,
     pub data_placeholder: Option<String>,
-    pub onclick: Callback<MouseEvent>,
-    pub onpointerdown: Callback<PointerEvent>,
-    pub onkeydown: Callback<KeyboardEvent>,
-}
+    pub data_state: String,
+    pub dir: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: Option<String>,
 
-impl SelectTriggerChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <button
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                type={self.r#type}
-                role={self.role}
-                aria-controls={self.aria_controls}
-                aria-expanded={self.aria_expanded}
-                aria-required={self.aria_required}
-                aria-autocomplete={self.aria_autocomplete}
-                dir={self.dir}
-                data-state={self.data_state}
-                disabled={self.disabled}
-                data-disabled={self.data_disabled}
-                data-placeholder={self.data_placeholder}
-                onclick={self.onclick}
-                onpointerdown={self.onpointerdown}
-                onkeydown={self.onkeydown}
-            >
-                {children}
-            </button>
-        }
-    }
+    // Attributes from `button`
+    pub disabled: bool,
+    pub r#type: String,
+
+    // Event handler attributes
+    pub onclick: Callback<MouseEvent>,
+    pub onkeydown: Callback<KeyboardEvent>,
+    pub onpointerdown: Callback<PointerEvent>,
 }
 
 #[function_component]
@@ -392,7 +389,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
     let is_disabled = context.disabled.unwrap_or(props.disabled);
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), context.trigger_ref.clone()]);
     let get_items = use_collection::<ItemData>();
-    let pointer_type_ref = use_mut_ref(|| "touch".to_string());
+    let pointer_type_ref = use_mut_ref(|| "touch".to_owned());
 
     let on_search_change = use_callback(
         (context.value.clone(), context.on_value_change, get_items),
@@ -442,6 +439,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
     html! {
         <PopperAnchor
             node_ref={composed_refs}
+            attributes={props.attributes.clone()}
             as_child={Callback::from({
                 let id = props.id.clone();
                 let class = props.class.clone();
@@ -456,14 +454,13 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                 let pointer_type_ref = pointer_type_ref.clone();
                 let handle_open = handle_open.clone();
 
-                move |PopperAnchorChildProps { node_ref, .. }| {
+                move |PopperAnchorChildProps { node_ref, attributes, .. }| {
                     let child_props = SelectTriggerChildProps {
                         node_ref,
-                        id: id.clone(),
-                        class: class.clone(),
-                        style: style.clone(),
-                        r#type: "button".into(),
-                        role: "combobox".into(),
+                        attributes,
+
+                        // Global attributes
+                        aria_autocomplete: "none".to_owned(),
                         aria_controls: content_id.clone(),
                         aria_expanded: match context.open {
                             true => "true",
@@ -473,20 +470,28 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                             true => "true",
                             false => "false"
                         }.into()),
-                        aria_autocomplete: "none".into(),
-                        dir: context.dir.to_string(),
+                        class: class.clone(),
+                        data_disabled: is_disabled.then_some("".to_owned()),
+                        data_placeholder: should_show_placeholder(value.clone()).then_some("".to_owned()),
                         data_state: match context.open {
                             true => "open",
                             false => "closed"
                         }.into(),
+                        dir: context.dir.to_string(),
+                        id: id.clone(),
+                        role: "combobox".to_owned(),
+                        style: style.clone(),
+
+                        // Attributes from `button`
                         disabled: is_disabled,
-                        data_disabled: is_disabled.then_some("".into()),
-                        data_placeholder: should_show_placeholder(value.clone()).then_some("".into()),
-                        // Enable compatibility with native label or custom `Label` "click" for Safari:
+                        r#type: "button".to_owned(),
+
+                        // Event handler attributes
                         onclick: compose_callbacks(Some(on_click.clone()), Some(Callback::from({
                             let pointer_type_ref = pointer_type_ref.clone();
                             let handle_open = handle_open.clone();
 
+                            // Enable compatibility with native label or custom `Label` "click" for Safari:
                             move |event: MouseEvent| {
                                 // Whilst browsers generally have no issue focusing the trigger when clicking
                                 // on a label, Safari seems to struggle with the fact that there's no `onclick`.
@@ -505,6 +510,27 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                                     handle_open.emit(Some((event.page_x(), event.page_y())));
                                 }
                         }})), None),
+                        onkeydown: compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
+                            let handle_open = handle_open.clone();
+                            let search_ref = search_ref.clone();
+                            let handle_typeahead_search = handle_typeahead_search.clone();
+
+                            move |event: KeyboardEvent| {
+                                let is_typing_ahead = !search_ref.borrow().is_empty();
+                                let is_modifier_key = event.ctrl_key() || event.alt_key() || event.meta_key();
+
+                                if !is_modifier_key && event.key().len() == 1 {
+                                    handle_typeahead_search.emit(event.key());
+                                }
+                                if is_typing_ahead && event.key() == " " {
+                                    return;
+                                }
+                                if OPEN_KEYS.contains(&event.key().as_str()) {
+                                    handle_open.emit(None);
+                                    event.prevent_default();
+                                }
+                            }
+                        })), None),
                         onpointerdown: compose_callbacks(Some(on_pointer_down.clone()), Some(Callback::from({
                             let pointer_type_ref = pointer_type_ref.clone();
                             let handle_open = handle_open.clone();
@@ -530,27 +556,6 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                                 }
                             }
                         })), None),
-                        onkeydown: compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
-                            let handle_open = handle_open.clone();
-                            let search_ref = search_ref.clone();
-                            let handle_typeahead_search = handle_typeahead_search.clone();
-
-                            move |event: KeyboardEvent| {
-                                let is_typing_ahead = !search_ref.borrow().is_empty();
-                                let is_modifier_key = event.ctrl_key() || event.alt_key() || event.meta_key();
-
-                                if !is_modifier_key && event.key().len() == 1 {
-                                    handle_typeahead_search.emit(event.key());
-                                }
-                                if is_typing_ahead && event.key() == " " {
-                                    return;
-                                }
-                                if OPEN_KEYS.contains(&event.key().as_str()) {
-                                    handle_open.emit(None);
-                                    event.prevent_default();
-                                }
-                            }
-                        })), None)
                     };
 
                     if let Some(as_child) = as_child.as_ref() {
@@ -566,43 +571,37 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectValueProps {
-    #[prop_or("".to_string())]
+    #[prop_or("".to_owned())]
     pub placeholder: String,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectValueChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct SelectValueChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: String,
-}
+    pub attributes: Attributes,
 
-impl SelectValueChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -622,8 +621,11 @@ pub fn SelectValue(props: &SelectValueProps) -> Html {
 
     let child_props = SelectValueChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         // We don't want events from the portalled `SelectValue` children to bubble through the item they came from.
         style: format!(
             "pointer-events: none;{}",
@@ -646,53 +648,48 @@ pub fn SelectValue(props: &SelectValueProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectIconProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectIconChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct SelectIconChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub aria_hidden: String,
-}
+    pub attributes: Attributes,
 
-impl SelectIconChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                aria-hidden={self.aria_hidden}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub aria_hidden: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 #[function_component]
 pub fn SelectIcon(props: &SelectIconProps) -> Html {
     let child_props = SelectIconChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        aria_hidden: "true".to_owned(),
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
-        aria_hidden: "true".into(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -727,14 +724,19 @@ pub struct SelectContentProps {
     // TODO
     #[prop_or(Position::ItemAligned)]
     pub position: Position,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     // TODO: change to SelectContentChildProps?
     pub as_child: Option<Callback<SelectContentImplChildProps, Html>>,
@@ -766,10 +768,13 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
         html! {
             <SelectContentImpl
                 position={props.position}
-                id={props.id.clone()}
+
                 class={props.class.clone()}
+                id={props.id.clone()}
                 style={props.style.clone()}
+
                 node_ref={props.node_ref.clone()}
+                attributes={props.attributes.clone()}
                 as_child={props.as_child.clone()}
             >
                 {props.children.clone()}
@@ -821,6 +826,8 @@ struct SelectContentImplProps {
     /// Event handler called when auto-focusing on close. Can be prevented.
     #[prop_or_default]
     pub on_close_auto_focus: Callback<Event>,
+
+    // Props from `SelectPopperPosition`
     #[prop_or(Position::ItemAligned)]
     pub position: Position,
     #[prop_or(Side::Bottom)]
@@ -845,16 +852,23 @@ struct SelectContentImplProps {
     pub hide_when_detached: bool,
     #[prop_or(UpdatePositionStrategy::Optimized)]
     pub update_position_strategy: UpdatePositionStrategy,
-    #[prop_or_default]
-    pub on_key_down: Callback<KeyboardEvent>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    // Event handler attributes
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectContentImplChildProps, Html>>,
     #[prop_or_default]
@@ -1143,6 +1157,7 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
 
             <FocusScope
                 node_ref={composed_refs}
+                attributes={props.attributes.clone()}
                 // We make sure we're not trapping once it's been closed
                 // (closed !== unmounted when animating out).
                 trapped={context.open}
@@ -1163,6 +1178,8 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                     }
                 })), None)}
                 as_child={Callback::from({
+                    let is_positioned = is_positioned.clone();
+
                     let position = props.position;
                     let side = props.side;
                     let side_offset = props.side_offset;
@@ -1175,20 +1192,23 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                     let sticky = props.sticky;
                     let hide_when_detached = props.hide_when_detached;
                     let update_position_strategy = props.update_position_strategy;
-                    let on_key_down = props.on_key_down.clone();
-                    let id = props.id.clone().unwrap_or(context.content_id);
+
                     let class = props.class.clone();
+                    let dir = context.dir.to_string();
+                    let id = props.id.clone().unwrap_or(context.content_id);
                     let style = props.style.clone();
+
+                    let on_key_down = props.on_key_down.clone();
+
                     let as_child = props.as_child.clone();
                     let children = props.children.clone();
-                    let is_positioned = is_positioned.clone();
-                    let dir = context.dir.to_string();
 
-                    move |FocusScopeChildProps {node_ref, onkeydown, ..}| {
+                    // TODO: pass all props down?
+                    move |FocusScopeChildProps {node_ref, attributes, onkeydown, ..}| {
                         // TODO: as_child_props?
 
-                        let role = "listbox".to_string();
-                        let data_state = if context.open {"open"} else {"closed"}.to_string();
+                        let role = "listbox".to_owned();
+                        let data_state = if context.open {"open"} else {"closed"}.to_owned();
                         let on_context_menu = Callback::from(|event: MouseEvent| event.prevent_default());
 
                         let on_placed = Callback::from({
@@ -1262,32 +1282,40 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                                     sticky={sticky}
                                     hide_when_detached={hide_when_detached}
                                     update_position_strategy={update_position_strategy}
-                                    role={role}
+                                    on_placed={on_placed}
+
+                                    class={class.clone()}
                                     data_state={data_state}
                                     dir={dir.clone()}
-                                    on_context_menu={on_context_menu}
-                                    on_placed={on_placed}
-                                    on_key_down={on_key_down}
-                                    node_ref={node_ref}
                                     id={id.clone()}
-                                    class={class.clone()}
+                                    role={role}
                                     style={style}
+
+                                    on_context_menu={on_context_menu}
+                                    on_key_down={on_key_down}
+
+                                    node_ref={node_ref}
+                                    attributes={attributes}
                                     as_child={as_child.clone()}
                                 >
                                     {children.clone()}
                                 </SelectPopperPosition<SelectContentImplChildProps>>
                             } else {
                                 <SelectItemAlignedPosition<SelectContentImplChildProps>
-                                    role={role}
+                                    on_placed={on_placed}
+
                                     data_state={data_state}
                                     dir={dir.clone()}
-                                    on_context_menu={on_context_menu}
-                                    on_placed={on_placed}
-                                    on_key_down={on_key_down}
-                                    node_ref={node_ref}
-                                    id={id.clone()}
                                     class={class.clone()}
+                                    id={id.clone()}
+                                    role={role}
                                     style={style}
+
+                                    on_context_menu={on_context_menu}
+                                    on_key_down={on_key_down}
+
+                                    node_ref={node_ref}
+                                    attributes={attributes}
                                     as_child={as_child.clone()}
                                 >
                                     {children.clone()}
@@ -1306,25 +1334,32 @@ struct SelectItemAlignedPositionProps<
     ChildProps: Clone + Default + PartialEq + SetSelectItemAlignedPositionChildProps,
 > {
     #[prop_or_default]
-    pub role: String,
+    pub on_placed: Callback<()>,
+
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
     #[prop_or_default]
     pub data_state: String,
     #[prop_or_default]
     pub dir: Option<String>,
     #[prop_or_default]
+    pub id: String,
+    #[prop_or_default]
+    pub role: String,
+    #[prop_or_default]
+    pub style: Option<String>,
+
+    // Event handler attributes
+    #[prop_or_default]
     pub on_context_menu: Callback<MouseEvent>,
     #[prop_or_default]
-    pub on_placed: Callback<()>,
-    #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: String,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Option<String>,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ChildProps, Html>>,
     #[prop_or_default]
@@ -1340,37 +1375,23 @@ pub trait SetSelectItemAlignedPositionChildProps {
     );
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectItemAlignedPositionChildProps {
     pub node_ref: NodeRef,
-    pub id: String,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: Option<String>,
-    pub style: String,
-    pub role: String,
     pub data_state: String,
     pub dir: Option<String>,
+    pub id: String,
+    pub role: String,
+    pub style: String,
+
+    // Event handler attributes
     pub oncontextmenu: Callback<MouseEvent>,
     pub onkeydown: Callback<KeyboardEvent>,
-}
-
-impl SelectItemAlignedPositionChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                role={self.role}
-                data-state={self.data_state}
-                dir={self.dir}
-                oncontextmenu={self.oncontextmenu}
-                onkeydown={self.onkeydown}
-            >
-                {children}
-            </div>
-        }
-    }
 }
 
 impl SetSelectItemAlignedPositionChildProps for SelectItemAlignedPositionChildProps {
@@ -1727,8 +1748,14 @@ where
 
     let child_props = SelectItemAlignedPositionChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        data_state: props.data_state.clone(),
+        dir: props.dir.clone(),
+        id: props.id.clone(),
+        role: props.role.clone(),
         // When we get the height of the content, it includes borders. If we were to set
         // the height without having `box-sizing: border-box` it would be too big.
         //
@@ -1737,9 +1764,8 @@ where
             "box-sizing: border-box; max-height: 100%;{}",
             props.style.clone().unwrap_or_default()
         ),
-        role: props.role.clone(),
-        data_state: props.data_state.clone(),
-        dir: props.dir.clone(),
+
+        // Event handler attributes
         oncontextmenu: props.on_context_menu.clone(),
         onkeydown: props.on_key_down.clone(),
     };
@@ -1769,6 +1795,7 @@ where
 struct SelectPopperPositionProps<
     ChildProps: Clone + Default + PartialEq + SetPopperContentChildProps + SetSelectPopperPositionChildProps,
 > {
+    // Props from `PopperContent`
     #[prop_or(Side::Bottom)]
     pub side: Side,
     #[prop_or(0.0)]
@@ -1793,24 +1820,31 @@ struct SelectPopperPositionProps<
     pub update_position_strategy: UpdatePositionStrategy,
     #[prop_or_default]
     pub on_placed: Callback<()>,
+
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub data_state: String,
     #[prop_or_default]
     pub dir: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub role: String,
     #[prop_or_default]
-    pub data_state: String,
+    pub style: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_context_menu: Callback<MouseEvent>,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Option<String>,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ChildProps, Html>>,
     #[prop_or_default]
@@ -1826,14 +1860,18 @@ pub trait SetSelectPopperPositionChildProps {
 #[derive(Clone, Default, PartialEq)]
 pub struct SelectPopperPositionChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: Option<String>,
-    pub style: String,
-    pub role: String,
-    pub data_side: String,
     pub data_align: String,
-    pub data_state: String,
+    pub data_side: String,
     pub dir: Option<String>,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: String,
+
+    // Event handler attributes
     pub oncontextmenu: Callback<MouseEvent>,
     pub onkeydown: Callback<KeyboardEvent>,
 }
@@ -1845,15 +1883,15 @@ impl SetSelectPopperPositionChildProps for SelectPopperPositionChildProps {
 impl SetPopperContentChildProps for SelectPopperPositionChildProps {
     fn set_popper_content_child_props(&mut self, props: PopperContentChildProps) {
         self.node_ref = props.node_ref;
-        self.id = props.id;
+        self.attributes = props.attributes;
+
         self.class = props.class;
-        self.style = props.style;
-        self.role = props.role.expect("Prop `role` should always be set.");
-        self.data_side = props.data_side;
         self.data_align = props.data_align;
-        self.data_state = props
-            .data_state
-            .expect("Prop `data-state` should always be set.");
+        self.data_side = props.data_side;
+        self.id = props.id;
+        self.role = props.role.expect("Prop `role` should always be set.");
+        self.style = props.style;
+
         self.oncontextmenu = props.oncontextmenu;
         self.onkeydown = props.onkeydown;
     }
@@ -1892,10 +1930,11 @@ where
             hide_when_detached={props.hide_when_detached}
             update_position_strategy={props.update_position_strategy}
             on_placed={props.on_placed.clone()}
-            dir={props.dir.clone()}
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
+
             class={props.class.clone()}
+            dir={props.dir.clone()}
+            id={props.id.clone()}
+            role={props.role.clone()}
             style={format!(
                 // Ensure border-box for Floating UI calculations.
                 // Re-namespace exposed content custom properties.
@@ -1909,10 +1948,12 @@ where
                 {}",
                 props.style.clone().unwrap_or_default()
             )}
-            role={props.role.clone()}
-            data_state={props.data_state.clone()}
+
             on_context_menu={props.on_context_menu.clone()}
             on_key_down={props.on_key_down.clone()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={props.as_child.clone()}
             as_child_props={as_child_props}
         >
@@ -1933,47 +1974,37 @@ struct SelectViewportContextValue {
 pub struct SelectViewportProps {
     #[prop_or_default]
     pub nonce: Option<String>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectViewportChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectViewportChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: String,
-    pub data_radix_select_viewport: String,
-    pub role: String,
-}
+    pub attributes: Attributes,
 
-impl SelectViewportChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            html! {
-                <div
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    data-radix-select-viewport={self.data_radix_select_viewport}
-                    role={self.role}
-                    style={self.style}
-                >
-                    {children}
-                </div>
-            }
-        }
-    }
+    // Global attributes
+    pub data_radix_select_viewport: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: String,
 }
 
 #[function_component]
@@ -1993,19 +2024,24 @@ pub fn SelectViewport(props: &SelectViewportProps) -> Html {
             <CollectionSlot<ItemData>
                 node_ref={composed_refs}
                 as_child={Callback::from({
-                    let id = props.id.clone();
                     let class = props.class.clone();
+                    let id = props.id.clone();
                     let style = props.style.clone();
+
+                    let attributes = props.attributes.clone();
                     let as_child = props.as_child.clone();
                     let children = props.children.clone();
 
                     move |CollectionSlotChildProps { node_ref }| {
                         let child_props = SelectViewportChildProps {
                             node_ref,
-                            id: id.clone(),
+                            attributes: attributes.clone(),
+
+                            // Global attributes
                             class: class.clone(),
-                            data_radix_select_viewport: "".into(),
-                            role: "presentation".into(),
+                            data_radix_select_viewport: "".to_owned(),
+                            id: id.clone(),
+                            role: "presentation".to_owned(),
                             // We use position: 'relative' here on the `viewport` so that when we call `selected_item.offset_top` in calculations,
                             // the offset is relative to the viewport (independent of the ScrollUpButton).
                             style: format!("position: relative; flex: 1; overflow: auto;{}", style.clone().unwrap_or_default())
@@ -2030,45 +2066,36 @@ struct SelectGroupContextValue {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectGroupProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectGroupChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectGroupChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub role: String,
-    pub aria_labelledby: String,
-}
+    pub attributes: Attributes,
 
-impl SelectGroupChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                role={self.role}
-                aria-labelledby={self.aria_labelledby}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub aria_labelledby: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -2081,11 +2108,14 @@ pub fn SelectGroup(props: &SelectGroupProps) -> Html {
 
     let child_props = SelectGroupChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: props.class.clone(),
-        style: props.style.clone(),
-        role: "group".into(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         aria_labelledby: group_id,
+        class: props.class.clone(),
+        id: props.id.clone(),
+        role: "group".to_owned(),
+        style: props.style.clone(),
     };
 
     html! {
@@ -2102,41 +2132,35 @@ pub fn SelectGroup(props: &SelectGroupProps) -> Html {
 #[derive(PartialEq, Properties)]
 pub struct SelectLabelProps {
     // TODO
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectLabelChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectLabelChildProps {
     pub node_ref: NodeRef,
-    pub id: String,
-    pub class: Option<String>,
-    pub style: Option<String>,
-}
+    pub attributes: Attributes,
 
-impl SelectLabelChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: String,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -2146,8 +2170,11 @@ pub fn SelectLabel(props: &SelectLabelProps) -> Html {
 
     let child_props = SelectLabelChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone().unwrap_or(group_context.id),
+        attributes: props.attributes.clone(),
+
+        // Globla attributes
         class: props.class.clone(),
+        id: props.id.clone().unwrap_or(group_context.id),
         style: props.style.clone(),
         // TODO
     };
@@ -2175,91 +2202,72 @@ pub struct SelectItemProps {
     pub disabled: bool,
     #[prop_or_default]
     pub text_value: String,
+
+    // Globla attributes
     #[prop_or_default]
-    pub on_focus: Callback<FocusEvent>,
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_blur: Callback<FocusEvent>,
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
     #[prop_or_default]
-    pub on_pointer_up: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub on_pointer_down: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub on_pointer_move: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub on_pointer_leave: Callback<PointerEvent>,
+    pub on_focus: Callback<FocusEvent>,
     #[prop_or_default]
     pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_leave: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_move: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_up: Callback<PointerEvent>,
+
+    #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Option<String>,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectItemChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectItemChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub data_radix_collection_item: String,
-    pub role: String,
-    pub aria_labelledby: String,
-    pub data_highlighted: Option<String>,
-    pub aria_selected: Option<String>,
-    pub data_state: String,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub aria_disabled: Option<String>,
+    pub aria_labelledby: String,
+    pub aria_selected: Option<String>,
+    pub class: Option<String>,
     pub data_disabled: Option<String>,
+    pub data_highlighted: Option<String>,
+    pub data_radix_collection_item: String,
+    pub data_state: String,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: Option<String>,
     pub tabindex: Option<String>,
-    pub onfocus: Callback<FocusEvent>,
+
+    // Event handler attributes
     pub onblur: Callback<FocusEvent>,
     pub onclick: Callback<MouseEvent>,
-    pub onpointerup: Callback<PointerEvent>,
-    pub onpointerdown: Callback<PointerEvent>,
-    pub onpointermove: Callback<PointerEvent>,
-    pub onpointerleave: Callback<PointerEvent>,
+    pub onfocus: Callback<FocusEvent>,
     pub onkeydown: Callback<KeyboardEvent>,
-}
-
-impl SelectItemChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                data-radix-collection-item={self.data_radix_collection_item}
-                role={self.role}
-                aria-labelledby={self.aria_labelledby}
-                data-highlighted={self.data_highlighted}
-                aria-selected={self.aria_selected}
-                data-state={self.data_state}
-                aria-disabled={self.aria_disabled}
-                data-disabled={self.data_disabled}
-                tabindex={self.tabindex}
-                onfocus={self.onfocus}
-                onblur={self.onblur}
-                onclick={self.onclick}
-                onpointerup={self.onpointerup}
-                onpointerdown={self.onpointerdown}
-                onpointermove={self.onpointermove}
-                onpointerleave={self.onpointerleave}
-                onkeydown={self.onkeydown}
-            >
-                {children}
-            </div>
-        }
-    }
+    pub onpointerdown: Callback<PointerEvent>,
+    pub onpointerleave: Callback<PointerEvent>,
+    pub onpointermove: Callback<PointerEvent>,
+    pub onpointerup: Callback<PointerEvent>,
 }
 
 #[function_component]
@@ -2273,7 +2281,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), item_ref.clone()]);
     let is_selected = context.value.is_some_and(|value| value == props.value);
     let text_id = use_id(None);
-    let pointer_type_ref = use_mut_ref(|| "touch".to_string());
+    let pointer_type_ref = use_mut_ref(|| "touch".to_owned());
 
     let item_ref_callback = use_callback(
         (
@@ -2491,37 +2499,45 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
                 item_data={(*item_data).clone()}
                 as_child={Callback::from({
                     let disabled = props.disabled;
-                    let id = props.id.clone();
+                    let is_focused = is_focused.clone();
+
                     let class = props.class.clone();
+                    let id = props.id.clone();
                     let style = props.style.clone();
+
+                    let attributes = props.attributes.clone();
                     let as_child = props.as_child.clone();
                     let children = props.children.clone();
-                    let is_focused = is_focused.clone();
 
                     move |CollectionItemSlotChildProps { node_ref, data_radix_collection_item }| {
                         let child_props = SelectItemChildProps {
                             node_ref,
-                            id: id.clone(),
-                            class: class.clone(),
-                            style: style.clone(),
-                            data_radix_collection_item,
-                            role: "option".into(),
+                            attributes: attributes.clone(),
+
+                            // Global attributes
+                            aria_disabled: disabled.then_some("true".to_owned()),
                             aria_labelledby: text_id.clone(),
-                            data_highlighted: is_focused.then_some("".into()),
                             // `is_focused` caveat fixes stuttering in VoiceOver.
-                            aria_selected: (is_selected && *is_focused).then_some("true".into()),
-                            data_state: (if is_selected { "checked" } else { "unchecked "}).into(),
-                            aria_disabled: disabled.then_some("true".into()),
-                            data_disabled: disabled.then_some("".into()),
-                            tabindex: (!disabled).then_some("-1".into()),
-                            onfocus: onfocus.clone(),
+                            aria_selected: (is_selected && *is_focused).then_some("true".to_owned()),
+                            data_disabled: disabled.then_some("".to_owned()),
+                            data_highlighted: is_focused.then_some("".to_owned()),
+                            data_radix_collection_item,
+                            data_state: (if is_selected { "checked" } else { "unchecked "}).to_owned(),
+                            class: class.clone(),
+                            id: id.clone(),
+                            role: "option".to_owned(),
+                            style: style.clone(),
+                            tabindex: (!disabled).then_some("-1".to_owned()),
+
+                            // Event handler attributes
                             onblur: onblur.clone(),
                             onclick: onclick.clone(),
-                            onpointerup: onpointerup.clone(),
-                            onpointerdown: onpointerdown.clone(),
-                            onpointermove: onpointermove.clone(),
-                            onpointerleave: onpointerleave.clone(),
+                            onfocus: onfocus.clone(),
                             onkeydown: onkeydown.clone(),
+                            onpointerdown: onpointerdown.clone(),
+                            onpointerleave: onpointerleave.clone(),
+                            onpointermove: onpointermove.clone(),
+                            onpointerup: onpointerup.clone(),
                         };
 
                         if let Some(as_child) = as_child.as_ref() {
@@ -2539,42 +2555,35 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
 #[derive(PartialEq, Properties)]
 pub struct SelectItemTextProps {
     // TODO
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    // TODO: can be removed because generated?
-    // #[prop_or_default]
-    // pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectItemTextChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct SelectItemTextChildProps {
     pub node_ref: NodeRef,
-    pub id: String,
-    pub class: Option<String>,
-    pub style: Option<String>,
-}
+    pub attributes: Attributes,
 
-impl SelectItemTextChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: String,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -2637,8 +2646,11 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
 
     let child_props = SelectItemTextChildProps {
         node_ref: composed_refs,
-        id: item_context.text_id,
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone().unwrap_or(item_context.text_id),
         style: props.style.clone(),
         // TODO
     };
@@ -2662,43 +2674,35 @@ pub fn SelectItemText(props: &SelectItemTextProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectItemIndicatorProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectItemIndicatorChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct SelectItemIndicatorChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub aria_hidden: String,
-}
+    pub attributes: Attributes,
 
-impl SelectItemIndicatorChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                aria-hidden={self.aria_hidden}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub aria_hidden: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -2708,10 +2712,13 @@ pub fn SelectItemIndicator(props: &SelectItemIndicatorProps) -> Html {
 
     let child_props = SelectItemIndicatorChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        aria_hidden: "true".to_owned(),
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
-        aria_hidden: "true".into(),
     };
 
     html! {
@@ -2728,14 +2735,19 @@ pub fn SelectItemIndicator(props: &SelectItemIndicatorProps) -> Html {
 #[derive(PartialEq, Properties)]
 pub struct SelectScrollUpButtonProps {
     // TODO
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectScrollButtonImplChildProps, Html>>,
     #[prop_or_default]
@@ -2747,10 +2759,12 @@ pub fn SelectScrollUpButton(props: &SelectScrollUpButtonProps) -> Html {
     // TODO
     html! {
         <SelectScrollButtonImpl
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
             class={props.class.clone()}
+            id={props.id.clone()}
             style={props.style.clone()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={props.as_child.clone()}
         >
             {props.children.clone()}
@@ -2761,14 +2775,19 @@ pub fn SelectScrollUpButton(props: &SelectScrollUpButtonProps) -> Html {
 #[derive(PartialEq, Properties)]
 pub struct SelectScrollDownButtonProps {
     // TODO
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectScrollButtonImplChildProps, Html>>,
     #[prop_or_default]
@@ -2780,10 +2799,12 @@ pub fn SelectScrollDownButton(props: &SelectScrollDownButtonProps) -> Html {
     // TODO
     html! {
         <SelectScrollButtonImpl
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
             class={props.class.clone()}
+            id={props.id.clone()}
             style={props.style.clone()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={props.as_child.clone()}
         >
             {props.children.clone()}
@@ -2795,55 +2816,49 @@ pub fn SelectScrollDownButton(props: &SelectScrollDownButtonProps) -> Html {
 struct SelectScrollButtonImplProps {
     #[prop_or_default]
     pub on_auto_scroll: Callback<()>,
-    #[prop_or_default]
-    pub on_pointer_down: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub on_pointer_move: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub on_pointer_leave: Callback<PointerEvent>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    // Event handler attributes
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_leave: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_move: Callback<PointerEvent>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectScrollButtonImplChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectScrollButtonImplChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: String,
-    pub aria_hidden: String,
-    pub onpointerdown: Callback<PointerEvent>,
-    pub onpointermove: Callback<PointerEvent>,
-    pub onpointerleave: Callback<PointerEvent>,
-}
+    pub attributes: Attributes,
 
-impl SelectScrollButtonImplChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                aria-hidden={self.aria_hidden}
-                onpointerdown={self.onpointerdown}
-                onpointermove={self.onpointermove}
-                onpointerleave={self.onpointerleave}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub aria_hidden: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: String,
+
+    // Event handler attributes
+    pub onpointerdown: Callback<PointerEvent>,
+    pub onpointerleave: Callback<PointerEvent>,
+    pub onpointermove: Callback<PointerEvent>,
 }
 
 #[function_component]
@@ -2905,10 +2920,15 @@ fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
 
     let child_props = SelectScrollButtonImplChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        aria_hidden: "true".to_owned(),
         class: props.class.clone(),
+        id: props.id.clone(),
         style: format!("flex-shrink: 0;{}", props.style.clone().unwrap_or_default()),
-        aria_hidden: "true".into(),
+
+        // Event handler attributes
         onpointerdown: compose_callbacks(
             Some(props.on_pointer_down.clone()),
             Some(Callback::from({
@@ -2928,6 +2948,13 @@ fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
                         );
                     }
                 }
+            })),
+            None,
+        ),
+        onpointerleave: compose_callbacks(
+            Some(props.on_pointer_leave.clone()),
+            Some(Callback::from(move |_| {
+                clear_auto_scroll_timer.emit(());
             })),
             None,
         ),
@@ -2956,13 +2983,6 @@ fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
             })),
             None,
         ),
-        onpointerleave: compose_callbacks(
-            Some(props.on_pointer_leave.clone()),
-            Some(Callback::from(move |_| {
-                clear_auto_scroll_timer.emit(());
-            })),
-            None,
-        ),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -2974,53 +2994,48 @@ fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectSeparatorProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SelectSeparatorChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SelectSeparatorChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub aria_hidden: String,
-}
+    pub attributes: Attributes,
 
-impl SelectSeparatorChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                aria-hidden={self.aria_hidden}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub aria_hidden: String,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 #[function_component]
 pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
     let child_props = SelectSeparatorChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        aria_hidden: "true".to_owned(),
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
-        aria_hidden: "true".into(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -3032,22 +3047,26 @@ pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectArrowProps {
+    // Props from `PopperArrow`
     #[prop_or(10.0)]
     pub width: f64,
     #[prop_or(5.0)]
     pub height: f64,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<PopperArrowChildProps, Html>>,
-    #[prop_or_default]
-    pub children: Html,
 }
 
 #[function_component]
@@ -3061,14 +3080,15 @@ pub fn SelectArrow(props: &SelectArrowProps) -> Html {
             <PopperArrow
                 width={props.width}
                 height={props.height}
-                node_ref={props.node_ref.clone()}
-                id={props.id.clone()}
+
                 class={props.class.clone()}
+                id={props.id.clone()}
                 style={props.style.clone()}
+
+                node_ref={props.node_ref.clone()}
+                attributes={props.attributes.clone()}
                 as_child={props.as_child.clone()}
-            >
-                {props.children.clone()}
-            </PopperArrow>
+            />
         }
     }
 }
@@ -3079,34 +3099,65 @@ fn should_show_placeholder(value: Option<String>) -> bool {
 
 #[derive(PartialEq, Properties)]
 struct BubbleSelectProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Option<String>,
-    #[prop_or_default]
-    pub name: Option<String>,
-    #[prop_or_default]
-    pub value: Option<String>,
-    #[prop_or_default]
-    pub required: Option<bool>,
-    #[prop_or_default]
-    pub disabled: Option<bool>,
-    #[prop_or_default]
-    pub form: Option<String>,
-    #[prop_or_default]
-    pub autocomplete: Option<String>,
-    #[prop_or_default]
-    pub tabindex: Option<String>,
+    // Global attribuets
     #[prop_or_default]
     pub aria_hidden: Option<String>,
     #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+    #[prop_or_default]
+    pub tabindex: Option<String>,
+
+    // Attributes from `select`
+    #[prop_or_default]
+    pub autocomplete: Option<String>,
+    #[prop_or_default]
+    pub disabled: bool,
+    #[prop_or_default]
+    pub form: Option<String>,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub required: bool,
+    #[prop_or_default]
+    pub value: Option<String>,
+
+    // Event handler attributes
+    #[prop_or_default]
     pub on_change: Callback<Event>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "select")]
+struct BubbleSelectChildProps {
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
+    pub aria_hidden: Option<String>,
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: String,
+    pub tabindex: Option<String>,
+
+    // Attributes from `select`
+    pub autocomplete: Option<String>,
+    pub disabled: bool,
+    pub form: Option<String>,
+    pub name: Option<String>,
+    pub required: bool,
+    pub value: Option<String>,
+
+    // Event handler attributes
+    pub onchange: Callback<Event>,
 }
 
 #[function_component]
@@ -3119,35 +3170,45 @@ fn BubbleSelect(props: &BubbleSelectProps) -> Html {
             class={props.class.clone()}
             style={props.style.clone()}
             as_child={Callback::from({
-                let name = props.name.clone();
-                let value = props.value.clone();
-                let required = props.required;
+                let aria_hidden = props.aria_hidden.clone();
+                let tabindex = props.tabindex.clone();
+
+                let autocomplete = props.autocomplete.clone();
                 let disabled = props.disabled;
                 let form = props.form.clone();
-                let autocomplete = props.autocomplete.clone();
-                let tabindex = props.tabindex.clone();
-                let aria_hidden = props.aria_hidden.clone();
+                let name = props.name.clone();
+                let required = props.required;
+                let value = props.value.clone();
+
                 let on_change = props.on_change.clone();
+
                 let children = props.children.clone();
 
-                move |VisuallyHiddenChildProps {node_ref, id, class, style}| html! {
-                    <select
-                        ref={node_ref}
-                        id={id}
-                        class={class}
-                        style={style}
-                        name={name.clone()}
-                        value={value.clone()}
-                        required={required.unwrap_or(false)}
-                        disabled={disabled.unwrap_or(false)}
-                        form={form.clone()}
-                        autocomplete={autocomplete.clone()}
-                        tabindex={tabindex.clone()}
-                        aria-hidden={aria_hidden.clone()}
-                        onchange={on_change.clone()}
-                    >
-                        {children.clone()}
-                    </select>
+                move |VisuallyHiddenChildProps { node_ref, attributes, class, id, style }| {
+                    let child_props = BubbleSelectChildProps {
+                        node_ref,
+                        attributes,
+
+                        // Global attributes
+                        aria_hidden: aria_hidden.clone(),
+                        class,
+                        id,
+                        style,
+                        tabindex: tabindex.clone(),
+
+                        // Attributes from `select`
+                        autocomplete: autocomplete.clone(),
+                        disabled,
+                        form: form.clone(),
+                        name: name.clone(),
+                        required,
+                        value: value.clone(),
+
+                        // Event handler attributes
+                        onchange: on_change.clone()
+                    };
+
+                    child_props.render(children.clone())
                 }
             })}
         />
@@ -3158,14 +3219,14 @@ fn BubbleSelect(props: &BubbleSelectProps) -> Html {
 fn use_typeahead_search(
     on_search_change: Callback<String>,
 ) -> (Rc<RefCell<String>>, Callback<String>, Callback<()>) {
-    let search_ref = use_mut_ref(|| "".to_string());
+    let search_ref = use_mut_ref(|| "".to_owned());
     let timer_ref = use_mut_ref(|| 0);
 
     let clear_search: Closure<dyn Fn()> = Closure::new({
         let search_ref = search_ref.clone();
 
         move || {
-            *search_ref.borrow_mut() = "".to_string();
+            *search_ref.borrow_mut() = "".to_owned();
         }
     });
 
@@ -3199,7 +3260,7 @@ fn use_typeahead_search(
         let timer_ref = timer_ref.clone();
 
         move |_, _| {
-            *search_ref.borrow_mut() = "".to_string();
+            *search_ref.borrow_mut() = "".to_owned();
 
             window()
                 .expect("Window should exist.")

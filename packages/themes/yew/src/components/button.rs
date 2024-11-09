@@ -1,11 +1,12 @@
 use yew::prelude::*;
+use yew_struct_component::Attributes;
 
 use crate::{
     components::{
         base_button::{BaseButton, BaseButtonChildProps},
         button_props::{ButtonLoadingProp, ButtonSizeProp, ButtonVariantProp},
     },
-    helpers::{merge_classes::merge_classes, merge_styles::Style},
+    helpers::merge_styles::Style,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -43,9 +44,17 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Attributes from `button`
+    // Global attributes
     #[prop_or_default]
     pub autofocus: bool,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
+    // Attributes from `button`
     #[prop_or_default]
     pub command: Option<String>,
     #[prop_or_default]
@@ -74,17 +83,15 @@ pub struct ButtonProps {
     pub r#type: Option<String>,
     #[prop_or_default]
     pub value: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ButtonChildProps, Html>>,
     #[prop_or_default]
@@ -112,6 +119,10 @@ pub fn Button(props: &ButtonProps) -> Html {
             ml={props.ml.clone()}
 
             autofocus={props.autofocus}
+            class={classes!("rt-Button", &props.class).to_string()}
+            id={props.id.clone()}
+            style={props.style.clone()}
+
             command={props.command.clone()}
             commandfor={props.commandfor.clone()}
             disabled={props.disabled}
@@ -129,9 +140,7 @@ pub fn Button(props: &ButtonProps) -> Html {
             on_click={props.on_click.clone()}
 
             node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
-            class={merge_classes(&[&"rt-Button", &props.class])}
-            style={props.style.clone()}
+            attributes={props.attributes.clone()}
         >
             {props.children.clone()}
         </BaseButton>

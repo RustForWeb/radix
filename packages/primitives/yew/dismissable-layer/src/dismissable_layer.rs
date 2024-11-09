@@ -2,6 +2,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use web_sys::CustomEvent;
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 #[derive(Clone, PartialEq)]
 struct DismissableLayerContextValue {
@@ -37,41 +38,35 @@ pub struct DismissableLayerProps {
     /// Handler called when the `DismissableLayer` should be dismissed.
     #[prop_or_default]
     pub on_dismiss: Callback<()>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<DismissableLayerChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct DismissableLayerChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: String,
-}
+    pub attributes: Attributes,
 
-impl DismissableLayerChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -96,10 +91,13 @@ pub fn DismissableLayer(props: &DismissableLayerProps) -> Html {
                 on_focus_outside={props.on_focus_outside.clone()}
                 on_interact_outside={props.on_interact_outside.clone()}
                 on_dismiss={props.on_dismiss.clone()}
-                node_ref={props.node_ref.clone()}
-                id={props.id.clone()}
+
                 class={props.class.clone()}
+                id={props.id.clone()}
                 style={props.style.clone()}
+
+                node_ref={props.node_ref.clone()}
+                attributes={props.attributes.clone()}
                 as_child={props.as_child.clone()}
             >
                 {props.children.clone()}
@@ -124,12 +122,16 @@ pub fn DismissableLayerImpl(props: &DismissableLayerProps) -> Html {
 
     let child_props = DismissableLayerChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: format!(
             "{}{}",
+            // TODO
             is_body_pointer_events_disabled
-                .then_some("".to_string())
+                .then_some("".to_owned())
                 .unwrap_or_default(),
             props.style.clone().unwrap_or_default()
         ),
@@ -144,41 +146,34 @@ pub fn DismissableLayerImpl(props: &DismissableLayerProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct DismissableLayerBranchProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<DismissableLayerBranchChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct DismissableLayerBranchChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-}
+    pub attributes: Attributes,
 
-impl DismissableLayerBranchChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -211,8 +206,11 @@ pub fn DismissableLayerBranch(props: &DismissableLayerBranchProps) -> Html {
 
     let child_props = DismissableLayerBranchChildProps {
         node_ref: composed_refs,
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
     };
 

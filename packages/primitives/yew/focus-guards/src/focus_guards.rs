@@ -8,7 +8,7 @@ static COUNT: AtomicU64 = AtomicU64::new(0);
 #[derive(PartialEq, Properties)]
 pub struct FocusGuardsProps {
     #[prop_or_default]
-    children: Html,
+    pub children: Html,
 }
 
 #[function_component]

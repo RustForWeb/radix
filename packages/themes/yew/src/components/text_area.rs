@@ -1,8 +1,9 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::text_area_props::{TextAreaResizeProp, TextAreaSizeProp, TextAreaVariantProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
@@ -37,15 +38,25 @@ pub struct TextAreaProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Attributes from `textarea`
+    // Global attributes
     #[prop_or_default]
     pub autocapitalize: Option<String>,
-    #[prop_or_default]
-    pub autocomplete: Option<String>,
     #[prop_or_default]
     pub autocorrect: Option<String>,
     #[prop_or_default]
     pub autofocus: bool,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub spellcheck: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
+    // Attributes from `textarea`
+    #[prop_or_default]
+    pub autocomplete: Option<String>,
     #[prop_or_default]
     pub cols: Option<String>,
     #[prop_or_default]
@@ -71,9 +82,9 @@ pub struct TextAreaProps {
     #[prop_or_default]
     pub rows: Option<String>,
     #[prop_or_default]
-    pub spellcheck: Option<String>,
-    #[prop_or_default]
     pub value: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_blur: Callback<FocusEvent>,
     #[prop_or_default]
@@ -86,13 +97,46 @@ pub struct TextAreaProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "textarea")]
+pub struct TextAreaChildProps {
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
+    pub autocapitalize: Option<String>,
+    pub autocorrect: Option<String>,
+    pub autofocus: bool,
+    pub class: String,
+    pub id: Option<String>,
+    pub spellcheck: Option<String>,
+
+    // Attributes from `textarea`
+    pub autocomplete: Option<String>,
+    pub cols: Option<String>,
+    pub dirname: Option<String>,
+    pub disabled: bool,
+    pub form: Option<String>,
+    pub maxlength: Option<String>,
+    pub minlength: Option<String>,
+    pub name: Option<String>,
+    pub pattern: Option<String>,
+    pub placeholder: Option<String>,
+    pub readonly: bool,
+    pub required: bool,
+    pub rows: Option<String>,
+    pub value: Option<String>,
+
+    // Event handler attributes
+    pub onblur: Callback<FocusEvent>,
+    pub onchange: Callback<Event>,
+    pub onfocus: Callback<FocusEvent>,
+    pub oninput: Callback<InputEvent>,
 }
 
 #[function_component]
@@ -116,40 +160,49 @@ pub fn TextArea(props: &TextAreaProps) -> Html {
         props.style.clone().into(),
     );
 
+    let child_props = TextAreaChildProps {
+        node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        autocapitalize: props.autocapitalize.clone(),
+        autocorrect: props.autocorrect.clone(),
+        autofocus: props.autofocus,
+        class: "rt-reset rt-TextAreaInput".to_owned(),
+        id: props.id.clone(),
+        spellcheck: props.spellcheck.clone(),
+
+        // Attributes from `textarea`
+        autocomplete: props.autocomplete.clone(),
+        cols: props.cols.clone(),
+        dirname: props.dirname.clone(),
+        disabled: props.disabled,
+        form: props.form.clone(),
+        maxlength: props.maxlength.clone(),
+        minlength: props.minlength.clone(),
+        name: props.name.clone(),
+        pattern: props.pattern.clone(),
+        placeholder: props.placeholder.clone(),
+        readonly: props.readonly,
+        required: props.required,
+        rows: props.rows.clone(),
+        value: props.value.clone(),
+
+        // Event handler attributes
+        onblur: props.on_blur.clone(),
+        onchange: props.on_change.clone(),
+        onfocus: props.on_focus.clone(),
+        oninput: props.on_input.clone(),
+    };
+
     html! {
         <div
-            class={merge_classes(&[&"rt-TextAreaRoot", &class])}
+            class={classes!("rt-TextAreaRoot", class).to_string()}
             style={style.to_string()}
             data-accent-color={props.color.0.map(|color| color.to_string())}
             data-radius={props.radius.0.map(|radius| radius.to_string())}
         >
-            <textarea
-                ref={props.node_ref.clone()}
-                id={props.id.clone()}
-                class="rt-reset rt-TextAreaInput"
-                autocapitalize={props.autocapitalize.clone()}
-                autocomplete={props.autocomplete.clone()}
-                autocorrect={props.autocorrect.clone()}
-                autofocus={props.autofocus}
-                cols={props.cols.clone()}
-                dirname={props.dirname.clone()}
-                disabled={props.disabled}
-                form={props.form.clone()}
-                maxlength={props.maxlength.clone()}
-                minlength={props.minlength.clone()}
-                name={props.name.clone()}
-                pattern={props.pattern.clone()}
-                placeholder={props.placeholder.clone()}
-                readonly={props.readonly}
-                required={props.required}
-                rows={props.rows.clone()}
-                spellcheck={props.spellcheck.clone()}
-                value={props.value.clone()}
-                onblur={props.on_blur.clone()}
-                onchange={props.on_change.clone()}
-                onfocus={props.on_focus.clone()}
-                oninput={props.on_input.clone()}
-            />
+            {child_props.render(props.children.clone())}
         </div>
     }
 }

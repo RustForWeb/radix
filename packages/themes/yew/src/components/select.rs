@@ -17,7 +17,7 @@ use crate::{
         select_props::{SelectContentVariantProp, SelectSizeProp, SelectTriggerVariantProp},
         theme::Theme,
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -50,18 +50,23 @@ pub struct SelectProps {
     pub default_open: Option<bool>,
     #[prop_or_default]
     pub on_open_change: Callback<bool>,
+
+    // Global attributes
+    // TODO: class, id, style?
     #[prop_or_default]
     pub dir: Option<Direction>,
-    #[prop_or_default]
-    pub name: Option<String>,
+
+    // Attributes from `select`
     #[prop_or_default]
     pub autocomplete: Option<String>,
     #[prop_or_default]
     pub disabled: Option<bool>,
     #[prop_or_default]
-    pub required: Option<bool>,
-    #[prop_or_default]
     pub form: Option<String>,
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub required: Option<bool>,
 
     #[prop_or_default]
     pub children: Html,
@@ -81,12 +86,14 @@ pub fn Select(props: &SelectProps) -> Html {
             open={props.open}
             default_open={props.default_open}
             on_open_change={props.on_open_change.clone()}
+
             dir={props.dir}
-            name={props.name.clone()}
+
             autocomplete={props.autocomplete.clone()}
             disabled={props.disabled}
-            required={props.required}
             form={props.form.clone()}
+            name={props.name.clone()}
+            required={props.required}
         >
             <ContextProvider<SelectContextValue> context={(*context_value).clone()}>
                 {props.children.clone()}
@@ -119,17 +126,19 @@ pub struct SelectTriggerProps {
     pub ml: MlProp,
 
     // Props from `SelectValuePrimitive`
-    #[prop_or("".to_string())]
+    #[prop_or("".to_owned())]
     pub placeholder: String,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -160,7 +169,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
         <SelectTriggerPrimitive
             node_ref={props.node_ref.clone()}
             id={props.id.clone()}
-            class={class}
+            class={class.to_string()}
             style={style.to_string()}
             as_child={Callback::from({
                 let color = props.color.0;
@@ -187,26 +196,29 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                     onclick,
                     onpointerdown,
                     onkeydown,
+                    ..
                 }| html! {
                     <button
-                        data-accent-color={color.map(|color| color.to_string())}
-                        data-radius={radius.map(|radius| radius.to_string())}
-
                         ref={node_ref}
-                        id={id}
-                        class={merge_classes(&[&"rt-reset", &"rt-SelectTrigger", &class])}
-                        style={style}
-                        type={r#type}
-                        role={role}
+
+                        aria-autocomplete={aria_autocomplete}
                         aria-controls={aria_controls}
                         aria-expanded={aria_expanded}
                         aria-required={aria_required}
-                        aria-autocomplete={aria_autocomplete}
-                        dir={dir}
-                        data-state={data_state}
-                        disabled={disabled}
+                        class={classes!("rt-reset", "rt-SelectTrigger", class).to_string()}
+                        data-accent-color={color.map(|color| color.to_string())}
                         data-disabled={data_disabled}
                         data-placeholder={data_placeholder}
+                        data-radius={radius.map(|radius| radius.to_string())}
+                        data-state={data_state}
+                        dir={dir}
+                        id={id}
+                        role={role}
+                        style={style}
+
+                        disabled={disabled}
+                        type={r#type}
+
                         onclick={onclick}
                         onpointerdown={onpointerdown}
                         onkeydown={onkeydown}
@@ -237,14 +249,16 @@ pub struct SelectContentProps {
     #[prop_or_default]
     pub high_contrast: HighContrastProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -270,7 +284,7 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
             <Theme
                 node_ref={props.node_ref.clone()}
                 id={props.id.clone()}
-                class={class}
+                class={class.to_string()}
                 style={style}
                 as_child={Callback::from({
                     let children = props.children.clone();
@@ -300,7 +314,7 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
                             id={id}
                             style={style.to_string()}
                             // TODO: popper class
-                            class={merge_classes(&[&"rt-SelectContent", &class])}
+                            class={classes!("rt-SelectContent", class).to_string()}
                             // TODO: pass attributes
                             // data-is-root-theme={data_is_root_theme}
                             // data-accent-color={data_accent_color}
@@ -348,31 +362,35 @@ pub struct SelectItemProps {
     pub disabled: bool,
     #[prop_or_default]
     pub text_value: String,
+
+    // Global attributes
     #[prop_or_default]
-    pub on_focus: Callback<FocusEvent>,
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_blur: Callback<FocusEvent>,
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
     #[prop_or_default]
-    pub on_pointer_up: Callback<PointerEvent>,
+    pub on_focus: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
     #[prop_or_default]
     pub on_pointer_down: Callback<PointerEvent>,
     #[prop_or_default]
-    pub on_pointer_move: Callback<PointerEvent>,
-    #[prop_or_default]
     pub on_pointer_leave: Callback<PointerEvent>,
     #[prop_or_default]
-    pub on_key_down: Callback<KeyboardEvent>,
+    pub on_pointer_move: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_up: Callback<PointerEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
     #[prop_or_default]
     pub children: Html,
 }
@@ -384,20 +402,21 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             value={props.value.clone()}
             disabled={props.disabled}
             text_value={props.text_value.clone()}
-            on_focus={props.on_focus.clone()}
+
+            id={props.id.clone()}
+            class={classes!("rt-SelectItem", &props.class).to_string()}
+            style={props.style.to_string()}
+
             on_blur={props.on_blur.clone()}
             on_focus={props.on_focus.clone()}
             on_click={props.on_click.clone()}
-            on_pointer_up={props.on_pointer_up.clone()}
-            on_pointer_down={props.on_pointer_down.clone()}
-            on_pointer_move={props.on_pointer_move.clone()}
-            on_pointer_leave={props.on_pointer_leave.clone()}
             on_key_down={props.on_key_down.clone()}
+            on_pointer_down={props.on_pointer_down.clone()}
+            on_pointer_leave={props.on_pointer_leave.clone()}
+            on_pointer_move={props.on_pointer_move.clone()}
+            on_pointer_up={props.on_pointer_up.clone()}
 
             node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
-            class={merge_classes(&[&"rt-SelectItem", &props.class])}
-            style={props.style.to_string()}
         >
             <SelectItemIndicatorPrimitive class="rt-SelectItemIndicator">
                 <ThickCheckIcon class="rt-SelectItemIndicatorIcon" />
@@ -409,14 +428,16 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectGroupProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -425,10 +446,11 @@ pub struct SelectGroupProps {
 pub fn SelectGroup(props: &SelectGroupProps) -> Html {
     html! {
         <SelectGroupPrimitive
-            node_ref={props.node_ref.clone()}
+            class={classes!("rt-SelectGroup", &props.class).to_string()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-SelectGroup", &props.class])}
             style={props.style.to_string()}
+
+            node_ref={props.node_ref.clone()}
         >
             {props.children.clone()}
         </SelectGroupPrimitive>
@@ -437,14 +459,16 @@ pub fn SelectGroup(props: &SelectGroupProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectLabelProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -453,10 +477,11 @@ pub struct SelectLabelProps {
 pub fn SelectLabel(props: &SelectLabelProps) -> Html {
     html! {
         <SelectLabelPrimitive
-            node_ref={props.node_ref.clone()}
+            class={classes!("rt-SelectLabel", &props.class).to_string()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-SelectLabel", &props.class])}
             style={props.style.to_string()}
+
+            node_ref={props.node_ref.clone()}
         >
             {props.children.clone()}
         </SelectLabelPrimitive>
@@ -465,14 +490,16 @@ pub fn SelectLabel(props: &SelectLabelProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectSeparatorProps {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -481,10 +508,11 @@ pub struct SelectSeparatorProps {
 pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
     html! {
         <SelectSeparatorPrimitive
-            node_ref={props.node_ref.clone()}
+            class={classes!("rt-SelectSeparator", &props.class).to_string()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-SelectSeparator", &props.class])}
             style={props.style.to_string()}
+
+            node_ref={props.node_ref.clone()}
         >
             {props.children.clone()}
         </SelectSeparatorPrimitive>

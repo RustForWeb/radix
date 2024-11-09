@@ -6,7 +6,7 @@ use crate::{
         flex_props::{FlexAlign, FlexAs, FlexJustify},
         spinner_props::{SpinnerLoadingProp, SpinnerSizeProp},
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         layout_props::Position,
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
@@ -34,14 +34,16 @@ pub struct SpinnerProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -71,8 +73,9 @@ pub fn Spinner(props: &SpinnerProps) -> Html {
     let spinner = html! {
         <span
             ref={props.node_ref.clone()}
+
+            class={classes!("rt-Spinner", class).to_string()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-Spinner", &class])}
             style={style.to_string()}
         >
             <span class="rt-SpinnerLeaf" />

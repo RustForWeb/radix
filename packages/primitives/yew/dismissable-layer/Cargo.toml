@@ -11,3 +11,4 @@ version.workspace = true
 [dependencies]
 web-sys = { workspace = true, features = ["CustomEvent"] }
 yew.workspace = true
+yew-struct-component.workspace = true

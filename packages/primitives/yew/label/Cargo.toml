@@ -12,3 +12,4 @@ version.workspace = true
 [dependencies]
 web-sys.workspace = true
 yew.workspace = true
+yew-struct-component.workspace = true

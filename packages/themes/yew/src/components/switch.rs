@@ -3,7 +3,7 @@ use yew::prelude::*;
 
 use crate::{
     components::switch_props::{SwitchSizeProp, SwitchVariantProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -41,30 +41,36 @@ pub struct SwitchProps {
 
     // Props from `SwitchPrimitive`
     #[prop_or_default]
-    pub name: Option<String>,
-    #[prop_or_default]
     pub checked: Option<bool>,
     #[prop_or_default]
     pub default_checked: Option<bool>,
     #[prop_or_default]
     pub on_checked_change: Callback<bool>,
-    #[prop_or(false)]
-    pub required: bool,
-    #[prop_or(false)]
+
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
+    // Attributes from `button`
+    #[prop_or_default]
     pub disabled: bool,
-    #[prop_or("on".to_string())]
+    #[prop_or_default]
+    pub name: Option<String>,
+    #[prop_or_default]
+    pub required: bool,
+    #[prop_or("on".to_owned())]
     pub value: String,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
 }
 
 #[function_component]
@@ -90,21 +96,34 @@ pub fn Switch(props: &SwitchProps) -> Html {
     );
 
     html! {
-        // TODO: data-accent-color, data-radius
         <SwitchPrimitive
             node_ref={props.node_ref.clone()}
-            class={merge_classes(&[&"rt-reset", &"rt-SwitchRoot", &class])}
+            attributes={[
+                ("data-accent-color", Some(props.color.0.map(|color| color.to_string()).unwrap_or_default())),
+                ("data-radius", props.radius.0.map(|radius| radius.to_string()))
+            ]}
+
+            class={classes!("rt-reset", "rt-SwitchRoot", class).to_string()}
+            id={props.id.clone()}
             style={style.to_string()}
-            name={props.name.clone()}
+
             checked={props.checked}
             default_checked={props.default_checked}
             on_checked_change={props.on_checked_change.clone()}
-            required={props.required}
+
             disabled={props.disabled}
+            name={props.name.clone()}
+            required={props.required}
             value={props.value.clone()}
+
             on_click={props.on_click.clone()}
         >
-            <SwitchThumbPrimitive class={merge_classes(&[&"rt-SwitchThumb", &("rt-high-contrast", &props.high_contrast)])} />
+            <SwitchThumbPrimitive
+                class={classes!(
+                    "rt-SwitchThumb",
+                    props.high_contrast.is_some_and(|high_contrast| high_contrast).then_some("rt-high-contrast"),
+                ).to_string()}
+            />
         </SwitchPrimitive>
     }
 }

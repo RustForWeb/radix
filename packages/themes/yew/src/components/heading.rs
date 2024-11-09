@@ -1,8 +1,9 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::heading_props::{HeadingAs, HeadingAsProp, HeadingSizeProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -50,107 +51,36 @@ pub struct HeadingProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<HeadingChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
 pub struct HeadingChildProps {
-    pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
+    #[struct_component(dynamic_tag = true)]
     pub r#as: HeadingAs,
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
+    pub class: String,
     pub data_accent_color: Option<String>,
-}
-
-impl HeadingChildProps {
-    pub fn render(self, children: Html) -> Html {
-        match self.r#as {
-            HeadingAs::H1 => html! {
-                <h1
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </h1>
-            },
-            HeadingAs::H2 => html! {
-                <h2
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </h2>
-            },
-            HeadingAs::H3 => html! {
-                <h3
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </h3>
-            },
-            HeadingAs::H4 => html! {
-                <h4
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </h4>
-            },
-            HeadingAs::H5 => html! {
-                <h5
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </h5>
-            },
-            HeadingAs::H6 => html! {
-                <h6
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-
-                    data-accent-color={self.data_accent_color}
-                >
-                    {children}
-                </h6>
-            },
-        }
-    }
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -179,12 +109,15 @@ pub fn Heading(props: &HeadingProps) -> Html {
     );
 
     let child_props = HeadingChildProps {
-        node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[&"rt-Heading", &class]),
-        style,
         r#as: props.r#as.0,
+        node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-Heading", class).to_string(),
         data_accent_color: props.color.0.map(|color| color.to_string()),
+        id: props.id.clone(),
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

@@ -1,53 +1,51 @@
 use web_sys::wasm_bindgen::JsCast;
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 #[derive(PartialEq, Properties)]
 pub struct LabelProps {
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+
     // Attributes from `label`
     #[prop_or_default]
     pub r#for: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_mouse_down: Callback<MouseEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Option<String>,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<LabelChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "label")]
 pub struct LabelChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub r#for: Option<String>,
-    pub onmousedown: Callback<MouseEvent>,
-}
+    pub attributes: Attributes,
 
-impl LabelChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <label
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                for={self.r#for}
-                onmousedown={self.onmousedown}
-            >
-                {children}
-            </label>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
+
+    // Attributes from `label`
+    pub r#for: Option<String>,
+
+    // Event handler attributes
+    pub onmousedown: Callback<MouseEvent>,
 }
 
 #[function_component]
@@ -81,10 +79,17 @@ pub fn Label(props: &LabelProps) -> Html {
 
     let child_props = LabelChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
+
+        // Attributes from `label`
         r#for: props.r#for.clone(),
+
+        // Event handler attributes
         onmousedown,
     };
 

@@ -1,7 +1,8 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{text_wrap_prop::TextWrapProp, truncate_prop::TruncateProp},
 };
 
@@ -12,41 +13,34 @@ pub struct StrongProps {
     #[prop_or_default]
     pub wrap: TextWrapProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<StrongChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "strong")]
 pub struct StrongChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
-}
+    pub attributes: Attributes,
 
-impl StrongChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <strong
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-            >
-                {children}
-            </strong>
-        }
-    }
+    // Global attributes
+    pub class: String,
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -59,9 +53,12 @@ pub fn Strong(props: &StrongProps) -> Html {
 
     let child_props = StrongChildProps {
         node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-Strong", class).to_string(),
         id: props.id.clone(),
-        class: merge_classes(&[&"rt-Strong", &class]),
-        style,
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

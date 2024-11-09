@@ -1,8 +1,9 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::container_props::{ContainerAlignProp, ContainerDisplayProp, ContainerSizeProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
         layout_props::{
@@ -104,45 +105,34 @@ pub struct ContainerProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ContainerChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct ContainerChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
-    pub inner_class: String,
-    pub inner_style: Style,
-}
+    pub attributes: Attributes,
 
-impl ContainerChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-            >
-                <div class={self.inner_class} style={self.inner_style.to_string()}>
-                    {children}
-                </div>
-            </div>
-        }
-    }
+    // Global attributes
+    pub class: String,
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -211,16 +201,21 @@ pub fn Container(props: &ContainerProps) -> Html {
 
     let child_props = ContainerChildProps {
         node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-Container", class).to_string(),
         id: props.id.clone(),
-        class: merge_classes(&[&"rt-Container", &class]),
-        style,
-        inner_class: merge_classes(&[&"rt-ContainerInner", &inner_class]),
-        inner_style,
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
         as_child.emit(child_props)
     } else {
-        child_props.render(props.children.clone())
+        child_props.render(html! {
+            <div class={classes!("rt-ContainerInner", inner_class).to_string()} style={inner_style.to_string()}>
+                {props.children.clone()}
+            </div>
+        })
     }
 }

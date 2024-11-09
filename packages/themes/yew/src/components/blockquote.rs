@@ -1,11 +1,12 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::{
         text::{Text, TextChildProps},
         text_props::TextSizeProp,
     },
-    helpers::{merge_classes::merge_classes, merge_styles::Style},
+    helpers::merge_styles::Style,
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -45,44 +46,35 @@ pub struct BlockquoteProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<BlockquoteChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "blockquote")]
 pub struct BlockquoteChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: String,
-    pub style: Style,
     pub data_accent_color: Option<String>,
-}
-
-impl BlockquoteChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <blockquote
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-
-                data-accent-color={self.data_accent_color}
-            >
-                {children}
-            </blockquote>
-        }
-    }
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -103,22 +95,25 @@ pub fn Blockquote(props: &BlockquoteProps) -> Html {
             mb={props.mb.clone()}
             ml={props.ml.clone()}
 
-            node_ref={props.node_ref.clone()}
+            class={classes!("rt-Blockquote", &props.class).to_string()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-Blockquote", &props.class])}
             style={props.style.clone()}
 
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={Callback::from({
                 let as_child = props.as_child.clone();
                 let children = props.children.clone();
 
-                move |TextChildProps { node_ref, id, class, style, data_accent_color, .. }| {
+                move |TextChildProps { node_ref, attributes, class, data_accent_color, id, style, .. }| {
                     let child_props = BlockquoteChildProps {
                         node_ref,
-                        id,
+                        attributes,
+
                         class,
-                        style,
                         data_accent_color,
+                        id,
+                        style,
                     };
 
                     if let Some(as_child) = as_child.as_ref() {

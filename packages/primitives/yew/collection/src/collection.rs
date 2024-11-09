@@ -133,7 +133,7 @@ pub fn CollectionItemSlot<ItemData: Clone + PartialEq + 'static>(
 
     props.as_child.emit(CollectionItemSlotChildProps {
         node_ref: composed_ref,
-        data_radix_collection_item: "".into(),
+        data_radix_collection_item: "".to_owned(),
     })
 }
 

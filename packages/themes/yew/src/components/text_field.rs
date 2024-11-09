@@ -3,12 +3,13 @@ use web_sys::{
     window,
 };
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::text_field_props::{
         TextFieldSizeProp, TextFieldSlotSideProp, TextFieldVariantProp,
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::ColorProp,
         gap_props::GapProp,
@@ -43,19 +44,29 @@ pub struct TextFieldProps {
     #[prop_or_default]
     pub ml: MlProp,
 
+    // Global attributes
+    #[prop_or_default]
+    pub autocapitalize: Option<String>,
+    #[prop_or_default]
+    pub autocorrect: Option<String>,
+    #[prop_or_default]
+    pub autofocus: bool,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+    #[prop_or_default]
+    pub spellcheck: Option<String>,
+
     // Attributes from `input`
     #[prop_or_default]
     pub accept: Option<String>,
     #[prop_or_default]
     pub alt: Option<String>,
     #[prop_or_default]
-    pub autocapitalize: Option<String>,
-    #[prop_or_default]
     pub autocomplete: Option<String>,
-    #[prop_or_default]
-    pub autocorrect: Option<String>,
-    #[prop_or_default]
-    pub autofocus: bool,
     #[prop_or_default]
     pub capture: Option<String>,
     #[prop_or_default]
@@ -105,8 +116,6 @@ pub struct TextFieldProps {
     #[prop_or_default]
     pub required: bool,
     #[prop_or_default]
-    pub spellcheck: Option<String>,
-    #[prop_or_default]
     pub src: Option<String>,
     #[prop_or_default]
     pub step: Option<String>,
@@ -116,6 +125,8 @@ pub struct TextFieldProps {
     pub value: Option<String>,
     #[prop_or_default]
     pub width: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_blur: Callback<FocusEvent>,
     #[prop_or_default]
@@ -128,13 +139,64 @@ pub struct TextFieldProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "input")]
+pub struct TextFieldChildProps {
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
+    pub autocapitalize: Option<String>,
+    pub autocorrect: Option<String>,
+    pub autofocus: bool,
+    pub class: String,
+    pub id: Option<String>,
+    pub spellcheck: String,
+
+    // Attributes from `input`
+    pub accept: Option<String>,
+    pub alt: Option<String>,
+    pub autocomplete: Option<String>,
+    pub capture: Option<String>,
+    pub checked: bool,
+    pub dirname: Option<String>,
+    pub disabled: bool,
+    pub form: Option<String>,
+    pub formaction: Option<String>,
+    pub formenctype: Option<String>,
+    pub formmethod: Option<String>,
+    pub formnovalidate: bool,
+    pub formtarget: Option<String>,
+    pub height: Option<String>,
+    pub list: Option<String>,
+    pub max: Option<String>,
+    pub maxlength: Option<String>,
+    pub min: Option<String>,
+    pub minlength: Option<String>,
+    pub multiple: bool,
+    pub name: Option<String>,
+    pub pattern: Option<String>,
+    pub placeholder: Option<String>,
+    pub popovertarget: Option<String>,
+    pub popovertargetaction: Option<String>,
+    pub readonly: bool,
+    pub required: bool,
+    pub src: Option<String>,
+    pub step: Option<String>,
+    pub r#type: Option<String>,
+    pub value: Option<String>,
+    pub width: Option<String>,
+
+    // Event handler attributes
+    pub onblur: Callback<FocusEvent>,
+    pub onchange: Callback<Event>,
+    pub onfocus: Callback<FocusEvent>,
+    pub oninput: Callback<InputEvent>,
 }
 
 #[function_component]
@@ -211,60 +273,68 @@ pub fn TextField(props: &TextFieldProps) -> Html {
         }
     });
 
+    let child_props = TextFieldChildProps {
+        node_ref: composed_ref,
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        autocapitalize: props.autocapitalize.clone(),
+        autocorrect: props.autocorrect.clone(),
+        autofocus: props.autofocus,
+        class: "rt-reset rt-TextFieldInput".to_owned(),
+        id: props.id.clone(),
+        spellcheck: props.spellcheck.clone().unwrap_or("false".to_owned()),
+
+        // Attributes from `input`
+        accept: props.accept.clone(),
+        alt: props.alt.clone(),
+        autocomplete: props.autocomplete.clone(),
+        capture: props.capture.clone(),
+        checked: props.checked,
+        dirname: props.dirname.clone(),
+        disabled: props.disabled,
+        form: props.form.clone(),
+        formaction: props.formaction.clone(),
+        formenctype: props.formenctype.clone(),
+        formmethod: props.formmethod.clone(),
+        formnovalidate: props.formnovalidate,
+        formtarget: props.formtarget.clone(),
+        height: props.height.clone(),
+        list: props.list.clone(),
+        max: props.max.clone(),
+        maxlength: props.maxlength.clone(),
+        min: props.min.clone(),
+        minlength: props.minlength.clone(),
+        multiple: props.multiple,
+        name: props.name.clone(),
+        pattern: props.pattern.clone(),
+        placeholder: props.placeholder.clone(),
+        popovertarget: props.popovertarget.clone(),
+        popovertargetaction: props.popovertargetaction.clone(),
+        readonly: props.readonly,
+        required: props.required,
+        src: props.src.clone(),
+        step: props.step.clone(),
+        r#type: props.r#type.clone(),
+        value: props.value.clone(),
+        width: props.width.clone(),
+
+        // Event handler attributes
+        onblur: props.on_blur.clone(),
+        onchange: props.on_change.clone(),
+        onfocus: props.on_focus.clone(),
+        oninput: props.on_input.clone(),
+    };
+
     html! {
         <div
-            class={merge_classes(&[&"rt-TextFieldRoot", &class])}
+            class={classes!("rt-TextFieldRoot", class).to_string()}
             style={style.to_string()}
             data-accent-color={props.color.0.map(|color| color.to_string())}
             data-radius={props.radius.0.map(|radius| radius.to_string())}
             onpointerdown={onpointerdown}
         >
-            <input
-                ref={composed_ref}
-                id={props.id.clone()}
-                class="rt-reset rt-TextFieldInput"
-                accept={props.accept.clone()}
-                alt={props.alt.clone()}
-                autocapitalize={props.autocapitalize.clone()}
-                autocomplete={props.autocomplete.clone()}
-                autocorrect={props.autocorrect.clone()}
-                autofocus={props.autofocus}
-                capture={props.capture.clone()}
-                checked={props.checked}
-                dirname={props.dirname.clone()}
-                disabled={props.disabled}
-                form={props.form.clone()}
-                formaction={props.formaction.clone()}
-                formenctype={props.formenctype.clone()}
-                formmethod={props.formmethod.clone()}
-                formnovalidate={props.formnovalidate}
-                formtarget={props.formtarget.clone()}
-                height={props.height.clone()}
-                list={props.list.clone()}
-                max={props.max.clone()}
-                maxlength={props.maxlength.clone()}
-                min={props.min.clone()}
-                minlength={props.minlength.clone()}
-                multiple={props.multiple}
-                name={props.name.clone()}
-                pattern={props.pattern.clone()}
-                placeholder={props.placeholder.clone()}
-                popovertarget={props.popovertarget.clone()}
-                popovertargetaction={props.popovertargetaction.clone()}
-                readonly={props.readonly}
-                required={props.required}
-                spellcheck={props.spellcheck.clone().unwrap_or("false".into())}
-                src={props.src.clone()}
-                step={props.step.clone()}
-                type={props.r#type.clone()}
-                value={props.value.clone()}
-                width={props.width.clone()}
-                onblur={props.on_blur.clone()}
-                onchange={props.on_change.clone()}
-                onfocus={props.on_focus.clone()}
-                oninput={props.on_input.clone()}
-            />
-            {props.children.clone()}
+            {child_props.render(props.children.clone())}
         </div>
     }
 }
@@ -284,14 +354,16 @@ pub struct TextFieldSlotProps {
     #[prop_or_default]
     pub pl: PlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -314,11 +386,12 @@ pub fn TextFieldSlot(props: &TextFieldSlotProps) -> Html {
     html! {
         <div
             ref={props.node_ref.clone()}
-            id={props.id.clone()}
-            class={merge_classes(&[&"rt-TextFieldSlot", &class])}
-            style={style.to_string()}
+
             data-accent-color={props.color.0.map(|color| color.to_string())}
             data-side={props.side.0.map(|side| side.to_string())}
+            class={classes!("rt-TextFieldSlot", class).to_string()}
+            id={props.id.clone()}
+            style={style.to_string()}
         >
             {props.children.clone()}
         </div>

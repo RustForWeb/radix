@@ -19,3 +19,4 @@ radix-yew-switch = { path = "../../primitives/yew/switch", version = "0.0.2" }
 radix-yew-visually-hidden = { path = "../../primitives/yew/visually-hidden", version = "0.0.2" }
 web-sys.workspace = true
 yew.workspace = true
+yew-struct-component.workspace = true

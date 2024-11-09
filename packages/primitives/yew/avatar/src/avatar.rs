@@ -5,6 +5,7 @@ use web_sys::{
     window, HtmlImageElement,
 };
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum ImageLoadingStatus {
@@ -22,14 +23,18 @@ struct AvatarContextValue {
 
 #[derive(PartialEq, Properties)]
 pub struct AvatarProps<ChildProps: Clone + Default + PartialEq + SetAvatarChildProps> {
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ChildProps, Html>>,
     #[prop_or_default]
@@ -42,27 +47,16 @@ pub trait SetAvatarChildProps {
     fn set_avatar_child_props(&mut self, props: AvatarChildProps);
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct AvatarChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-}
+    pub attributes: Attributes,
 
-impl AvatarChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 impl SetAvatarChildProps for AvatarChildProps {
@@ -91,8 +85,11 @@ pub fn Avatar<ChildProps: Clone + Default + PartialEq + SetAvatarChildProps = Av
 
     let child_props = AvatarChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
     };
 
@@ -116,6 +113,14 @@ pub fn Avatar<ChildProps: Clone + Default + PartialEq + SetAvatarChildProps = Av
 pub struct AvatarImageProps {
     #[prop_or_default]
     pub on_loading_status_change: Callback<ImageLoadingStatus>,
+
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
 
     // Attributes from `img`
     #[prop_or_default]
@@ -148,21 +153,23 @@ pub struct AvatarImageProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Option<String>,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<AvatarImageChildProps, Html>>,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "img", no_children = true)]
 pub struct AvatarImageChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: Option<String>,
+    pub id: Option<String>,
     pub style: Option<String>,
+
+    // Attributes from `img`
     pub alt: Option<String>,
     pub crossorigin: Option<String>,
     pub decoding: Option<String>,
@@ -176,32 +183,6 @@ pub struct AvatarImageChildProps {
     pub srcset: Option<String>,
     pub width: Option<String>,
     pub usemap: Option<String>,
-}
-
-impl AvatarImageChildProps {
-    pub fn render(self) -> Html {
-        html! {
-            <img
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                alt={self.alt}
-                crossorigin={self.crossorigin}
-                decoding={self.decoding}
-                fetchpriority={self.fetchpriority}
-                height={self.height}
-                ismap={self.ismap}
-                loading={self.loading}
-                referrerpolicy={self.referrerpolicy}
-                sizes={self.sizes}
-                src={self.src}
-                srcset={self.srcset}
-                width={self.width}
-                usemap={self.usemap}
-            />
-        }
-    }
 }
 
 #[function_component]
@@ -225,9 +206,14 @@ pub fn AvatarImage(props: &AvatarImageProps) -> Html {
 
     let child_props = AvatarImageChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
+
+        // Attributes from `img`
         alt: props.alt.clone(),
         crossorigin: props.crossorigin.clone(),
         decoding: props.decoding.clone(),
@@ -258,41 +244,35 @@ pub fn AvatarImage(props: &AvatarImageProps) -> Html {
 pub struct AvatarFallbackProps {
     #[prop_or_default]
     pub delay_ms: Option<i32>,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<AvatarFallbackChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "span")]
 pub struct AvatarFallbackChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-}
+    pub attributes: Attributes,
 
-impl AvatarFallbackChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <span
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-            >
-                {children}
-            </span>
-        }
-    }
+    // Global attributes
+    pub class: Option<String>,
+    pub id: Option<String>,
+    pub style: Option<String>,
 }
 
 #[function_component]
@@ -343,8 +323,11 @@ pub fn AvatarFallback(props: &AvatarFallbackProps) -> Html {
 
     let child_props = AvatarFallbackChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         class: props.class.clone(),
+        id: props.id.clone(),
         style: props.style.clone(),
     };
 

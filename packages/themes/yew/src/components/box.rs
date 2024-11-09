@@ -1,8 +1,9 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::box_props::{BoxAs, BoxAsProp, BoxDisplayProp},
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
         layout_props::{
@@ -102,53 +103,35 @@ pub struct BoxProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<BoxChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
 pub struct BoxChildProps {
-    pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
+    #[struct_component(dynamic_tag = true)]
     pub r#as: BoxAs,
-}
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
 
-impl BoxChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            if self.r#as == BoxAs::Div {
-                <div
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-                >
-                    {children}
-                </div>
-            } else {
-                <span
-                    ref={self.node_ref}
-                    id={self.id}
-                    class={self.class}
-                    style={self.style.to_string()}
-                >
-                    {children}
-                </span>
-            }
-        }
-    }
+    // Global attributes
+    pub class: String,
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -202,11 +185,14 @@ pub fn Box(props: &BoxProps) -> Html {
     );
 
     let child_props = BoxChildProps {
-        node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[&"rt-Box", &class]),
-        style,
         r#as: props.r#as.0,
+        node_ref: props.node_ref.clone(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!("rt-Box", class).to_string(),
+        id: props.id.clone(),
+        style: style.to_string(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

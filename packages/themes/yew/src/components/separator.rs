@@ -5,7 +5,7 @@ use crate::{
     components::separator_props::{
         SeparatorDecorativeProp, SeparatorOrientationProp, SeparatorSizeProp,
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::{AccentColor, AccentColorProp},
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
@@ -37,14 +37,16 @@ pub struct SeparatorProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
     #[prop_or_default]
     pub children: Html,
 }
@@ -72,12 +74,12 @@ pub fn Separator(props: &SeparatorProps) -> Html {
     html! {
         <span
             ref={props.node_ref.clone()}
-            id={props.id.clone()}
-            class={merge_classes(&[&"rt-Separator", &class])}
-            style={style.to_string()}
 
+            class={classes!("rt-Separator", class).to_string()}
             data-accent-color={props.color.0.unwrap_or(AccentColor::Gray).to_string()}
+            id={props.id.clone()}
             role={(!props.decorative.0).then_some("separator")}
+            style={style.to_string()}
         >
             {props.children.clone()}
         </span>
@@ -86,13 +88,15 @@ pub fn Separator(props: &SeparatorProps) -> Html {
     // Apparently, this component is not actually based on the primitive.
     //
     // <SeparatorPrimitive
-    //     node_ref={props.node_ref.clone()}
-    //     id={props.id.clone()}
-    //     class={merge_classes(&[&"rt-Separator", &class])}
-    //     style={style.to_string()}
     //     orientation={props.orientation.0}
     //     decorative={props.decorative.0}
+    //
     //     // data-accent-color
+    //     class={classes!("rt-Separator", class).to_string()}
+    //     id={props.id.clone()}
+    //     style={style.to_string()}
+    //
+    //     node_ref={props.node_ref.clone()}
     // >
     //     {props.children.clone()}
     // </SeparatorPrimitive>

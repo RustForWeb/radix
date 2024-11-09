@@ -1,12 +1,10 @@
 use radix_yew_direction::{Direction, DirectionProvider};
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::theme_props::{Appearance, PanelBackground, Scaling},
-    helpers::{
-        get_matching_gray_color::get_matching_gray_color, merge_classes::merge_classes,
-        merge_styles::Style,
-    },
+    helpers::{get_matching_gray_color::get_matching_gray_color, merge_styles::Style},
     props::{
         color_prop::{AccentColor, GrayColor},
         radius_prop::Radius,
@@ -52,14 +50,18 @@ pub struct ThemeProps {
     #[prop_or_default]
     pub scaling: Option<Scaling>,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
@@ -84,10 +86,12 @@ pub fn Theme(props: &ThemeProps) -> Html {
                     radius={props.radius}
                     scaling={props.scaling}
 
-                    node_ref={props.node_ref.clone()}
-                    id={props.id.clone()}
                     class={props.class.clone()}
+                    id={props.id.clone()}
                     style={props.style.clone()}
+
+                    node_ref={props.node_ref.clone()}
+                    attributes={props.attributes.clone()}
                     as_child={props.as_child.clone()}
                 >
                     {props.children.clone()}
@@ -103,10 +107,12 @@ pub fn Theme(props: &ThemeProps) -> Html {
                 radius={props.radius}
                 scaling={props.scaling}
 
-                node_ref={props.node_ref.clone()}
-                id={props.id.clone()}
                 class={props.class.clone()}
+                id={props.id.clone()}
                 style={props.style.clone()}
+
+                node_ref={props.node_ref.clone()}
+                attributes={props.attributes.clone()}
                 as_child={props.as_child.clone()}
             >
                 {props.children.clone()}
@@ -132,14 +138,18 @@ pub struct ThemeRootProps {
     #[prop_or_default]
     pub scaling: Option<Scaling>,
 
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
@@ -217,10 +227,12 @@ pub fn ThemeRoot(props: &ThemeRootProps) -> Html {
             on_radius_change={Callback::from(move |value| radius.set(value))}
             on_scaling_change={Callback::from(move |value| scaling.set(value))}
 
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
             class={props.class.clone()}
+            id={props.id.clone()}
             style={props.style.clone()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={props.as_child.clone()}
         >
             {props.children.clone()}
@@ -260,54 +272,39 @@ pub struct ThemeImplProps {
     pub on_scaling_change: Callback<Scaling>,
 
     #[prop_or_default]
-    pub node_ref: NodeRef,
+    pub class: Option<String>,
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
     pub style: Style,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<ThemeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct ThemeChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: String,
-    pub style: Style,
-    pub data_is_root_theme: String,
     pub data_accent_color: String,
     pub data_gray_color: String,
     pub data_has_background: String,
+    pub data_is_root_theme: String,
     pub data_panel_background: String,
     pub data_radius: String,
     pub data_scaling: String,
-}
-
-impl ThemeChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-                data-is-root-theme={self.data_is_root_theme}
-                data-accent-color={self.data_accent_color}
-                data-gray-color={self.data_gray_color}
-                data-has-background={self.data_has_background}
-                data-panel-background={self.data_panel_background}
-                data-radius={self.data_radius}
-                data-scaling={self.data_scaling}
-            >
-                {children}
-            </div>
-        }
-    }
+    pub id: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
@@ -417,33 +414,29 @@ pub fn ThemeImpl(props: &ThemeImplProps) -> Html {
 
     let child_props = ThemeChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[
-            &"radix-themes",
-            &match appearance {
+        attributes: props.attributes.clone(),
+
+        // Global attributes
+        class: classes!(
+            "radix-themes",
+            match appearance {
                 Appearance::Inherit => None,
                 Appearance::Light => Some("light"),
                 Appearance::Dark => Some("dark"),
             },
             &props.class,
-        ]),
-        style: props.style.clone(),
-        data_is_root_theme: if is_root {
-            "true".into()
-        } else {
-            "false".into()
-        },
+        )
+        .to_string(),
         data_accent_color: accent_color.to_string(),
         data_gray_color: resolved_gray_color.to_string(),
         // For nested `Theme` background.
-        data_has_background: if has_background {
-            "true".into()
-        } else {
-            "false".into()
-        },
+        data_has_background: if has_background { "true" } else { "false" }.to_owned(),
+        data_is_root_theme: if is_root { "true" } else { "false" }.to_owned(),
         data_panel_background: panel_background.to_string(),
         data_radius: radius.to_string(),
         data_scaling: scaling.to_string(),
+        id: props.id.clone(),
+        style: props.style.to_string(),
     };
 
     html! {

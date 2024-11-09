@@ -10,3 +10,4 @@ version.workspace = true
 
 [dependencies]
 yew.workspace = true
+yew-struct-component.workspace = true

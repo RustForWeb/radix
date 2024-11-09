@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Orientation {
@@ -28,71 +29,65 @@ pub struct SeparatorProps {
     pub orientation: Orientation,
     #[prop_or(false)]
     pub decorative: bool,
-    #[prop_or_default]
-    pub node_ref: NodeRef,
-    #[prop_or_default]
-    pub id: Option<String>,
+
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
     #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
     pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<SeparatorChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, PartialEq, StructComponent)]
+#[struct_component(tag = "div")]
 pub struct SeparatorChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: Option<String>,
-    pub style: Option<String>,
-    pub data_orientation: String,
-    pub aria_orientation: Option<String>,
-    pub role: String,
-}
+    pub attributes: Attributes,
 
-impl SeparatorChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <div
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style}
-                data-orientation={self.data_orientation}
-                aria-orientation={self.aria_orientation}
-                role={self.role}
-            >
-                {children}
-            </div>
-        }
-    }
+    // Global attributes
+    pub aria_orientation: Option<String>,
+    pub class: Option<String>,
+    pub data_orientation: String,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: Option<String>,
 }
 
 #[function_component]
 pub fn Separator(props: &SeparatorProps) -> Html {
     let aria_orientation = match props.orientation {
         Orientation::Horizontal => None,
-        Orientation::Vertical => Some("vertical".to_string()),
+        Orientation::Vertical => Some("vertical".to_owned()),
     };
 
     let child_props = SeparatorChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: props.class.clone(),
-        style: props.style.clone(),
-        data_orientation: props.orientation.to_string(),
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         aria_orientation: match props.decorative {
             true => aria_orientation,
             false => None,
         },
+        class: props.class.clone(),
+        data_orientation: props.orientation.to_string(),
+        id: props.id.clone(),
         role: match props.decorative {
             true => "none",
             false => "separator",
         }
-        .into(),
+        .to_owned(),
+        style: props.style.clone(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

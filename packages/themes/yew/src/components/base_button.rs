@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::{
@@ -8,7 +9,7 @@ use crate::{
         spinner::Spinner,
         visually_hidden::VisuallyHidden,
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -47,9 +48,17 @@ pub struct BaseButtonProps {
     #[prop_or_default]
     pub ml: MlProp,
 
-    // Attributes from `button`
+    // Global attributes
     #[prop_or_default]
     pub autofocus: bool,
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
+    // Attributes from `button`
     #[prop_or_default]
     pub command: Option<String>,
     #[prop_or_default]
@@ -84,26 +93,32 @@ pub struct BaseButtonProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<BaseButtonChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "button")]
 pub struct BaseButtonChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
-    pub class: String,
-    pub style: Style,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub autofocus: bool,
+    pub class: String,
+    pub data_accent_color: String,
+    pub data_disabled: Option<String>,
+    pub data_radius: Option<String>,
+    pub id: Option<String>,
+    pub style: String,
+
+    // Attributes from `button`
     pub command: Option<String>,
     pub commandfor: Option<String>,
+    pub disabled: bool,
     pub form: Option<String>,
     pub formaction: Option<String>,
     pub formenctype: Option<String>,
@@ -115,47 +130,9 @@ pub struct BaseButtonChildProps {
     pub popovertargetaction: Option<String>,
     pub r#type: Option<String>,
     pub value: Option<String>,
-    pub on_click: Callback<MouseEvent>,
 
-    pub disabled: bool,
-    pub data_disabled: Option<String>,
-    pub data_accent_color: String,
-    pub data_radius: Option<String>,
-}
-
-impl BaseButtonChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <button
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-                autofocus={self.autofocus}
-                command={self.command}
-                commandfor={self.commandfor}
-                form={self.form}
-                formaction={self.formaction}
-                formenctype={self.formenctype}
-                formmethod={self.formmethod}
-                formnovalidate={self.formnovalidate}
-                formtarget={self.formtarget}
-                name={self.name}
-                popovertarget={self.popovertarget}
-                popovertargetaction={self.popovertargetaction}
-                type={self.r#type}
-                value={self.value}
-                onclick={self.on_click}
-
-                disabled={self.disabled}
-                data-disabled={self.data_disabled}
-                data-accent-color={self.data_accent_color}
-                data-radius={self.data_radius}
-            >
-                {children}
-            </button>
-        }
-    }
+    // Event handler attributes
+    pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component]
@@ -184,12 +161,28 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
 
     let child_props = BaseButtonChildProps {
         node_ref: props.node_ref.clone(),
-        id: props.id.clone(),
-        class: merge_classes(&[&"rt-reset", &"rt-BaseButton", &class]),
-        style,
+        attributes: props.attributes.clone(),
+
+        // Global attributes
         autofocus: props.autofocus,
+        class: classes!("rt-reset", "rt-BaseButton", class).to_string(),
+        data_accent_color: props
+            .color
+            .0
+            .map(|color| color.to_string())
+            .unwrap_or("".to_owned()),
+        data_disabled: disabled.then_some("".to_owned()),
+        data_radius: props
+            .radius
+            .0
+            .map(|radius: crate::Radius| radius.to_string()),
+        id: props.id.clone(),
+        style: style.to_string(),
+
+        // Attributes from `button`
         command: props.command.clone(),
         commandfor: props.commandfor.clone(),
+        disabled,
         form: props.form.clone(),
         formaction: props.formaction.clone(),
         formenctype: props.formenctype.clone(),
@@ -201,16 +194,9 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
         popovertargetaction: props.popovertargetaction.clone(),
         r#type: props.r#type.clone(),
         value: props.value.clone(),
-        on_click: props.on_click.clone(),
 
-        disabled,
-        data_disabled: disabled.then_some("".into()),
-        data_accent_color: props
-            .color
-            .0
-            .map(|color| color.to_string())
-            .unwrap_or("".to_string()),
-        data_radius: props.radius.0.map(|radius| radius.to_string()),
+        // Event handler attributes
+        onclick: props.on_click.clone(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

@@ -1,7 +1,8 @@
+use yew::{prelude::classes, Classes};
+
 use crate::{
     helpers::{
         get_responsive::{get_responsive_classes, get_responsive_styles},
-        merge_classes::merge_classes,
         merge_styles::{merge_styles, Style},
     },
     props::prop_def::{PropDef, PropDefType, PropValue},
@@ -11,8 +12,8 @@ pub fn extract_props(
     props: &[&dyn PropDef],
     props_class: Option<String>,
     props_style: Option<Style>,
-) -> (String, Style) {
-    let mut class: String = "".to_string();
+) -> (Classes, Style) {
+    let mut class = Classes::new();
     let mut style = Style::new();
 
     for prop in props {
@@ -21,18 +22,18 @@ pub fn extract_props(
                 PropDefType::Enum => {
                     let prop_classes = get_responsive_classes(*prop, false);
 
-                    class = merge_classes(&[&class, &prop_classes]);
+                    class = classes!(class, &prop_classes);
                 }
                 PropDefType::String | PropDefType::EnumOrString => {
                     let (prop_classes, prop_custom_properties) = get_responsive_styles(*prop);
 
-                    class = merge_classes(&[&class, &prop_classes]);
+                    class = classes!(class, &prop_classes);
                     style = merge_styles(style, prop_custom_properties);
                 }
                 PropDefType::Bool => {
                     if let Some(PropValue::Bool(true)) = prop.value() {
                         // TODO: handle responsive boolean props.
-                        class = merge_classes(&[&class, &prop.class()]);
+                        class = classes!(class, prop.class().map(|class| class.to_owned()));
                     }
                 }
             }
@@ -40,7 +41,7 @@ pub fn extract_props(
     }
 
     (
-        merge_classes(&[&class, &props_class]),
+        classes!(class, &props_class),
         merge_styles(style, props_style),
     )
 }

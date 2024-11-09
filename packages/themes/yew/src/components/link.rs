@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::{
@@ -6,7 +7,7 @@ use crate::{
         text::{Text, TextChildProps},
         text_props::TextSizeProp,
     },
-    helpers::{extract_props::extract_props, merge_classes::merge_classes, merge_styles::Style},
+    helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -51,6 +52,14 @@ pub struct LinkProps {
     #[prop_or_default]
     pub ml: MlProp,
 
+    // Global attributes
+    #[prop_or_default]
+    pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Style,
+
     // Attributes from `a`
     #[prop_or_default]
     pub download: Option<String>,
@@ -66,29 +75,34 @@ pub struct LinkProps {
     pub rel: Option<String>,
     #[prop_or_default]
     pub target: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
-    pub class: Option<String>,
-    #[prop_or_default]
-    pub style: Style,
+    pub attributes: Attributes,
     #[prop_or_default]
     pub as_child: Option<Callback<LinkChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "a")]
 pub struct LinkChildProps {
     pub node_ref: NodeRef,
-    pub id: Option<String>,
+    pub attributes: Attributes,
+
+    // Global attributes
     pub class: String,
-    pub style: Style,
+    pub data_accent_color: String,
+    pub id: Option<String>,
+    pub style: String,
+
+    // Attributes from `a`
     pub download: Option<String>,
     pub href: Option<String>,
     pub hreflang: Option<String>,
@@ -96,34 +110,9 @@ pub struct LinkChildProps {
     pub referrerpolicy: Option<String>,
     pub rel: Option<String>,
     pub target: Option<String>,
+
+    // Event handler attributes
     pub onclick: Callback<MouseEvent>,
-
-    pub data_accent_color: String,
-}
-
-impl LinkChildProps {
-    pub fn render(self, children: Html) -> Html {
-        html! {
-            <a
-                ref={self.node_ref}
-                id={self.id}
-                class={self.class}
-                style={self.style.to_string()}
-                download={self.download}
-                href={self.href}
-                hreflang={self.hreflang}
-                ping={self.ping}
-                referrerpolicy={self.referrerpolicy}
-                rel={self.rel}
-                target={self.target}
-                onclick={self.onclick}
-
-                data-accent-color={self.data_accent_color}
-            >
-                {children}
-            </a>
-        }
-    }
 }
 
 #[function_component]
@@ -150,11 +139,12 @@ pub fn Link(props: &LinkProps) -> Html {
             mb={props.mb.clone()}
             ml={props.ml.clone()}
 
-            node_ref={props.node_ref.clone()}
+            class={classes!("rt-reset", "rt-Link", class).to_string()}
             id={props.id.clone()}
-            class={merge_classes(&[&"rt-reset", &"rt-Link", &class])}
             style={style}
 
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={Callback::from({
                 let color = props.color.clone();
                 let download = props.download.clone();
@@ -168,12 +158,18 @@ pub fn Link(props: &LinkProps) -> Html {
                 let as_child = props.as_child.clone();
                 let children = props.children.clone();
 
-                move |TextChildProps { node_ref, id, class, style, .. }| {
+                move |TextChildProps { node_ref, attributes, class, id, style, .. }| {
                     let child_props = LinkChildProps {
                         node_ref,
-                        id,
+                        attributes,
+
+                        // Global attributes
                         class,
+                        data_accent_color: color.0.map(|color| color.to_string()).unwrap_or("".to_owned()),
+                        id,
                         style,
+
+                        // Attributes from `a`
                         download: download.clone(),
                         href: href.clone(),
                         hreflang: hreflang.clone(),
@@ -181,9 +177,9 @@ pub fn Link(props: &LinkProps) -> Html {
                         referrerpolicy: referrerpolicy.clone(),
                         rel: rel.clone(),
                         target: target.clone(),
-                        onclick: on_click.clone(),
 
-                        data_accent_color: color.0.map(|color| color.to_string()).unwrap_or("".to_string()),
+                        // Event handler attributes
+                        onclick: on_click.clone(),
                     };
 
                     if let Some(as_child) = as_child.as_ref() {
