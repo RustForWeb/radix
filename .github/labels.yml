@@ -29,12 +29,12 @@
 
 - name: 'framework: dioxus'
   description: 'Dioxus'
-  color: 'ab4aba'
+  color: 'd6409f'
 - name: 'framework: leptos'
   description: 'Leptos'
-  color: 'ab4aba'
+  color: 'd6409f'
 - name: 'framework: yew'
-  color: 'ab4aba'
+  color: 'd6409f'
   description: 'Yew'
 
 - name: 'component: accessible icon'
