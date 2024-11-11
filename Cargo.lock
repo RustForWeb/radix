@@ -3150,6 +3150,7 @@ dependencies = [
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",
+ "radix-yew-tooltip",
  "yew",
 ]
 
@@ -3299,6 +3300,7 @@ dependencies = [
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",
+ "radix-yew-tooltip",
  "radix-yew-visually-hidden",
  "tailwind_fuse",
  "web-sys",
@@ -3329,6 +3331,22 @@ dependencies = [
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",
+ "radix-yew-tooltip",
+ "radix-yew-visually-hidden",
+ "web-sys",
+ "yew",
+ "yew-struct-component",
+]
+
+[[package]]
+name = "radix-yew-tooltip"
+version = "0.0.2"
+dependencies = [
+ "log",
+ "radix-yew-id",
+ "radix-yew-popper",
+ "radix-yew-primitive",
+ "radix-yew-use-controllable-state",
  "radix-yew-visually-hidden",
  "web-sys",
  "yew",

@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::primitives::{
-    arrow, avatar, collection, focus_scope, label, popper, select, separator, switch,
+    arrow, avatar, collection, focus_scope, label, popper, select, separator, switch, tooltip,
     visually_hidden,
 };
 
@@ -122,6 +122,39 @@ enum Route {
     #[at("/switch/chromatic")]
     SwitchChromatic,
 
+    #[at("/tooltip/styled")]
+    TooltipStyled,
+    #[at("/tooltip/controlled")]
+    TooltipControlled,
+    #[at("/tooltip/custom-durations")]
+    TooltipCustomDurations,
+    #[at("/tooltip/custom-content")]
+    TooltipCustomContent,
+    #[at("/tooltip/positions")]
+    TooltipPositions,
+    #[at("/tooltip/aria-label")]
+    TooltipAriaLabel,
+    #[at("/tooltip/with-text")]
+    TooltipWithText,
+    #[at("/tooltip/with-external-ref")]
+    TooltipWithExternalRef,
+    #[at("/tooltip/unmount")]
+    TooltipUnmount,
+    #[at("/tooltip/animated")]
+    TooltipAnimated,
+    #[at("/tooltip/slottable-content")]
+    TooltipSlottableContent,
+    #[at("/tooltip/within-dialog")]
+    TooltipWithinDialog,
+    #[at("/tooltip/keep-open-on-activation")]
+    TooltipKeepOpenOnActivation,
+    #[at("/tooltip/within-scrollable")]
+    TooltipWithinScrollable,
+    #[at("/tooltip/disable-hoverable-content")]
+    TooltipDisableHoverableContent,
+    #[at("/tooltip/chromatic")]
+    TooltipChromatic,
+
     #[at("/visually-hidden/basic")]
     VisuallyHiddenBasic,
 }
@@ -207,6 +240,23 @@ fn switch(routes: Route) -> Html {
         Route::SwitchControlled => html! { <switch::Controlled /> },
         Route::SwitchWithinForm => html! { <switch::WithinForm /> },
         Route::SwitchChromatic => html! { <switch::Chromatic /> },
+
+        Route::TooltipStyled => html! { <tooltip::Styled /> },
+        Route::TooltipControlled => html! { <tooltip::Controlled /> },
+        Route::TooltipCustomDurations => html! { <tooltip::CustomDurations /> },
+        Route::TooltipCustomContent => html! { <tooltip::CustomContent /> },
+        Route::TooltipPositions => html! { <tooltip::Positions /> },
+        Route::TooltipAriaLabel => html! { <tooltip::AriaLabel /> },
+        Route::TooltipWithText => html! { <tooltip::WithText /> },
+        Route::TooltipWithExternalRef => html! { <tooltip::WithExternalRef /> },
+        Route::TooltipUnmount => html! { <tooltip::Unmount /> },
+        Route::TooltipAnimated => html! { <tooltip::Animated /> },
+        Route::TooltipSlottableContent => html! { <tooltip::SlottableContent /> },
+        Route::TooltipWithinDialog => html! { <tooltip::WithinDialog /> },
+        Route::TooltipKeepOpenOnActivation => html! { <tooltip::KeepOpenOnActivation /> },
+        Route::TooltipWithinScrollable => html! { <tooltip::WithinScrollable /> },
+        Route::TooltipDisableHoverableContent => html! { <tooltip::DisableHoverableContent /> },
+        Route::TooltipChromatic => html! { <tooltip::Chromatic /> },
 
         Route::VisuallyHiddenBasic => html! { <visually_hidden::Basic /> },
     }
@@ -331,6 +381,28 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::SwitchControlled}>{"Controlled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::SwitchWithinForm}>{"Within Form"}</Link<Route>></li>
                             <li><Link<Route> to={Route::SwitchChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Tooltip"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::TooltipStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipControlled}>{"Controlled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipCustomDurations}>{"Custom Durations"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipCustomContent}>{"Custom Content"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipPositions}>{"Positions"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipAriaLabel}>{"Aria Label"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipWithText}>{"With Text"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipWithExternalRef}>{"With External Ref"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipUnmount}>{"Unmount"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipAnimated}>{"Animated"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipSlottableContent}>{"Slottable Content"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipWithinDialog}>{"Within Dialog"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipKeepOpenOnActivation}>{"Keep Open On Activation"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipWithinScrollable}>{"Within Scrollable"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipDisableHoverableContent}>{"Disable Hoverable Content"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::TooltipChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

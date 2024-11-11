@@ -20,10 +20,19 @@ radix-yew-label = { path = "../../../packages/primitives/yew/label", optional = 
 radix-yew-select = { path = "../../../packages/primitives/yew/select", optional = true }
 radix-yew-separator = { path = "../../../packages/primitives/yew/separator", optional = true }
 radix-yew-switch = { path = "../../../packages/primitives/yew/switch", optional = true }
+radix-yew-tooltip = { path = "../../../packages/primitives/yew/tooltip", optional = true }
 yew = { workspace = true, features = ["csr"] }
 
 [features]
-default = ["aspect-ratio", "avatar", "label", "select", "separator", "switch"]
+default = [
+    "aspect-ratio",
+    "avatar",
+    "label",
+    "select",
+    "separator",
+    "switch",
+    "tooltip",
+]
 aspect-ratio = ["dep:radix-yew-aspect-ratio"]
 avatar = ["dep:radix-yew-avatar"]
 label = ["dep:radix-yew-label"]
@@ -36,3 +45,4 @@ select = [
 ]
 separator = ["dep:radix-yew-separator"]
 switch = ["dep:radix-yew-switch"]
+tooltip = ["dep:radix-yew-tooltip"]

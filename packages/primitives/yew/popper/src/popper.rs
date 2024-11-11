@@ -548,9 +548,9 @@ pub struct PopperArrowProps {
 
     // Global attributes
     #[prop_or_default]
-    pub id: Option<String>,
-    #[prop_or_default]
     pub class: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
     #[prop_or_default]
     pub style: Option<String>,
 
@@ -568,8 +568,8 @@ pub struct PopperArrowChildProps {
     pub attributes: Attributes,
 
     // Global attributes
-    pub id: Option<String>,
     pub class: Option<String>,
+    pub id: Option<String>,
     pub style: String,
 
     // Attributes from `svg`

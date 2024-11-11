@@ -7,4 +7,5 @@ pub mod popper;
 pub mod select;
 pub mod separator;
 pub mod switch;
+pub mod tooltip;
 pub mod visually_hidden;
