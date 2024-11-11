@@ -5,6 +5,7 @@ use radix_yew_avatar::{
     SetAvatarChildProps as SetAvatarPrimitiveChildProps,
 };
 use yew::{prelude::*, virtual_dom::VNode};
+use yew_struct_component::Attributes;
 
 use crate::{
     components::avatar_props::{AvatarSizeProp, AvatarVariantProp},
@@ -84,12 +85,15 @@ pub struct AvatarProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub as_child: Option<Callback<AvatarChildProps, Html>>,
 }
 
 #[derive(Clone, Default, PartialEq)]
 pub struct AvatarChildProps {
     pub node_ref: NodeRef,
+    pub attributes: Attributes,
 
     // Globla attributes
     pub class: Option<String>,
@@ -102,6 +106,7 @@ pub struct AvatarChildProps {
 impl SetAvatarPrimitiveChildProps for AvatarChildProps {
     fn set_avatar_child_props(&mut self, props: AvatarPrimitiveChildProps) {
         self.node_ref = props.node_ref;
+        self.attributes = props.attributes;
 
         self.class = props.class;
         self.id = props.id;
@@ -142,10 +147,10 @@ pub fn Avatar(props: &AvatarProps) -> Html {
 
     html! {
         <AvatarPrimitive<AvatarChildProps>
-            attributes={[
+            attributes={props.attributes.clone().with_defaults([
                 ("data-accent-color", Some(child_props.data_accent_color.clone())),
                 ("data-radius", child_props.data_radius.clone()),
-            ]}
+            ])}
 
             id={props.id.clone()}
             class={classes!("rt-reset", "rt-AvatarRoot", class).to_string()}

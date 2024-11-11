@@ -106,7 +106,6 @@ pub struct SelectProps {
     pub on_open_change: Callback<bool>,
 
     // Global attributes
-    // TODO: class, id, style?
     #[prop_or_default]
     pub dir: Option<Direction>,
 

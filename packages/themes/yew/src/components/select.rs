@@ -5,17 +5,19 @@ use radix_yew_select::{
     SelectItem as SelectItemPrimitive, SelectItemIndicator as SelectItemIndicatorPrimitive,
     SelectItemText as SelectItemTextPrimitive, SelectLabel as SelectLabelPrimitive,
     SelectPortal as SelectPortalPrimitive, SelectSeparator as SelectSeparatorPrimitive,
-    SelectTrigger as SelectTriggerPrimitive, SelectTriggerChildProps,
+    SelectTrigger as SelectTriggerPrimitive,
+    SelectTriggerChildProps as SelectTriggerPrimitiveChildProps,
     SelectValue as SelectValuePrimitive, SelectViewport as SelectViewportPrimitive,
     SelectViewportChildProps,
 };
 use yew::prelude::*;
+use yew_struct_component::{struct_component, Attributes, StructComponent};
 
 use crate::{
     components::{
         icons::{ChevronDownIcon, ThickCheckIcon},
         select_props::{SelectContentVariantProp, SelectSizeProp, SelectTriggerVariantProp},
-        theme::Theme,
+        theme::{use_theme_context, Theme, ThemeChildProps},
     },
     helpers::{extract_props::extract_props, merge_styles::Style},
     props::{
@@ -24,7 +26,6 @@ use crate::{
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
         radius_prop::RadiusProp,
     },
-    ThemeChildProps,
 };
 
 #[derive(Clone, PartialEq)]
@@ -52,7 +53,6 @@ pub struct SelectProps {
     pub on_open_change: Callback<bool>,
 
     // Global attributes
-    // TODO: class, id, style?
     #[prop_or_default]
     pub dir: Option<Direction>,
 
@@ -140,7 +140,39 @@ pub struct SelectTriggerProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub children: Html,
+}
+
+#[derive(Clone, PartialEq, StructComponent)]
+#[struct_component(tag = "button")]
+pub struct SelectTriggerChildProps {
+    pub node_ref: NodeRef,
+    pub attributes: Attributes,
+
+    // Global attributes
+    pub aria_controls: String,
+    pub aria_expanded: String,
+    pub aria_required: Option<String>,
+    pub aria_autocomplete: String,
+    pub data_disabled: Option<String>,
+    pub data_placeholder: Option<String>,
+    pub data_state: String,
+    pub dir: String,
+    pub class: String,
+    pub id: Option<String>,
+    pub role: String,
+    pub style: Option<String>,
+
+    // Attributes from `button`
+    pub disabled: bool,
+    pub r#type: String,
+
+    // Event handler attributes
+    pub onclick: Callback<MouseEvent>,
+    pub onkeydown: Callback<KeyboardEvent>,
+    pub onpointerdown: Callback<PointerEvent>,
 }
 
 #[function_component]
@@ -167,73 +199,87 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
 
     html! {
         <SelectTriggerPrimitive
-            node_ref={props.node_ref.clone()}
-            id={props.id.clone()}
             class={class.to_string()}
+            id={props.id.clone()}
             style={style.to_string()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
             as_child={Callback::from({
                 let color = props.color.0;
                 let radius = props.radius.0;
                 let placeholder = props.placeholder.clone();
                 let children = props.children.clone();
 
-                move |SelectTriggerChildProps {
+                move |SelectTriggerPrimitiveChildProps {
                     node_ref,
-                    id,
-                    class,
-                    style,
-                    r#type,
-                    role,
+                    attributes,
+
+                    aria_autocomplete,
                     aria_controls,
                     aria_expanded,
                     aria_required,
-                    aria_autocomplete,
-                    dir,
-                    data_state,
-                    disabled,
+                    class,
                     data_disabled,
                     data_placeholder,
+                    data_state,
+                    dir,
+                    id,
+                    role,
+                    style,
+
+                    disabled,
+                    r#type,
+
                     onclick,
                     onpointerdown,
                     onkeydown,
-                    ..
-                }| html! {
-                    <button
-                        ref={node_ref}
+                }| {
+                    let child_props = SelectTriggerChildProps {
+                        node_ref,
+                        attributes: attributes.with_defaults([
+                            ("data-accent-color", color.map(|color| color.to_string())),
+                            ("data-radius", radius.map(|radius| radius.to_string())),
+                        ]),
 
-                        aria-autocomplete={aria_autocomplete}
-                        aria-controls={aria_controls}
-                        aria-expanded={aria_expanded}
-                        aria-required={aria_required}
-                        class={classes!("rt-reset", "rt-SelectTrigger", class).to_string()}
-                        data-accent-color={color.map(|color| color.to_string())}
-                        data-disabled={data_disabled}
-                        data-placeholder={data_placeholder}
-                        data-radius={radius.map(|radius| radius.to_string())}
-                        data-state={data_state}
-                        dir={dir}
-                        id={id}
-                        role={role}
-                        style={style}
+                        // Global attributes
+                        aria_autocomplete,
+                        aria_controls,
+                        aria_expanded,
+                        aria_required,
+                        class: classes!("rt-reset", "rt-SelectTrigger", class).to_string(),
+                        data_disabled,
+                        data_placeholder,
+                        data_state,
+                        dir,
+                        id,
+                        role,
+                        style,
 
-                        disabled={disabled}
-                        type={r#type}
+                        // Attributes from `button`
+                        disabled,
+                        r#type,
 
-                        onclick={onclick}
-                        onpointerdown={onpointerdown}
-                        onkeydown={onkeydown}
-                    >
-                        <span class="rt-SelectTriggerInner">
-                            <SelectValuePrimitive placeholder={placeholder.clone()}>
-                                {children.clone()}
-                            </SelectValuePrimitive>
-                        </span>
-                        <SelectIconPrimitive
-                            as_child={Callback::from(|SelectIconChildProps {..}| html! {
-                                <ChevronDownIcon class="rt-SelectIcon" />
-                            })}
-                        />
-                    </button>
+                        // Event handler attributes
+                        onclick,
+                        onpointerdown,
+                        onkeydown,
+                    };
+
+                    child_props.render(html! {
+                        <>
+                            <span class="rt-SelectTriggerInner">
+                                <SelectValuePrimitive placeholder={placeholder.clone()}>
+                                    {children.clone()}
+                                </SelectValuePrimitive>
+                            </span>
+                            <SelectIconPrimitive
+                                as_child={Callback::from(|SelectIconChildProps {..}| html! {
+                                    <ChevronDownIcon class="rt-SelectIcon" />
+                                })}
+                            />
+                        </>
+                    })
                 }
             })}
         />
@@ -260,6 +306,8 @@ pub struct SelectContentProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub children: Html,
 }
 
@@ -278,51 +326,58 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
         props.style.clone().into(),
     );
 
+    let theme_context = use_theme_context();
+    let resolved_color = props.color.0.unwrap_or(theme_context.accent_color);
+
     html! {
         // TODO: portal container prop
         <SelectPortalPrimitive>
             <Theme
-                node_ref={props.node_ref.clone()}
-                id={props.id.clone()}
                 class={class.to_string()}
+                id={props.id.clone()}
                 style={style}
+
+                node_ref={props.node_ref.clone()}
+                attributes={props.attributes.clone()}
                 as_child={Callback::from({
                     let children = props.children.clone();
 
                     move |ThemeChildProps {
                         node_ref,
-                        id,
+                        attributes,
+
                         class,
+                        data_accent_color: _data_accent_color,
+                        data_gray_color,
+                        data_has_background,
+                        data_is_root_theme,
+                        data_panel_background,
+                        data_radius,
+                        data_scaling,
+                        id,
                         style,
-                        // data_is_root_theme,
-                        // data_accent_color,
-                        // data_gray_color,
-                        // data_has_background,
-                        // data_panel_background,
-                        // data_radius,
-                        // data_scaling
-                        ..
                     }| html! {
                         <SelectContentPrimitive
                             // TODO
-                            // data-accent-color={resolved_color}
                             // side_offset={4}
 
                             // TODO: pass props
 
-                            node_ref={node_ref}
-                            id={id}
-                            style={style.to_string()}
                             // TODO: popper class
                             class={classes!("rt-SelectContent", class).to_string()}
-                            // TODO: pass attributes
-                            // data-is-root-theme={data_is_root_theme}
-                            // data-accent-color={data_accent_color}
-                            // data-gray-color={data_gray_color}
-                            // data-has-background={data_has_background}
-                            // data-panel-background={data_panel_background}
-                            // data-radius={data_radius}
-                            // data-scaling={data_scaling}
+                            id={id}
+                            style={style.to_string()}
+
+                            node_ref={node_ref}
+                            attributes={attributes.with_defaults([
+                                ("data-accent-color", resolved_color.to_string()),
+                                ("data-gray-color", data_gray_color),
+                                ("data-has-background", data_has_background),
+                                ("data-is-root-theme", data_is_root_theme),
+                                ("data-panel-background", data_panel_background),
+                                ("data-radius", data_radius),
+                                ("data-scaling", data_scaling),
+                            ])}
                         >
                             // TODO: ScrollAreaPrimitive
                             <SelectViewportPrimitive
@@ -392,6 +447,8 @@ pub struct SelectItemProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub children: Html,
 }
 
@@ -417,6 +474,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
             on_pointer_up={props.on_pointer_up.clone()}
 
             node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
         >
             <SelectItemIndicatorPrimitive class="rt-SelectItemIndicator">
                 <ThickCheckIcon class="rt-SelectItemIndicatorIcon" />
@@ -439,6 +497,8 @@ pub struct SelectGroupProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub children: Html,
 }
 
@@ -451,6 +511,7 @@ pub fn SelectGroup(props: &SelectGroupProps) -> Html {
             style={props.style.to_string()}
 
             node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
         >
             {props.children.clone()}
         </SelectGroupPrimitive>
@@ -470,6 +531,8 @@ pub struct SelectLabelProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub children: Html,
 }
 
@@ -482,6 +545,7 @@ pub fn SelectLabel(props: &SelectLabelProps) -> Html {
             style={props.style.to_string()}
 
             node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
         >
             {props.children.clone()}
         </SelectLabelPrimitive>
@@ -501,6 +565,8 @@ pub struct SelectSeparatorProps {
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
     pub children: Html,
 }
 
@@ -513,6 +579,7 @@ pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
             style={props.style.to_string()}
 
             node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
         >
             {props.children.clone()}
         </SelectSeparatorPrimitive>

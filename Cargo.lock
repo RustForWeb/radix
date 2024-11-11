@@ -4793,9 +4793,9 @@ dependencies = [
 
 [[package]]
 name = "yew-struct-component"
-version = "0.0.9"
+version = "0.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20c1f7c968ce57689a1f6e8d13b95f4a8782c631f4345e2f8e876f9392455abe"
+checksum = "18f842f7971d873d6fe259a17db60b86acd5a09c825b6c539e01cd595609840e"
 dependencies = [
  "yew",
  "yew-struct-component-macro",
@@ -4803,9 +4803,9 @@ dependencies = [
 
 [[package]]
 name = "yew-struct-component-macro"
-version = "0.0.9"
+version = "0.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7d9c6fbaf9a2ac79fb63cfc9ebb8a67b21dbf74e1095ee09516dc620d7670200"
+checksum = "e13d0273c0d0f3efdc78b7ad4704353401dacdab99e3d545b92aa56f56677910"
 dependencies = [
  "proc-macro2",
  "quote",

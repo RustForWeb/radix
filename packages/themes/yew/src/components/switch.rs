@@ -1,5 +1,6 @@
 use radix_yew_switch::{Switch as SwitchPrimitive, SwitchThumb as SwitchThumbPrimitive};
 use yew::prelude::*;
+use yew_struct_component::Attributes;
 
 use crate::{
     components::switch_props::{SwitchSizeProp, SwitchVariantProp},
@@ -71,6 +72,8 @@ pub struct SwitchProps {
 
     #[prop_or_default]
     pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
 }
 
 #[function_component]
@@ -98,10 +101,10 @@ pub fn Switch(props: &SwitchProps) -> Html {
     html! {
         <SwitchPrimitive
             node_ref={props.node_ref.clone()}
-            attributes={[
+            attributes={props.attributes.clone().with_defaults([
                 ("data-accent-color", Some(props.color.0.map(|color| color.to_string()).unwrap_or_default())),
                 ("data-radius", props.radius.0.map(|radius| radius.to_string()))
-            ]}
+            ])}
 
             class={classes!("rt-reset", "rt-SwitchRoot", class).to_string()}
             id={props.id.clone()}

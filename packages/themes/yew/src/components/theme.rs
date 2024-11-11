@@ -12,20 +12,20 @@ use crate::{
 };
 
 #[derive(Clone, PartialEq)]
-struct ThemeContextValue {
-    appearance: Appearance,
-    accent_color: AccentColor,
-    gray_color: GrayColor,
-    resolved_gray_color: GrayColor,
-    panel_background: PanelBackground,
-    radius: Radius,
-    scaling: Scaling,
-    on_appearance_change: Callback<Appearance>,
-    on_accent_color_change: Callback<AccentColor>,
-    on_gray_color_change: Callback<GrayColor>,
-    on_panel_background_change: Callback<PanelBackground>,
-    on_radius_change: Callback<Radius>,
-    on_scaling_change: Callback<Scaling>,
+pub struct ThemeContextValue {
+    pub appearance: Appearance,
+    pub accent_color: AccentColor,
+    pub gray_color: GrayColor,
+    pub resolved_gray_color: GrayColor,
+    pub panel_background: PanelBackground,
+    pub radius: Radius,
+    pub scaling: Scaling,
+    pub on_appearance_change: Callback<Appearance>,
+    pub on_accent_color_change: Callback<AccentColor>,
+    pub on_gray_color_change: Callback<GrayColor>,
+    pub on_panel_background_change: Callback<PanelBackground>,
+    pub on_radius_change: Callback<Radius>,
+    pub on_scaling_change: Callback<Scaling>,
 }
 
 #[hook]
