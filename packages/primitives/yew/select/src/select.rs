@@ -497,6 +497,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                                 // We force `focus` in this case. Note: this doesn't create any other side-effect
                                 // because we are preventing default in `onpointerdown` so effectively
                                 // this only runs for a label "click".
+                                // TODO: current_target doesn't work in Yew
                                 event
                                     .current_target()
                                     .expect("Event should have current target.")

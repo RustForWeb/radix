@@ -1,5 +1,6 @@
 use std::{
     cell::RefCell,
+    cmp::Ordering,
     fmt::{self, Display},
     rc::Rc,
 };
@@ -915,14 +916,215 @@ struct TooltipContentHoverableProps {
 
 #[function_component]
 fn TooltipContentHoverable(props: &TooltipContentHoverableProps) -> Html {
-    let _context = use_context::<TooltipContextValue>().expect("Tooltip context required.");
-    let _provider_context =
+    let context = use_context::<TooltipContextValue>().expect("Tooltip context required.");
+    let provider_context =
         use_context::<TooltipProviderContextValue>().expect("Tooltip provider context required.");
     let content_ref = use_node_ref();
     let composed_ref = use_composed_ref(&[props.node_ref.clone(), content_ref.clone()]);
-    let _pointer_grace_area = use_state_eq(|| None::<Polygon>);
+    let pointer_grace_area = use_state_eq(|| None::<Polygon>);
 
-    // TODO: effects
+    let handle_remove_grace_area =
+        use_callback(provider_context.on_pointer_in_transit_change.clone(), {
+            let pointer_grace_area = pointer_grace_area.clone();
+
+            move |_, on_pointer_in_transit_change| {
+                pointer_grace_area.set(None);
+                on_pointer_in_transit_change.emit(false);
+            }
+        });
+
+    let handle_create_grace_area = use_callback(provider_context.on_pointer_in_transit_change, {
+        let pointer_grace_area = pointer_grace_area.clone();
+        move |(event, hover_target, current_target): (
+            PointerEvent,
+            web_sys::HtmlElement,
+            web_sys::HtmlElement,
+        ),
+              on_pointer_in_transit_change| {
+            // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
+            //
+            // let current_target = event
+            //     .current_target()
+            //     .expect("Current target should exist.")
+            //     .unchecked_into::<web_sys::Element>();
+
+            let exit_point = Point {
+                x: event.client_x() as f64,
+                y: event.client_y() as f64,
+            };
+            let exit_side =
+                get_exit_side_from_rect(&exit_point, current_target.get_bounding_client_rect());
+            let padded_exit_points = get_padded_exit_points(&exit_point, exit_side, None);
+            let hover_target_points = get_points_from_rect(hover_target.get_bounding_client_rect());
+            let grace_area = get_hull(
+                padded_exit_points
+                    .into_iter()
+                    .chain(hover_target_points)
+                    .collect(),
+            );
+            pointer_grace_area.set(Some(grace_area));
+            on_pointer_in_transit_change.emit(true);
+        }
+    });
+
+    let trigger = use_state_eq(|| None);
+    let content = use_state_eq(|| None);
+    use_effect({
+        let trigger_ref = context.trigger_ref.clone();
+        let content_ref = content_ref.clone();
+        let trigger = trigger.clone();
+        let content = content.clone();
+
+        move || {
+            trigger.set(trigger_ref.cast::<web_sys::HtmlElement>());
+            content.set(content_ref.cast::<web_sys::HtmlElement>());
+        }
+    });
+
+    use_effect_with((), {
+        let handle_remove_grace_area = handle_remove_grace_area.clone();
+
+        move |_| {
+            move || {
+                handle_remove_grace_area.emit(());
+            }
+        }
+    });
+
+    use_effect_with(
+        (trigger.clone(), content.clone(), handle_create_grace_area),
+        move |(trigger, content, handle_create_grace_area)| {
+            let mut cleanup: Option<Box<dyn Fn()>> = None;
+
+            if let (Some(trigger), Some(content)) = ((**trigger).clone(), (**content).clone()) {
+                let handle_trigger_leave: Closure<dyn Fn(PointerEvent)> = Closure::new({
+                    let trigger = trigger.clone();
+                    let content = content.clone();
+                    let handle_create_grace_area = handle_create_grace_area.clone();
+
+                    move |event| {
+                        handle_create_grace_area.emit((event, content.clone(), trigger.clone()))
+                    }
+                });
+                let handle_content_leave: Closure<dyn Fn(PointerEvent)> = Closure::new({
+                    let trigger = trigger.clone();
+                    let content = content.clone();
+                    let handle_create_grace_area = handle_create_grace_area.clone();
+
+                    move |event| {
+                        handle_create_grace_area.emit((event, trigger.clone(), content.clone()))
+                    }
+                });
+
+                trigger
+                    .add_event_listener_with_callback(
+                        "pointerleave",
+                        handle_trigger_leave.as_ref().unchecked_ref(),
+                    )
+                    .expect("Pointer leave event listener should be added.");
+                content
+                    .add_event_listener_with_callback(
+                        "pointerleave",
+                        handle_content_leave.as_ref().unchecked_ref(),
+                    )
+                    .expect("Pointer leave event listener should be added.");
+
+                cleanup = Some(Box::new(move || {
+                    trigger
+                        .remove_event_listener_with_callback(
+                            "pointerleave",
+                            handle_trigger_leave.as_ref().unchecked_ref(),
+                        )
+                        .expect("Pointer leave event listener should be removed.");
+                    content
+                        .remove_event_listener_with_callback(
+                            "pointerleave",
+                            handle_content_leave.as_ref().unchecked_ref(),
+                        )
+                        .expect("Pointer leave event listener should be removed.");
+                }));
+            }
+
+            move || {
+                if let Some(cleanup) = cleanup {
+                    cleanup();
+                }
+            }
+        },
+    );
+
+    use_effect_with(
+        (
+            trigger.clone(),
+            content.clone(),
+            pointer_grace_area,
+            handle_remove_grace_area.clone(),
+            context.on_close,
+        ),
+        |(trigger, content, pointer_grace_area, handle_remove_grace_area, on_close)| {
+            let mut cleanup: Option<Box<dyn Fn()>> = None;
+
+            if let Some(pointer_grace_area) = pointer_grace_area.as_ref() {
+                let document = window()
+                    .expect("Window should exist.")
+                    .document()
+                    .expect("Document should exist.");
+
+                let handle_track_pointer_grace: Closure<dyn Fn(PointerEvent)> = Closure::new({
+                    let trigger = (*trigger).clone();
+                    let content = (*content).clone();
+                    let pointer_grace_area = pointer_grace_area.clone();
+                    let handle_remove_grace_area = handle_remove_grace_area.clone();
+                    let on_close = on_close.clone();
+
+                    move |event: PointerEvent| {
+                        let target = event.target_unchecked_into::<web_sys::HtmlElement>();
+                        let pointer_position = Point {
+                            x: event.client_x() as f64,
+                            y: event.client_y() as f64,
+                        };
+                        let has_entered_target = trigger
+                            .as_ref()
+                            .is_some_and(|trigger| trigger.contains(Some(&target)))
+                            || content
+                                .as_ref()
+                                .is_some_and(|content| content.contains(Some(&target)));
+                        let is_pointer_outside_grace_area =
+                            !is_point_in_polygon(pointer_position, &pointer_grace_area);
+
+                        if has_entered_target {
+                            handle_remove_grace_area.emit(());
+                        } else if is_pointer_outside_grace_area {
+                            handle_remove_grace_area.emit(());
+                            on_close.emit(());
+                        }
+                    }
+                });
+
+                document
+                    .add_event_listener_with_callback(
+                        "pointermove",
+                        handle_track_pointer_grace.as_ref().unchecked_ref(),
+                    )
+                    .expect("Pointer move event listener should be added.");
+
+                cleanup = Some(Box::new(move || {
+                    document
+                        .remove_event_listener_with_callback(
+                            "pointermove",
+                            handle_track_pointer_grace.as_ref().unchecked_ref(),
+                        )
+                        .expect("Pointer move event listener should be removed.");
+                }));
+            }
+
+            move || {
+                if let Some(cleanup) = cleanup {
+                    cleanup();
+                }
+            }
+        },
+    );
 
     html! {
         <TooltipContentImpl
@@ -1195,5 +1397,200 @@ pub fn TooltipArrow(props: &TooltipArrowProps) -> Html {
                 as_child={props.as_child.clone()}
             />
         }
+    }
+}
+
+fn get_exit_side_from_rect(point: &Point, rect: web_sys::DomRect) -> Side {
+    let top = (rect.top() - point.y).abs();
+    let bottom = (rect.bottom() - point.y).abs();
+    let right = (rect.right() - point.x).abs();
+    let left = (rect.left() - point.x).abs();
+
+    let min = top.min(bottom).min(right).min(left);
+
+    if min == left {
+        Side::Left
+    } else if min == right {
+        Side::Right
+    } else if min == top {
+        Side::Top
+    } else if min == bottom {
+        Side::Bottom
+    } else {
+        unreachable!()
+    }
+}
+
+fn get_padded_exit_points(exit_point: &Point, exit_side: Side, padding: Option<f64>) -> Vec<Point> {
+    let padding = padding.unwrap_or(5.0);
+
+    match exit_side {
+        Side::Top => {
+            vec![
+                Point {
+                    x: exit_point.x - padding,
+                    y: exit_point.y + padding,
+                },
+                Point {
+                    x: exit_point.x + padding,
+                    y: exit_point.y + padding,
+                },
+            ]
+        }
+        Side::Right => {
+            vec![
+                Point {
+                    x: exit_point.x - padding,
+                    y: exit_point.y - padding,
+                },
+                Point {
+                    x: exit_point.x - padding,
+                    y: exit_point.y + padding,
+                },
+            ]
+        }
+        Side::Bottom => {
+            vec![
+                Point {
+                    x: exit_point.x - padding,
+                    y: exit_point.y - padding,
+                },
+                Point {
+                    x: exit_point.x + padding,
+                    y: exit_point.y - padding,
+                },
+            ]
+        }
+        Side::Left => {
+            vec![
+                Point {
+                    x: exit_point.x + padding,
+                    y: exit_point.y - padding,
+                },
+                Point {
+                    x: exit_point.x + padding,
+                    y: exit_point.y + padding,
+                },
+            ]
+        }
+    }
+}
+
+fn get_points_from_rect(rect: web_sys::DomRect) -> Vec<Point> {
+    vec![
+        Point {
+            x: rect.left(),
+            y: rect.top(),
+        },
+        Point {
+            x: rect.right(),
+            y: rect.top(),
+        },
+        Point {
+            x: rect.right(),
+            y: rect.bottom(),
+        },
+        Point {
+            x: rect.left(),
+            y: rect.bottom(),
+        },
+    ]
+}
+
+/// Determine if a point is inside of a polygon.
+/// Based on https://github.com/substack/point-in-polygon
+fn is_point_in_polygon(point: Point, polygon: &Polygon) -> bool {
+    let x = point.x;
+    let y = point.y;
+
+    let mut inside = false;
+    let mut i = 0;
+    let mut j = polygon.len() - 1;
+    while i < polygon.len() {
+        let xi = polygon[i].x;
+        let yi = polygon[i].y;
+        let xj = polygon[j].x;
+        let yj = polygon[j].y;
+
+        let intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if intersect {
+            inside = !inside;
+        }
+
+        j = i;
+        i += 1;
+    }
+
+    inside
+}
+
+/// Returns a new vector of points representing the convex hull of the given set of points.
+/// https://www.nayuki.io/page/convex-hull-algorithm
+fn get_hull(points: Vec<Point>) -> Vec<Point> {
+    let mut new_points = points.clone();
+
+    new_points.sort_by(|a, b| {
+        if a.x < b.x {
+            Ordering::Less
+        } else if a.x > b.x {
+            Ordering::Greater
+        } else if a.y < b.y {
+            Ordering::Less
+        } else if a.y > b.y {
+            Ordering::Greater
+        } else {
+            Ordering::Equal
+        }
+    });
+
+    get_hull_presorted(new_points)
+}
+
+/// Returns the convex hull, assuming that each points[i] <= points[i + 1]. Runs in O(n) time.
+fn get_hull_presorted(points: Vec<Point>) -> Vec<Point> {
+    if points.len() <= 1 {
+        return points;
+    }
+
+    let mut upper_hull: Vec<Point> = vec![];
+    for p in points.iter() {
+        while upper_hull.len() >= 2 {
+            let q = &upper_hull[upper_hull.len() - 1];
+            let r = &upper_hull[upper_hull.len() - 2];
+
+            if (q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x) {
+                upper_hull.pop();
+            } else {
+                break;
+            }
+        }
+        upper_hull.push(p.clone());
+    }
+    upper_hull.pop();
+
+    let mut lower_hull: Vec<Point> = vec![];
+    for p in points.iter().rev() {
+        while lower_hull.len() >= 2 {
+            let q = &lower_hull[lower_hull.len() - 1];
+            let r = &lower_hull[lower_hull.len() - 2];
+
+            if (q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x) {
+                lower_hull.pop();
+            } else {
+                break;
+            }
+        }
+        lower_hull.push(p.clone());
+    }
+    lower_hull.pop();
+
+    if upper_hull.len() == 1
+        && lower_hull.len() == 1
+        && upper_hull[0].x == lower_hull[0].x
+        && upper_hull[0].y == lower_hull[0].y
+    {
+        upper_hull
+    } else {
+        upper_hull.into_iter().chain(lower_hull).collect()
     }
 }
