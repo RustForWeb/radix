@@ -4,6 +4,7 @@ pub mod collection;
 pub mod focus_scope;
 pub mod label;
 pub mod popper;
+pub mod presence;
 pub mod select;
 pub mod separator;
 pub mod switch;

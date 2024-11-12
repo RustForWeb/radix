@@ -2,8 +2,8 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::primitives::{
-    arrow, avatar, collection, focus_scope, label, popper, select, separator, switch, tooltip,
-    visually_hidden,
+    arrow, avatar, collection, focus_scope, label, popper, presence, select, separator, switch,
+    tooltip, visually_hidden,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
@@ -64,6 +64,21 @@ enum Route {
     PopperWithUpdatePositionStrategyAlways,
     #[at("/popper/chromatic")]
     PopperChromatic,
+
+    #[at("/presence/basic")]
+    PresenceBasic,
+    #[at("/presence/with-mount-animation")]
+    PresenceWithMountAnimation,
+    #[at("/presence/with-unmount-animation")]
+    PresenceWithUnmountAnimation,
+    #[at("/presence/with-multiple-mount-animations")]
+    PresenceWithMultipleMountAnimations,
+    #[at("/presence/with-open-and-close-animation")]
+    PresenceWithOpenAndCloseAnimation,
+    #[at("/presence/with-multiple-open-and-close-animations")]
+    PresenceWithMultipleOpenAndCloseAnimations,
+    #[at("/presence/with-deferred-mount-animation")]
+    PresenceWithDeferredMountAnimation,
 
     #[at("/select/styled")]
     SelectStyled,
@@ -194,6 +209,22 @@ fn switch(routes: Route) -> Html {
             html! { <popper::WithUpdatePositionStrategyAlways /> }
         }
         Route::PopperChromatic => html! { <popper::Chromatic /> },
+
+        Route::PresenceBasic => html! { <presence::Basic /> },
+        Route::PresenceWithMountAnimation => html! { <presence::WithMountAnimation /> },
+        Route::PresenceWithUnmountAnimation => html! { <presence::WithUnmountAnimation /> },
+        Route::PresenceWithMultipleMountAnimations => {
+            html! { <presence::WithMultipleMountAnimations /> }
+        }
+        Route::PresenceWithOpenAndCloseAnimation => {
+            html! { <presence::WithOpenAndCloseAnimation /> }
+        }
+        Route::PresenceWithMultipleOpenAndCloseAnimations => {
+            html! { <presence::WithMultipleOpenAndCloseAnimations /> }
+        }
+        Route::PresenceWithDeferredMountAnimation => {
+            html! { <presence::WithDeferredMountAnimation /> }
+        }
 
         Route::SelectStyled => html! { <select::Styled /> },
         Route::SelectControlled => html! { <select::Controlled /> },
@@ -336,6 +367,19 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::PopperWithPortal}>{"With Portal"}</Link<Route>></li>
                             <li><Link<Route> to={Route::PopperWithUpdatePositionStrategyAlways}>{"With Update Position Strategy Always"}</Link<Route>></li>
                             <li><Link<Route> to={Route::PopperChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Presence"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::PresenceBasic}>{"Basic"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PresenceWithMountAnimation}>{"With Mount Animation"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PresenceWithUnmountAnimation}>{"With Unmount Animation"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PresenceWithMultipleMountAnimations}>{"With Multiple Mount Animations"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PresenceWithOpenAndCloseAnimation}>{"With Open and Close Animation"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PresenceWithMultipleOpenAndCloseAnimations}>{"With Multiple Open and Close Animations"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PresenceWithDeferredMountAnimation}>{"With Deferred Mount Animation"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

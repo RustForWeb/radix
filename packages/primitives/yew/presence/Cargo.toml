@@ -1,0 +1,13 @@
+[package]
+name = "radix-yew-presence"
+description = "Yew port of Radix Presence."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+web-sys = { workspace = true, features = ["CssStyleDeclaration"] }
+yew.workspace = true

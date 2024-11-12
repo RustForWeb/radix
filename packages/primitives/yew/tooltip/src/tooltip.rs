@@ -10,6 +10,7 @@ use radix_yew_popper::{
     PopperArrowChildProps, PopperContent, PopperContentChildProps, Side, Sticky,
     UpdatePositionStrategy,
 };
+use radix_yew_presence::{Presence, PresenceChildProps};
 use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use radix_yew_visually_hidden::VisuallyHidden;
@@ -667,7 +668,7 @@ struct TooltipPortalContextValue {
 
 #[derive(PartialEq, Properties)]
 pub struct TooltipPortalProps {
-    ///  Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
+    /// Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
     #[prop_or_default]
     pub force_mount: Option<bool>,
 
@@ -677,21 +678,34 @@ pub struct TooltipPortalProps {
 
 #[function_component]
 pub fn TooltipPortal(props: &TooltipPortalProps) -> Html {
+    let context = use_context::<TooltipContextValue>().expect("Tooltip context required.");
+
     let context_value = use_memo(props.force_mount, |force_mount| TooltipPortalContextValue {
         force_mount: *force_mount,
     });
 
     html! {
         <ContextProvider<TooltipPortalContextValue> context={(*context_value).clone()}>
-            // TODO: Presence, Portal
-            {props.children.clone()}
+            <Presence
+                present={props.force_mount.unwrap_or_default() || context.open}
+
+                as_child={Callback::from({
+                    let children = props.children.clone();
+
+                    move |PresenceChildProps { node_ref: _node_ref }| html! {
+                        // TODO: Portal
+                        // TODO: node_ref
+                        {children.clone()}
+                    }
+                })}
+            />
         </ContextProvider<TooltipPortalContextValue>>
     }
 }
 
 #[derive(PartialEq, Properties)]
 pub struct TooltipContentProps {
-    ///  Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
+    /// Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
     #[prop_or_default]
     pub force_mount: Option<bool>,
 
@@ -750,59 +764,93 @@ pub fn TooltipContent(props: &TooltipContentProps) -> Html {
         use_context::<TooltipPortalContextValue>().expect("Tooltip portal context required.");
     let context = use_context::<TooltipContextValue>().expect("Tooltip context required.");
 
-    let _force_mount = props.force_mount.or(portal_context.force_mount);
+    let force_mount = props.force_mount.or(portal_context.force_mount);
 
     html! {
-        // TODO: Presence
-        if context.disable_hoverable_content {
-            <TooltipContentImpl
-                side={props.side}
-                side_offset={props.side_offset}
-                align={props.align}
-                align_offset={props.align_offset}
-                arrow_padding={props.arrow_padding}
-                avoid_collisions={props.avoid_collisions}
-                collision_boundary={props.collision_boundary.clone()}
-                collision_padding={props.collision_padding.clone()}
-                sticky={props.sticky}
-                hide_when_detached={props.hide_when_detached}
-                update_position_strategy={props.update_position_strategy}
+        <Presence
+            present={force_mount.unwrap_or_default() || context.open}
 
-                dir={props.dir.clone()}
-                class={props.class.clone()}
-                id={props.id.clone()}
-                role={props.role.clone()}
-                style={props.style.clone()}
+            node_ref={props.node_ref.clone()}
+            as_child={Callback::from({
+                let side = props.side;
+                let side_offset = props.side_offset;
+                let align = props.align;
+                let align_offset = props.align_offset;
+                let arrow_padding = props.arrow_padding;
+                let avoid_collisions = props.avoid_collisions;
+                let collision_boundary = props.collision_boundary.clone();
+                let collision_padding = props.collision_padding.clone();
+                let sticky = props.sticky;
+                let hide_when_detached = props.hide_when_detached;
+                let update_position_strategy = props.update_position_strategy;
 
-                node_ref={props.node_ref.clone()}
-                attributes={props.attributes.clone()}
-                as_child={props.as_child.clone()}
-            />
-        } else {
-            <TooltipContentHoverable
-                side={props.side}
-                side_offset={props.side_offset}
-                align={props.align}
-                align_offset={props.align_offset}
-                arrow_padding={props.arrow_padding}
-                avoid_collisions={props.avoid_collisions}
-                collision_boundary={props.collision_boundary.clone()}
-                collision_padding={props.collision_padding.clone()}
-                sticky={props.sticky}
-                hide_when_detached={props.hide_when_detached}
-                update_position_strategy={props.update_position_strategy}
+                let dir = props.dir.clone();
+                let class = props.class.clone();
+                let id = props.id.clone();
+                let role = props.role.clone();
+                let style = props.style.clone();
 
-                dir={props.dir.clone()}
-                class={props.class.clone()}
-                id={props.id.clone()}
-                role={props.role.clone()}
-                style={props.style.clone()}
+                let attributes = props.attributes.clone();
+                let as_child = props.as_child.clone();
+                let children = props.children.clone();
 
-                node_ref={props.node_ref.clone()}
-                attributes={props.attributes.clone()}
-                as_child={props.as_child.clone()}
-            />
-        }
+                move |PresenceChildProps { node_ref }| html! {
+                    if context.disable_hoverable_content {
+                        <TooltipContentImpl
+                            side={side}
+                            side_offset={side_offset}
+                            align={align}
+                            align_offset={align_offset}
+                            arrow_padding={arrow_padding}
+                            avoid_collisions={avoid_collisions}
+                            collision_boundary={collision_boundary.clone()}
+                            collision_padding={collision_padding.clone()}
+                            sticky={sticky}
+                            hide_when_detached={hide_when_detached}
+                            update_position_strategy={update_position_strategy}
+
+                            dir={dir.clone()}
+                            class={class.clone()}
+                            id={id.clone()}
+                            role={role.clone()}
+                            style={style.clone()}
+
+                            node_ref={node_ref.clone()}
+                            attributes={attributes.clone()}
+                            as_child={as_child.clone()}
+                        >
+                            {children.clone()}
+                        </TooltipContentImpl>
+                    } else {
+                        <TooltipContentHoverable
+                            side={side}
+                            side_offset={side_offset}
+                            align={align}
+                            align_offset={align_offset}
+                            arrow_padding={arrow_padding}
+                            avoid_collisions={avoid_collisions}
+                            collision_boundary={collision_boundary.clone()}
+                            collision_padding={collision_padding.clone()}
+                            sticky={sticky}
+                            hide_when_detached={hide_when_detached}
+                            update_position_strategy={update_position_strategy}
+
+                            dir={dir.clone()}
+                            class={class.clone()}
+                            id={id.clone()}
+                            role={role.clone()}
+                            style={style.clone()}
+
+                            node_ref={node_ref.clone()}
+                            attributes={attributes.clone()}
+                            as_child={as_child.clone()}
+                        >
+                            {children.clone()}
+                        </TooltipContentHoverable>
+                    }
+                }
+            })}
+        />
     }
 }
 
@@ -899,11 +947,13 @@ fn TooltipContentHoverable(props: &TooltipContentHoverableProps) -> Html {
             node_ref={composed_ref}
             attributes={props.attributes.clone()}
             as_child={props.as_child.clone()}
-        />
+        >
+            {props.children.clone()}
+        </TooltipContentImpl>
     }
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Default, PartialEq)]
 struct VisuallyHiddenContentContextValue {
     is_inside: bool,
 }
@@ -1089,6 +1139,7 @@ fn TooltipContentImpl(props: &TooltipContentImplProps) -> Html {
             ])}
             as_child={props.as_child.clone()}
         >
+            {props.children.clone()}
             <ContextProvider<VisuallyHiddenContentContextValue> context={(*context_value).clone()}>
                 <VisuallyHidden id={context.content_id} attributes={[("role", "tooltip")]}>
                     {aria_label.map(Html::from).unwrap_or_else(|| props.children.clone())}
@@ -1124,11 +1175,13 @@ pub struct TooltipArrowProps {
 
 #[function_component]
 pub fn TooltipArrow(props: &TooltipArrowProps) -> Html {
-    let visually_hidden_content_context = use_context::<VisuallyHiddenContentContextValue>()
-        .expect("Visually hidden content context required.");
+    let visually_hidden_content_context =
+        use_context::<VisuallyHiddenContentContextValue>().unwrap_or_default();
 
+    // If the arrow is inside the `VisuallyHidden`, we don't want to render it all to
+    // prevent issues in positioning the arrow due to the duplicate.
     html! {
-        if visually_hidden_content_context.is_inside {
+        if !visually_hidden_content_context.is_inside {
             <PopperArrow
                 width={props.width}
                 height={props.height}

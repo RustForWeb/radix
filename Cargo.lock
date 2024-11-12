@@ -3249,6 +3249,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-presence"
+version = "0.0.2"
+dependencies = [
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "radix-yew-primitive"
 version = "0.0.2"
 dependencies = [
@@ -3296,6 +3304,7 @@ dependencies = [
  "radix-yew-focus-scope",
  "radix-yew-label",
  "radix-yew-popper",
+ "radix-yew-presence",
  "radix-yew-primitive",
  "radix-yew-select",
  "radix-yew-separator",
@@ -3345,6 +3354,7 @@ dependencies = [
  "log",
  "radix-yew-id",
  "radix-yew-popper",
+ "radix-yew-presence",
  "radix-yew-primitive",
  "radix-yew-use-controllable-state",
  "radix-yew-visually-hidden",

@@ -19,6 +19,7 @@ radix-yew-collection = { path = "../../packages/primitives/yew/collection" }
 radix-yew-focus-scope = { path = "../../packages/primitives/yew/focus-scope" }
 radix-yew-label = { path = "../../packages/primitives/yew/label" }
 radix-yew-popper = { path = "../../packages/primitives/yew/popper" }
+radix-yew-presence = { path = "../../packages/primitives/yew/presence" }
 radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
 radix-yew-select = { path = "../../packages/primitives/yew/select" }
 radix-yew-separator = { path = "../../packages/primitives/yew/separator" }
