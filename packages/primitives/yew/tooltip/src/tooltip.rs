@@ -346,10 +346,12 @@ pub fn Tooltip(props: &TooltipProps) -> Html {
         move |_| {
             move || {
                 let open_timer = *open_timer_ref.borrow();
-                window()
-                    .expect("Window should exist.")
-                    .clear_timeout_with_handle(open_timer);
-                *open_timer_ref.borrow_mut() = 0;
+                if open_timer != 0 {
+                    window()
+                        .expect("Window should exist.")
+                        .clear_timeout_with_handle(open_timer);
+                    *open_timer_ref.borrow_mut() = 0;
+                }
 
                 // Move closure to prevent it from being dropped too early.
                 drop(closure);
