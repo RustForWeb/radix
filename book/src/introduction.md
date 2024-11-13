@@ -108,68 +108,68 @@ The tables below show the support for the various frameworks.
 
 ### Themes Support
 
-| Name              | Dioxus | Leptos | Yew     |
-| ----------------- | ------ | ------ | ------- |
-| Accessible Icon   | ❌     | ❌     | ❌      |
-| Alert Dialog      | ❌     | ❌     | ❌      |
-| Aspect Ratio      | ❌     | ❌     | 🟦      |
-| Avatar            | ❌     | ❌     | 🟦      |
-| Badge             | ❌     | ❌     | ❌      |
-| Base Button       | ❌     | ❌     | 🟦      |
-| Blockquote        | ❌     | ❌     | 🟦      |
-| Box               | ❌     | ❌     | 🟦      |
-| Button            | ❌     | ❌     | 🟦      |
-| Callout           | ❌     | ❌     | ❌      |
-| Card              | ❌     | ❌     | ❌      |
-| Checkbox Cards    | ❌     | ❌     | ❌      |
-| Checkbox Group    | ❌     | ❌     | ❌      |
-| Checkbox          | ❌     | ❌     | ❌      |
-| Code              | ❌     | ❌     | 🟦      |
-| Container         | ❌     | ❌     | 🟦      |
-| Context Menu      | ❌     | ❌     | ❌      |
-| Data List         | ❌     | ❌     | ❌      |
-| Dialog            | ❌     | ❌     | ❌      |
-| Dropdown Menu     | ❌     | ❌     | ❌      |
-| Em                | ❌     | ❌     | 🟦      |
-| Flex              | ❌     | ❌     | 🟦      |
-| Grid              | ❌     | ❌     | 🟦      |
-| Heading           | ❌     | ❌     | 🟦      |
-| Hover Card        | ❌     | ❌     | ❌      |
-| Icon Button       | ❌     | ❌     | 🟦      |
-| Icons             | ❌     | ❌     | 🟦      |
-| Inset             | ❌     | ❌     | ❌      |
-| Kbd               | ❌     | ❌     | 🟦      |
-| Link              | ❌     | ❌     | 🟦      |
-| Popover           | ❌     | ❌     | ❌      |
-| Portal            | ❌     | ❌     | ❌      |
-| Progress          | ❌     | ❌     | ❌      |
-| Quote             | ❌     | ❌     | 🟦      |
-| Radio Cards       | ❌     | ❌     | ❌      |
-| Radio Group       | ❌     | ❌     | ❌      |
-| Radio             | ❌     | ❌     | ❌      |
-| Reset             | ❌     | ❌     | ❌      |
-| Scroll Area       | ❌     | ❌     | ❌      |
-| Section           | ❌     | ❌     | 🟦      |
-| Segmented Control | ❌     | ❌     | ❌      |
-| Select            | ❌     | ❌     | 🚧      |
-| Separator         | ❌     | ❌     | 🟦      |
-| Skeleton          | ❌     | ❌     | ❌      |
-| Slider            | ❌     | ❌     | ❌      |
-| Slot              | ❌     | ❌     | ❌      |
-| Spinner           | ❌     | ❌     | 🟦      |
-| Strong            | ❌     | ❌     | 🟦      |
-| Switch            | ❌     | ❌     | 🟦      |
-| Table             | ❌     | ❌     | ❌      |
-| Tab Nav           | ❌     | ❌     | ❌      |
-| Tabs              | ❌     | ❌     | ❌      |
-| Text Area         | ❌     | ❌     | 🟦      |
-| Text Field        | ❌     | ❌     | 🟦      |
-| Text              | ❌     | ❌     | 🟦      |
-| Theme Panel       | ❌     | ❌     | ❌      |
-| Theme             | ❌     | ❌     | 🟦      |
-| Tooltip           | ❌     | ❌     | ❌      |
-| Visually Hidden   | ❌     | ❌     | 🟦      |
-| **Total**         | 0 / 59 | 0 / 59 | 28 / 59 |
+| Name              | Dioxus                                                    | Leptos                                                    | Yew                                                       |
+| ----------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| Accessible Icon   | ❌ [#172](https://github.com/RustForWeb/radix/issues/172) | ❌ [#231](https://github.com/RustForWeb/radix/issues/231) | ❌ [#290](https://github.com/RustForWeb/radix/issues/290) |
+| Alert Dialog      | ❌ [#173](https://github.com/RustForWeb/radix/issues/173) | ❌ [#232](https://github.com/RustForWeb/radix/issues/232) | ❌ [#291](https://github.com/RustForWeb/radix/issues/291) |
+| Aspect Ratio      | ❌ [#174](https://github.com/RustForWeb/radix/issues/174) | ❌ [#233](https://github.com/RustForWeb/radix/issues/233) | 🟦 [#292](https://github.com/RustForWeb/radix/issues/292) |
+| Avatar            | ❌ [#175](https://github.com/RustForWeb/radix/issues/175) | ❌ [#234](https://github.com/RustForWeb/radix/issues/234) | 🟦 [#293](https://github.com/RustForWeb/radix/issues/293) |
+| Badge             | ❌ [#176](https://github.com/RustForWeb/radix/issues/176) | ❌ [#235](https://github.com/RustForWeb/radix/issues/235) | ❌ [#294](https://github.com/RustForWeb/radix/issues/294) |
+| Base Button       | ❌ [#177](https://github.com/RustForWeb/radix/issues/177) | ❌ [#236](https://github.com/RustForWeb/radix/issues/236) | 🟦 [#295](https://github.com/RustForWeb/radix/issues/295) |
+| Blockquote        | ❌ [#178](https://github.com/RustForWeb/radix/issues/178) | ❌ [#237](https://github.com/RustForWeb/radix/issues/237) | 🟦 [#296](https://github.com/RustForWeb/radix/issues/296) |
+| Box               | ❌ [#179](https://github.com/RustForWeb/radix/issues/179) | ❌ [#238](https://github.com/RustForWeb/radix/issues/238) | 🟦 [#297](https://github.com/RustForWeb/radix/issues/297) |
+| Button            | ❌ [#180](https://github.com/RustForWeb/radix/issues/180) | ❌ [#239](https://github.com/RustForWeb/radix/issues/239) | 🟦 [#298](https://github.com/RustForWeb/radix/issues/298) |
+| Callout           | ❌ [#181](https://github.com/RustForWeb/radix/issues/181) | ❌ [#240](https://github.com/RustForWeb/radix/issues/240) | ❌ [#299](https://github.com/RustForWeb/radix/issues/299) |
+| Card              | ❌ [#182](https://github.com/RustForWeb/radix/issues/182) | ❌ [#241](https://github.com/RustForWeb/radix/issues/241) | ❌ [#300](https://github.com/RustForWeb/radix/issues/300) |
+| Checkbox Cards    | ❌ [#183](https://github.com/RustForWeb/radix/issues/183) | ❌ [#242](https://github.com/RustForWeb/radix/issues/242) | ❌ [#301](https://github.com/RustForWeb/radix/issues/301) |
+| Checkbox Group    | ❌ [#184](https://github.com/RustForWeb/radix/issues/184) | ❌ [#243](https://github.com/RustForWeb/radix/issues/243) | ❌ [#302](https://github.com/RustForWeb/radix/issues/302) |
+| Checkbox          | ❌ [#185](https://github.com/RustForWeb/radix/issues/185) | ❌ [#244](https://github.com/RustForWeb/radix/issues/244) | ❌ [#303](https://github.com/RustForWeb/radix/issues/303) |
+| Code              | ❌ [#186](https://github.com/RustForWeb/radix/issues/186) | ❌ [#245](https://github.com/RustForWeb/radix/issues/245) | 🟦 [#304](https://github.com/RustForWeb/radix/issues/304) |
+| Container         | ❌ [#187](https://github.com/RustForWeb/radix/issues/187) | ❌ [#246](https://github.com/RustForWeb/radix/issues/246) | 🟦 [#305](https://github.com/RustForWeb/radix/issues/305) |
+| Context Menu      | ❌ [#188](https://github.com/RustForWeb/radix/issues/188) | ❌ [#247](https://github.com/RustForWeb/radix/issues/247) | ❌ [#306](https://github.com/RustForWeb/radix/issues/306) |
+| Data List         | ❌ [#189](https://github.com/RustForWeb/radix/issues/189) | ❌ [#248](https://github.com/RustForWeb/radix/issues/248) | ❌ [#307](https://github.com/RustForWeb/radix/issues/307) |
+| Dialog            | ❌ [#190](https://github.com/RustForWeb/radix/issues/190) | ❌ [#249](https://github.com/RustForWeb/radix/issues/249) | ❌ [#308](https://github.com/RustForWeb/radix/issues/308) |
+| Dropdown Menu     | ❌ [#191](https://github.com/RustForWeb/radix/issues/191) | ❌ [#250](https://github.com/RustForWeb/radix/issues/250) | ❌ [#309](https://github.com/RustForWeb/radix/issues/309) |
+| Em                | ❌ [#192](https://github.com/RustForWeb/radix/issues/192) | ❌ [#251](https://github.com/RustForWeb/radix/issues/251) | 🟦 [#310](https://github.com/RustForWeb/radix/issues/310) |
+| Flex              | ❌ [#193](https://github.com/RustForWeb/radix/issues/193) | ❌ [#252](https://github.com/RustForWeb/radix/issues/252) | 🟦 [#311](https://github.com/RustForWeb/radix/issues/311) |
+| Grid              | ❌ [#194](https://github.com/RustForWeb/radix/issues/194) | ❌ [#253](https://github.com/RustForWeb/radix/issues/253) | 🟦 [#312](https://github.com/RustForWeb/radix/issues/312) |
+| Heading           | ❌ [#195](https://github.com/RustForWeb/radix/issues/195) | ❌ [#254](https://github.com/RustForWeb/radix/issues/254) | 🟦 [#313](https://github.com/RustForWeb/radix/issues/313) |
+| Hover Card        | ❌ [#196](https://github.com/RustForWeb/radix/issues/196) | ❌ [#255](https://github.com/RustForWeb/radix/issues/255) | ❌ [#314](https://github.com/RustForWeb/radix/issues/314) |
+| Icon Button       | ❌ [#197](https://github.com/RustForWeb/radix/issues/197) | ❌ [#256](https://github.com/RustForWeb/radix/issues/256) | 🟦 [#315](https://github.com/RustForWeb/radix/issues/315) |
+| Icons             | ❌ [#198](https://github.com/RustForWeb/radix/issues/198) | ❌ [#257](https://github.com/RustForWeb/radix/issues/257) | 🟦 [#316](https://github.com/RustForWeb/radix/issues/316) |
+| Inset             | ❌ [#199](https://github.com/RustForWeb/radix/issues/199) | ❌ [#258](https://github.com/RustForWeb/radix/issues/258) | ❌ [#317](https://github.com/RustForWeb/radix/issues/317) |
+| Kbd               | ❌ [#200](https://github.com/RustForWeb/radix/issues/200) | ❌ [#259](https://github.com/RustForWeb/radix/issues/259) | 🟦 [#318](https://github.com/RustForWeb/radix/issues/318) |
+| Link              | ❌ [#201](https://github.com/RustForWeb/radix/issues/201) | ❌ [#260](https://github.com/RustForWeb/radix/issues/260) | 🟦 [#319](https://github.com/RustForWeb/radix/issues/319) |
+| Popover           | ❌ [#202](https://github.com/RustForWeb/radix/issues/202) | ❌ [#261](https://github.com/RustForWeb/radix/issues/261) | ❌ [#320](https://github.com/RustForWeb/radix/issues/320) |
+| Portal            | ❌ [#203](https://github.com/RustForWeb/radix/issues/203) | ❌ [#262](https://github.com/RustForWeb/radix/issues/262) | ❌ [#321](https://github.com/RustForWeb/radix/issues/321) |
+| Progress          | ❌ [#204](https://github.com/RustForWeb/radix/issues/204) | ❌ [#263](https://github.com/RustForWeb/radix/issues/263) | ❌ [#322](https://github.com/RustForWeb/radix/issues/322) |
+| Quote             | ❌ [#205](https://github.com/RustForWeb/radix/issues/205) | ❌ [#264](https://github.com/RustForWeb/radix/issues/264) | 🟦 [#323](https://github.com/RustForWeb/radix/issues/323) |
+| Radio Cards       | ❌ [#206](https://github.com/RustForWeb/radix/issues/206) | ❌ [#265](https://github.com/RustForWeb/radix/issues/265) | ❌ [#324](https://github.com/RustForWeb/radix/issues/324) |
+| Radio Group       | ❌ [#207](https://github.com/RustForWeb/radix/issues/207) | ❌ [#266](https://github.com/RustForWeb/radix/issues/266) | ❌ [#325](https://github.com/RustForWeb/radix/issues/325) |
+| Radio             | ❌ [#208](https://github.com/RustForWeb/radix/issues/208) | ❌ [#267](https://github.com/RustForWeb/radix/issues/267) | ❌ [#326](https://github.com/RustForWeb/radix/issues/326) |
+| Reset             | ❌ [#209](https://github.com/RustForWeb/radix/issues/209) | ❌ [#268](https://github.com/RustForWeb/radix/issues/268) | ❌ [#327](https://github.com/RustForWeb/radix/issues/327) |
+| Scroll Area       | ❌ [#210](https://github.com/RustForWeb/radix/issues/210) | ❌ [#269](https://github.com/RustForWeb/radix/issues/269) | ❌ [#328](https://github.com/RustForWeb/radix/issues/328) |
+| Section           | ❌ [#211](https://github.com/RustForWeb/radix/issues/211) | ❌ [#270](https://github.com/RustForWeb/radix/issues/270) | 🟦 [#329](https://github.com/RustForWeb/radix/issues/329) |
+| Segmented Control | ❌ [#212](https://github.com/RustForWeb/radix/issues/212) | ❌ [#271](https://github.com/RustForWeb/radix/issues/271) | ❌ [#330](https://github.com/RustForWeb/radix/issues/330) |
+| Select            | ❌ [#213](https://github.com/RustForWeb/radix/issues/213) | ❌ [#272](https://github.com/RustForWeb/radix/issues/272) | 🚧 [#331](https://github.com/RustForWeb/radix/issues/331) |
+| Separator         | ❌ [#214](https://github.com/RustForWeb/radix/issues/214) | ❌ [#273](https://github.com/RustForWeb/radix/issues/273) | 🟦 [#332](https://github.com/RustForWeb/radix/issues/332) |
+| Skeleton          | ❌ [#215](https://github.com/RustForWeb/radix/issues/215) | ❌ [#274](https://github.com/RustForWeb/radix/issues/274) | ❌ [#333](https://github.com/RustForWeb/radix/issues/333) |
+| Slider            | ❌ [#216](https://github.com/RustForWeb/radix/issues/216) | ❌ [#275](https://github.com/RustForWeb/radix/issues/275) | ❌ [#334](https://github.com/RustForWeb/radix/issues/334) |
+| Slot              | ❌ [#217](https://github.com/RustForWeb/radix/issues/217) | ❌ [#276](https://github.com/RustForWeb/radix/issues/276) | ❌ [#335](https://github.com/RustForWeb/radix/issues/335) |
+| Spinner           | ❌ [#218](https://github.com/RustForWeb/radix/issues/218) | ❌ [#277](https://github.com/RustForWeb/radix/issues/277) | 🟦 [#336](https://github.com/RustForWeb/radix/issues/336) |
+| Strong            | ❌ [#219](https://github.com/RustForWeb/radix/issues/219) | ❌ [#278](https://github.com/RustForWeb/radix/issues/278) | 🟦 [#337](https://github.com/RustForWeb/radix/issues/337) |
+| Switch            | ❌ [#220](https://github.com/RustForWeb/radix/issues/220) | ❌ [#279](https://github.com/RustForWeb/radix/issues/279) | 🟦 [#338](https://github.com/RustForWeb/radix/issues/338) |
+| Table             | ❌ [#221](https://github.com/RustForWeb/radix/issues/221) | ❌ [#280](https://github.com/RustForWeb/radix/issues/280) | ❌ [#339](https://github.com/RustForWeb/radix/issues/339) |
+| Tab Nav           | ❌ [#222](https://github.com/RustForWeb/radix/issues/222) | ❌ [#281](https://github.com/RustForWeb/radix/issues/281) | ❌ [#340](https://github.com/RustForWeb/radix/issues/340) |
+| Tabs              | ❌ [#223](https://github.com/RustForWeb/radix/issues/223) | ❌ [#282](https://github.com/RustForWeb/radix/issues/282) | ❌ [#341](https://github.com/RustForWeb/radix/issues/341) |
+| Text Area         | ❌ [#224](https://github.com/RustForWeb/radix/issues/224) | ❌ [#283](https://github.com/RustForWeb/radix/issues/283) | 🟦 [#342](https://github.com/RustForWeb/radix/issues/342) |
+| Text Field        | ❌ [#225](https://github.com/RustForWeb/radix/issues/225) | ❌ [#284](https://github.com/RustForWeb/radix/issues/284) | 🟦 [#343](https://github.com/RustForWeb/radix/issues/343) |
+| Text              | ❌ [#226](https://github.com/RustForWeb/radix/issues/226) | ❌ [#285](https://github.com/RustForWeb/radix/issues/285) | 🟦 [#344](https://github.com/RustForWeb/radix/issues/344) |
+| Theme Panel       | ❌ [#227](https://github.com/RustForWeb/radix/issues/227) | ❌ [#286](https://github.com/RustForWeb/radix/issues/286) | ❌ [#345](https://github.com/RustForWeb/radix/issues/345) |
+| Theme             | ❌ [#228](https://github.com/RustForWeb/radix/issues/228) | ❌ [#287](https://github.com/RustForWeb/radix/issues/287) | 🟦 [#346](https://github.com/RustForWeb/radix/issues/346) |
+| Tooltip           | ❌ [#229](https://github.com/RustForWeb/radix/issues/229) | ❌ [#288](https://github.com/RustForWeb/radix/issues/288) | ❌ [#347](https://github.com/RustForWeb/radix/issues/347) |
+| Visually Hidden   | ❌ [#230](https://github.com/RustForWeb/radix/issues/230) | ❌ [#289](https://github.com/RustForWeb/radix/issues/289) | 🟦 [#348](https://github.com/RustForWeb/radix/issues/348) |
+| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 28 / 59                                                   |
 
 ## License
 
