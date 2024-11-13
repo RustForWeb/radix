@@ -1,4 +1,5 @@
 pub mod arrow;
+pub mod aspect_ratio;
 pub mod avatar;
 pub mod collection;
 pub mod focus_scope;

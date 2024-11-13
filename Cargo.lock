@@ -3299,6 +3299,7 @@ dependencies = [
  "console_log",
  "log",
  "radix-yew-arrow",
+ "radix-yew-aspect-ratio",
  "radix-yew-avatar",
  "radix-yew-collection",
  "radix-yew-focus-scope",

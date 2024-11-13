@@ -2,8 +2,8 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::primitives::{
-    arrow, avatar, collection, focus_scope, label, popper, presence, select, separator, switch,
-    tooltip, visually_hidden,
+    arrow, aspect_ratio, avatar, collection, focus_scope, label, popper, presence, select,
+    separator, switch, tooltip, visually_hidden,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
@@ -17,6 +17,13 @@ enum Route {
     ArrowCustomSizes,
     #[at("/arrow/custom-arrow")]
     ArrowCustomArrow,
+
+    #[at("/aspect-ratio/styled")]
+    AspectRatioStyled,
+    #[at("/aspect-ratio/custom-ratios")]
+    AspectRatioCustomRatios,
+    #[at("/aspect-ratio/chromatic")]
+    AspectRatioChromatic,
 
     #[at("/avatar/styled")]
     AvatarStyled,
@@ -182,6 +189,10 @@ fn switch(routes: Route) -> Html {
         Route::ArrowCustomSizes => html! { <arrow::CustomSizes /> },
         Route::ArrowCustomArrow => html! { <arrow::CustomArrow /> },
 
+        Route::AspectRatioStyled => html! { <aspect_ratio::Styled /> },
+        Route::AspectRatioCustomRatios => html! { <aspect_ratio::CustomRatios /> },
+        Route::AspectRatioChromatic => html! { <aspect_ratio::Chromatic /> },
+
         Route::AvatarStyled => html! { <avatar::Styled /> },
         Route::AvatarChromatic => html! { <avatar::Chromatic /> },
 
@@ -316,6 +327,15 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::ArrowStyled}>{"Styled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::ArrowCustomSizes}>{"Custom Sizes"}</Link<Route>></li>
                             <li><Link<Route> to={Route::ArrowCustomArrow}>{"Custom Arrow"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Aspect Ratio"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::AspectRatioStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::AspectRatioCustomRatios}>{"Custom Ratios"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::AspectRatioChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>
