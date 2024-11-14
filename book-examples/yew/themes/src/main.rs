@@ -55,6 +55,8 @@ mod text;
 mod text_area;
 #[cfg(feature = "text-field")]
 mod text_field;
+#[cfg(feature = "tooltip")]
+mod tooltip;
 
 use crate::app::App;
 

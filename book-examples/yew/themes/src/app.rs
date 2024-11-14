@@ -176,6 +176,13 @@ pub fn App() -> Html {
             <Switch<TextFieldRoute> render={render} />
         });
     }
+    #[cfg(feature = "tooltip")]
+    {
+        use crate::tooltip::{render, TooltipRoute};
+        children.push(html! {
+            <Switch<TooltipRoute> render={render} />
+        });
+    }
 
     html! {
         <Theme accent_color={AccentColor::Indigo}>

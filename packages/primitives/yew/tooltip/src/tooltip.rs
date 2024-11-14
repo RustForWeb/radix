@@ -6,10 +6,10 @@ use std::{
 };
 
 use radix_yew_id::use_id;
+pub use radix_yew_popper::{Align, Padding, Side, Sticky, UpdatePositionStrategy};
 use radix_yew_popper::{
-    Align, Padding, Popper, PopperAnchor, PopperAnchorChildProps, PopperArrow,
-    PopperArrowChildProps, PopperContent, PopperContentChildProps, Side, Sticky,
-    UpdatePositionStrategy,
+    Popper, PopperAnchor, PopperAnchorChildProps, PopperArrow, PopperArrowChildProps,
+    PopperContent, PopperContentChildProps,
 };
 use radix_yew_presence::{Presence, PresenceChildProps};
 use radix_yew_primitive::compose_callbacks;

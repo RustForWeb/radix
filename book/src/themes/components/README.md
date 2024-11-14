@@ -10,3 +10,4 @@
 -   [Switch](./switch.md)
 -   [Text Area](./text-area.md)
 -   [Text Field](./text-field.md)
+-   [Tooltip](./tooltip.md)

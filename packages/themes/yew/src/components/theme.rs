@@ -1,4 +1,5 @@
 use radix_yew_direction::{Direction, DirectionProvider};
+use radix_yew_tooltip::TooltipProvider;
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
 
@@ -75,28 +76,29 @@ pub fn Theme(props: &ThemeProps) -> Html {
 
     html! {
         if is_root {
-            // TODO: TooltipProvider
-            <DirectionProvider direction={Direction::Ltr}>
-                <ThemeRoot
-                    has_background={props.has_background}
-                    appearance={props.appearance}
-                    accent_color={props.accent_color}
-                    gray_color={props.gray_color}
-                    panel_background={props.panel_background}
-                    radius={props.radius}
-                    scaling={props.scaling}
+            <TooltipProvider delay_duration=200>
+                <DirectionProvider direction={Direction::Ltr}>
+                    <ThemeRoot
+                        has_background={props.has_background}
+                        appearance={props.appearance}
+                        accent_color={props.accent_color}
+                        gray_color={props.gray_color}
+                        panel_background={props.panel_background}
+                        radius={props.radius}
+                        scaling={props.scaling}
 
-                    class={props.class.clone()}
-                    id={props.id.clone()}
-                    style={props.style.clone()}
+                        class={props.class.clone()}
+                        id={props.id.clone()}
+                        style={props.style.clone()}
 
-                    node_ref={props.node_ref.clone()}
-                    attributes={props.attributes.clone()}
-                    as_child={props.as_child.clone()}
-                >
-                    {props.children.clone()}
-                </ThemeRoot>
-            </DirectionProvider>
+                        node_ref={props.node_ref.clone()}
+                        attributes={props.attributes.clone()}
+                        as_child={props.as_child.clone()}
+                    >
+                        {props.children.clone()}
+                    </ThemeRoot>
+                </DirectionProvider>
+            </TooltipProvider>
         } else {
             <ThemeImpl
                 has_background={props.has_background}

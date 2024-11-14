@@ -46,6 +46,7 @@ mod text_field_props;
 mod text_props;
 mod theme;
 mod theme_props;
+mod tooltip;
 mod visually_hidden;
 
 pub use aspect_ratio::*;
@@ -95,4 +96,5 @@ pub use text_field_props::*;
 pub use text_props::*;
 pub use theme::*;
 pub use theme_props::*;
+pub use tooltip::*;
 pub use visually_hidden::*;

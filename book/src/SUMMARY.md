@@ -115,7 +115,7 @@
         -   [Tab Nav]()
         -   [Text Area](./themes/components/text-area.md)
         -   [Text Field](./themes/components/text-field.md)
-        -   [Tooltip]()
+        -   [Tooltip](./themes/components/tooltip.md)
     -   [Utilities](./themes/utilities/README.md)
         -   [Accessible Icon]()
         -   [Portal]()

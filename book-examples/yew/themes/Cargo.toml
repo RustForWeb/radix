@@ -44,6 +44,7 @@ default = [
     "text",
     "text-area",
     "text-field",
+    "tooltip",
 ]
 aspect-ratio = []
 avatar = []
@@ -72,3 +73,4 @@ text-field = [
     "radix-yew-icons/dots-horizontal",
     "radix-yew-icons/magnifying-glass",
 ]
+tooltip = ["radix-yew-icons/plus"]
