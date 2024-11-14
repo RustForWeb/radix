@@ -51,7 +51,12 @@ pub struct TooltipProps {
     /// Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
     #[prop_or_default]
     pub force_mount: Option<bool>,
-    // TODO: container
+    /// Specify a container element to portal the content into.
+    #[prop_or_default]
+    pub container: Option<web_sys::Element>,
+    /// Specify a container element to portal the content into.
+    #[prop_or_default]
+    pub container_ref: Option<NodeRef>,
 
     // Props from `TooltipContentPrimitive`
     #[prop_or(TooltipSide::Top)]
@@ -115,7 +120,11 @@ pub fn Tooltip(props: &TooltipProps) -> Html {
             <TooltipTriggerPrimitive as_child={props.as_child.clone()}>
                 {props.children.clone()}
             </TooltipTriggerPrimitive>
-            <TooltipPortalPrimitive force_mount={props.force_mount}>
+            <TooltipPortalPrimitive
+                force_mount={props.force_mount}
+                container={props.container.clone()}
+                container_ref={props.container_ref.clone()}
+            >
                 <Theme
                     class={class.to_string()}
                     id={props.id.clone()}

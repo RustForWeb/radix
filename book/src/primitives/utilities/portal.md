@@ -4,7 +4,7 @@ Renders a subtree in a different part of the DOM.
 
 ## Features
 
--   Render any React subtree outside of your App.
+-   Render any subtree outside of your App.
 -   Appends to `document.body` by default but can be customized to use a different container.
 
 ## Installation
@@ -30,6 +30,17 @@ cargo add radix-leptos-portal --features ssr
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/portal)
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-portal
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-portal)
+-   [View on docs.rs](https://docs.rs/radix-yew-portal/latest/radix_yew_portal/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/portal)
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Anatomy
@@ -46,6 +57,21 @@ use radix_leptos_portal::Portal;
 #[component]
 fn Anatomy() -> impl IntoView {
     view! {
+        <Portal />
+    }
+}
+```
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_portal::Portal;
+use yew::prelude::*;
+
+#[function_component]
+fn Anatomy() -> Html {
+    html! {
         <Portal />
     }
 }
@@ -70,6 +96,15 @@ Anything you put inside this component will be rendered in a separate `<div>` el
 | `container_ref` | `NodeRef<AnyElement>`         | -       |
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop            | Type                                       | Default |
+| --------------- | ------------------------------------------ | ------- |
+| `as_child`      | `Option<Callback<PortalChildProps, Html>>` | -       |
+| `container`     | `Option<web_sys::Element>`                 | -       |
+| `container_ref` | `Option<NodeRef>`                          | -       |
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Example
@@ -87,6 +122,21 @@ use radix_leptos_portal::Portal;
 fn Example() -> impl IntoView {
     view! {
         <Portal>Content</Portal>
+    }
+}
+```
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+```rust,ignore
+use radix_yew_portal::Portal;
+use yew::prelude::*;
+
+#[function_component]
+fn Example() -> Html {
+    html! {
+        <Portal>{"Content"}</Portal>
     }
 }
 ```

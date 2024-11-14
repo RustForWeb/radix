@@ -13,6 +13,7 @@ version.workspace = true
 radix-yew-aspect-ratio = { path = "../../primitives/yew/aspect-ratio", version = "0.0.2" }
 radix-yew-avatar = { path = "../../primitives/yew/avatar", version = "0.0.2" }
 radix-yew-direction = { path = "../../primitives/yew/direction", version = "0.0.2" }
+radix-yew-portal = { path = "../../primitives/yew/portal", version = "0.0.2" }
 radix-yew-select = { path = "../../primitives/yew/select", version = "0.0.2" }
 radix-yew-separator = { path = "../../primitives/yew/separator", version = "0.0.2" }
 radix-yew-switch = { path = "../../primitives/yew/switch", version = "0.0.2" }

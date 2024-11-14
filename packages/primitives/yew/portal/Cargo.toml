@@ -1,0 +1,15 @@
+[package]
+name = "radix-yew-portal"
+description = "Yew port of Radix Portal."
+homepage = "https://radix.rustforweb.org/primitives/utilities/portal.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+web-sys.workspace = true
+yew.workspace = true
+yew-struct-component.workspace = true

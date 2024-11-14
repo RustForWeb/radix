@@ -19,6 +19,7 @@ use radix_yew_popper::{
     PopperArrowChildProps, PopperContent, PopperContentChildProps, SetPopperContentChildProps,
     Side, Sticky, UpdatePositionStrategy,
 };
+use radix_yew_portal::{Portal, PortalChildProps};
 use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use radix_yew_visually_hidden::{VisuallyHidden, VisuallyHiddenChildProps};
@@ -706,16 +707,40 @@ pub fn SelectIcon(props: &SelectIconProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct SelectPortalProps {
-    // TODO: container
+    // Props from `Portal`
+    /// Specify a container element to portal the content into.
+    #[prop_or_default]
+    pub container: Option<web_sys::Element>,
+    /// Specify a container element to portal the content into.
+    #[prop_or_default]
+    pub container_ref: Option<NodeRef>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
+    #[prop_or_default]
+    pub attributes: Attributes,
+    #[prop_or_default]
+    pub as_child: Option<Callback<SelectPortalAsChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
+pub type SelectPortalAsChildProps = PortalChildProps;
+
 #[function_component]
 pub fn SelectPortal(props: &SelectPortalProps) -> Html {
     html! {
-        // TODO: Portal
-        {props.children.clone()}
+        // TODO: as_child by default?
+        <Portal
+            container={props.container.clone()}
+            container_ref={props.container_ref.clone()}
+
+            node_ref={props.node_ref.clone()}
+            attributes={props.attributes.clone()}
+            as_child={props.as_child.clone()}
+        >
+            {props.children.clone()}
+        </Portal>
     }
 }
 

@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::primitives::{
-    arrow, aspect_ratio, avatar, collection, focus_scope, label, popper, presence, select,
+    arrow, aspect_ratio, avatar, collection, focus_scope, label, popper, portal, presence, select,
     separator, switch, tooltip, visually_hidden,
 };
 
@@ -71,6 +71,13 @@ enum Route {
     PopperWithUpdatePositionStrategyAlways,
     #[at("/popper/chromatic")]
     PopperChromatic,
+
+    #[at("/portal/base")]
+    PortalBase,
+    #[at("/portal/custom-container")]
+    PortalCustomContainer,
+    #[at("/portal/chromatic")]
+    PortalChromatic,
 
     #[at("/presence/basic")]
     PresenceBasic,
@@ -220,6 +227,10 @@ fn switch(routes: Route) -> Html {
             html! { <popper::WithUpdatePositionStrategyAlways /> }
         }
         Route::PopperChromatic => html! { <popper::Chromatic /> },
+
+        Route::PortalBase => html! { <portal::Base /> },
+        Route::PortalCustomContainer => html! { <portal::CustomContainer /> },
+        Route::PortalChromatic => html! { <portal::Chromatic /> },
 
         Route::PresenceBasic => html! { <presence::Basic /> },
         Route::PresenceWithMountAnimation => html! { <presence::WithMountAnimation /> },
@@ -387,6 +398,15 @@ pub fn App() -> Html {
                             <li><Link<Route> to={Route::PopperWithPortal}>{"With Portal"}</Link<Route>></li>
                             <li><Link<Route> to={Route::PopperWithUpdatePositionStrategyAlways}>{"With Update Position Strategy Always"}</Link<Route>></li>
                             <li><Link<Route> to={Route::PopperChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Portal"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::PortalBase}>{"Base"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PortalCustomContainer}>{"Custom Container"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::PortalChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

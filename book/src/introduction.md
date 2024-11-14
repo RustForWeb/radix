@@ -78,7 +78,7 @@ The tables below show the support for the various frameworks.
 | Navigation Menu        | ❌ [#143](https://github.com/RustForWeb/radix/issues/143) | ❌ [#40](https://github.com/RustForWeb/radix/issues/40) | ❌ [#92](https://github.com/RustForWeb/radix/issues/92)   |
 | Popover                | ❌ [#144](https://github.com/RustForWeb/radix/issues/144) | ❌ [#41](https://github.com/RustForWeb/radix/issues/41) | ❌ [#93](https://github.com/RustForWeb/radix/issues/93)   |
 | Popper                 | ❌ [#145](https://github.com/RustForWeb/radix/issues/145) | 🟦 [#42](https://github.com/RustForWeb/radix/issues/42) | 🚧 [#94](https://github.com/RustForWeb/radix/issues/94)   |
-| Portal                 | ❌ [#146](https://github.com/RustForWeb/radix/issues/146) | 🟦 [#43](https://github.com/RustForWeb/radix/issues/43) | ❌ [#95](https://github.com/RustForWeb/radix/issues/95)   |
+| Portal                 | ❌ [#146](https://github.com/RustForWeb/radix/issues/146) | 🟦 [#43](https://github.com/RustForWeb/radix/issues/43) | 🟦 [#95](https://github.com/RustForWeb/radix/issues/95)   |
 | Presence               | ❌ [#147](https://github.com/RustForWeb/radix/issues/147) | 🟦 [#44](https://github.com/RustForWeb/radix/issues/44) | 🟦 [#96](https://github.com/RustForWeb/radix/issues/96)   |
 | Primitive              | ❌ [#148](https://github.com/RustForWeb/radix/issues/148) | 🟦 [#45](https://github.com/RustForWeb/radix/issues/45) | 🟦 [#97](https://github.com/RustForWeb/radix/issues/97)   |
 | Progress               | ❌ [#149](https://github.com/RustForWeb/radix/issues/150) | 🟦 [#46](https://github.com/RustForWeb/radix/issues/46) | ❌ [#98](https://github.com/RustForWeb/radix/issues/98)   |
@@ -104,7 +104,7 @@ The tables below show the support for the various frameworks.
 | Use Rect               | ❌ [#167](https://github.com/RustForWeb/radix/issues/167) | ❌ [#64](https://github.com/RustForWeb/radix/issues/64) | ❌ [#116](https://github.com/RustForWeb/radix/issues/116) |
 | Use Size               | ❌ [#168](https://github.com/RustForWeb/radix/issues/168) | 🟦 [#65](https://github.com/RustForWeb/radix/issues/65) | 🟦 [#117](https://github.com/RustForWeb/radix/issues/117) |
 | Visually Hidden        | ❌ [#169](https://github.com/RustForWeb/radix/issues/169) | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | 🟦 [#118](https://github.com/RustForWeb/radix/issues/118) |
-| **Total**              | 0 / 52                                                    | 29 / 52                                                 | 21 / 52                                                   |
+| **Total**              | 0 / 52                                                    | 29 / 52                                                 | 22 / 52                                                   |
 
 ### Themes Support
 
@@ -141,7 +141,7 @@ The tables below show the support for the various frameworks.
 | Kbd               | ❌ [#200](https://github.com/RustForWeb/radix/issues/200) | ❌ [#259](https://github.com/RustForWeb/radix/issues/259) | 🟦 [#318](https://github.com/RustForWeb/radix/issues/318) |
 | Link              | ❌ [#201](https://github.com/RustForWeb/radix/issues/201) | ❌ [#260](https://github.com/RustForWeb/radix/issues/260) | 🟦 [#319](https://github.com/RustForWeb/radix/issues/319) |
 | Popover           | ❌ [#202](https://github.com/RustForWeb/radix/issues/202) | ❌ [#261](https://github.com/RustForWeb/radix/issues/261) | ❌ [#320](https://github.com/RustForWeb/radix/issues/320) |
-| Portal            | ❌ [#203](https://github.com/RustForWeb/radix/issues/203) | ❌ [#262](https://github.com/RustForWeb/radix/issues/262) | ❌ [#321](https://github.com/RustForWeb/radix/issues/321) |
+| Portal            | ❌ [#203](https://github.com/RustForWeb/radix/issues/203) | ❌ [#262](https://github.com/RustForWeb/radix/issues/262) | 🟦 [#321](https://github.com/RustForWeb/radix/issues/321) |
 | Progress          | ❌ [#204](https://github.com/RustForWeb/radix/issues/204) | ❌ [#263](https://github.com/RustForWeb/radix/issues/263) | ❌ [#322](https://github.com/RustForWeb/radix/issues/322) |
 | Quote             | ❌ [#205](https://github.com/RustForWeb/radix/issues/205) | ❌ [#264](https://github.com/RustForWeb/radix/issues/264) | 🟦 [#323](https://github.com/RustForWeb/radix/issues/323) |
 | Radio Cards       | ❌ [#206](https://github.com/RustForWeb/radix/issues/206) | ❌ [#265](https://github.com/RustForWeb/radix/issues/265) | ❌ [#324](https://github.com/RustForWeb/radix/issues/324) |
@@ -169,7 +169,7 @@ The tables below show the support for the various frameworks.
 | Theme             | ❌ [#228](https://github.com/RustForWeb/radix/issues/228) | ❌ [#287](https://github.com/RustForWeb/radix/issues/287) | 🟦 [#346](https://github.com/RustForWeb/radix/issues/346) |
 | Tooltip           | ❌ [#229](https://github.com/RustForWeb/radix/issues/229) | ❌ [#288](https://github.com/RustForWeb/radix/issues/288) | ❌ [#347](https://github.com/RustForWeb/radix/issues/347) |
 | Visually Hidden   | ❌ [#230](https://github.com/RustForWeb/radix/issues/230) | ❌ [#289](https://github.com/RustForWeb/radix/issues/289) | 🟦 [#348](https://github.com/RustForWeb/radix/issues/348) |
-| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 28 / 59                                                   |
+| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 29 / 59                                                   |
 
 ## License
 

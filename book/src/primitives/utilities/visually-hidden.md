@@ -88,9 +88,9 @@ Anything you put inside this component will be hidden from the screen but will b
 {{#endtab }}
 {{#tab name="Yew" }}
 
-| Prop       | Type   | Default |
-| ---------- | ------ | ------- |
-| `as_child` | `bool` | `false` |
+| Prop       | Type                                               | Default |
+| ---------- | -------------------------------------------------- | ------- |
+| `as_child` | `Option<Callback<VisuallyHiddenChildProps, Html>>` | -       |
 
 {{#endtab }}
 {{#endtabs }}

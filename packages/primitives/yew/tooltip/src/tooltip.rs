@@ -11,6 +11,7 @@ use radix_yew_popper::{
     Popper, PopperAnchor, PopperAnchorChildProps, PopperArrow, PopperArrowChildProps,
     PopperContent, PopperContentChildProps,
 };
+use radix_yew_portal::{Portal, PortalChildProps};
 use radix_yew_presence::{Presence, PresenceChildProps};
 use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
@@ -675,9 +676,21 @@ pub struct TooltipPortalProps {
     #[prop_or_default]
     pub force_mount: Option<bool>,
 
+    // Props from `Portal`
+    /// Specify a container element to portal the content into.
+    #[prop_or_default]
+    pub container: Option<web_sys::Element>,
+    /// Specify a container element to portal the content into.
+    #[prop_or_default]
+    pub container_ref: Option<NodeRef>,
+
+    #[prop_or_default]
+    pub as_child: Option<Callback<TooltipPortalAsChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
+
+pub type TooltipPortalAsChildProps = PortalChildProps;
 
 #[function_component]
 pub fn TooltipPortal(props: &TooltipPortalProps) -> Html {
@@ -693,12 +706,24 @@ pub fn TooltipPortal(props: &TooltipPortalProps) -> Html {
                 present={props.force_mount.unwrap_or_default() || context.open}
 
                 as_child={Callback::from({
+                    let container = props.container.clone();
+                    let container_ref = props.container_ref.clone();
+
+                    let as_child = props.as_child.clone();
                     let children = props.children.clone();
 
-                    move |PresenceChildProps { node_ref: _node_ref }| html! {
-                        // TODO: Portal
-                        // TODO: node_ref
-                        {children.clone()}
+                    move |PresenceChildProps { node_ref }| html! {
+                        // TODO: as_child by default?
+                        <Portal
+                            container={container.clone()}
+                            container_ref={container_ref.clone()}
+
+                            node_ref={node_ref}
+                            as_child={as_child.clone()}
+                        >
+                            // TODO: pass node_ref to children
+                            {children.clone()}
+                        </Portal>
                     }
                 })}
             />

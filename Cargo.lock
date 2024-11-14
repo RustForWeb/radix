@@ -3249,6 +3249,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-portal"
+version = "0.0.2"
+dependencies = [
+ "web-sys",
+ "yew",
+ "yew-struct-component",
+]
+
+[[package]]
 name = "radix-yew-presence"
 version = "0.0.2"
 dependencies = [
@@ -3275,6 +3284,7 @@ dependencies = [
  "radix-yew-focus-scope",
  "radix-yew-id",
  "radix-yew-popper",
+ "radix-yew-portal",
  "radix-yew-primitive",
  "radix-yew-use-controllable-state",
  "radix-yew-visually-hidden",
@@ -3305,6 +3315,7 @@ dependencies = [
  "radix-yew-focus-scope",
  "radix-yew-label",
  "radix-yew-popper",
+ "radix-yew-portal",
  "radix-yew-presence",
  "radix-yew-primitive",
  "radix-yew-select",
@@ -3338,6 +3349,7 @@ dependencies = [
  "radix-yew-aspect-ratio",
  "radix-yew-avatar",
  "radix-yew-direction",
+ "radix-yew-portal",
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",
@@ -3355,6 +3367,7 @@ dependencies = [
  "log",
  "radix-yew-id",
  "radix-yew-popper",
+ "radix-yew-portal",
  "radix-yew-presence",
  "radix-yew-primitive",
  "radix-yew-use-controllable-state",
