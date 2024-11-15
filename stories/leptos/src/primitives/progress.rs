@@ -96,31 +96,31 @@ pub fn ProgressRange(
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "w-[400px] h-[20px] max-w-full border-[5px] border-solid border-[#111] box-content")]
-pub struct RootClass {}
+struct RootClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "w-0 h-full bg-[crimson] transition-[background] duration-150 ease-[ease-out] data-[state=indeterminate]:bg-[#aaa] data-[state=complete]:bg-[green]"
 )]
-pub struct IndicatorClass {}
+struct IndicatorClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "w-0 h-full bg-[crimson] transition-[background] duration-150 ease-[ease-out] data-[state=indeterminate]:bg-[#aaa] data-[state=complete]:bg-[green] before:content-[attr(data-value)] after:content-[attr(data-max)]"
 )]
-pub struct ChromaticIndicatorClass {}
+struct ChromaticIndicatorClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] box-content p-[10px] data-[state=loading]:border-[red] data-[state=indeterminate]:border-[purple] data-[state=complete]:border-[green]"
 )]
-pub struct RootAttrClass {}
+struct RootAttrClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] box-content p-[10px] data-[state=loading]:border-[red] data-[state=indeterminate]:border-[purple] data-[state=complete]:border-[green] before:content-[attr(data-value)] after:content-[attr(data-max)]"
 )]
-pub struct IndicatorAttrClass {}
+struct IndicatorAttrClass {}
 
 type UsePreviousValueReturn = (
     ReadSignal<Option<f64>>,

@@ -1,6 +1,7 @@
 pub use radix_yew_tooltip::{
     Align as TooltipAlign, Padding as TooltipPadding, Side as TooltipSide, Sticky as TooltipSticky,
-    TooltipTriggerChildProps, UpdatePositionStrategy as TooltipUpdatePositionStrategy,
+    TooltipTriggerChildProps, TooltipTriggerChildProps as TooltipTriggerPrimitiveChildProps,
+    UpdatePositionStrategy as TooltipUpdatePositionStrategy,
 };
 use radix_yew_tooltip::{
     Tooltip as TooltipPrimitive, TooltipArrow as TooltipArrowPrimitive,
@@ -95,10 +96,12 @@ pub struct TooltipProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<TooltipTriggerChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
+
+pub type TooltipChildProps = TooltipTriggerPrimitiveChildProps;
 
 #[function_component]
 pub fn Tooltip(props: &TooltipProps) -> Html {

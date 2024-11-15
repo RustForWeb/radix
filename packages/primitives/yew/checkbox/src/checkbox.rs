@@ -1,24 +1,52 @@
+use std::{
+    fmt::{Display, Formatter},
+    rc::Rc,
+};
+
+use radix_yew_presence::{Presence, PresenceChildProps};
 use radix_yew_primitive::compose_callbacks;
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
+use web_sys::wasm_bindgen::{closure::Closure, JsCast};
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
 
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+pub enum CheckedState {
+    False,
+    True,
+    Indeterminate,
+}
+
+impl Display for CheckedState {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                CheckedState::False => "false",
+                CheckedState::True => "true",
+                CheckedState::Indeterminate => "mixed",
+            }
+        )
+    }
+}
+
 #[derive(Clone, Debug, PartialEq)]
-struct SwitchContextValue {
-    checked: bool,
+struct CheckboxContextValue {
+    state: CheckedState,
     disabled: bool,
 }
 
 #[derive(PartialEq, Properties)]
-pub struct SwitchProps {
+pub struct CheckboxProps {
     #[prop_or_default]
-    pub checked: Option<bool>,
+    pub checked: Option<CheckedState>,
     #[prop_or_default]
-    pub default_checked: Option<bool>,
+    pub default_checked: Option<CheckedState>,
     #[prop_or_default]
-    pub on_checked_change: Callback<bool>,
+    pub on_checked_change: Callback<CheckedState>,
 
     // Global attributes
     #[prop_or_default]
@@ -41,20 +69,22 @@ pub struct SwitchProps {
     // Event handler attributes
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<SwitchChildProps, Html>>,
+    pub as_child: Option<Callback<CheckboxChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
 #[derive(Clone, Default, PartialEq, StructComponent)]
 #[struct_component(tag = "button")]
-pub struct SwitchChildProps {
+pub struct CheckboxChildProps {
     pub node_ref: NodeRef,
     pub attributes: Attributes,
 
@@ -75,19 +105,23 @@ pub struct SwitchChildProps {
 
     // Event handler attributes
     pub onclick: Callback<MouseEvent>,
+    pub onkeydown: Callback<KeyboardEvent>,
 }
 
 #[function_component]
-pub fn Switch(props: &SwitchProps) -> Html {
+pub fn Checkbox(props: &CheckboxProps) -> Html {
     let button_ref = use_node_ref();
+    let button = use_state_eq(|| None);
     let composed_refs = use_composed_ref(&[props.node_ref.clone(), button_ref.clone()]);
 
     // We set this to true by default so that events bubble to forms without JS (SSR).
     let is_form_control = use_state_eq(|| true);
     use_effect_with(button_ref.clone(), {
+        let button = button.clone();
         let is_form_control = is_form_control.clone();
 
         move |button_ref| {
+            button.set(button_ref.cast::<web_sys::HtmlButtonElement>());
             is_form_control.set(
                 button_ref
                     .cast::<web_sys::Element>()
@@ -100,7 +134,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
 
     let on_change = use_callback(
         props.on_checked_change.clone(),
-        |value: Option<bool>, on_checked_change| {
+        |value: Option<CheckedState>, on_checked_change| {
             if let Some(value) = value {
                 on_checked_change.emit(value);
             }
@@ -111,27 +145,67 @@ pub fn Switch(props: &SwitchProps) -> Html {
         on_change: Some(on_change),
         default_prop: props.default_checked,
     });
-    let checked = checked.unwrap_or(false);
+    let checked = checked.unwrap_or(CheckedState::False);
+
+    let initial_checked_state = use_mut_ref(|| checked);
+
+    let handle_reset: Rc<Closure<dyn Fn(Event)>> = Rc::new(Closure::new({
+        let set_checked = set_checked.clone();
+
+        move |_| {
+            set_checked.emit(Some(*initial_checked_state.borrow()));
+        }
+    }));
+    use_effect_with(button, |button| {
+        let mut cleanup: Option<Box<dyn Fn()>> = None;
+
+        let form = button.as_ref().and_then(|button| button.form());
+        if let Some(form) = form {
+            form.add_event_listener_with_callback(
+                "reset",
+                (*handle_reset).as_ref().unchecked_ref(),
+            )
+            .expect("Reset event listener should be added.");
+
+            cleanup = Some(Box::new(move || {
+                form.remove_event_listener_with_callback(
+                    "reset",
+                    (*handle_reset).as_ref().unchecked_ref(),
+                )
+                .expect("Reset event listener should be removed.");
+            }));
+        }
+
+        move || {
+            if let Some(cleanup) = cleanup {
+                cleanup();
+            }
+        }
+    });
 
     let context_value = use_memo((checked, props.disabled), |(checked, disabled)| {
-        SwitchContextValue {
-            checked: *checked,
+        CheckboxContextValue {
+            state: *checked,
             disabled: *disabled,
         }
     });
 
-    let on_click = compose_callbacks(
+    let onclick = compose_callbacks(
         Some(props.on_click.clone()),
         Some(Callback::from({
             let is_form_control = is_form_control.clone();
 
             move |event: MouseEvent| {
-                set_checked.emit(Some(!checked));
+                set_checked.emit(Some(match checked {
+                    CheckedState::False => CheckedState::True,
+                    CheckedState::True => CheckedState::False,
+                    CheckedState::Indeterminate => CheckedState::True,
+                }));
 
                 if *is_form_control {
-                    // If switch is in a form, stop propagation from the button, so that we only propagate
+                    // If checkbox is in a form, stop propagation from the button, so that we only propagate
                     // one click event (from the input). We propagate changes from an input so that native
-                    // form validation works and form events reflect switch updates.
+                    // form validation works and form events reflect checkbox updates.
                     event.stop_propagation();
                 }
             }
@@ -139,18 +213,29 @@ pub fn Switch(props: &SwitchProps) -> Html {
         None,
     );
 
-    let child_props = SwitchChildProps {
+    let onkeydown = compose_callbacks(
+        Some(props.on_key_down.clone()),
+        Some(Callback::from(|event: KeyboardEvent| {
+            // According to WAI ARIA, checkboxes don't activate on enter keypress.
+            if event.key() == "Enter" {
+                event.prevent_default();
+            }
+        })),
+        None,
+    );
+
+    let child_props = CheckboxChildProps {
         node_ref: composed_refs,
         attributes: props.attributes.clone(),
 
         // Global attributes
-        aria_checked: if checked { "true" } else { "false" }.to_owned(),
+        aria_checked: checked.to_string(),
         aria_required: if props.required { "true" } else { "false" }.to_owned(),
         class: props.class.clone(),
         data_disabled: props.disabled.then_some("".to_owned()),
         data_state: get_state(checked),
         id: props.id.clone(),
-        role: "switch".to_owned(),
+        role: "checkbox".to_owned(),
         style: props.style.clone(),
 
         // Attributes from `button`
@@ -159,11 +244,12 @@ pub fn Switch(props: &SwitchProps) -> Html {
         value: props.value.clone(),
 
         // Event handler attributes
-        onclick: on_click.clone(),
+        onclick,
+        onkeydown,
     };
 
     html! {
-        <ContextProvider<SwitchContextValue> context={(*context_value).clone()}>
+        <ContextProvider<CheckboxContextValue> context={(*context_value).clone()}>
             if let Some(as_child) = props.as_child.as_ref() {
                 {as_child.emit(child_props)}
             } else {
@@ -181,12 +267,16 @@ pub fn Switch(props: &SwitchProps) -> Html {
                     value={props.value.clone()}
                 />
             }
-        </ContextProvider<SwitchContextValue>>
+        </ContextProvider<CheckboxContextValue>>
     }
 }
 
 #[derive(PartialEq, Properties)]
-pub struct SwitchThumbProps {
+pub struct CheckboxIndicatorProps {
+    /// Used to force mounting when more control is needed. Useful when controlling animation with animation libraries.
+    #[prop_or_default]
+    pub force_mount: Option<bool>,
+
     // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
@@ -200,14 +290,14 @@ pub struct SwitchThumbProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<SwitchThumbChildProps, Html>>,
+    pub as_child: Option<Callback<CheckboxIndicatorChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
 #[derive(Clone, Default, PartialEq, StructComponent)]
 #[struct_component(tag = "span")]
-pub struct SwitchThumbChildProps {
+pub struct CheckboxIndicatorChildProps {
     pub node_ref: NodeRef,
     pub attributes: Attributes,
 
@@ -216,29 +306,51 @@ pub struct SwitchThumbChildProps {
     pub data_disabled: Option<String>,
     pub data_state: String,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: String,
 }
 
 #[function_component]
-pub fn SwitchThumb(props: &SwitchThumbProps) -> Html {
-    let context = use_context::<SwitchContextValue>().expect("Switch context required.");
+pub fn CheckboxIndicator(props: &CheckboxIndicatorProps) -> Html {
+    let context = use_context::<CheckboxContextValue>().expect("Checkbox context required.");
 
-    let child_props = SwitchThumbChildProps {
-        node_ref: props.node_ref.clone(),
-        attributes: props.attributes.clone(),
+    html! {
+        <Presence
+            present={props.force_mount.unwrap_or_default() || is_indeterminiate(context.state) || context.state == CheckedState::True}
 
-        // Global attributes
-        class: props.class.clone(),
-        data_disabled: context.disabled.then_some("".to_owned()),
-        data_state: get_state(context.checked),
-        id: props.id.clone(),
-        style: props.style.clone(),
-    };
+            node_ref={props.node_ref.clone()}
+            as_child={Callback::from({
+                let class = props.class.clone();
+                let id = props.id.clone();
+                let style = props.style.clone();
 
-    if let Some(as_child) = props.as_child.as_ref() {
-        as_child.emit(child_props)
-    } else {
-        child_props.render(props.children.clone())
+                let attributes = props.attributes.clone();
+                let as_child = props.as_child.clone();
+                let children = props.children.clone();
+
+                move |PresenceChildProps { node_ref }| {
+                    let child_props = CheckboxIndicatorChildProps {
+                        node_ref,
+                        attributes: attributes.clone(),
+
+                        // Global attributes
+                        class: class.clone(),
+                        data_disabled: context.disabled.then_some("".to_owned()),
+                        data_state: get_state(context.state),
+                        id: id.clone(),
+                        style: format!(
+                            "pointer-events: none;{}",
+                            style.clone().unwrap_or_default()
+                        ),
+                    };
+
+                    if let Some(as_child) = as_child.as_ref() {
+                        as_child.emit(child_props)
+                    } else {
+                        child_props.render(children.clone())
+                    }
+                }
+            })}
+        />
     }
 }
 
@@ -249,7 +361,7 @@ struct BubbleInputProps {
     #[prop_or(true)]
     pub bubbles: bool,
 
-    pub checked: bool,
+    pub checked: CheckedState,
     pub disabled: bool,
     #[prop_or_default]
     pub name: Option<String>,
@@ -275,7 +387,12 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
                     let event = web_sys::Event::new_with_event_init_dict("click", &init)
                         .expect("Click event should be instantiated.");
 
-                    input.set_checked(*checked);
+                    input.set_indeterminate(is_indeterminiate(*checked));
+                    input.set_checked(match checked {
+                        CheckedState::False => false,
+                        CheckedState::True => true,
+                        CheckedState::Indeterminate => false,
+                    });
 
                     input
                         .dispatch_event(&event)
@@ -300,7 +417,11 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
             )}
             tabindex="-1"
 
-            checked={props.checked}
+            checked={match props.checked {
+                CheckedState::False => false,
+                CheckedState::True => true,
+                CheckedState::Indeterminate => false,
+            }}
             disabled={props.disabled}
             name={props.name.clone()}
             required={props.required}
@@ -310,10 +431,15 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
     }
 }
 
-fn get_state(checked: bool) -> String {
+fn is_indeterminiate(checked: CheckedState) -> bool {
+    checked == CheckedState::Indeterminate
+}
+
+fn get_state(checked: CheckedState) -> String {
     (match checked {
-        true => "checked",
-        false => "unchecked",
+        CheckedState::True => "checked",
+        CheckedState::False => "unchecked",
+        CheckedState::Indeterminate => "indeterminate",
     })
     .into()
 }

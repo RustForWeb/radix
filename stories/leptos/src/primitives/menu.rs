@@ -92,26 +92,26 @@ fn Submenu() -> impl IntoView {
 #[tw(
     class = "inline-block box-border min-w-[130px] bg-[#fff] border border-solid border-[#ccc] rounded-[6px] p-[5px] shadow-[0px_5px_10px_0px_rgba(0,0,0,0.1)] font-['apple-system, BlinkMacSystemFont, helvetica, arial, sans-serif'] text-[13px] focus-within:border-[#111]"
 )]
-pub struct ContentClass {}
+struct ContentClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "flex items-center justify-between leading-none cursor-default select-none whitespace-nowrap h-[25px] p-[0px_10px] text-[#ccc] rounded-[3px]"
 )]
-pub struct LabelClass {}
+struct LabelClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "flex items-center justify-between leading-none cursor-default select-none whitespace-nowrap h-[25px] p-[0px_10px] text-[#111] rounded-[3px] outline-none data-highlighted:bg-[#111] data-highlighted:text-[#fff] data-disabled:text-[#ccc]"
 )]
-pub struct ItemClass {}
+struct ItemClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "flex items-center justify-between leading-none cursor-default select-none whitespace-nowrap h-[25px] p-[0px_10px] text-[#111] rounded-[3px] outline-none data-highlighted:bg-[#111] data-highlighted:text-[#fff] data-disabled:text-[#ccc] [&:not([data-highlighted])[data-state=\"open\"]]:bg-[#ccc] [&:not([data-highlighted])[data-state=\"open\"]]:text-[#111]"
 )]
-pub struct SubTriggerClass {}
+struct SubTriggerClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "h-[1px] m-[5px_10px] bg-[#ccc]")]
-pub struct SeparatorClass {}
+struct SeparatorClass {}

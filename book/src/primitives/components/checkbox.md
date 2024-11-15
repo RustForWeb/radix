@@ -12,6 +12,15 @@ files = ["src/checkbox.rs"]
 ```
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```toml,trunk
+package = "radix-yew-book-primitives"
+features = ["checkbox"]
+files = ["src/checkbox.rs"]
+```
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Features
@@ -36,6 +45,17 @@ cargo add radix-leptos-checkbox
 -   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/checkbox)
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+```shell
+cargo add radix-yew-checkbox
+```
+
+-   [View on crates.io](https://crates.io/crates/radix-yew-checkbox)
+-   [View on docs.rs](https://docs.rs/radix-yew-checkbox/latest/radix_yew_checkbox/)
+-   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/checkbox)
+
+{{#endtab }}
 {{#endtabs }}
 
 ## Anatomy
@@ -52,6 +72,23 @@ use radix_leptos_checkbox::*;
 #[component]
 fn Anatomy() -> impl IntoView {
     view! {
+        <Checkbox>
+            <CheckboxIndicator />
+        </Checkbox>
+    }
+}
+```
+
+{{#endtab }}
+{{#tab name="Leptos" }}
+
+```rust,ignore
+use radix_yew_checkbox::*;
+use yew::prelude::*;
+
+#[function_component]
+fn Anatomy() -> Htm; {
+    html! {
         <Checkbox>
             <CheckboxIndicator />
         </Checkbox>
@@ -83,6 +120,20 @@ Contains all the parts of a checkbox. An `input` will also render when used with
 | `value`             | `MaybeProp<String>`       | `"on"`  |
 
 {{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop                | Type                                         | Default |
+| ------------------- | -------------------------------------------- | ------- |
+| `as_child`          | `Option<Callback<CheckboxChildProps, Html>>` | -       |
+| `default_checked`   | `Option<CheckedState>`                       | -       |
+| `checked`           | `Option<CheckedState>`                       | -       |
+| `on_checked_change` | `Callback<bool>`                             | -       |
+| `disabled`          | `Option<bool>`                               | -       |
+| `required`          | `Option<bool>`                               | -       |
+| `name`              | `Option<String>`                             | -       |
+| `value`             | `String`                                     | `"on"`  |
+
+{{#endtab }}
 {{#endtabs }}
 
 <div style="height: 1em;"></div>
@@ -102,7 +153,15 @@ Renders when the checkbox is in a checked or indeterminate state. You can style 
 | Prop          | Type              | Default |
 | ------------- | ----------------- | ------- |
 | `as_child`    | `MaybeProp<bool>` | `false` |
-| `force_mount` | `MaybeProp<bool>` |         |
+| `force_mount` | `MaybeProp<bool>` | -       |
+
+{{#endtab }}
+{{#tab name="Yew" }}
+
+| Prop          | Type                                              | Default |
+| ------------- | ------------------------------------------------- | ------- |
+| `as_child`    | `Option<Callback<CheckboxThumbChildProps, Html>>` | -       |
+| `force_mount` | `Option<bool>`                                    | -       |
 
 {{#endtab }}
 {{#endtabs }}
@@ -115,6 +174,10 @@ Renders when the checkbox is in a checked or indeterminate state. You can style 
 | `[data-disabled]` | Present when disabled                         |
 
 ## Examples
+
+### Indeterminate
+
+You can set the checkbox to `CheckedState::Indeterminate` by taking control of its state.
 
 TODO
 

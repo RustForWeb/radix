@@ -50,10 +50,10 @@ fn Control(#[prop(attrs)] attrs: Vec<(&'static str, Attribute)>) -> impl IntoVie
 #[tw(
     class = "inline-block align-middle cursor-default border-[1px] border-solid border-[gainsboro] p-[10px]"
 )]
-pub struct RootClass {}
+struct RootClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "inline-flex border-[1px] border-solid border-[gainsboro] p-[10px] align-middle m-[0px_10px] hover:bg-[red]"
 )]
-pub struct ControlClass {}
+struct ControlClass {}

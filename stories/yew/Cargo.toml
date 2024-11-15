@@ -16,6 +16,7 @@ log.workspace = true
 radix-yew-arrow = { path = "../../packages/primitives/yew/arrow" }
 radix-yew-aspect-ratio = { path = "../../packages/primitives/yew/aspect-ratio" }
 radix-yew-avatar = { path = "../../packages/primitives/yew/avatar" }
+radix-yew-checkbox = { path = "../../packages/primitives/yew/checkbox" }
 radix-yew-collection = { path = "../../packages/primitives/yew/collection" }
 radix-yew-focus-scope = { path = "../../packages/primitives/yew/focus-scope" }
 radix-yew-label = { path = "../../packages/primitives/yew/label" }

@@ -3145,6 +3145,7 @@ dependencies = [
  "log",
  "radix-yew-aspect-ratio",
  "radix-yew-avatar",
+ "radix-yew-checkbox",
  "radix-yew-icons",
  "radix-yew-label",
  "radix-yew-select",
@@ -3165,6 +3166,20 @@ dependencies = [
  "radix-yew-themes",
  "yew",
  "yew-router",
+]
+
+[[package]]
+name = "radix-yew-checkbox"
+version = "0.0.2"
+dependencies = [
+ "radix-yew-presence",
+ "radix-yew-primitive",
+ "radix-yew-use-controllable-state",
+ "radix-yew-use-previous",
+ "radix-yew-use-size",
+ "web-sys",
+ "yew",
+ "yew-struct-component",
 ]
 
 [[package]]
@@ -3311,6 +3326,7 @@ dependencies = [
  "radix-yew-arrow",
  "radix-yew-aspect-ratio",
  "radix-yew-avatar",
+ "radix-yew-checkbox",
  "radix-yew-collection",
  "radix-yew-focus-scope",
  "radix-yew-label",

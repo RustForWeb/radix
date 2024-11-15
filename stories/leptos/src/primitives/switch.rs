@@ -200,28 +200,28 @@ pub fn Chromatic() -> impl IntoView {
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "inline-block align-middle cursor-default")]
-pub struct LabelClass {}
+struct LabelClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "align-middle text-left outline-none border-none w-[50px] p-[4px] rounded-[9999px] bg-[#aaa] transition-[background-color] duration-[166ms] ease-[ease-out] box-border leading-[normal] focus:outline-none focus:shadow-[0_0_0_2px_#111] data-[state=checked]:bg-[crimson] data-[state=checked]:border-[crimson] data-[disabled]:opacity-50"
 )]
-pub struct RootClass {}
+struct RootClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "inline-block align-middle w-[20px] h-[20px] bg-[#fff] rounded-[9999px] transition-[transform] duration-[166ms] ease-[ease-out] data-[state=checked]:translate-x-[calc(50px-4px*2-20px)]"
 )]
-pub struct ThumbClass {}
+struct ThumbClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] p-[10px] box-border leading-[normal] data-[state=unchecked]:border-[red] data-[state=checked]:border-[green] data-[state=indeterminate]:border-[purple] data-[disabled]:border-dashed disabled:opacity-50"
 )]
-pub struct RootAttrClass {}
+struct RootAttrClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] p-[10px] data-[state=unchecked]:border-[red] data-[state=checked]:border-[green] data-[state=indeterminate]:border-[purple] data-[disabled]:border-dashed disabled:opacity-50"
 )]
-pub struct ThumbAttrClass {}
+struct ThumbAttrClass {}

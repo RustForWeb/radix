@@ -183,26 +183,26 @@ fn Toggles(
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "animate-[presenceFadeIn_3s_ease-out]")]
-pub struct MountAnimationClass {}
+struct MountAnimationClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "data-[state=closed]:animate-[presenceFadeOut_3s_ease-out]")]
-pub struct UnmountAnimationClass {}
+struct UnmountAnimationClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "animate-[presenceFadeIn_6s_cubic-bezier(0.22,1,0.36,1),presenceSlideUp_6s_cubic-bezier(0.22,1,0.36,1)]"
 )]
-pub struct MultipleMountAnimationsClass {}
+struct MultipleMountAnimationsClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "data-[state=open]:animate-[presenceFadeIn_3s_ease-out] data-[state=closed]:animate-[presenceFadeOut_3s_ease-out]"
 )]
-pub struct OpenAndCloseAnimationClass {}
+struct OpenAndCloseAnimationClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "data-[state=open]:animate-[presenceFadeIn_6s_cubic-bezier(0.22,1,0.36,1),presenceSlideUp_6s_cubic-bezier(0.22,1,0.36,1)] data-[state=closed]:animate-[presenceFadeOut_6s_cubic-bezier(0.22,1,0.36,1),presenceSlideDown_6s_cubic-bezier(0.22,1,0.36,1)]"
 )]
-pub struct MultipleOpenAndCloseAnimationsClass {}
+struct MultipleOpenAndCloseAnimationsClass {}

@@ -13,12 +13,12 @@ pub fn Styled() -> Html {
 
     let open = use_state_eq(|| false);
 
-    let on_open = use_callback((), {
+    let handle_open = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(true)
     });
-    let on_close = use_callback((), {
+    let handle_close = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(false)
@@ -27,13 +27,13 @@ pub fn Styled() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={handle_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
                     <PopperContent class={(*content_class).clone()} side_offset=5.0>
-                        <button onclick={on_close}>{"close"}</button>
+                        <button onclick={handle_close}>{"close"}</button>
                         <PopperArrow class={(*arrow_class).clone()} width=20.0 height=10.0 />
                     </PopperContent>
                 }
@@ -49,12 +49,12 @@ pub fn WithCustomArrow() -> Html {
 
     let open = use_state_eq(|| false);
 
-    let on_open = use_callback((), {
+    let handle_open = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(true)
     });
-    let on_close = use_callback((), {
+    let handle_close = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(false)
@@ -63,17 +63,13 @@ pub fn WithCustomArrow() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={handle_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
                     <PopperContent class={(*content_class).clone()} side={Side::Right} side_offset=5.0>
-                        <button onclick={on_close}>{"close"}</button>
-                        // <PopperArrow as_child=true attrs={attrs!{ offset=20 }}>
-                        //     <CustomArrow />
-                        // </PopperArrow>
-
+                        <button onclick={handle_close}>{"close"}</button>
                         <PopperArrow
                             as_child={Callback::from(|PopperArrowChildProps { node_ref, style, .. }| html! {
                                 <CustomArrow node_ref={node_ref} style={style} />
@@ -94,12 +90,12 @@ pub fn Animated() -> Html {
 
     let open = use_state_eq(|| false);
 
-    let on_open = use_callback((), {
+    let handle_open = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(true)
     });
-    let on_close = use_callback((), {
+    let handle_close = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(false)
@@ -108,13 +104,13 @@ pub fn Animated() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={handle_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
                     <PopperContent class={(*animated_content_class).clone()} side_offset=5.0>
-                        <button onclick={on_close}>{"close"}</button>
+                        <button onclick={handle_close}>{"close"}</button>
                         <PopperArrow class={(*arrow_class).clone()} width=20.0 height=10.0 />
                     </PopperContent>
                 }
@@ -132,12 +128,12 @@ pub fn WithPortal() -> Html {
 
     let open = use_state_eq(|| false);
 
-    let on_open = use_callback((), {
+    let handle_open = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(true)
     });
-    let on_close = use_callback((), {
+    let handle_close = use_callback((), {
         let open = open.clone();
 
         move |_, _| open.set(false)
@@ -146,14 +142,14 @@ pub fn WithPortal() -> Html {
     html! {
         <Scrollable>
             <Popper>
-                <PopperAnchor class={(*anchor_class).clone()} on_click={on_open}>
+                <PopperAnchor class={(*anchor_class).clone()} on_click={handle_open}>
                     {"open"}
                 </PopperAnchor>
 
                 if *open {
                     // <Portal as_child=true>
                         <PopperContent class={(*content_class).clone()} side_offset=5.0>
-                            <button onclick={on_close}>{"close"}</button>
+                            <button onclick={handle_close}>{"close"}</button>
                             <PopperArrow class={(*arrow_class).clone()} width=20.0 height=10.0 />
                         </PopperContent>
                     // </Portal>

@@ -33,4 +33,4 @@ pub fn Styled() -> impl IntoView {
 #[tw(
     class = "border-none bg-[crimson] data-[orientation=horizontal]:h-[1px] data-[orientation=horizontal]:w-full data-[orientation=horizontal]:m-[20px_0px]  data-[orientation=vertical]:h-[100px] data-[orientation=vertical]:w-[1px] data-[orientation=vertical]:m-[0px_20px]"
 )]
-pub struct RootClass {}
+struct RootClass {}

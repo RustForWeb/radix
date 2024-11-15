@@ -494,12 +494,12 @@ fn CustomArrow(#[prop(attrs)] attrs: Vec<(&'static str, Attribute)>) -> impl Int
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "origin-[--radix-popper-transform-origin] bg-[#ccc] p-[10px] rounded-[10px]")]
-pub struct ContentClass {
+struct ContentClass {
     pub size: ContentSize,
 }
 
 #[derive(TwVariant)]
-pub enum ContentSize {
+enum ContentSize {
     #[tw(class = "w-[100px] h-[50px]")]
     #[allow(dead_code)]
     Small,
@@ -508,7 +508,7 @@ pub enum ContentSize {
 }
 
 #[derive(TwVariant)]
-pub enum AnchorSize {
+enum AnchorSize {
     #[tw(class = "size-[50px]")]
     #[allow(dead_code)]
     Small,
@@ -518,18 +518,18 @@ pub enum AnchorSize {
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "bg-[hotpink]")]
-pub struct AnchorClass {
+struct AnchorClass {
     pub size: AnchorSize,
 }
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "fill-[#ccc]")]
-pub struct ArrowClass {}
+struct ArrowClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[#ccc] p-[10px] rounded-[10px] data-[side=top]:[--direction:1] data-[side=bottom]:[--direction:-1] animate-[popperRotateIn_0.6s_cubic-bezier(0.16,1,0.3,1)]"
 )]
-pub struct AnimatedContentClass {
+struct AnimatedContentClass {
     pub size: ContentSize,
 }

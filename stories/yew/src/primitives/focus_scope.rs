@@ -6,16 +6,16 @@ pub fn Basic() -> Html {
     let trapped = use_state(|| false);
     let has_destroy_button = use_state(|| true);
 
-    let on_click_trap = use_callback(trapped.clone(), |_, trapped| trapped.set(true));
-    let on_click_untrap = use_callback(trapped.clone(), |_, trapped| trapped.set(false));
-    let on_click_destroy = use_callback(has_destroy_button.clone(), |_, has_destroy_button| {
+    let handle_click_trap = use_callback(trapped.clone(), |_, trapped| trapped.set(true));
+    let handle_click_untrap = use_callback(trapped.clone(), |_, trapped| trapped.set(false));
+    let handle_click_destroy = use_callback(has_destroy_button.clone(), |_, has_destroy_button| {
         has_destroy_button.set(false)
     });
 
     html! {
         <>
             <div>
-                <button type="button" onclick={on_click_trap}>
+                <button type="button" onclick={handle_click_trap}>
                     {"Trap"}
                 </button>
                 <input /> <input />
@@ -36,12 +36,12 @@ pub fn Basic() -> Html {
                             <input type="number" placeholder="Age" />
                             if *has_destroy_button {
                                 <div>
-                                    <button type="button" onclick={on_click_destroy.clone()}>
+                                    <button type="button" onclick={handle_click_destroy.clone()}>
                                         {"Destroy me"}
                                     </button>
                                 </div>
                             }
-                            <button type="button" onclick={on_click_untrap.clone()}>
+                            <button type="button" onclick={handle_click_untrap.clone()}>
                                 {"Close"}
                             </button>
                         </form>
@@ -60,15 +60,15 @@ pub fn Multiple() -> Html {
     let trapped1 = use_state(|| false);
     let trapped2 = use_state(|| false);
 
-    let on_click_trap1 = use_callback(trapped1.clone(), |_, trapped1| trapped1.set(true));
-    let on_click_untrap1 = use_callback(trapped1.clone(), |_, trapped1| trapped1.set(false));
-    let on_click_trap2 = use_callback(trapped2.clone(), |_, trapped2| trapped2.set(true));
-    let on_click_untrap2 = use_callback(trapped2.clone(), |_, trapped2| trapped2.set(false));
+    let handle_click_trap1 = use_callback(trapped1.clone(), |_, trapped1| trapped1.set(true));
+    let handle_click_untrap1 = use_callback(trapped1.clone(), |_, trapped1| trapped1.set(false));
+    let handle_click_trap2 = use_callback(trapped2.clone(), |_, trapped2| trapped2.set(true));
+    let handle_click_untrap2 = use_callback(trapped2.clone(), |_, trapped2| trapped2.set(false));
 
     html! {
         <div style="display: inline-flex; flex-direction: column; gap: 10px;">
             <div>
-                <button type="button" onclick={on_click_trap1}>
+                <button type="button" onclick={handle_click_trap1}>
                     {"Trap 1"}
                 </button>
             </div>
@@ -86,7 +86,7 @@ pub fn Multiple() -> Html {
                             <input type="text" placeholder="First name" />
                             <input type="text" placeholder="Last name" />
                             <input type="number" placeholder="Age" />
-                            <button type="button" onclick={on_click_untrap1.clone()}>
+                            <button type="button" onclick={handle_click_untrap1.clone()}>
                                 {"Close"}
                             </button>
                         </form>
@@ -94,7 +94,7 @@ pub fn Multiple() -> Html {
                 />
             }
             <div>
-                <button type="button" onclick={on_click_trap2}>
+                <button type="button" onclick={handle_click_trap2}>
                     {"Trap 2"}
                 </button>
             </div>
@@ -112,7 +112,7 @@ pub fn Multiple() -> Html {
                             <input type="text" placeholder="First name" />
                             <input type="text" placeholder="Last name" />
                             <input type="number" placeholder="Age" />
-                            <button type="button" onclick={on_click_untrap2.clone()}>
+                            <button type="button" onclick={handle_click_untrap2.clone()}>
                                 {"Close"}
                             </button>
                         </form>

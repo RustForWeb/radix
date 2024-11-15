@@ -51,10 +51,10 @@ pub fn Chromatic() -> impl IntoView {
 #[tw(
     class = "p-[6px] leading-[1] border-none font-sans font-bold focus:outline-none focus:shadow-[0_0_0_2px_#111] data-[disabled]:opacity-50 data-[state=off]:bg-[red] data-[state=off]:text-[#fff] data-[state=on]:bg-[green] data-[state=on]:text-[#fff]"
 )]
-pub struct RootClass {}
+struct RootClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] p-[10px] disabled:opacity-50 data-[disabled]:border-dashed"
 )]
-pub struct RootAttrClass {}
+struct RootAttrClass {}

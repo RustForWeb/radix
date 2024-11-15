@@ -15,6 +15,7 @@ console_log.workspace = true
 log.workspace = true
 radix-yew-aspect-ratio = { path = "../../../packages/primitives/yew/aspect-ratio", optional = true }
 radix-yew-avatar = { path = "../../../packages/primitives/yew/avatar", optional = true }
+radix-yew-checkbox = { path = "../../../packages/primitives/yew/checkbox", optional = true }
 radix-yew-icons = { path = "../../../packages/icons/yew", optional = true }
 radix-yew-label = { path = "../../../packages/primitives/yew/label", optional = true }
 radix-yew-select = { path = "../../../packages/primitives/yew/select", optional = true }
@@ -27,6 +28,7 @@ yew = { workspace = true, features = ["csr"] }
 default = [
     "aspect-ratio",
     "avatar",
+    "checkbox",
     "label",
     "select",
     "separator",
@@ -35,6 +37,11 @@ default = [
 ]
 aspect-ratio = ["dep:radix-yew-aspect-ratio"]
 avatar = ["dep:radix-yew-avatar"]
+checkbox = [
+    "dep:radix-yew-checkbox",
+    "dep:radix-yew-icons",
+    "radix-yew-icons/check",
+]
 label = ["dep:radix-yew-label"]
 select = [
     "dep:radix-yew-select",

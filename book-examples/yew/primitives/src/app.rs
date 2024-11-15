@@ -18,6 +18,13 @@ pub fn App() -> Html {
             <AvatarDemo />
         });
     }
+    #[cfg(feature = "checkbox")]
+    {
+        use crate::checkbox::CheckboxDemo;
+        children.push(html! {
+            <CheckboxDemo />
+        });
+    }
     #[cfg(feature = "label")]
     {
         use crate::label::LabelDemo;

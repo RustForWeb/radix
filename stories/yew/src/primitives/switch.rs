@@ -1,7 +1,6 @@
 use radix_yew_label::*;
 use radix_yew_switch::*;
 use tailwind_fuse::*;
-use web_sys::wasm_bindgen::JsCast;
 use yew::prelude::*;
 
 #[function_component]
@@ -31,7 +30,7 @@ pub fn Controlled() -> Html {
 
     let checked = use_state_eq(|| true);
 
-    let on_checked_change = use_callback(checked.clone(), |value, checked| checked.set(value));
+    let handle_checked_change = use_callback(checked.clone(), |value, checked| checked.set(value));
 
     html! {
         <>
@@ -40,7 +39,7 @@ pub fn Controlled() -> Html {
             <Switch
                 class={(*root_class).clone()}
                 checked={*checked}
-                on_checked_change={on_checked_change}
+                on_checked_change={handle_checked_change}
             >
                 <SwitchThumb class={(*thumb_class).clone()} />
             </Switch>
@@ -67,14 +66,11 @@ pub fn WithinForm() -> Html {
     });
     let checked = use_state_eq(|| false);
 
-    let on_change = use_callback(data.clone(), |event: Event, data| {
+    let handle_change = use_callback(data.clone(), |event: Event, data| {
         // This event does not exist in the DOM, only in React.
         // To make this story functional, on_checked_change event handlers were used instead.
 
-        let input = event
-            .target()
-            .expect("Event target should exist.")
-            .unchecked_into::<web_sys::HtmlInputElement>();
+        let input = event.target_unchecked_into::<web_sys::HtmlInputElement>();
 
         match input.name().as_str() {
             "optional" => data.set(Data {
@@ -93,7 +89,7 @@ pub fn WithinForm() -> Html {
         }
     });
 
-    let on_change_optional =
+    let handle_change_optional =
         use_callback((checked.clone(), data.clone()), |value, (checked, data)| {
             checked.set(value);
             data.set(Data {
@@ -101,7 +97,7 @@ pub fn WithinForm() -> Html {
                 ..**data
             })
         });
-    let on_change_required = use_callback(data.clone(), |value, data| {
+    let handle_change_required = use_callback(data.clone(), |value, data| {
         data.set(Data {
             required: value,
             ..**data
@@ -111,7 +107,7 @@ pub fn WithinForm() -> Html {
     html! {
         <form
             onsubmit={Callback::from(|event: SubmitEvent| event.prevent_default())}
-            onchange={on_change}
+            onchange={handle_change}
         >
             <fieldset>
                 <legend>{"optional checked: "}{data.optional}</legend>
@@ -120,7 +116,7 @@ pub fn WithinForm() -> Html {
                         class={(*root_class).clone()}
                         name="optional"
                         checked={*checked}
-                        on_checked_change={on_change_optional}
+                        on_checked_change={handle_change_optional}
                     >
                         <SwitchThumb class={(*thumb_class).clone()} />
                     </Switch>{' '}
@@ -137,7 +133,7 @@ pub fn WithinForm() -> Html {
                     class={(*root_class).clone()}
                     name="required"
                     required=true
-                    on_checked_change={on_change_required}
+                    on_checked_change={handle_change_required}
                 >
                     <SwitchThumb class={(*thumb_class).clone()} />
                 </Switch>

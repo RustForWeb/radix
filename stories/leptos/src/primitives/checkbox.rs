@@ -346,34 +346,34 @@ pub fn Chromatic() -> impl IntoView {
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "inline-block align-middle cursor-default")]
-pub struct LabelClass {}
+struct LabelClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "align-middle border-[1px] border-solid border-[#aaa] w-[30px] h-[30px] p-[4px] box-border leading-[normal] focus:outline-none focus:border-[crimson] focus:shadow-[0_0_0_1px_crimson] data-[disabled]:opacity-30"
 )]
-pub struct RootClass {}
+struct RootClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[crimson] block w-[20px] h-[4px] data-[state=checked]:h-[20px] data-[state=unchecked]:h-[20px]"
 )]
-pub struct IndicatorClass {}
+struct IndicatorClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[crimson] block w-[20px] h-[4px] data-[state=checked]:h-[20px] data-[state=unchecked]:h-[20px] transition-[height] duration-[300ms] data-[state=checked]:animate-[checkboxFadeIn_1000ms_ease-out] data-[state=unchecked]:animate-[checkboxFadeOut_1000ms_ease-in]"
 )]
-pub struct AnimatedIndicatorClass {}
+struct AnimatedIndicatorClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] p-[10px] box-border leading-[normal] data-[state=unchecked]:border-[red] data-[state=checked]:border-[green] data-[state=indeterminate]:border-[purple] data-[disabled]:border-dashed disabled:opacity-50"
 )]
-pub struct RootAttrClass {}
+struct RootAttrClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(
     class = "bg-[rgba(0,0,255,0.3)] border-[2px] border-solid border-[blue] p-[10px] leading-[normal] data-[state=unchecked]:border-[red] data-[state=checked]:border-[green] data-[state=indeterminate]:border-[purple] data-[disabled]:border-dashed disabled:opacity-50"
 )]
-pub struct IndicatorAttrClass {}
+struct IndicatorAttrClass {}

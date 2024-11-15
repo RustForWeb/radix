@@ -70,13 +70,13 @@ pub fn WithFragment() -> Html {
 pub fn DynamicInsertion() -> Html {
     let has_tomato = use_state_eq(|| false);
 
-    let on_click = use_callback(has_tomato.clone(), |_, has_tomato| {
+    let handle_click = use_callback(has_tomato.clone(), |_, has_tomato| {
         has_tomato.set(!**has_tomato)
     });
 
     html! {
         <>
-            <button onclick={on_click}>
+            <button onclick={handle_click}>
                 {match *has_tomato {
                     true => "Remove",
                     false => "Add"
@@ -114,13 +114,13 @@ fn WrappedItems(props: &WrappedItemsProps) -> Html {
 pub fn WithChangingItem() -> Html {
     let is_disabled = use_state_eq(|| false);
 
-    let on_click = use_callback(is_disabled.clone(), |_, is_disabled| {
+    let handle_click = use_callback(is_disabled.clone(), |_, is_disabled| {
         is_disabled.set(!**is_disabled)
     });
 
     html! {
         <>
-            <button onclick={on_click}>
+            <button onclick={handle_click}>
                 {match *is_disabled {
                     true => "Enable",
                     false => "Disable"

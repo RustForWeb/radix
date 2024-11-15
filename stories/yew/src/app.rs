@@ -2,8 +2,8 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::primitives::{
-    arrow, aspect_ratio, avatar, collection, focus_scope, label, popper, portal, presence, select,
-    separator, switch, tooltip, visually_hidden,
+    arrow, aspect_ratio, avatar, checkbox, collection, focus_scope, label, popper, portal,
+    presence, select, separator, switch, tooltip, visually_hidden,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
@@ -29,6 +29,19 @@ enum Route {
     AvatarStyled,
     #[at("/avatar/chromatic")]
     AvatarChromatic,
+
+    #[at("/checkbox/styled")]
+    CheckboxStyled,
+    #[at("/checkbox/controlled")]
+    CheckboxControlled,
+    #[at("/checkbox/indeterminate")]
+    CheckboxIndeterminate,
+    #[at("/checkbox/within-form")]
+    CheckboxWithinForm,
+    #[at("/checkbox/animated")]
+    CheckboxAnimated,
+    #[at("/checkbox/chromatic")]
+    CheckboxChromatic,
 
     #[at("/collection/basic")]
     CollectionBasic,
@@ -203,6 +216,13 @@ fn switch(routes: Route) -> Html {
         Route::AvatarStyled => html! { <avatar::Styled /> },
         Route::AvatarChromatic => html! { <avatar::Chromatic /> },
 
+        Route::CheckboxStyled => html! { <checkbox::Styled /> },
+        Route::CheckboxControlled => html! { <checkbox::Controlled /> },
+        Route::CheckboxIndeterminate => html! { <checkbox::Indeterminate /> },
+        Route::CheckboxWithinForm => html! { <checkbox::WithinForm /> },
+        Route::CheckboxAnimated => html! { <checkbox::Animated /> },
+        Route::CheckboxChromatic => html! { <checkbox::Chromatic /> },
+
         Route::CollectionBasic => html! { <collection::Basic /> },
         Route::CollectionWithElementsInBetween => html! { <collection::WithElementsInBetween /> },
         Route::CollectionWithWrappedItem => html! { <collection::WithWrappedItem /> },
@@ -355,6 +375,18 @@ pub fn App() -> Html {
                         <ul class="ms-4">
                             <li><Link<Route> to={Route::AvatarStyled}>{"Styled"}</Link<Route>></li>
                             <li><Link<Route> to={Route::AvatarChromatic}>{"Chromatic"}</Link<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Checkbox"}
+
+                        <ul class="ms-4">
+                            <li><Link<Route> to={Route::CheckboxStyled}>{"Styled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CheckboxControlled}>{"Controlled"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CheckboxIndeterminate}>{"Indeterminate"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CheckboxWithinForm}>{"Within Form"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CheckboxAnimated}>{"Animated"}</Link<Route>></li>
+                            <li><Link<Route> to={Route::CheckboxChromatic}>{"Chromatic"}</Link<Route>></li>
                         </ul>
                     </li>
                     <li>

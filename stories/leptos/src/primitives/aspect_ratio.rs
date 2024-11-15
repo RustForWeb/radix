@@ -80,4 +80,4 @@ pub fn Chromatic() -> impl IntoView {
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "flex items-center justify-center bg-[crimson] text-[#fff]")]
-pub struct RootClass {}
+struct RootClass {}

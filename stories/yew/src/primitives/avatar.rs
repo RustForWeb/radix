@@ -94,12 +94,12 @@ fn AvatarIcon() -> Html {
 #[tw(
     class = "inline-flex items-center justify-center align-middle overflow-hidden select-none rounded-[9999px] w-[48px] h-[48px]"
 )]
-pub struct RootClass {}
+struct RootClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "w-full h-full object-cover")]
-pub struct ImageClass {}
+struct ImageClass {}
 
 #[derive(TwClass, Default, Clone, Copy)]
 #[tw(class = "w-full h-full flex items-center justify-center bg-[#111] text-[#fff]")]
-pub struct FallbackClass {}
+struct FallbackClass {}
