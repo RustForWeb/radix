@@ -2,20 +2,39 @@ use yew::prelude::*;
 
 #[derive(PartialEq, Properties)]
 pub struct ThickDividerHorizontalIconProps {
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
+    #[prop_or_default]
+    pub data_disabled: Option<String>,
+    #[prop_or_default]
+    pub data_state: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 
 #[function_component]
 pub fn ThickDividerHorizontalIcon(props: &ThickDividerHorizontalIconProps) -> Html {
     html! {
         <svg
+            ref={props.node_ref.clone()}
+
+            class={props.class.clone()}
+            data-disabled={props.data_disabled.clone()}
+            data-state={props.data_state.clone()}
+            id={props.id.clone()}
+            style={props.style.clone()}
+
             width="9"
             height="9"
             viewBox="0 0 9 9"
             fill="currentcolor"
             xmlns="http://www.w3.org/2000/svg"
-            class={props.class.clone()}
         >
             <path
                 fillRule="evenodd"
@@ -28,20 +47,39 @@ pub fn ThickDividerHorizontalIcon(props: &ThickDividerHorizontalIconProps) -> Ht
 
 #[derive(PartialEq, Properties)]
 pub struct ThickCheckIconProps {
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
+    #[prop_or_default]
+    pub data_disabled: Option<String>,
+    #[prop_or_default]
+    pub data_state: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 
 #[function_component]
 pub fn ThickCheckIcon(props: &ThickCheckIconProps) -> Html {
     html! {
         <svg
+            ref={props.node_ref.clone()}
+
+            class={props.class.clone()}
+            data-disabled={props.data_disabled.clone()}
+            data-state={props.data_state.clone()}
+            id={props.id.clone()}
+            style={props.style.clone()}
+
             width="9"
             height="9"
             viewBox="0 0 9 9"
             fill="currentcolor"
             xmlns="http://www.w3.org/2000/svg"
-            class={props.class.clone()}
         >
             <path
                 fillRule="evenodd"
@@ -54,20 +92,39 @@ pub fn ThickCheckIcon(props: &ThickCheckIconProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct ChevronDownIconProps {
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
+    #[prop_or_default]
+    pub data_disabled: Option<String>,
+    #[prop_or_default]
+    pub data_state: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 
 #[function_component]
 pub fn ChevronDownIcon(props: &ChevronDownIconProps) -> Html {
     html! {
         <svg
+            ref={props.node_ref.clone()}
+
+            class={props.class.clone()}
+            data-disabled={props.data_disabled.clone()}
+            data-state={props.data_state.clone()}
+            id={props.id.clone()}
+            style={props.style.clone()}
+
             width="9"
             height="9"
             viewBox="0 0 9 9"
             fill="currentcolor"
             xmlns="http://www.w3.org/2000/svg"
-            class={props.class.clone()}
         >
             <path d="M0.135232 3.15803C0.324102 2.95657 0.640521 2.94637 0.841971 3.13523L4.5 6.56464L8.158 3.13523C8.3595 2.94637 8.6759 2.95657 8.8648 3.15803C9.0536 3.35949 9.0434 3.67591 8.842 3.86477L4.84197 7.6148C4.64964 7.7951 4.35036 7.7951 4.15803 7.6148L0.158031 3.86477C-0.0434285 3.67591 -0.0536285 3.35949 0.135232 3.15803Z" />
         </svg>
@@ -76,20 +133,39 @@ pub fn ChevronDownIcon(props: &ChevronDownIconProps) -> Html {
 
 #[derive(PartialEq, Properties)]
 pub struct ThickChevronRightIconProps {
+    // Global attributes
     #[prop_or_default]
     pub class: Option<String>,
+    #[prop_or_default]
+    pub data_disabled: Option<String>,
+    #[prop_or_default]
+    pub data_state: Option<String>,
+    #[prop_or_default]
+    pub id: Option<String>,
+    #[prop_or_default]
+    pub style: Option<String>,
+
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 
 #[function_component]
 pub fn ThickChevronRightIcon(props: &ThickChevronRightIconProps) -> Html {
     html! {
         <svg
+            ref={props.node_ref.clone()}
+
+            class={props.class.clone()}
+            data-disabled={props.data_disabled.clone()}
+            data-state={props.data_state.clone()}
+            id={props.id.clone()}
+            style={props.style.clone()}
+
             width="9"
             height="9"
             viewBox="0 0 9 9"
             fill="currentcolor"
             xmlns="http://www.w3.org/2000/svg"
-            class={props.class.clone()}
         >
             <path
                 fillRule="evenodd"

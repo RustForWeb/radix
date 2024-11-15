@@ -3,6 +3,7 @@
 -   [Aspect Ratio](./aspect-ratio.md)
 -   [Avatar](./avatar.md)
 -   [Button](./button.md)
+-   [Checkbox](./checkbox.md)
 -   [Icon Button](./icon-button.md)
 -   [Select](./select.md)
 -   [Separator](./separator.md)

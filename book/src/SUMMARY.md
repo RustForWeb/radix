@@ -87,7 +87,7 @@
         -   [Button](./themes/components/button.md)
         -   [Callout]()
         -   [Card]()
-        -   [Checkbox]()
+        -   [Checkbox](./themes/components/checkbox.md)
         -   [Checkbox Group]()
         -   [Checkbox Cards]()
         -   [Context Menu]()

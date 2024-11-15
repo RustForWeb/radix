@@ -16,7 +16,7 @@ pub fn CheckboxDemo() -> Html {
                         <CheckIcon />
                     </CheckboxIndicator>
                 </Checkbox>
-                <label class="pl-[15px] text-[15px] leading-none text-white" r#for="c1">
+                <label class="pl-[15px] text-[15px] leading-none text-white" for="c1">
                     {"Accept terms and conditions."}
                 </label>
             </div>

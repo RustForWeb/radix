@@ -80,14 +80,14 @@ fn Anatomy() -> impl IntoView {
 ```
 
 {{#endtab }}
-{{#tab name="Leptos" }}
+{{#tab name="Yew" }}
 
 ```rust,ignore
 use radix_yew_checkbox::*;
 use yew::prelude::*;
 
 #[function_component]
-fn Anatomy() -> Htm; {
+fn Anatomy() -> Html {
     html! {
         <Checkbox>
             <CheckboxIndicator />

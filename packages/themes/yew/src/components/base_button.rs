@@ -87,6 +87,8 @@ pub struct BaseButtonProps {
     pub r#type: Option<String>,
     #[prop_or_default]
     pub value: Option<String>,
+
+    // Event handler attributes
     #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
 

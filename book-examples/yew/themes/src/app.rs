@@ -41,6 +41,13 @@ pub fn App() -> Html {
             <Switch<ButtonRoute> render={render} />
         });
     }
+    #[cfg(feature = "checkbox")]
+    {
+        use crate::checkbox::{render, CheckboxRoute};
+        children.push(html! {
+            <Switch<CheckboxRoute> render={render} />
+        });
+    }
     #[cfg(feature = "code")]
     {
         use crate::code::{render, CodeRoute};

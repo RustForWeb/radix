@@ -25,6 +25,7 @@ default = [
     "blockquote",
     "box",
     "button",
+    "checkbox",
     "code",
     "container",
     "em",
@@ -53,6 +54,7 @@ box = []
 button = ["radix-yew-icons/bookmark"]
 code = []
 container = []
+checkbox = []
 em = []
 flex = []
 grid = []
