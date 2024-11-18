@@ -1,6 +1,6 @@
 # Animation
 
-Animate Rust Radix Primitives with CSS keyframes or the Rust animation library of your choice.
+Animate Radix Primitives with CSS keyframes or the Rust animation library of your choice.
 
 Adding animation to Radix Primitives should feel similar to any other component, but there are some caveats noted here in regards to exiting animations with Rust animation libraries.
 

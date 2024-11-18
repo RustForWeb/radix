@@ -56,7 +56,7 @@
     -   [Theme](./themes/theme/README.md)
         -   [Overview](./themes/theme/overview.md)
         -   [Color](./themes/theme/color.md)
-        -   [Dark mode]()
+        -   [Dark mode](./themes/theme/dark-mode.md)
         -   [Typography](./themes/theme/typography.md)
         -   [Spacing]()
         -   [Breakpoints](./themes/theme/breakpoints.md)
