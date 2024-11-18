@@ -479,8 +479,8 @@ pub struct TooltipTriggerChildProps {
 
     // Global attributes
     pub aria_describedby: Option<String>,
-    pub data_state: String,
     pub class: Option<String>,
+    pub data_state: String,
     pub id: Option<String>,
     pub style: Style,
 
@@ -782,10 +782,12 @@ pub struct TooltipContentProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<PopperContentChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipContentChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
+
+pub type TooltipContentChildProps = TooltipContentImplChildProps;
 
 #[function_component]
 pub fn TooltipContent(props: &TooltipContentProps) -> Html {
@@ -937,7 +939,7 @@ struct TooltipContentHoverableProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<PopperContentChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipContentImplChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
@@ -1234,10 +1236,12 @@ struct TooltipContentImplProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<PopperContentChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipContentChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
+
+type TooltipContentImplChildProps = PopperContentChildProps;
 
 #[function_component]
 fn TooltipContentImpl(props: &TooltipContentImplProps) -> Html {
@@ -1397,8 +1401,10 @@ pub struct TooltipArrowProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<PopperArrowChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipArrowChildProps, Html>>,
 }
+
+pub type TooltipArrowChildProps = PopperArrowChildProps;
 
 #[function_component]
 pub fn TooltipArrow(props: &TooltipArrowProps) -> Html {

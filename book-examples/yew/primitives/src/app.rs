@@ -53,6 +53,13 @@ pub fn App() -> Html {
             <SwitchDemo />
         });
     }
+    #[cfg(feature = "tooltip")]
+    {
+        use crate::tooltip::TooltipDemo;
+        children.push(html! {
+            <TooltipDemo />
+        });
+    }
 
     html! {
         <div class="w-full h-full flex justify-center items-start">

@@ -41,7 +41,7 @@
         -   [Toggle](./primitives/components/toggle.md)
         -   [Toggle Group]()
         -   [Toolbar]()
-        -   [Tooltip]()
+        -   [Tooltip](./primitives/components/tooltip.md)
     -   [Utilities](./primitives/utilities/README.md)
         -   [Accessible Icon](./primitives/utilities/accessible-icon.md)
         -   [Direction Provider](./primitives/utilities/direction-provider.md)

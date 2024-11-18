@@ -14,6 +14,8 @@ mod select;
 mod separator;
 #[cfg(feature = "switch")]
 mod switch;
+#[cfg(feature = "tooltip")]
+mod tooltip;
 
 use crate::app::App;
 

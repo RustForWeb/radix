@@ -52,4 +52,8 @@ select = [
 ]
 separator = ["dep:radix-yew-separator"]
 switch = ["dep:radix-yew-switch"]
-tooltip = ["dep:radix-yew-tooltip"]
+tooltip = [
+    "dep:radix-yew-tooltip",
+    "dep:radix-yew-icons",
+    "radix-yew-icons/plus",
+]

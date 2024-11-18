@@ -3102,8 +3102,10 @@ pub struct SelectArrowProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<PopperArrowChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipArrowChildProps, Html>>,
 }
+
+pub type TooltipArrowChildProps = PopperArrowChildProps;
 
 #[function_component]
 pub fn SelectArrow(props: &SelectArrowProps) -> Html {

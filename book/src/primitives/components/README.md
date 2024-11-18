@@ -9,3 +9,4 @@
 -   [Separator](./separator.md)
 -   [Switch](./switch.md)
 -   [Toggle](./toggle.md)
+-   [Tooltip](./tooltip.md)

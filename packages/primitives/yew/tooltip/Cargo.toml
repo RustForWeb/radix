@@ -18,7 +18,7 @@ radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
 radix-yew-portal = { path = "../portal", version = "0.0.2" }
 radix-yew-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
 radix-yew-visually-hidden = { path = "../visually-hidden", version = "0.0.2" }
-web-sys.workspace = true
+web-sys = { workspace = true, features = ["CustomEvent"] }
 yew.workspace = true
 yew-struct-component.workspace = true
 yew-style.workspace = true
