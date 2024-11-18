@@ -18,13 +18,12 @@ pub fn TooltipExample() -> Html {
                 id,
                 style,
 
-                // onblur,
-                // onclick,
-                // onfocus,
-                // onpointerdown,
-                // onpointerleave,
-                // onpointermove,
-                ..
+                onblur,
+                onclick,
+                onfocus,
+                onpointerdown,
+                onpointerleave,
+                onpointermove,
             }| html! {
                 <IconButton
                     radius={Radius::Full}
@@ -33,12 +32,12 @@ pub fn TooltipExample() -> Html {
                     id={id}
                     style={style}
 
-                    // on_blur={onblur}
-                    // on_click={onclick}
-                    // on_focus={onfocus}
-                    // on_pointer_down={onpointerdown}
-                    // on_pointer_leave={onpointerleave}
-                    // on_pointer_move={onpointermove}
+                    on_blur={onblur}
+                    on_click={onclick}
+                    on_focus={onfocus}
+                    on_pointer_down={onpointerdown}
+                    on_pointer_leave={onpointerleave}
+                    on_pointer_move={onpointermove}
 
                     node_ref={node_ref}
                     attributes={attributes.with_defaults([

@@ -86,7 +86,17 @@ pub struct IconButtonProps {
 
     // Event handler attributes
     #[prop_or_default]
+    pub on_blur: Callback<FocusEvent>,
+    #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_focus: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_leave: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_move: Callback<PointerEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -138,7 +148,12 @@ pub fn IconButton(props: &IconButtonProps) -> Html {
             r#type={props.r#type.clone()}
             value={props.value.clone()}
 
+            on_blur={props.on_blur.clone()}
             on_click={props.on_click.clone()}
+            on_focus={props.on_focus.clone()}
+            on_pointer_down={props.on_pointer_down.clone()}
+            on_pointer_leave={props.on_pointer_leave.clone()}
+            on_pointer_move={props.on_pointer_move.clone()}
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone()}

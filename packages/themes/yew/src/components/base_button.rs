@@ -91,7 +91,17 @@ pub struct BaseButtonProps {
 
     // Event handler attributes
     #[prop_or_default]
+    pub on_blur: Callback<FocusEvent>,
+    #[prop_or_default]
     pub on_click: Callback<MouseEvent>,
+    #[prop_or_default]
+    pub on_focus: Callback<FocusEvent>,
+    #[prop_or_default]
+    pub on_pointer_down: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_leave: Callback<PointerEvent>,
+    #[prop_or_default]
+    pub on_pointer_move: Callback<PointerEvent>,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -135,7 +145,12 @@ pub struct BaseButtonChildProps {
     pub value: Option<String>,
 
     // Event handler attributes
+    pub onblur: Callback<FocusEvent>,
     pub onclick: Callback<MouseEvent>,
+    pub onfocus: Callback<FocusEvent>,
+    pub onpointerdown: Callback<PointerEvent>,
+    pub onpointerleave: Callback<PointerEvent>,
+    pub onpointermove: Callback<PointerEvent>,
 }
 
 #[function_component]
@@ -199,7 +214,12 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
         value: props.value.clone(),
 
         // Event handler attributes
+        onblur: props.on_blur.clone(),
         onclick: props.on_click.clone(),
+        onfocus: props.on_focus.clone(),
+        onpointerdown: props.on_pointer_down.clone(),
+        onpointerleave: props.on_pointer_leave.clone(),
+        onpointermove: props.on_pointer_move.clone(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
