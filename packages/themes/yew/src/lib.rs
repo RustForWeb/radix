@@ -11,5 +11,4 @@ mod helpers;
 mod props;
 
 pub use components::*;
-pub use helpers::merge_styles::Style;
 pub use props::*;

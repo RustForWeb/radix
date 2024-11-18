@@ -1,5 +1,6 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(PartialEq, Properties)]
 pub struct ArrowProps<ChildProps: Clone + Default + PartialEq + SetArrowChildProps> {
@@ -14,7 +15,7 @@ pub struct ArrowProps<ChildProps: Clone + Default + PartialEq + SetArrowChildPro
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -40,7 +41,7 @@ pub struct ArrowChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `svg`
     pub width: String,

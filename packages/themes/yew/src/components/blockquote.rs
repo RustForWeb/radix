@@ -1,12 +1,12 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::{
         text::{Text, TextChildProps},
         text_props::TextSizeProp,
     },
-    helpers::merge_styles::Style,
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -74,7 +74,7 @@ pub struct BlockquoteChildProps {
     pub class: String,
     pub data_accent_color: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]

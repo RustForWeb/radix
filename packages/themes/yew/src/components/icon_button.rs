@@ -1,12 +1,12 @@
 use yew::prelude::*;
 use yew_struct_component::Attributes;
+use yew_style::Style;
 
 use crate::{
     components::{
         base_button::{BaseButton, BaseButtonChildProps},
         icon_button_props::{IconButtonLoadingProp, IconButtonSizeProp, IconButtonVariantProp},
     },
-    helpers::merge_styles::Style,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,

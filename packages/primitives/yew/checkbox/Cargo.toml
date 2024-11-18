@@ -23,3 +23,4 @@ web-sys = { workspace = true, features = [
 ] }
 yew.workspace = true
 yew-struct-component.workspace = true
+yew-style.workspace = true

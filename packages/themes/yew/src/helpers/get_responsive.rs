@@ -1,7 +1,7 @@
-use crate::{
-    helpers::merge_styles::Style,
-    props::prop_def::{Breakpoint, PropDef, PropValue, StringValue},
-};
+use indexmap::IndexMap;
+use yew_style::Style;
+
+use crate::props::prop_def::{Breakpoint, PropDef, PropValue, StringValue};
 
 pub fn get_responsive_styles(prop: &dyn PropDef) -> (Option<String>, Option<Style>) {
     let responsive_class = get_responsive_classes(prop, true);
@@ -94,16 +94,15 @@ pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<Style> {
             return None;
         }
 
-        let mut style = Style::new();
-
-        if let PropValue::String(StringValue::Arbitrary(value)) = &value {
-            style = Style(
+        let mut style: IndexMap<String, String> =
+            if let PropValue::String(StringValue::Arbitrary(value)) = &value {
                 custom_properties
                     .iter()
                     .map(|custom_property| (custom_property.to_string(), value.clone()))
-                    .collect(),
-            );
-        }
+                    .collect()
+            } else {
+                IndexMap::new()
+            };
 
         if let PropValue::Responsive(values) = value {
             for (bp, value) in values {
@@ -125,7 +124,7 @@ pub fn get_responsive_custom_properties(prop: &dyn PropDef) -> Option<Style> {
             }
         }
 
-        Some(style)
+        Some(Style::from(style))
     } else {
         None
     }

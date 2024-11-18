@@ -1,5 +1,6 @@
 use radix_yew_collection::*;
 use yew::prelude::*;
+use yew_style::Style;
 
 #[function_component]
 pub fn Basic() -> Html {
@@ -31,7 +32,7 @@ pub fn WithElementsInBetween() -> Html {
 #[function_component]
 fn Tomato() -> Html {
     html! {
-        <Item style="color: tomato;">{"Tomato"}</Item>
+        <Item style={[("color", "tomato")]}>{"Tomato"}</Item>
     }
 }
 
@@ -193,7 +194,7 @@ struct ItemProps {
     #[prop_or(false)]
     disabled: bool,
     #[prop_or_default]
-    style: Option<String>,
+    style: Style,
     #[prop_or_default]
     children: Html,
 }
@@ -216,7 +217,9 @@ fn Item(props: &ItemProps) -> Html {
                     <li
                         ref={node_ref}
                         data-radix-collection-item={data_radix_collection_item}
-                        style={format!("{}{}", disabled.then_some("opacity: 0.3;").unwrap_or_default(), style.clone().unwrap_or_default())}
+                        style={style.clone().with_defaults([
+                            ("opacity", disabled.then_some("0.3")),
+                        ])}
                     >
                         {children.clone()}
                     </li>

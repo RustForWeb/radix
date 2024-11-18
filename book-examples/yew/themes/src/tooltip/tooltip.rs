@@ -16,7 +16,7 @@ pub fn TooltipExample() -> Html {
                 data_state,
                 class,
                 id,
-                // style,
+                style,
 
                 // onblur,
                 // onclick,
@@ -31,7 +31,7 @@ pub fn TooltipExample() -> Html {
 
                     class={class}
                     id={id}
-                    // style={style}
+                    style={style}
 
                     // on_blur={onblur}
                     // on_click={onclick}

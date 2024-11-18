@@ -21,3 +21,4 @@ radix-yew-visually-hidden = { path = "../visually-hidden", version = "0.0.2" }
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true
+yew-style.workspace = true

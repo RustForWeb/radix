@@ -4,12 +4,13 @@ use web_sys::{
 };
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::text_field_props::{
         TextFieldSizeProp, TextFieldSlotSideProp, TextFieldVariantProp,
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::ColorProp,
         gap_props::GapProp,
@@ -329,7 +330,7 @@ pub fn TextField(props: &TextFieldProps) -> Html {
     html! {
         <div
             class={classes!("rt-TextFieldRoot", class).to_string()}
-            style={style.to_string()}
+            style={style}
             data-accent-color={props.color.0.map(|color| color.to_string())}
             data-radius={props.radius.0.map(|radius| radius.to_string())}
             onpointerdown={onpointerdown}
@@ -391,7 +392,7 @@ pub fn TextFieldSlot(props: &TextFieldSlotProps) -> Html {
             data-side={props.side.0.map(|side| side.to_string())}
             class={classes!("rt-TextFieldSlot", class).to_string()}
             id={props.id.clone()}
-            style={style.to_string()}
+            style={style}
         >
             {props.children.clone()}
         </div>

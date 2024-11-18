@@ -1,6 +1,7 @@
 use web_sys::{wasm_bindgen::JsCast, window};
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(PartialEq, Properties)]
 pub struct PortalProps {
@@ -17,7 +18,7 @@ pub struct PortalProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -38,7 +39,7 @@ pub struct PortalChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]

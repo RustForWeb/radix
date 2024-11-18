@@ -31,9 +31,9 @@ serde_json = "1.0.116"
 tailwind_fuse = { version = "0.3.0", features = ["variant"] }
 web-sys = "0.3.72"
 yew = "0.21.0"
-yew-attrs = "0.2.4"
 yew-router = "0.18.0"
-yew-struct-component = "0.0.10"
+yew-struct-component = "0.1.4"
+yew-style = "0.1.4"
 
 [patch.crates-io]
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }

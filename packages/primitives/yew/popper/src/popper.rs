@@ -12,6 +12,7 @@ use serde::{Deserialize, Serialize};
 use web_sys::{wasm_bindgen::JsCast, window};
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Align {
@@ -86,7 +87,7 @@ pub struct PopperAnchorProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -111,7 +112,7 @@ pub struct PopperAnchorChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     pub onclick: Callback<MouseEvent>,
@@ -189,7 +190,7 @@ pub struct PopperContentProps<ChildProps: Clone + Default + PartialEq + SetPoppe
     #[prop_or_default]
     pub role: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -225,7 +226,7 @@ pub struct PopperContentChildProps {
     pub data_side: String,
     pub id: Option<String>,
     pub role: Option<String>,
-    pub style: String,
+    pub style: Style,
 
     // Event handler attributes
     pub oncontextmenu: Callback<MouseEvent>,
@@ -471,15 +472,11 @@ where
         data_side: format!("{:?}", placed_side).to_lowercase(),
         id: props.id.clone(),
         role: props.role.clone(),
-        // If the PopperContent hasn't been placed yet (not all measurements done),
-        // we prevent animations so that users's animation don't kick in too early referring wrong sides.
-        style: format!(
-            "{}{}",
-            (!(*is_positioned))
-                .then_some("animation: none;")
-                .unwrap_or_default(),
-            props.style.clone().unwrap_or_default()
-        ),
+        style: props.style.clone().with_defaults([
+            // If the PopperContent hasn't been placed yet (not all measurements done),
+            // we prevent animations so that users's animation don't kick in too early referring wrong sides.
+            ("animation", (!(*is_positioned)).then_some("none")),
+        ]),
 
         // Event handler attributes
         oncontextmenu: props.on_context_menu.clone(),
@@ -490,32 +487,20 @@ where
         <div
             ref={floating_ref}
             data-radix-popper-content-wrapper=""
-            style={format!(
-                "{}; min-width: max-content;{}{}{}",
-                {
-                    let mut floating_styles = (*floating_styles).clone();
-                    if *is_positioned {
-                        // Keep off the page when measuring
-                        floating_styles.transform = Some("translate(0, -200%)".to_owned());
-                    }
-
-                    floating_styles
-                },
-                match content_z_index.as_ref() {
-                    Some(content_z_index) => format!(" z-index: {content_z_index};"),
-                    None => "".to_owned(),
-                },
-                match transform_origin.as_ref() {
-                    Some(transform_origin) => format!(" --radix-popper-transform-origin: {transform_origin};"),
-                    None => "".to_owned()
-                },
+            style={Style::from([
+                ("position", Some(floating_styles.style_position())),
+                ("top", Some(floating_styles.style_top())),
+                ("left", Some(floating_styles.style_left())),
+                ("transform", if *is_positioned { floating_styles.style_transform() } else { Some("translate(0, -200%)".to_owned()) }),
+                ("will-change", floating_styles.style_will_change()),
+                ("min-width", Some("max-content".to_owned())),
+                ("z-index", (*content_z_index).clone()),
+                ("--radix-popper-transform-origin", transform_origin),
                 // Hide the content if using the hide middleware and should be hidden set visibility to hidden
                 // and disable pointer events so the UI behaves as if the PopperContent isn't there at all.
-                match reference_hidden {
-                    true => " visibility: hidden; pointer-events: none;",
-                    false => ""
-                }
-            )}
+                ("visibility", reference_hidden.then_some("hidden".to_owned())),
+                ("pointer-events", reference_hidden.then_some("none".to_owned())),
+            ])}
 
             // Floating UI interally calculates logical alignment based the `dir` attribute on
             // the reference/floating node, we must add this attribute here to ensure
@@ -552,7 +537,7 @@ pub struct PopperArrowProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -570,7 +555,7 @@ pub struct PopperArrowChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 
     // Attributes from `svg`
     pub width: String,
@@ -584,9 +569,7 @@ impl SetArrowChildProps for PopperArrowChildProps {
 
         self.class = props.class;
         self.id = props.id;
-        if let Some(style) = props.style {
-            self.style = style;
-        }
+        self.style = props.style;
 
         self.width = props.width;
         self.height = props.height;
@@ -600,54 +583,75 @@ pub fn PopperArrow(props: &PopperArrowProps) -> Html {
     let base_side = content_context.placed_side.opposite();
 
     let child_props = PopperArrowChildProps {
-        style: format!("display: block;{}", props.style.clone().unwrap_or_default()),
+        style: props.style.clone().with_defaults([
+            // Ensures the element can be measured correctly (mostly for if SVG).
+            ("display", "block"),
+        ]),
         ..PopperArrowChildProps::default()
     };
 
     html! {
         <span
             ref={content_context.arrow_ref}
-            style={format!(
-                "position: absolute;{}{}{}{} transform-origin: {}; transform: {};{}",
-                match base_side {
-                    Side::Left => " left: 0px;".to_owned(),
-                    _ => match content_context.arrow_x {
-                        Some(arrow_x) => format!(" left: {}px;", arrow_x),
-                        None => "".to_owned(),
-                    }
-                },
-                match base_side {
-                    Side::Top => " top: 0px;".to_owned(),
-                    _ => match content_context.arrow_y {
-                        Some(arrow_y) => format!(" top: {}px;", arrow_y),
-                        None => "".to_owned(),
+            style={Style::from([
+                ("position", Some("absolute".to_owned())),
+                (
+                    "left",
+                    match base_side {
+                        Side::Left => Some("0px;".to_owned()),
+                        _ => content_context.arrow_x.map(|arrow_x| format!("{arrow_x}px")),
                     },
-                },
-                match base_side {
-                    Side::Bottom => " right: 0px;",
-                    _ => "",
-                },
-                match base_side {
-                    Side::Bottom => " bottom: 0px;",
-                    _ => "",
-                },
-                match content_context.placed_side {
-                    Side::Top => "",
-                    Side::Right => "0 0",
-                    Side::Bottom => "center 0",
-                    Side::Left => "100% 0",
-                },
-                match content_context.placed_side {
-                    Side::Top => "translateY(100%)",
-                    Side::Right => "translateY(50%) rotate(90deg) translateX(-50%)",
-                    Side::Bottom => "rotate(180deg)",
-                    Side::Left => "translateY(50%) rotate(-90deg) translateX(50%)",
-                },
-                match content_context.should_hide_arrow {
-                    true => "visibility: hidden;",
-                    false => "",
-                }
-            )}
+                ),
+                (
+                    "top",
+                    match base_side {
+                        Side::Top => Some("0px;".to_owned()),
+                        _ => content_context.arrow_y.map(|arrow_y| format!("{arrow_y}px")),
+                    }
+                ),
+                (
+                    "right",
+                    match base_side {
+                        Side::Right => Some("0px".to_owned()),
+                        _ => None,
+                    }
+                ),
+                (
+                    "bottom",
+                    match base_side {
+                        Side::Bottom => Some("0px".to_owned()),
+                        _ => None,
+                    }
+                ),
+                (
+                    "transform-origin",
+                    Some(
+                        match content_context.placed_side {
+                            Side::Top => "",
+                            Side::Right => "0 0",
+                            Side::Bottom => "center 0",
+                            Side::Left => "100% 0",
+                        }
+                        .to_owned(),
+                    ),
+                ),
+                (
+                    "transform",
+                    Some(
+                        match content_context.placed_side {
+                            Side::Top => "translateY(100%)",
+                            Side::Right => "translateY(50%) rotate(90deg) translateX(-50%)",
+                            Side::Bottom => "rotate(180deg)",
+                            Side::Left => "translateY(50%) rotate(-90deg) translateX(50%)",
+                        }
+                        .to_owned(),
+                    )
+                ),
+                (
+                    "visibility",
+                    content_context.should_hide_arrow.then_some("hidden".to_owned()),
+                )
+            ])}
         >
         <ArrowPrimitive<PopperArrowChildProps>
             width={props.width}

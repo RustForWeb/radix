@@ -1,6 +1,7 @@
 use web_sys::wasm_bindgen::JsCast;
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(PartialEq, Properties)]
 pub struct LabelProps {
@@ -10,7 +11,7 @@ pub struct LabelProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `label`
     #[prop_or_default]
@@ -39,7 +40,7 @@ pub struct LabelChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `label`
     pub r#for: Option<String>,

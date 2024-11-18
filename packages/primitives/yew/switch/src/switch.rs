@@ -4,6 +4,7 @@ use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(Clone, Debug, PartialEq)]
 struct SwitchContextValue {
@@ -26,7 +27,7 @@ pub struct SwitchProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `button`
     #[prop_or_default]
@@ -66,7 +67,7 @@ pub struct SwitchChildProps {
     pub data_state: String,
     pub id: Option<String>,
     pub role: String,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `button`
     pub disabled: bool,
@@ -174,6 +175,13 @@ pub fn Switch(props: &SwitchProps) -> Html {
                     control_ref={button_ref}
                     bubbles={true}
 
+                    style={[
+                        // We transform because the input is absolutely positioned, but we have
+                        // rendered it **after** the button. This pulls it back to sit on top
+                        // of the button.
+                        ("translate", "translateX(-100%)"),
+                    ]}
+
                     checked={checked}
                     disabled={props.disabled}
                     name={props.name.clone()}
@@ -193,7 +201,7 @@ pub struct SwitchThumbProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -216,7 +224,7 @@ pub struct SwitchThumbChildProps {
     pub data_disabled: Option<String>,
     pub data_state: String,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -249,6 +257,11 @@ struct BubbleInputProps {
     #[prop_or(true)]
     pub bubbles: bool,
 
+    // Global attributes
+    #[prop_or_default]
+    pub style: Style,
+
+    // Attributes from `input`
     pub checked: bool,
     pub disabled: bool,
     #[prop_or_default]
@@ -290,14 +303,14 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
             ref={node_ref}
 
             aria-hidden="true"
-            // We transform because the input is absolutely positioned, but we have
-            // rendered it **after** the button. This pulls it back to sit on top
-            // of the button.
-            style={format!(
-                "transform: translateX(-100%);{}{} position: absolute; pointer-events: none; opacity: 0; margin: 0px;",
-                control_size.as_ref().map(|size| format!("{}px", size.width)).unwrap_or_default(),
-                control_size.as_ref().map(|size| format!("{}px", size.height)).unwrap_or_default(),
-            )}
+            style={props.style.clone().with_defaults([
+                ("width", control_size.as_ref().map(|size| format!("{}px", size.width))),
+                ("height", control_size.as_ref().map(|size| format!("{}px", size.height))),
+                ("position", Some("absolute".to_owned())),
+                ("pointer-events", Some("none".to_owned())),
+                ("opacity", Some("0".to_owned())),
+                ("margin", Some("0px".to_owned())),
+            ])}
             tabindex="-1"
 
             checked={props.checked}

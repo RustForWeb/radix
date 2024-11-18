@@ -10,6 +10,7 @@ use radix_yew_tooltip::{
 };
 use yew::prelude::*;
 use yew_struct_component::Attributes;
+use yew_style::Style;
 
 use crate::{
     components::{
@@ -17,7 +18,7 @@ use crate::{
         text_props::TextAs,
         theme::{Theme, ThemeChildProps},
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         prop_def::Responsive,
         width_props::{MaxWidthProp, MinWidthProp, WidthProp},

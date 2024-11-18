@@ -3105,6 +3105,7 @@ version = "0.0.2"
 dependencies = [
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3113,6 +3114,7 @@ version = "0.0.2"
 dependencies = [
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3123,6 +3125,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3166,6 +3169,7 @@ dependencies = [
  "radix-yew-themes",
  "yew",
  "yew-router",
+ "yew-style",
 ]
 
 [[package]]
@@ -3180,6 +3184,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3205,6 +3210,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3223,6 +3229,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3246,6 +3253,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3261,6 +3269,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3270,6 +3279,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3306,6 +3316,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3314,6 +3325,7 @@ version = "0.0.2"
 dependencies = [
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3343,6 +3355,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-router",
+ "yew-style",
 ]
 
 [[package]]
@@ -3356,12 +3369,14 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
 name = "radix-yew-themes"
 version = "0.0.2"
 dependencies = [
+ "indexmap",
  "radix-yew-aspect-ratio",
  "radix-yew-avatar",
  "radix-yew-checkbox",
@@ -3376,6 +3391,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3393,6 +3409,7 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -3423,6 +3440,7 @@ version = "0.0.2"
 dependencies = [
  "yew",
  "yew-struct-component",
+ "yew-style",
 ]
 
 [[package]]
@@ -4853,9 +4871,9 @@ dependencies = [
 
 [[package]]
 name = "yew-struct-component"
-version = "0.0.10"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18f842f7971d873d6fe259a17db60b86acd5a09c825b6c539e01cd595609840e"
+checksum = "63ce6143f947bb3a787e910d6ef1337d6b118a60668f99a61e4c901e27876197"
 dependencies = [
  "yew",
  "yew-struct-component-macro",
@@ -4863,13 +4881,23 @@ dependencies = [
 
 [[package]]
 name = "yew-struct-component-macro"
-version = "0.0.10"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e13d0273c0d0f3efdc78b7ad4704353401dacdab99e3d545b92aa56f56677910"
+checksum = "584e0ded7475538a621bbf1ebf818cefb38665421faeb6523c110c0822f1c887"
 dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.87",
+]
+
+[[package]]
+name = "yew-style"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7c0d63ea26105cb01dee79a03615cb2e2cfcc517d1828e7fe268478495e3681b"
+dependencies = [
+ "indexmap",
+ "yew",
 ]
 
 [[package]]

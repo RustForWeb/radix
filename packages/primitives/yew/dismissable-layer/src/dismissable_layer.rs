@@ -3,6 +3,7 @@ use std::{cell::RefCell, rc::Rc};
 use web_sys::CustomEvent;
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(Clone, PartialEq)]
 struct DismissableLayerContextValue {
@@ -45,7 +46,7 @@ pub struct DismissableLayerProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -66,7 +67,7 @@ pub struct DismissableLayerChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -118,7 +119,8 @@ pub fn DismissableLayerImpl(props: &DismissableLayerProps) -> Html {
         .layers_with_outside_pointer_events_disabled
         .borrow()
         .is_empty();
-    // let is_pointer_events_enabled =
+    // TODO
+    let is_pointer_events_enabled = false;
 
     let child_props = DismissableLayerChildProps {
         node_ref: composed_refs,
@@ -127,14 +129,14 @@ pub fn DismissableLayerImpl(props: &DismissableLayerProps) -> Html {
         // Global attributes
         class: props.class.clone(),
         id: props.id.clone(),
-        style: format!(
-            "{}{}",
-            // TODO
-            is_body_pointer_events_disabled
-                .then_some("".to_owned())
-                .unwrap_or_default(),
-            props.style.clone().unwrap_or_default()
-        ),
+        style: props.style.clone().with_defaults([(
+            "pointer-events",
+            is_body_pointer_events_disabled.then_some(if is_pointer_events_enabled {
+                "auto"
+            } else {
+                "none"
+            }),
+        )]),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -152,7 +154,7 @@ pub struct DismissableLayerBranchProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -173,7 +175,7 @@ pub struct DismissableLayerBranchChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]

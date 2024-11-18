@@ -13,3 +13,4 @@ version.workspace = true
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true
+yew-style.workspace = true

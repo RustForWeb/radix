@@ -1,9 +1,10 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::text_area_props::{TextAreaResizeProp, TextAreaSizeProp, TextAreaVariantProp},
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::ColorProp,
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
@@ -198,7 +199,7 @@ pub fn TextArea(props: &TextAreaProps) -> Html {
     html! {
         <div
             class={classes!("rt-TextAreaRoot", class).to_string()}
-            style={style.to_string()}
+            style={style}
             data-accent-color={props.color.0.map(|color| color.to_string())}
             data-radius={props.radius.0.map(|radius| radius.to_string())}
         >

@@ -33,3 +33,4 @@ tailwind_fuse.workspace = true
 web-sys.workspace = true
 yew = { workspace = true, features = ["csr"] }
 yew-router.workspace = true
+yew-style.workspace = true

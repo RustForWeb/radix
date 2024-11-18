@@ -1,9 +1,10 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::code_props::{CodeSizeProp, CodeVariantProp},
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -72,7 +73,7 @@ pub struct CodeChildProps {
     pub class: String,
     pub data_accent_color: String,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -110,7 +111,7 @@ pub fn Code(props: &CodeProps) -> Html {
             .map(|color| color.to_string())
             .unwrap_or("".to_owned()),
         id: props.id.clone(),
-        style: style.to_string(),
+        style,
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

@@ -6,6 +6,7 @@ use web_sys::{
 };
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum ImageLoadingStatus {
@@ -29,7 +30,7 @@ pub struct AvatarProps<ChildProps: Clone + Default + PartialEq + SetAvatarChildP
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -56,7 +57,7 @@ pub struct AvatarChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 impl SetAvatarChildProps for AvatarChildProps {
@@ -120,7 +121,7 @@ pub struct AvatarImageProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `img`
     #[prop_or_default]
@@ -167,7 +168,7 @@ pub struct AvatarImageChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `img`
     pub alt: Option<String>,
@@ -251,7 +252,7 @@ pub struct AvatarFallbackProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -272,7 +273,7 @@ pub struct AvatarFallbackChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]

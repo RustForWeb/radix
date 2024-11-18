@@ -1,5 +1,6 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::{
@@ -7,7 +8,7 @@ use crate::{
         text::{Text, TextChildProps},
         text_props::TextSizeProp,
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -100,7 +101,7 @@ pub struct LinkChildProps {
     pub class: String,
     pub data_accent_color: String,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 
     // Attributes from `a`
     pub download: Option<String>,

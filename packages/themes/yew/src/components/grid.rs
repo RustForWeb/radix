@@ -1,12 +1,13 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::grid_props::{
         GridAlignProp, GridAreasProp, GridAs, GridAsProp, GridColumnsProp, GridDisplayProp,
         GridFlowProp, GridJustifyProp, GridRowsProp,
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         gap_props::{GapProp, GapXProp, GapYProp},
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
@@ -153,7 +154,7 @@ pub struct GridChildProps {
     // Global attributes
     pub class: String,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -223,7 +224,7 @@ pub fn Grid(props: &GridProps) -> Html {
         // Global attributes
         id: props.id.clone(),
         class: classes!("rt-Grid", class).to_string(),
-        style: style.to_string(),
+        style,
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

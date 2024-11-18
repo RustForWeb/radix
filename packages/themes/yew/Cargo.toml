@@ -10,6 +10,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+indexmap = "2.6.0"
 radix-yew-aspect-ratio = { path = "../../primitives/yew/aspect-ratio", version = "0.0.2" }
 radix-yew-avatar = { path = "../../primitives/yew/avatar", version = "0.0.2" }
 radix-yew-checkbox = { path = "../../primitives/yew/checkbox", version = "0.0.2" }
@@ -24,3 +25,4 @@ radix-yew-visually-hidden = { path = "../../primitives/yew/visually-hidden", ver
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true
+yew-style.workspace = true

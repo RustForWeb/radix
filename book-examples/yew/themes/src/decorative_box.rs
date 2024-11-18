@@ -1,5 +1,6 @@
-use radix_yew_themes::{Box, Style};
+use radix_yew_themes::Box;
 use yew::prelude::*;
+use yew_style::Style;
 
 #[derive(PartialEq, Properties)]
 pub struct DecorativeBoxProps {

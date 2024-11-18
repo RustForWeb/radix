@@ -2,6 +2,7 @@ use std::fmt::Display;
 
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Orientation {
@@ -36,7 +37,7 @@ pub struct SeparatorProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -60,7 +61,7 @@ pub struct SeparatorChildProps {
     pub data_orientation: String,
     pub id: Option<String>,
     pub role: String,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]

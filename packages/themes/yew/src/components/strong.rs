@@ -1,8 +1,9 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{text_wrap_prop::TextWrapProp, truncate_prop::TruncateProp},
 };
 
@@ -40,7 +41,7 @@ pub struct StrongChildProps {
     // Global attributes
     pub class: String,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -58,7 +59,7 @@ pub fn Strong(props: &StrongProps) -> Html {
         // Global attributes
         class: classes!("rt-Strong", class).to_string(),
         id: props.id.clone(),
-        style: style.to_string(),
+        style,
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

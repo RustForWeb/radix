@@ -6,13 +6,14 @@ use radix_yew_checkbox::{
 use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
 use yew::prelude::*;
 use yew_struct_component::Attributes;
+use yew_style::Style;
 
 use crate::{
     components::{
         checkbox_props::{CheckboxSizeProp, CheckboxVariantProp},
         icons::{ThickCheckIcon, ThickDividerHorizontalIcon},
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -128,7 +129,7 @@ pub fn Checkbox(props: &CheckboxProps) -> Html {
 
             class={classes!("rt-reset", "rt-BaseCheckboxRoot", "rt-CheckboxRoot", class).to_string()}
             id={props.id.clone()}
-            style={style.to_string()}
+            style={style}
 
             disabled={props.disabled}
             name={props.name.clone()}

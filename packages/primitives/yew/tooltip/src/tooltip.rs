@@ -22,6 +22,7 @@ use web_sys::{
 };
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 const DEFAULT_DELAY_DURATION: i32 = 700;
 const TOOLTIP_OPEN: &str = "tooltip.open";
@@ -440,7 +441,7 @@ pub struct TooltipTriggerProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `button`
     #[prop_or_default]
@@ -481,7 +482,7 @@ pub struct TooltipTriggerChildProps {
     pub data_state: String,
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     pub onblur: Callback<FocusEvent>,
@@ -774,7 +775,7 @@ pub struct TooltipContentProps {
     #[prop_or_default]
     pub role: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -929,7 +930,7 @@ struct TooltipContentHoverableProps {
     #[prop_or_default]
     pub role: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -1226,7 +1227,7 @@ struct TooltipContentImplProps {
     #[prop_or_default]
     pub role: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -1350,17 +1351,14 @@ fn TooltipContentImpl(props: &TooltipContentImplProps) -> Html {
             class={props.class.clone()}
             id={props.id.clone()}
             role={props.role.clone()}
-            style={format!(
+            style={props.style.clone().with_defaults([
                 // Re-namespace exposed content custom properties.
-                "\
-                --radix-tooltip-content-transform-origin: var(--radix-popper-transform-origin);\
-                --radix-tooltip-content-available-width: var(--radix-popper-available-width);\
-                --radix-tooltip-content-available-height: var(--radix-popper-available-height);\
-                --radix-tooltip-trigger-width: var(--radix-popper-anchor-width);\
-                --radix-tooltip-trigger-height: var(--radix-popper-anchor-height);\
-                {}",
-                props.style.clone().unwrap_or_default()
-            )}
+                ("--radix-tooltip-content-transform-origin", "var(--radix-popper-transform-origin)"),
+                ("--radix-tooltip-content-available-width", "var(--radix-popper-available-width)"),
+                ("--radix-tooltip-content-available-height", "var(--radix-popper-available-height)"),
+                ("--radix-tooltip-trigger-width", "var(--radix-popper-anchor-width)"),
+                ("--radix-tooltip-trigger-height", "var(--radix-popper-anchor-height)"),
+            ])}
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone().with_defaults([
@@ -1392,7 +1390,7 @@ pub struct TooltipArrowProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,

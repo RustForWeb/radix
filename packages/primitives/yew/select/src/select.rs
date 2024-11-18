@@ -29,6 +29,7 @@ use web_sys::{
 };
 use yew::{prelude::*, virtual_dom::VNode};
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 const OPEN_KEYS: [&str; 4] = [" ", "Enter", "ArrowUp", "ArrowDown"];
 const SELECTION_KEYS: [&str; 2] = [" ", "Enter"];
@@ -329,7 +330,7 @@ pub struct SelectTriggerProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `button`
     #[prop_or_default]
@@ -371,7 +372,7 @@ pub struct SelectTriggerChildProps {
     pub class: Option<String>,
     pub id: Option<String>,
     pub role: String,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `button`
     pub disabled: bool,
@@ -581,7 +582,7 @@ pub struct SelectValueProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -602,7 +603,7 @@ pub struct SelectValueChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -627,11 +628,10 @@ pub fn SelectValue(props: &SelectValueProps) -> Html {
         // Global attributes
         class: props.class.clone(),
         id: props.id.clone(),
-        // We don't want events from the portalled `SelectValue` children to bubble through the item they came from.
-        style: format!(
-            "pointer-events: none;{}",
-            props.style.clone().unwrap_or_default()
-        ),
+        style: props.style.clone().with_defaults([
+            // We don't want events from the portalled `SelectValue` children to bubble through the item they came from.
+            ("pointer-events", "none"),
+        ]),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
@@ -655,7 +655,7 @@ pub struct SelectIconProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -677,7 +677,7 @@ pub struct SelectIconChildProps {
     pub aria_hidden: String,
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -756,7 +756,7 @@ pub struct SelectContentProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -884,7 +884,7 @@ struct SelectContentImplProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -1242,10 +1242,13 @@ fn SelectContentImpl(props: &SelectContentImplProps) -> Html {
                             move |_| is_positioned.set(true)
                         });
 
-                        // Flex layout so we can place the scroll buttons properly.
-                        //
-                        // Reset the outline by default as the content MAY get focused.
-                        let style = format!("display: flex; flex-direction: column; outline: none;{}", style.clone().unwrap_or_default());
+                        let style = style.clone().with_defaults([
+                            // Flex layout so we can place the scroll buttons properly.
+                            ("display", "flex"),
+                            ("flex-direction", "column"),
+                            // Reset the outline by default as the content MAY get focused.
+                            ("outline", "none"),
+                        ]);
 
                         let on_key_down = compose_callbacks(Some(on_key_down.clone()), Some(Callback::from({
                             let get_items = get_items.clone();
@@ -1373,7 +1376,7 @@ struct SelectItemAlignedPositionProps<
     #[prop_or_default]
     pub role: String,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -1412,7 +1415,7 @@ pub struct SelectItemAlignedPositionChildProps {
     pub dir: Option<String>,
     pub id: String,
     pub role: String,
-    pub style: String,
+    pub style: Style,
 
     // Event handler attributes
     pub oncontextmenu: Callback<MouseEvent>,
@@ -1781,14 +1784,13 @@ where
         dir: props.dir.clone(),
         id: props.id.clone(),
         role: props.role.clone(),
-        // When we get the height of the content, it includes borders. If we were to set
-        // the height without having `box-sizing: border-box` it would be too big.
-        //
-        // We need to ensure the content doesn't get taller than the wrapper.
-        style: format!(
-            "box-sizing: border-box; max-height: 100%;{}",
-            props.style.clone().unwrap_or_default()
-        ),
+        style: props.style.clone().with_defaults([
+            // When we get the height of the content, it includes borders. If we were to set
+            // the height without having `box-sizing: border-box` it would be too big.
+            ("box-sizing", "border-box"),
+            // We need to ensure the content doesn't get taller than the wrapper.
+            ("max-height", "100%"),
+        ]),
 
         // Event handler attributes
         oncontextmenu: props.on_context_menu.clone(),
@@ -1799,7 +1801,12 @@ where
         <ContextProvider<SelectViewportContextValue> context={(*viewport_context_value).clone()}>
             <div
                 ref={content_wrapper_ref}
-                style={format!("display: flex; flex-direction: column; position: fixed;{}", content_z_index.as_ref().map(|content_z_index| format!("z-index: {content_z_index};")).unwrap_or_default())}
+                style={Style::from([
+                    ("display", Some("flex".to_owned())),
+                    ("flex-direction", Some("column".to_owned())),
+                    ("position", Some("fixed".to_owned())),
+                    ("z-index", (*content_z_index).clone()),
+                ])}
             >
                 if let Some(as_child) = props.as_child.as_ref() {
                     {{
@@ -1858,7 +1865,7 @@ struct SelectPopperPositionProps<
     #[prop_or_default]
     pub role: String,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -1894,7 +1901,7 @@ pub struct SelectPopperPositionChildProps {
     pub dir: Option<String>,
     pub id: Option<String>,
     pub role: String,
-    pub style: String,
+    pub style: Style,
 
     // Event handler attributes
     pub oncontextmenu: Callback<MouseEvent>,
@@ -1960,19 +1967,16 @@ where
             dir={props.dir.clone()}
             id={props.id.clone()}
             role={props.role.clone()}
-            style={format!(
+            style={props.style.clone().with_defaults([
                 // Ensure border-box for Floating UI calculations.
+                ("box-sizing", "border-box"),
                 // Re-namespace exposed content custom properties.
-                "\
-                box-sizing: border-box;\
-                --radix-select-content-transform-origin: var(--radix-popper-transform-origin);\
-                --radix-select-content-available-width: var(--radix-popper-available-width);\
-                --radix-select-content-available-height: var(--radix-popper-available-height);\
-                --radix-select-trigger-width: var(--radix-popper-anchor-width);\
-                --radix-select-trigger-height: var(--radix-popper-anchor-height);\
-                {}",
-                props.style.clone().unwrap_or_default()
-            )}
+                ("--radix-select-content-transform-origin", "var(--radix-popper-transform-origin)"),
+                ("--radix-select-content-available-width", "var(--radix-popper-available-width)"),
+                ("--radix-select-content-available-height", "var(--radix-popper-available-height)"),
+                ("--radix-select-trigger-width", "var(--radix-popper-anchor-width)"),
+                ("--radix-select-trigger-height", "var(--radix-popper-anchor-height)"),
+            ])}
 
             on_context_menu={props.on_context_menu.clone()}
             on_key_down={props.on_key_down.clone()}
@@ -2006,7 +2010,7 @@ pub struct SelectViewportProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2029,7 +2033,7 @@ pub struct SelectViewportChildProps {
     pub class: Option<String>,
     pub id: Option<String>,
     pub role: String,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -2067,9 +2071,16 @@ pub fn SelectViewport(props: &SelectViewportProps) -> Html {
                             data_radix_select_viewport: "".to_owned(),
                             id: id.clone(),
                             role: "presentation".to_owned(),
-                            // We use position: 'relative' here on the `viewport` so that when we call `selected_item.offset_top` in calculations,
-                            // the offset is relative to the viewport (independent of the ScrollUpButton).
-                            style: format!("position: relative; flex: 1; overflow: auto;{}", style.clone().unwrap_or_default())
+                            style: style.clone().with_defaults([
+                                // We use position: 'relative' here on the `viewport` so that when we call `selected_item.offset_top` in calculations,
+                                // the offset is relative to the viewport (independent of the ScrollUpButton).
+                                ("position", "relative"),
+                                ("flex", "1"),
+                                // Viewport should only be scrollable in the vertical direction. This won't work in vertical writing modes, so we'll need to
+                                // revisit this if/when that is supported.
+                                // https://developer.chrome.com/blog/vertical-form-controls
+                                ("overflow", "hidden auto"),
+                            ])
                         };
 
                         if let Some(as_child) = as_child.as_ref() {
@@ -2097,7 +2108,7 @@ pub struct SelectGroupProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2120,7 +2131,7 @@ pub struct SelectGroupChildProps {
     pub class: Option<String>,
     pub id: Option<String>,
     pub role: String,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -2164,7 +2175,7 @@ pub struct SelectLabelProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2185,7 +2196,7 @@ pub struct SelectLabelChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: String,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -2234,7 +2245,7 @@ pub struct SelectItemProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -2281,7 +2292,7 @@ pub struct SelectItemChildProps {
     pub data_state: String,
     pub id: Option<String>,
     pub role: String,
-    pub style: Option<String>,
+    pub style: Style,
     pub tabindex: Option<String>,
 
     // Event handler attributes
@@ -2587,7 +2598,7 @@ pub struct SelectItemTextProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2608,7 +2619,7 @@ pub struct SelectItemTextChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: String,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -2705,7 +2716,7 @@ pub struct SelectItemIndicatorProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2727,7 +2738,7 @@ pub struct SelectItemIndicatorChildProps {
     pub aria_hidden: String,
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -2767,7 +2778,7 @@ pub struct SelectScrollUpButtonProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2807,7 +2818,7 @@ pub struct SelectScrollDownButtonProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -2848,7 +2859,7 @@ struct SelectScrollButtonImplProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     // Event handler attributes
     #[prop_or_default]
@@ -2878,7 +2889,7 @@ pub struct SelectScrollButtonImplChildProps {
     pub aria_hidden: String,
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 
     // Event handler attributes
     pub onpointerdown: Callback<PointerEvent>,
@@ -2951,7 +2962,7 @@ fn SelectScrollButtonImpl(props: &SelectScrollButtonImplProps) -> Html {
         aria_hidden: "true".to_owned(),
         class: props.class.clone(),
         id: props.id.clone(),
-        style: format!("flex-shrink: 0;{}", props.style.clone().unwrap_or_default()),
+        style: props.style.clone().with_defaults([("flex-shrink", "0")]),
 
         // Event handler attributes
         onpointerdown: compose_callbacks(
@@ -3025,7 +3036,7 @@ pub struct SelectSeparatorProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -3047,7 +3058,7 @@ pub struct SelectSeparatorChildProps {
     pub aria_hidden: String,
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 #[function_component]
@@ -3084,7 +3095,7 @@ pub struct SelectArrowProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -3132,7 +3143,7 @@ struct BubbleSelectProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
     #[prop_or_default]
     pub tabindex: Option<String>,
 
@@ -3170,7 +3181,7 @@ struct BubbleSelectChildProps {
     pub aria_hidden: Option<String>,
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
     pub tabindex: Option<String>,
 
     // Attributes from `select`

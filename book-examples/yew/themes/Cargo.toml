@@ -17,6 +17,7 @@ radix-yew-icons = { path = "../../../packages/icons/yew" }
 radix-yew-themes = { path = "../../../packages/themes/yew" }
 yew = { workspace = true, features = ["csr"] }
 yew-router.workspace = true
+yew-style.workspace = true
 
 [features]
 default = [

@@ -2,10 +2,11 @@ use radix_yew_direction::{Direction, DirectionProvider};
 use radix_yew_tooltip::TooltipProvider;
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::theme_props::{Appearance, PanelBackground, Scaling},
-    helpers::{get_matching_gray_color::get_matching_gray_color, merge_styles::Style},
+    helpers::get_matching_gray_color::get_matching_gray_color,
     props::{
         color_prop::{AccentColor, GrayColor},
         radius_prop::Radius,
@@ -306,7 +307,7 @@ pub struct ThemeChildProps {
     pub data_radius: String,
     pub data_scaling: String,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -438,7 +439,7 @@ pub fn ThemeImpl(props: &ThemeImplProps) -> Html {
         data_radius: radius.to_string(),
         data_scaling: scaling.to_string(),
         id: props.id.clone(),
-        style: props.style.to_string(),
+        style: props.style.clone(),
     };
 
     html! {

@@ -1,10 +1,11 @@
 use radix_yew_switch::{Switch as SwitchPrimitive, SwitchThumb as SwitchThumbPrimitive};
 use yew::prelude::*;
 use yew_struct_component::Attributes;
+use yew_style::Style;
 
 use crate::{
     components::switch_props::{SwitchSizeProp, SwitchVariantProp},
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -108,7 +109,7 @@ pub fn Switch(props: &SwitchProps) -> Html {
 
             class={classes!("rt-reset", "rt-SwitchRoot", class).to_string()}
             id={props.id.clone()}
-            style={style.to_string()}
+            style={style}
 
             checked={props.checked}
             default_checked={props.default_checked}

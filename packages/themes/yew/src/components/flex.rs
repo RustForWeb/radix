@@ -1,12 +1,13 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::flex_props::{
         FlexAlignProp, FlexAs, FlexAsProp, FlexDirectionProp, FlexDisplayProp, FlexJustifyProp,
         FlexWrapProp,
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         gap_props::{GapProp, GapXProp, GapYProp},
         height_props::{HeightProp, MaxHeightProp, MinHeightProp},
@@ -149,7 +150,7 @@ pub struct FlexChildProps {
     // Global attributes
     pub class: String,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -217,7 +218,7 @@ pub fn Flex(props: &FlexProps) -> Html {
         // Global attributes
         class: classes!("rt-Flex", class).to_string(),
         id: props.id.clone(),
-        style: style.to_string(),
+        style,
     };
 
     if let Some(as_child) = props.as_child.as_ref() {

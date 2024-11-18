@@ -6,10 +6,11 @@ use radix_yew_avatar::{
 };
 use yew::{prelude::*, virtual_dom::VNode};
 use yew_struct_component::Attributes;
+use yew_style::Style;
 
 use crate::{
     components::avatar_props::{AvatarSizeProp, AvatarVariantProp},
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -100,7 +101,7 @@ pub struct AvatarChildProps {
     pub data_accent_color: String,
     pub data_radius: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
 }
 
 impl SetAvatarPrimitiveChildProps for AvatarChildProps {
@@ -154,7 +155,7 @@ pub fn Avatar(props: &AvatarProps) -> Html {
 
             id={props.id.clone()}
             class={classes!("rt-reset", "rt-AvatarRoot", class).to_string()}
-            style={style.to_string()}
+            style={style}
 
             as_child={props.as_child.clone()}
             as_child_props={child_props}

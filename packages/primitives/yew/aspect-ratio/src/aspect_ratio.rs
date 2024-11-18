@@ -1,5 +1,6 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 #[derive(PartialEq, Properties)]
 pub struct AspectRatioProps {
@@ -12,7 +13,7 @@ pub struct AspectRatioProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -33,7 +34,7 @@ pub struct AspectRatioChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 }
 
 #[function_component]
@@ -45,19 +46,26 @@ pub fn AspectRatio(props: &AspectRatioProps) -> Html {
         // Global attributes
         class: props.class.clone(),
         id: props.id.clone(),
-        style: format!(
+        style: props.style.clone().with_defaults([
             // Ensures children expand in ratio.
-            "position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;{}",
-            props.style.clone().unwrap_or_default()
-        ),
+            ("position", "absolute"),
+            ("top", "0px"),
+            ("right", "0px"),
+            ("bottom", "0px"),
+            ("left", "0px"),
+        ]),
     };
 
     html! {
         <div
-            // Posittion ensures inner element is contained.
-            // Width ensures padding bottom trick maths works.
-            style={format!("position: relative; width: 100%; padding-bottom: {}%;", 100.0 / props.ratio)}
             data-radix-aspect-ratio-wrapper=""
+            style={Style::from([
+                // Posittion ensures inner element is contained.
+                ("position", "relative"),
+                // Width ensures padding bottom trick maths works.
+                ("width", "100%"),
+                ("padding-bottom", &(100.0 / props.ratio).to_string()),
+            ])}
         >
             if let Some(as_child) = props.as_child.as_ref() {
                 {as_child.emit(child_props)}

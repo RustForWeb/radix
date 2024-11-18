@@ -13,6 +13,7 @@ use web_sys::{
 };
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
 const AUTOFOCUS_ON_UNMOUNT: &str = "focusScope.autoFocusOnUnmount";
@@ -36,7 +37,7 @@ pub struct FocusScopeProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -57,7 +58,7 @@ pub struct FocusScopeChildProps {
     // Global attributes
     pub class: Option<String>,
     pub id: Option<String>,
-    pub style: Option<String>,
+    pub style: Style,
     pub tabindex: String,
 
     // Event handler attributes

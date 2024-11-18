@@ -1,4 +1,5 @@
 use yew::{prelude::*, virtual_dom::VNode};
+use yew_style::Style;
 
 use crate::{
     components::{
@@ -6,7 +7,7 @@ use crate::{
         flex_props::{FlexAlign, FlexAs, FlexJustify},
         spinner_props::{SpinnerLoadingProp, SpinnerSizeProp},
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         layout_props::Position,
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
@@ -76,7 +77,7 @@ pub fn Spinner(props: &SpinnerProps) -> Html {
 
             class={classes!("rt-Spinner", class).to_string()}
             id={props.id.clone()}
-            style={style.to_string()}
+            style={style}
         >
             <span class="rt-SpinnerLeaf" />
             <span class="rt-SpinnerLeaf" />

@@ -331,7 +331,7 @@ pub fn Chromatic() -> Html {
 
             <h1>{"Force mounted indicator"}</h1>
             <Checkbox class={(*root_class).clone()}>
-                <CheckboxIndicator class={(*indicator_class).clone()} force_mount=true style="height: 20px;" />
+                <CheckboxIndicator class={(*indicator_class).clone()} force_mount=true style={[("height", "20px")]} />
             </Checkbox>
 
             <h1>{"State attributes"}</h1>
@@ -357,7 +357,7 @@ pub fn Chromatic() -> Html {
 
             <h2>{"Force mounted indicator"}</h2>
             <Checkbox class={(*root_attr_class).clone()}>
-                <CheckboxIndicator class={(*indicator_attr_class).clone()} force_mount=true style="height: 20px;" />
+                <CheckboxIndicator class={(*indicator_attr_class).clone()} force_mount=true style={[("height", "20px")]} />
             </Checkbox>
         </>
     }

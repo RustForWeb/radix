@@ -4,6 +4,7 @@ use radix_yew_popper::*;
 // use radix_yew_portal::Portal;
 use tailwind_fuse::*;
 use yew::prelude::*;
+use yew_style::Style;
 
 #[function_component]
 pub fn Styled() -> Html {
@@ -529,7 +530,7 @@ fn Scrollable(props: &ScrollableProps) -> Html {
 #[derive(PartialEq, Properties)]
 struct CustomArrowProps {
     #[prop_or_default]
-    style: Option<String>,
+    style: Style,
     #[prop_or_default]
     node_ref: NodeRef,
 }
@@ -539,7 +540,13 @@ fn CustomArrow(props: &CustomArrowProps) -> Html {
     html! {
         <div
             ref={props.node_ref.clone()}
-            style={format!("width: 20px; height: 20px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; background-color: tomato;{}", props.style.clone().unwrap_or_default())}
+            style={props.style.clone().with_defaults([
+                ("width", "20px"),
+                ("height", "20px"),
+                ("border-bottom-left-radius", "10px"),
+                ("border-bottom-left-radius", "10px"),
+                ("background-color", "tomato"),
+            ])}
         />
     }
 }

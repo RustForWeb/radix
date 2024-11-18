@@ -1,10 +1,8 @@
 use yew::{prelude::classes, Classes};
+use yew_style::Style;
 
 use crate::{
-    helpers::{
-        get_responsive::{get_responsive_classes, get_responsive_styles},
-        merge_styles::{merge_styles, Style},
-    },
+    helpers::get_responsive::{get_responsive_classes, get_responsive_styles},
     props::prop_def::{PropDef, PropDefType, PropValue},
 };
 
@@ -28,7 +26,10 @@ pub fn extract_props(
                     let (prop_classes, prop_custom_properties) = get_responsive_styles(*prop);
 
                     class = classes!(class, &prop_classes);
-                    style = merge_styles(style, prop_custom_properties);
+
+                    if let Some(prop_custom_properties) = prop_custom_properties {
+                        style = prop_custom_properties.with_defaults(style);
+                    }
                 }
                 PropDefType::Bool => {
                     if let Some(PropValue::Bool(true)) = prop.value() {
@@ -42,6 +43,9 @@ pub fn extract_props(
 
     (
         classes!(class, &props_class),
-        merge_styles(style, props_style),
+        match props_style {
+            Some(props_style) => props_style.with_defaults(style),
+            None => style,
+        },
     )
 }

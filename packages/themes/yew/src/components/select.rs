@@ -12,6 +12,7 @@ use radix_yew_select::{
 };
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::{
@@ -19,7 +20,7 @@ use crate::{
         select_props::{SelectContentVariantProp, SelectSizeProp, SelectTriggerVariantProp},
         theme::{use_theme_context, Theme, ThemeChildProps},
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::ColorProp,
         high_contrast_prop::HighContrastProp,
@@ -163,7 +164,7 @@ pub struct SelectTriggerChildProps {
     pub class: String,
     pub id: Option<String>,
     pub role: String,
-    pub style: Option<String>,
+    pub style: Style,
 
     // Attributes from `button`
     pub disabled: bool,
@@ -201,7 +202,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
         <SelectTriggerPrimitive
             class={class.to_string()}
             id={props.id.clone()}
-            style={style.to_string()}
+            style={style}
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone()}
@@ -366,7 +367,7 @@ pub fn SelectContent(props: &SelectContentProps) -> Html {
                             // TODO: popper class
                             class={classes!("rt-SelectContent", class).to_string()}
                             id={id}
-                            style={style.to_string()}
+                            style={style}
 
                             node_ref={node_ref}
                             attributes={attributes.with_defaults([
@@ -462,7 +463,7 @@ pub fn SelectItem(props: &SelectItemProps) -> Html {
 
             id={props.id.clone()}
             class={classes!("rt-SelectItem", &props.class).to_string()}
-            style={props.style.to_string()}
+            style={props.style.clone()}
 
             on_blur={props.on_blur.clone()}
             on_focus={props.on_focus.clone()}
@@ -508,7 +509,7 @@ pub fn SelectGroup(props: &SelectGroupProps) -> Html {
         <SelectGroupPrimitive
             class={classes!("rt-SelectGroup", &props.class).to_string()}
             id={props.id.clone()}
-            style={props.style.to_string()}
+            style={props.style.clone()}
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone()}
@@ -542,7 +543,7 @@ pub fn SelectLabel(props: &SelectLabelProps) -> Html {
         <SelectLabelPrimitive
             class={classes!("rt-SelectLabel", &props.class).to_string()}
             id={props.id.clone()}
-            style={props.style.to_string()}
+            style={props.style.clone()}
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone()}
@@ -576,7 +577,7 @@ pub fn SelectSeparator(props: &SelectSeparatorProps) -> Html {
         <SelectSeparatorPrimitive
             class={classes!("rt-SelectSeparator", &props.class).to_string()}
             id={props.id.clone()}
-            style={props.style.to_string()}
+            style={props.style.clone()}
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone()}

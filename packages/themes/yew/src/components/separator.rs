@@ -1,11 +1,12 @@
 // use radix_yew_separator::Separator as SeparatorPrimitive;
 use yew::prelude::*;
+use yew_style::Style;
 
 use crate::{
     components::separator_props::{
         SeparatorDecorativeProp, SeparatorOrientationProp, SeparatorSizeProp,
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::{AccentColor, AccentColorProp},
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
@@ -79,7 +80,7 @@ pub fn Separator(props: &SeparatorProps) -> Html {
             data-accent-color={props.color.0.unwrap_or(AccentColor::Gray).to_string()}
             id={props.id.clone()}
             role={(!props.decorative.0).then_some("separator")}
-            style={style.to_string()}
+            style={style}
         >
             {props.children.clone()}
         </span>
@@ -94,7 +95,7 @@ pub fn Separator(props: &SeparatorProps) -> Html {
     //     // data-accent-color
     //     class={classes!("rt-Separator", class).to_string()}
     //     id={props.id.clone()}
-    //     style={style.to_string()}
+    //     style={style}
     //
     //     node_ref={props.node_ref.clone()}
     // >

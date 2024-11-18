@@ -1,5 +1,6 @@
 use yew::prelude::*;
 use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_style::Style;
 
 use crate::{
     components::{
@@ -9,7 +10,7 @@ use crate::{
         spinner::Spinner,
         visually_hidden::VisuallyHidden,
     },
-    helpers::{extract_props::extract_props, merge_styles::Style},
+    helpers::extract_props::extract_props,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
@@ -115,7 +116,7 @@ pub struct BaseButtonChildProps {
     pub data_disabled: Option<String>,
     pub data_radius: Option<String>,
     pub id: Option<String>,
-    pub style: String,
+    pub style: Style,
 
     // Attributes from `button`
     pub command: Option<String>,
@@ -179,7 +180,7 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
             .0
             .map(|radius: crate::Radius| radius.to_string()),
         id: props.id.clone(),
-        style: style.to_string(),
+        style,
 
         // Attributes from `button`
         command: props.command.clone(),

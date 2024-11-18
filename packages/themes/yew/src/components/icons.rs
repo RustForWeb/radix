@@ -1,4 +1,5 @@
 use yew::prelude::*;
+use yew_style::Style;
 
 #[derive(PartialEq, Properties)]
 pub struct ThickDividerHorizontalIconProps {
@@ -12,7 +13,7 @@ pub struct ThickDividerHorizontalIconProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -57,7 +58,7 @@ pub struct ThickCheckIconProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -102,7 +103,7 @@ pub struct ChevronDownIconProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -143,7 +144,7 @@ pub struct ThickChevronRightIconProps {
     #[prop_or_default]
     pub id: Option<String>,
     #[prop_or_default]
-    pub style: Option<String>,
+    pub style: Style,
 
     #[prop_or_default]
     pub node_ref: NodeRef,
