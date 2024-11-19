@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_enum, prop_optional_enum, StringValue};
+use crate::props::prop_def::{prop_enum, prop_optional_enum};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum FlexAs {
@@ -19,12 +19,6 @@ impl Display for FlexAs {
                 FlexAs::Span => "span",
             }
         )
-    }
-}
-
-impl From<FlexAs> for StringValue {
-    fn from(value: FlexAs) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 
@@ -51,12 +45,6 @@ impl Display for FlexDisplay {
     }
 }
 
-impl From<FlexDisplay> for StringValue {
-    fn from(value: FlexDisplay) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_optional_enum!(FlexDisplayProp, FlexDisplay, Some("rt-r-display"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -79,12 +67,6 @@ impl Display for FlexDirection {
                 FlexDirection::ColumnReverse => "column-reverse",
             }
         )
-    }
-}
-
-impl From<FlexDirection> for StringValue {
-    fn from(value: FlexDirection) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 
@@ -115,12 +97,6 @@ impl Display for FlexAlign {
     }
 }
 
-impl From<FlexAlign> for StringValue {
-    fn from(value: FlexAlign) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_optional_enum!(FlexAlignProp, FlexAlign, Some("rt-r-ai"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -146,11 +122,6 @@ impl Display for FlexJustify {
     }
 }
 
-impl From<FlexJustify> for StringValue {
-    fn from(value: FlexJustify) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
 prop_optional_enum!(FlexJustifyProp, FlexJustify, Some("rt-r-jc"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -171,12 +142,6 @@ impl Display for FlexWrap {
                 FlexWrap::WrapReverse => "wrap-reverse",
             }
         )
-    }
-}
-
-impl From<FlexWrap> for StringValue {
-    fn from(value: FlexWrap) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

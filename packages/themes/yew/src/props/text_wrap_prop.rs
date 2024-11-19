@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_optional_responsive_enum, StringValue};
+use crate::props::prop_def::prop_optional_responsive_enum;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum TextWrap {
@@ -22,12 +22,6 @@ impl Display for TextWrap {
                 TextWrap::Balance => "balance",
             }
         )
-    }
-}
-
-impl From<TextWrap> for StringValue {
-    fn from(value: TextWrap) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

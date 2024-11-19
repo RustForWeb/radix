@@ -55,6 +55,13 @@ pub fn App() -> Html {
             <Switch<CalloutRoute> render={render} />
         });
     }
+    #[cfg(feature = "card")]
+    {
+        use crate::card::{render, CardRoute};
+        children.push(html! {
+            <Switch<CardRoute> render={render} />
+        });
+    }
     #[cfg(feature = "checkbox")]
     {
         use crate::checkbox::{render, CheckboxRoute};
@@ -109,6 +116,13 @@ pub fn App() -> Html {
         use crate::icon_button::{render, IconButtonRoute};
         children.push(html! {
             <Switch<IconButtonRoute> render={render} />
+        });
+    }
+    #[cfg(feature = "inset")]
+    {
+        use crate::inset::{render, InsetRoute};
+        children.push(html! {
+            <Switch<InsetRoute> render={render} />
         });
     }
     #[cfg(feature = "kbd")]

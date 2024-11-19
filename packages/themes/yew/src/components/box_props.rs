@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_enum, prop_optional_responsive_enum, StringValue};
+use crate::props::prop_def::{prop_enum, prop_optional_responsive_enum};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum BoxAs {
@@ -19,12 +19,6 @@ impl Display for BoxAs {
                 BoxAs::Span => "span",
             }
         )
-    }
-}
-
-impl From<BoxAs> for StringValue {
-    fn from(value: BoxAs) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 
@@ -50,12 +44,6 @@ impl Display for BoxDisplay {
                 BoxDisplay::Block => "block",
             }
         )
-    }
-}
-
-impl From<BoxDisplay> for StringValue {
-    fn from(value: BoxDisplay) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

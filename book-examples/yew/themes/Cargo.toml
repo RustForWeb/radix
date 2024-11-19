@@ -28,6 +28,7 @@ default = [
     "box",
     "button",
     "callout",
+    "card",
     "checkbox",
     "code",
     "container",
@@ -36,6 +37,7 @@ default = [
     "grid",
     "heading",
     "icon-button",
+    "inset",
     "kbd",
     "link",
     "quote",
@@ -60,6 +62,7 @@ callout = [
     "radix-yew-icons/exclamation-triangle",
     "radix-yew-icons/info-circled",
 ]
+card = []
 code = []
 container = []
 checkbox = []
@@ -68,6 +71,7 @@ flex = []
 grid = []
 heading = []
 icon-button = ["radix-yew-icons/magnifying-glass"]
+inset = []
 kbd = []
 link = []
 quote = []

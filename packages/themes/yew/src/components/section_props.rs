@@ -1,9 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::{
-    prop_optional_responsive_enum,
-    props::prop_def::{prop_responsive_number_enum, StringValue},
-};
+use crate::{prop_optional_responsive_enum, props::prop_def::prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct SectionSize(u8);
@@ -53,12 +50,6 @@ impl Display for SectionDisplay {
                 SectionDisplay::Initial => "block",
             }
         )
-    }
-}
-
-impl From<SectionDisplay> for StringValue {
-    fn from(value: SectionDisplay) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

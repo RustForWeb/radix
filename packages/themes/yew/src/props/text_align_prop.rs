@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_optional_responsive_enum, StringValue};
+use crate::props::prop_def::prop_optional_responsive_enum;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum TextAlign {
@@ -20,12 +20,6 @@ impl Display for TextAlign {
                 TextAlign::Right => "right",
             }
         )
-    }
-}
-
-impl From<TextAlign> for StringValue {
-    fn from(value: TextAlign) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

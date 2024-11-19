@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_optional_responsive_enum, StringValue};
+use crate::props::prop_def::prop_optional_responsive_enum;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum LeadingTrim {
@@ -22,12 +22,6 @@ impl Display for LeadingTrim {
                 LeadingTrim::Both => "both",
             }
         )
-    }
-}
-
-impl From<LeadingTrim> for StringValue {
-    fn from(value: LeadingTrim) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

@@ -25,12 +25,6 @@ impl Display for GridAs {
     }
 }
 
-impl From<GridAs> for StringValue {
-    fn from(value: GridAs) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_enum!(GridAsProp, GridAs, None, None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -51,12 +45,6 @@ impl Display for GridDisplay {
                 GridDisplay::Grid => "grid",
             }
         )
-    }
-}
-
-impl From<GridDisplay> for StringValue {
-    fn from(value: GridDisplay) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 
@@ -223,12 +211,6 @@ impl Display for GridFlow {
     }
 }
 
-impl From<GridFlow> for StringValue {
-    fn from(value: GridFlow) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_optional_responsive_enum!(GridFlowProp, GridFlow, Some("rt-r-gaf"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -256,12 +238,6 @@ impl Display for GridAlign {
     }
 }
 
-impl From<GridAlign> for StringValue {
-    fn from(value: GridAlign) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_optional_responsive_enum!(GridAlignProp, GridAlign, Some("rt-r-ai"), None);
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -284,12 +260,6 @@ impl Display for GridJustify {
                 GridJustify::Between => "space-between",
             }
         )
-    }
-}
-
-impl From<GridJustify> for StringValue {
-    fn from(value: GridJustify) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

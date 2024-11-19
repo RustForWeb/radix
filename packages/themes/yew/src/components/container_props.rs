@@ -1,8 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{
-    prop_optional_responsive_enum, prop_responsive_number_enum, StringValue,
-};
+use crate::props::prop_def::{prop_optional_responsive_enum, prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct ContainerSize(u8);
@@ -55,12 +53,6 @@ impl Display for ContainerDisplay {
     }
 }
 
-impl From<ContainerDisplay> for StringValue {
-    fn from(value: ContainerDisplay) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_optional_responsive_enum!(
     ContainerDisplayProp,
     ContainerDisplay,
@@ -86,12 +78,6 @@ impl Display for ContainerAlign {
                 ContainerAlign::Right => "end",
             }
         )
-    }
-}
-
-impl From<ContainerAlign> for StringValue {
-    fn from(value: ContainerAlign) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_enum, prop_responsive_number_enum, StringValue};
+use crate::props::prop_def::{prop_enum, prop_responsive_number_enum};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum HeadingAs {
@@ -27,12 +27,6 @@ impl Display for HeadingAs {
                 HeadingAs::H6 => "h6",
             }
         )
-    }
-}
-
-impl From<HeadingAs> for StringValue {
-    fn from(value: HeadingAs) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

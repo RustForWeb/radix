@@ -65,12 +65,6 @@ impl<T: Clone + Into<StringValue>> Responsive<T> {
     }
 }
 
-impl<T: Default> Default for Responsive<T> {
-    fn default() -> Self {
-        Self::Value(T::default())
-    }
-}
-
 impl<T: ToString> Responsive<T> {
     pub fn value_defined(&self) -> Option<PropValue> {
         Some(match self {
@@ -96,6 +90,12 @@ impl<T: ToString> Responsive<T> {
                     .collect(),
             ),
         })
+    }
+}
+
+impl<T: Default> Default for Responsive<T> {
+    fn default() -> Self {
+        Self::Value(T::default())
     }
 }
 
@@ -422,7 +422,7 @@ macro_rules! prop_optional_responsive_enum {
             }
 
             fn value(&self) -> Option<$crate::PropValue> {
-                self.0.as_ref().and_then(|value| value.value())
+                self.0.as_ref().and_then(|value| value.value_defined())
             }
         }
     };

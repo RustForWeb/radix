@@ -4,7 +4,7 @@ use yew::html::IntoPropValue;
 
 use crate::{
     components::callout_props::{CalloutSize, CalloutSizeProp},
-    props::prop_def::{prop_enum, prop_optional_responsive_number_enum, Responsive, StringValue},
+    props::prop_def::{prop_enum, prop_optional_responsive_number_enum, Responsive},
 };
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
@@ -28,12 +28,6 @@ impl Display for TextAs {
                 TextAs::P => "p",
             }
         )
-    }
-}
-
-impl From<TextAs> for StringValue {
-    fn from(value: TextAs) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

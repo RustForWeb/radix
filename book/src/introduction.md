@@ -120,7 +120,7 @@ The tables below show the support for the various frameworks.
 | Box               | ❌ [#179](https://github.com/RustForWeb/radix/issues/179) | ❌ [#238](https://github.com/RustForWeb/radix/issues/238) | 🟦 [#297](https://github.com/RustForWeb/radix/issues/297) |
 | Button            | ❌ [#180](https://github.com/RustForWeb/radix/issues/180) | ❌ [#239](https://github.com/RustForWeb/radix/issues/239) | 🟦 [#298](https://github.com/RustForWeb/radix/issues/298) |
 | Callout           | ❌ [#181](https://github.com/RustForWeb/radix/issues/181) | ❌ [#240](https://github.com/RustForWeb/radix/issues/240) | 🟦 [#299](https://github.com/RustForWeb/radix/issues/299) |
-| Card              | ❌ [#182](https://github.com/RustForWeb/radix/issues/182) | ❌ [#241](https://github.com/RustForWeb/radix/issues/241) | ❌ [#300](https://github.com/RustForWeb/radix/issues/300) |
+| Card              | ❌ [#182](https://github.com/RustForWeb/radix/issues/182) | ❌ [#241](https://github.com/RustForWeb/radix/issues/241) | 🟦 [#300](https://github.com/RustForWeb/radix/issues/300) |
 | Checkbox Cards    | ❌ [#183](https://github.com/RustForWeb/radix/issues/183) | ❌ [#242](https://github.com/RustForWeb/radix/issues/242) | ❌ [#301](https://github.com/RustForWeb/radix/issues/301) |
 | Checkbox Group    | ❌ [#184](https://github.com/RustForWeb/radix/issues/184) | ❌ [#243](https://github.com/RustForWeb/radix/issues/243) | ❌ [#302](https://github.com/RustForWeb/radix/issues/302) |
 | Checkbox          | ❌ [#185](https://github.com/RustForWeb/radix/issues/185) | ❌ [#244](https://github.com/RustForWeb/radix/issues/244) | 🟦 [#303](https://github.com/RustForWeb/radix/issues/303) |
@@ -137,7 +137,7 @@ The tables below show the support for the various frameworks.
 | Hover Card        | ❌ [#196](https://github.com/RustForWeb/radix/issues/196) | ❌ [#255](https://github.com/RustForWeb/radix/issues/255) | ❌ [#314](https://github.com/RustForWeb/radix/issues/314) |
 | Icon Button       | ❌ [#197](https://github.com/RustForWeb/radix/issues/197) | ❌ [#256](https://github.com/RustForWeb/radix/issues/256) | 🟦 [#315](https://github.com/RustForWeb/radix/issues/315) |
 | Icons             | ❌ [#198](https://github.com/RustForWeb/radix/issues/198) | ❌ [#257](https://github.com/RustForWeb/radix/issues/257) | 🟦 [#316](https://github.com/RustForWeb/radix/issues/316) |
-| Inset             | ❌ [#199](https://github.com/RustForWeb/radix/issues/199) | ❌ [#258](https://github.com/RustForWeb/radix/issues/258) | ❌ [#317](https://github.com/RustForWeb/radix/issues/317) |
+| Inset             | ❌ [#199](https://github.com/RustForWeb/radix/issues/199) | ❌ [#258](https://github.com/RustForWeb/radix/issues/258) | 🟦 [#317](https://github.com/RustForWeb/radix/issues/317) |
 | Kbd               | ❌ [#200](https://github.com/RustForWeb/radix/issues/200) | ❌ [#259](https://github.com/RustForWeb/radix/issues/259) | 🟦 [#318](https://github.com/RustForWeb/radix/issues/318) |
 | Link              | ❌ [#201](https://github.com/RustForWeb/radix/issues/201) | ❌ [#260](https://github.com/RustForWeb/radix/issues/260) | 🟦 [#319](https://github.com/RustForWeb/radix/issues/319) |
 | Popover           | ❌ [#202](https://github.com/RustForWeb/radix/issues/202) | ❌ [#261](https://github.com/RustForWeb/radix/issues/261) | ❌ [#320](https://github.com/RustForWeb/radix/issues/320) |
@@ -169,7 +169,7 @@ The tables below show the support for the various frameworks.
 | Theme             | ❌ [#228](https://github.com/RustForWeb/radix/issues/228) | ❌ [#287](https://github.com/RustForWeb/radix/issues/287) | 🟦 [#346](https://github.com/RustForWeb/radix/issues/346) |
 | Tooltip           | ❌ [#229](https://github.com/RustForWeb/radix/issues/229) | ❌ [#288](https://github.com/RustForWeb/radix/issues/288) | 🚧 [#347](https://github.com/RustForWeb/radix/issues/347) |
 | Visually Hidden   | ❌ [#230](https://github.com/RustForWeb/radix/issues/230) | ❌ [#289](https://github.com/RustForWeb/radix/issues/289) | 🟦 [#348](https://github.com/RustForWeb/radix/issues/348) |
-| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 33 / 59                                                   |
+| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 35 / 59                                                   |
 
 ## License
 

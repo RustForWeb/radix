@@ -13,6 +13,8 @@ mod r#box;
 mod button;
 #[cfg(feature = "callout")]
 mod callout;
+#[cfg(feature = "card")]
+mod card;
 #[cfg(feature = "checkbox")]
 mod checkbox;
 #[cfg(feature = "code")]
@@ -37,6 +39,8 @@ mod grid;
 mod heading;
 #[cfg(feature = "icon-button")]
 mod icon_button;
+#[cfg(feature = "inset")]
+mod inset;
 #[cfg(feature = "kbd")]
 mod kbd;
 #[cfg(feature = "link")]

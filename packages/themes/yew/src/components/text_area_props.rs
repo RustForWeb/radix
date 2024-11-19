@@ -1,7 +1,7 @@
 use std::fmt::{self, Display};
 
 use crate::props::prop_def::{
-    prop_enum, prop_optional_responsive_enum, prop_responsive_number_enum, StringValue,
+    prop_enum, prop_optional_responsive_enum, prop_responsive_number_enum,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -85,12 +85,6 @@ impl Display for TextAreaResize {
                 TextAreaResize::Both => "both",
             }
         )
-    }
-}
-
-impl From<TextAreaResize> for StringValue {
-    fn from(value: TextAreaResize) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 

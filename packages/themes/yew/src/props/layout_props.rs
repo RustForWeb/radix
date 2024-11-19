@@ -30,12 +30,6 @@ impl Display for Position {
     }
 }
 
-impl From<Position> for StringValue {
-    fn from(value: Position) -> Self {
-        StringValue::Defined(value.to_string())
-    }
-}
-
 prop_optional_responsive_enum!(PositionProp, Position, Some("rt-r-position"), None);
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
@@ -147,12 +141,6 @@ impl Display for Overflow {
                 Overflow::Auto => "auto",
             }
         )
-    }
-}
-
-impl From<Overflow> for StringValue {
-    fn from(value: Overflow) -> Self {
-        StringValue::Defined(value.to_string())
     }
 }
 
