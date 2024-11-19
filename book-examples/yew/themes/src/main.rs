@@ -11,6 +11,8 @@ mod blockquote;
 mod r#box;
 #[cfg(feature = "button")]
 mod button;
+#[cfg(feature = "callout")]
+mod callout;
 #[cfg(feature = "checkbox")]
 mod checkbox;
 #[cfg(feature = "code")]

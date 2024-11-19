@@ -4,6 +4,7 @@
 -   [Avatar](./avatar.md)
 -   [Badge](./badge.md)
 -   [Button](./button.md)
+-   [Callout](./callout.md)
 -   [Checkbox](./checkbox.md)
 -   [Icon Button](./icon-button.md)
 -   [Select](./select.md)

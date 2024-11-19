@@ -27,6 +27,7 @@ default = [
     "blockquote",
     "box",
     "button",
+    "callout",
     "checkbox",
     "code",
     "container",
@@ -55,6 +56,10 @@ badge = []
 blockquote = []
 box = []
 button = ["radix-yew-icons/bookmark"]
+callout = [
+    "radix-yew-icons/exclamation-triangle",
+    "radix-yew-icons/info-circled",
+]
 code = []
 container = []
 checkbox = []

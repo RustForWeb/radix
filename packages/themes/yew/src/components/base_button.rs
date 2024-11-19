@@ -170,7 +170,6 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
             &props.mr,
             &props.mb,
             &props.ml,
-            &props.radius,
         ],
         props.class.clone(),
         props.style.clone().into(),

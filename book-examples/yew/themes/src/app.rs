@@ -48,6 +48,13 @@ pub fn App() -> Html {
             <Switch<ButtonRoute> render={render} />
         });
     }
+    #[cfg(feature = "callout")]
+    {
+        use crate::callout::{render, CalloutRoute};
+        children.push(html! {
+            <Switch<CalloutRoute> render={render} />
+        });
+    }
     #[cfg(feature = "checkbox")]
     {
         use crate::checkbox::{render, CheckboxRoute};

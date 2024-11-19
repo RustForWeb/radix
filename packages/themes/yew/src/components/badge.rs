@@ -88,7 +88,6 @@ pub fn Badge(props: &BadgeProps) -> Html {
             &props.mr,
             &props.mb,
             &props.ml,
-            &props.radius,
         ],
         props.class.clone(),
         props.style.clone().into(),

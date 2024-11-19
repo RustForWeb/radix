@@ -23,14 +23,14 @@ This component is based on the `span` element and supports [common margin props]
 {{#tabs global="framework" }}
 {{#tab name="Yew" }}
 
-| Prop            | Type                                | Default               |
-| --------------- | ----------------------------------- | --------------------- |
-| `as_child`      | `Option<Callback<BadgeChildProps>>` | -                     |
-| `size`          | `Responsive<1..3>`                  | `1`                   |
-| `variant`       | `BadgeVariant`                      | `BadgeVariant::Solid` |
-| `color`         | `Option<AccentColor>`               | -                     |
-| `high_contrast` | `Option<bool>`                      | -                     |
-| `radius`        | `Option<Radius>`                    | -                     |
+| Prop            | Type                                | Default              |
+| --------------- | ----------------------------------- | -------------------- |
+| `as_child`      | `Option<Callback<BadgeChildProps>>` | -                    |
+| `size`          | `Responsive<1..3>`                  | `1`                  |
+| `variant`       | `BadgeVariant`                      | `BadgeVariant::Soft` |
+| `color`         | `Option<AccentColor>`               | -                    |
+| `high_contrast` | `Option<bool>`                      | -                    |
+| `radius`        | `Option<Radius>`                    | -                    |
 
 {{#endtab }}
 {{#endtabs }}

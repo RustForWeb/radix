@@ -1,6 +1,11 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_enum, prop_optional_responsive_number_enum, StringValue};
+use yew::html::IntoPropValue;
+
+use crate::{
+    components::callout_props::{CalloutSize, CalloutSizeProp},
+    props::prop_def::{prop_enum, prop_optional_responsive_number_enum, Responsive, StringValue},
+};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum TextAs {
@@ -43,6 +48,16 @@ impl Display for TextSize {
     }
 }
 
+impl From<CalloutSize> for TextSize {
+    fn from(value: CalloutSize) -> Self {
+        match value.0 {
+            1 | 2 => Self(2),
+            3 => Self(3),
+            _ => unreachable!("Callout size is a number between 1 and 3."),
+        }
+    }
+}
+
 impl TryFrom<u8> for TextSize {
     type Error = String;
 
@@ -59,3 +74,17 @@ impl TryFrom<u8> for TextSize {
 }
 
 prop_optional_responsive_number_enum!(TextSizeProp, TextSize, Some("rt-r-size"), None);
+
+impl IntoPropValue<TextSizeProp> for CalloutSizeProp {
+    fn into_prop_value(self) -> TextSizeProp {
+        match self.0 {
+            Responsive::Value(size) => TextSizeProp(Some(Responsive::Value(size.into()))),
+            Responsive::Values(values) => TextSizeProp(Some(Responsive::Values(
+                values
+                    .into_iter()
+                    .map(|(breakpoint, size)| (breakpoint, size.into()))
+                    .collect(),
+            ))),
+        }
+    }
+}

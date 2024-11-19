@@ -119,7 +119,7 @@ The tables below show the support for the various frameworks.
 | Blockquote        | ❌ [#178](https://github.com/RustForWeb/radix/issues/178) | ❌ [#237](https://github.com/RustForWeb/radix/issues/237) | 🟦 [#296](https://github.com/RustForWeb/radix/issues/296) |
 | Box               | ❌ [#179](https://github.com/RustForWeb/radix/issues/179) | ❌ [#238](https://github.com/RustForWeb/radix/issues/238) | 🟦 [#297](https://github.com/RustForWeb/radix/issues/297) |
 | Button            | ❌ [#180](https://github.com/RustForWeb/radix/issues/180) | ❌ [#239](https://github.com/RustForWeb/radix/issues/239) | 🟦 [#298](https://github.com/RustForWeb/radix/issues/298) |
-| Callout           | ❌ [#181](https://github.com/RustForWeb/radix/issues/181) | ❌ [#240](https://github.com/RustForWeb/radix/issues/240) | ❌ [#299](https://github.com/RustForWeb/radix/issues/299) |
+| Callout           | ❌ [#181](https://github.com/RustForWeb/radix/issues/181) | ❌ [#240](https://github.com/RustForWeb/radix/issues/240) | 🟦 [#299](https://github.com/RustForWeb/radix/issues/299) |
 | Card              | ❌ [#182](https://github.com/RustForWeb/radix/issues/182) | ❌ [#241](https://github.com/RustForWeb/radix/issues/241) | ❌ [#300](https://github.com/RustForWeb/radix/issues/300) |
 | Checkbox Cards    | ❌ [#183](https://github.com/RustForWeb/radix/issues/183) | ❌ [#242](https://github.com/RustForWeb/radix/issues/242) | ❌ [#301](https://github.com/RustForWeb/radix/issues/301) |
 | Checkbox Group    | ❌ [#184](https://github.com/RustForWeb/radix/issues/184) | ❌ [#243](https://github.com/RustForWeb/radix/issues/243) | ❌ [#302](https://github.com/RustForWeb/radix/issues/302) |
@@ -169,7 +169,7 @@ The tables below show the support for the various frameworks.
 | Theme             | ❌ [#228](https://github.com/RustForWeb/radix/issues/228) | ❌ [#287](https://github.com/RustForWeb/radix/issues/287) | 🟦 [#346](https://github.com/RustForWeb/radix/issues/346) |
 | Tooltip           | ❌ [#229](https://github.com/RustForWeb/radix/issues/229) | ❌ [#288](https://github.com/RustForWeb/radix/issues/288) | 🚧 [#347](https://github.com/RustForWeb/radix/issues/347) |
 | Visually Hidden   | ❌ [#230](https://github.com/RustForWeb/radix/issues/230) | ❌ [#289](https://github.com/RustForWeb/radix/issues/289) | 🟦 [#348](https://github.com/RustForWeb/radix/issues/348) |
-| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 32 / 59                                                   |
+| **Total**         | 0 / 59                                                    | 0 / 59                                                    | 33 / 59                                                   |
 
 ## License
 
