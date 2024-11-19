@@ -3,33 +3,28 @@ use yew_struct_component::{struct_component, Attributes, StructComponent};
 use yew_style::Style;
 
 use crate::{
-    components::code_props::{CodeSizeProp, CodeVariantProp},
+    components::badge_props::{BadgeSizeProp, BadgeVariantProp},
     helpers::extract_props::extract_props,
     props::{
         color_prop::AccentColorProp,
         high_contrast_prop::HighContrastProp,
         margin_props::{MProp, MbProp, MlProp, MrProp, MtProp, MxProp, MyProp},
-        text_wrap_prop::TextWrapProp,
-        truncate_prop::TruncateProp,
-        weight_prop::WeightProp,
+        radius_prop::RadiusProp,
     },
 };
+
 #[derive(PartialEq, Properties)]
-pub struct CodeProps {
+pub struct BadgeProps {
     #[prop_or_default]
-    pub size: CodeSizeProp,
+    pub size: BadgeSizeProp,
     #[prop_or_default]
-    pub variant: CodeVariantProp,
-    #[prop_or_default]
-    pub weight: WeightProp,
+    pub variant: BadgeVariantProp,
     #[prop_or_default]
     pub color: AccentColorProp,
     #[prop_or_default]
     pub high_contrast: HighContrastProp,
     #[prop_or_default]
-    pub truncate: TruncateProp,
-    #[prop_or_default]
-    pub wrap: TextWrapProp,
+    pub radius: RadiusProp,
     #[prop_or_default]
     pub m: MProp,
     #[prop_or_default]
@@ -58,35 +53,34 @@ pub struct CodeProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<CodeChildProps, Html>>,
+    pub as_child: Option<Callback<BadgeChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
 #[derive(Clone, PartialEq, StructComponent)]
-#[struct_component(tag = "code")]
-pub struct CodeChildProps {
+#[struct_component(tag = "span")]
+pub struct BadgeChildProps {
     pub node_ref: NodeRef,
     pub attributes: Attributes,
 
     // Global attributes
     pub class: String,
     pub data_accent_color: String,
+    pub data_radius: Option<String>,
     pub id: Option<String>,
     pub style: Style,
 }
 
 #[function_component]
-pub fn Code(props: &CodeProps) -> Html {
+pub fn Badge(props: &BadgeProps) -> Html {
     let (class, style) = extract_props(
         &[
             &props.size,
             &props.variant,
-            &props.weight,
             &props.color,
             &props.high_contrast,
-            &props.truncate,
-            &props.wrap,
+            &props.radius,
             &props.m,
             &props.mx,
             &props.my,
@@ -94,22 +88,24 @@ pub fn Code(props: &CodeProps) -> Html {
             &props.mr,
             &props.mb,
             &props.ml,
+            &props.radius,
         ],
         props.class.clone(),
         props.style.clone().into(),
     );
 
-    let child_props = CodeChildProps {
+    let child_props = BadgeChildProps {
         node_ref: props.node_ref.clone(),
         attributes: props.attributes.clone(),
 
         // Global attributes
-        class: classes!("rt-reset", "rt-Code", class).to_string(),
+        class: classes!("rt-reset", "rt-Badge", class).to_string(),
         data_accent_color: props
             .color
             .0
             .map(|color| color.to_string())
             .unwrap_or_default(),
+        data_radius: props.radius.0.map(|radius| radius.to_string()),
         id: props.id.clone(),
         style,
     };

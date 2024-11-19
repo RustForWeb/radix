@@ -20,6 +20,13 @@ pub fn App() -> Html {
             <Switch<AvatarRoute> render={render} />
         });
     }
+    #[cfg(feature = "badge")]
+    {
+        use crate::badge::{render, BadgeRoute};
+        children.push(html! {
+            <Switch<BadgeRoute> render={render} />
+        });
+    }
     #[cfg(feature = "blockquote")]
     {
         use crate::blockquote::{render, BlockquoteRoute};

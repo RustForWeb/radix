@@ -23,6 +23,7 @@ yew-style.workspace = true
 default = [
     "aspect-ratio",
     "avatar",
+    "badge",
     "blockquote",
     "box",
     "button",
@@ -50,6 +51,7 @@ default = [
 ]
 aspect-ratio = []
 avatar = []
+badge = []
 blockquote = []
 box = []
 button = ["radix-yew-icons/bookmark"]

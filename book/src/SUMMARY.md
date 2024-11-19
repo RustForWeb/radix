@@ -83,7 +83,7 @@
         -   [Alert Dialog]()
         -   [Aspect Ratio](./themes/components/aspect-ratio.md)
         -   [Avatar](./themes/components/avatar.md)
-        -   [Badge]()
+        -   [Badge](./themes/components/badge.md)
         -   [Button](./themes/components/button.md)
         -   [Callout]()
         -   [Card]()

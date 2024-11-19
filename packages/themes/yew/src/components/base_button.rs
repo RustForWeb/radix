@@ -188,12 +188,9 @@ pub fn BaseButton(props: &BaseButtonProps) -> Html {
             .color
             .0
             .map(|color| color.to_string())
-            .unwrap_or("".to_owned()),
+            .unwrap_or_default(),
         data_disabled: disabled.then_some("".to_owned()),
-        data_radius: props
-            .radius
-            .0
-            .map(|radius: crate::Radius| radius.to_string()),
+        data_radius: props.radius.0.map(|radius| radius.to_string()),
         id: props.id.clone(),
         style,
 

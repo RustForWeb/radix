@@ -3,6 +3,8 @@ mod app;
 mod aspect_ratio;
 #[cfg(feature = "avatar")]
 mod avatar;
+#[cfg(feature = "badge")]
+mod badge;
 #[cfg(feature = "blockquote")]
 mod blockquote;
 #[cfg(feature = "box")]

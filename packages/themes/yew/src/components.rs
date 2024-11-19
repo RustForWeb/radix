@@ -1,6 +1,8 @@
 mod aspect_ratio;
 mod avatar;
 mod avatar_props;
+mod badge;
+mod badge_props;
 mod base_button;
 mod base_button_props;
 mod base_checkbox_props;
@@ -56,6 +58,8 @@ mod visually_hidden;
 pub use aspect_ratio::*;
 pub use avatar::*;
 pub use avatar_props::*;
+pub use badge::*;
+pub use badge_props::*;
 pub use base_button_props::*;
 pub use base_checkbox_props::*;
 pub use blockquote::*;

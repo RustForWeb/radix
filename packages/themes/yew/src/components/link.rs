@@ -166,7 +166,7 @@ pub fn Link(props: &LinkProps) -> Html {
 
                         // Global attributes
                         class,
-                        data_accent_color: color.0.map(|color| color.to_string()).unwrap_or("".to_owned()),
+                        data_accent_color: color.0.map(|color| color.to_string()).unwrap_or_default(),
                         id,
                         style,
 

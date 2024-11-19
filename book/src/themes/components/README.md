@@ -2,6 +2,7 @@
 
 -   [Aspect Ratio](./aspect-ratio.md)
 -   [Avatar](./avatar.md)
+-   [Badge](./badge.md)
 -   [Button](./button.md)
 -   [Checkbox](./checkbox.md)
 -   [Icon Button](./icon-button.md)
