@@ -18,8 +18,8 @@ pub fn BadgeHighContrastExample() -> Html {
                 <Badge color={AccentColor::Gray} variant={BadgeVariant::Outline}>
                     {"New"}
                 </Badge>
-                </Flex>
-                <Flex gap="2">
+            </Flex>
+            <Flex gap=2>
                 <Badge color={AccentColor::Gray} variant={BadgeVariant::Solid} high_contrast=true>
                     {"New"}
                 </Badge>
