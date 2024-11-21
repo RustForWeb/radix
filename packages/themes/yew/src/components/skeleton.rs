@@ -133,6 +133,8 @@ pub fn Skeleton(props: &SkeletonProps) -> Html {
 
     if let Some(as_child) = props.as_child.as_ref() {
         as_child.emit(child_props)
+    } else if !props.loading.0 {
+        props.children.clone()
     } else {
         child_props.render(props.children.clone())
     }
