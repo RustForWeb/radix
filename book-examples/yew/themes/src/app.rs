@@ -197,6 +197,13 @@ pub fn App() -> Html {
             <Switch<SwitchRoute> render={render} />
         });
     }
+    #[cfg(feature = "table")]
+    {
+        use crate::table::{render, TableRoute};
+        children.push(html! {
+            <Switch<TableRoute> render={render} />
+        });
+    }
     #[cfg(feature = "text")]
     {
         use crate::text::{render, TextRoute};

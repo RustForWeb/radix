@@ -175,6 +175,7 @@ pub fn DataListItem(props: &DataListItemProps) -> Html {
         node_ref: props.node_ref.clone(),
         attributes: props.attributes.clone(),
 
+        // Global attributes
         class: classes!("rt-DataListItem", class).to_string(),
         id: props.id.clone(),
         style,
@@ -243,6 +244,7 @@ pub fn DataListLabel(props: &DataListLabelProps) -> Html {
         node_ref: props.node_ref.clone(),
         attributes: props.attributes.clone(),
 
+        // Global attributes
         class: classes!("rt-DataListLabel", class).to_string(),
         data_accent_color: props.color.0.map(|color| color.to_string()),
         id: props.id.clone(),
@@ -288,6 +290,7 @@ pub fn DataListValue(props: &DataListValueProps) -> Html {
         node_ref: props.node_ref.clone(),
         attributes: props.attributes.clone(),
 
+        // Global attributes
         class: classes!("rt-DataListValue", &props.class).to_string(),
         id: props.id.clone(),
         style: props.style.clone(),

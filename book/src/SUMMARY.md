@@ -110,7 +110,7 @@
         -   [Slider]()
         -   [Spinner](./themes/components/spinner.md)
         -   [Switch](./themes/components/switch.md)
-        -   [Table]()
+        -   [Table](./themes/components/table.md)
         -   [Tabs]()
         -   [Tab Nav]()
         -   [Text Area](./themes/components/text-area.md)

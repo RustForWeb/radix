@@ -14,6 +14,7 @@
 -   [Separator](./separator.md)
 -   [Spinner](./spinner.md)
 -   [Switch](./switch.md)
+-   [Table](./table.md)
 -   [Text Area](./text-area.md)
 -   [Text Field](./text-field.md)
 -   [Tooltip](./tooltip.md)

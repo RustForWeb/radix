@@ -120,7 +120,6 @@ pub fn Tooltip(props: &TooltipProps) -> Html {
             delay_duration={props.delay_duration}
             disable_hoverable_content={props.disable_hoverable_content}
         >
-            // TODO: Automatically pass attributes/listeners if children is a single tag?
             <TooltipTriggerPrimitive as_child={props.as_child.clone()}>
                 {props.children.clone()}
             </TooltipTriggerPrimitive>

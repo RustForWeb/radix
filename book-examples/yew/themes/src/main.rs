@@ -61,6 +61,8 @@ mod spinner;
 mod strong;
 #[cfg(feature = "switch")]
 mod switch;
+#[cfg(feature = "table")]
+mod table;
 #[cfg(feature = "text")]
 mod text;
 #[cfg(feature = "text-area")]
