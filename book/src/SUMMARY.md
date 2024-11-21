@@ -106,7 +106,7 @@
         -   [Segmented Control]()
         -   [Select](./themes/components/select.md)
         -   [Separator](./themes/components/separator.md)
-        -   [Skeleton]()
+        -   [Skeleton](./themes/components/skeleton.md)
         -   [Slider]()
         -   [Spinner](./themes/components/spinner.md)
         -   [Switch](./themes/components/switch.md)

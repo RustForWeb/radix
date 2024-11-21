@@ -55,6 +55,8 @@ mod section;
 mod select;
 #[cfg(feature = "separator")]
 mod separator;
+#[cfg(feature = "skeleton")]
+mod skeleton;
 #[cfg(feature = "spinner")]
 mod spinner;
 #[cfg(feature = "strong")]

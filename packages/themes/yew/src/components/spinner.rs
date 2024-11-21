@@ -98,7 +98,7 @@ pub fn Spinner(props: &SpinnerProps) -> Html {
                 // `display: contents` removes the content from the accessibility tree in some browsers,
                 // so we force remove it with `aria-hidden`.
                 <span
-                    aria-hidden=""
+                    aria-hidden="true"
                     style="display: contents; visibility: hidden;"
                 >
                     {props.children.clone()}

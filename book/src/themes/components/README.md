@@ -12,6 +12,7 @@
 -   [Inset](./inset.md)
 -   [Select](./select.md)
 -   [Separator](./separator.md)
+-   [Skeleton](./skeleton.md)
 -   [Spinner](./spinner.md)
 -   [Switch](./switch.md)
 -   [Table](./table.md)

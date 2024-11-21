@@ -176,6 +176,13 @@ pub fn App() -> Html {
             <Switch<SeparatorRoute> render={render} />
         });
     }
+    #[cfg(feature = "skeleton")]
+    {
+        use crate::skeleton::{render, SkeletonRoute};
+        children.push(html! {
+            <Switch<SkeletonRoute> render={render} />
+        });
+    }
     #[cfg(feature = "spinner")]
     {
         use crate::spinner::{render, SpinnerRoute};
