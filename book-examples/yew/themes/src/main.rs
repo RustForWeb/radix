@@ -49,6 +49,8 @@ mod kbd;
 mod link;
 #[cfg(feature = "quote")]
 mod quote;
+#[cfg(feature = "radio")]
+mod radio;
 #[cfg(feature = "section")]
 mod section;
 #[cfg(feature = "select")]

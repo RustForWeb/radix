@@ -159,7 +159,7 @@ url_fragment = "#/disabled"
 {{#endtab }}
 {{#endtabs }}
 
-### Disabled
+### Indeterminate
 
 Use the `CheckedState::Indeterminate` value to create an indeterminate checkbox.
 

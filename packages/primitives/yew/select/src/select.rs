@@ -763,11 +763,12 @@ pub struct SelectContentProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    // TODO: change to SelectContentChildProps?
-    pub as_child: Option<Callback<SelectContentImplChildProps, Html>>,
+    pub as_child: Option<Callback<SelectContentChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
+
+pub type SelectContentChildProps = SelectContentImplChildProps;
 
 #[function_component]
 pub fn SelectContent(props: &SelectContentProps) -> Html {

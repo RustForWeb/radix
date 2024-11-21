@@ -99,7 +99,7 @@
         -   [Inset](./themes/components/inset.md)
         -   [Popover]()
         -   [Progress]()
-        -   [Radio]()
+        -   [Radio](./themes/components/radio.md)
         -   [Radio Group]()
         -   [Radio Cards]()
         -   [Scroll Area]()

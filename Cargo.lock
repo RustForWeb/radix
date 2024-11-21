@@ -3532,6 +3532,7 @@ dependencies = [
  "radix-yew-checkbox",
  "radix-yew-direction",
  "radix-yew-portal",
+ "radix-yew-primitive",
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",

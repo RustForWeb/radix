@@ -10,6 +10,7 @@
 -   [Data List](./data-list.md)
 -   [Icon Button](./icon-button.md)
 -   [Inset](./inset.md)
+-   [Radio](./radio.md)
 -   [Select](./select.md)
 -   [Separator](./separator.md)
 -   [Skeleton](./skeleton.md)

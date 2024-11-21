@@ -63,13 +63,7 @@ pub struct TextFieldProps {
 
     // Attributes from `input`
     #[prop_or_default]
-    pub accept: Option<String>,
-    #[prop_or_default]
-    pub alt: Option<String>,
-    #[prop_or_default]
     pub autocomplete: Option<String>,
-    #[prop_or_default]
-    pub capture: Option<String>,
     #[prop_or_default]
     pub checked: bool,
     #[prop_or_default]
@@ -78,18 +72,6 @@ pub struct TextFieldProps {
     pub disabled: bool,
     #[prop_or_default]
     pub form: Option<String>,
-    #[prop_or_default]
-    pub formaction: Option<String>,
-    #[prop_or_default]
-    pub formenctype: Option<String>,
-    #[prop_or_default]
-    pub formmethod: Option<String>,
-    #[prop_or_default]
-    pub formnovalidate: bool,
-    #[prop_or_default]
-    pub formtarget: Option<String>,
-    #[prop_or_default]
-    pub height: Option<String>,
     #[prop_or_default]
     pub list: Option<String>,
     #[prop_or_default]
@@ -109,23 +91,15 @@ pub struct TextFieldProps {
     #[prop_or_default]
     pub placeholder: Option<String>,
     #[prop_or_default]
-    pub popovertarget: Option<String>,
-    #[prop_or_default]
-    pub popovertargetaction: Option<String>,
-    #[prop_or_default]
     pub readonly: bool,
     #[prop_or_default]
     pub required: bool,
-    #[prop_or_default]
-    pub src: Option<String>,
     #[prop_or_default]
     pub step: Option<String>,
     #[prop_or_default]
     pub r#type: Option<String>,
     #[prop_or_default]
     pub value: Option<String>,
-    #[prop_or_default]
-    pub width: Option<String>,
 
     // Event handler attributes
     #[prop_or_default]
@@ -160,20 +134,11 @@ pub struct TextFieldChildProps {
     pub spellcheck: String,
 
     // Attributes from `input`
-    pub accept: Option<String>,
-    pub alt: Option<String>,
     pub autocomplete: Option<String>,
-    pub capture: Option<String>,
     pub checked: bool,
     pub dirname: Option<String>,
     pub disabled: bool,
     pub form: Option<String>,
-    pub formaction: Option<String>,
-    pub formenctype: Option<String>,
-    pub formmethod: Option<String>,
-    pub formnovalidate: bool,
-    pub formtarget: Option<String>,
-    pub height: Option<String>,
     pub list: Option<String>,
     pub max: Option<String>,
     pub maxlength: Option<String>,
@@ -183,15 +148,11 @@ pub struct TextFieldChildProps {
     pub name: Option<String>,
     pub pattern: Option<String>,
     pub placeholder: Option<String>,
-    pub popovertarget: Option<String>,
-    pub popovertargetaction: Option<String>,
     pub readonly: bool,
     pub required: bool,
-    pub src: Option<String>,
     pub step: Option<String>,
     pub r#type: Option<String>,
     pub value: Option<String>,
-    pub width: Option<String>,
 
     // Event handler attributes
     pub onblur: Callback<FocusEvent>,
@@ -287,20 +248,11 @@ pub fn TextField(props: &TextFieldProps) -> Html {
         spellcheck: props.spellcheck.clone().unwrap_or("false".to_owned()),
 
         // Attributes from `input`
-        accept: props.accept.clone(),
-        alt: props.alt.clone(),
         autocomplete: props.autocomplete.clone(),
-        capture: props.capture.clone(),
         checked: props.checked,
         dirname: props.dirname.clone(),
         disabled: props.disabled,
         form: props.form.clone(),
-        formaction: props.formaction.clone(),
-        formenctype: props.formenctype.clone(),
-        formmethod: props.formmethod.clone(),
-        formnovalidate: props.formnovalidate,
-        formtarget: props.formtarget.clone(),
-        height: props.height.clone(),
         list: props.list.clone(),
         max: props.max.clone(),
         maxlength: props.maxlength.clone(),
@@ -310,15 +262,11 @@ pub fn TextField(props: &TextFieldProps) -> Html {
         name: props.name.clone(),
         pattern: props.pattern.clone(),
         placeholder: props.placeholder.clone(),
-        popovertarget: props.popovertarget.clone(),
-        popovertargetaction: props.popovertargetaction.clone(),
         readonly: props.readonly,
         required: props.required,
-        src: props.src.clone(),
         step: props.step.clone(),
         r#type: props.r#type.clone(),
         value: props.value.clone(),
-        width: props.width.clone(),
 
         // Event handler attributes
         onblur: props.on_blur.clone(),

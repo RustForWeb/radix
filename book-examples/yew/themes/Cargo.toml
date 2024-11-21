@@ -42,6 +42,7 @@ default = [
     "kbd",
     "link",
     "quote",
+    "radio",
     "section",
     "select",
     "separator",
@@ -79,6 +80,7 @@ inset = []
 kbd = []
 link = []
 quote = []
+radio = []
 section = []
 select = []
 separator = []

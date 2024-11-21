@@ -153,6 +153,13 @@ pub fn App() -> Html {
             <Switch<QuoteRoute> render={render} />
         });
     }
+    #[cfg(feature = "radio")]
+    {
+        use crate::radio::{render, RadioRoute};
+        children.push(html! {
+            <Switch<RadioRoute> render={render} />
+        });
+    }
     #[cfg(feature = "section")]
     {
         use crate::section::{render, SectionRoute};
