@@ -21,6 +21,8 @@ mod checkbox;
 mod code;
 #[cfg(feature = "container")]
 mod container;
+#[cfg(feature = "data-list")]
+mod data_list;
 #[cfg(any(
     feature = "box",
     feature = "container",

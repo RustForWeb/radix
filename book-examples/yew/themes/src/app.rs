@@ -83,6 +83,13 @@ pub fn App() -> Html {
             <Switch<ContainerRoute> render={render} />
         });
     }
+    #[cfg(feature = "data-list")]
+    {
+        use crate::data_list::{render, DataListRoute};
+        children.push(html! {
+            <Switch<DataListRoute> render={render} />
+        });
+    }
     #[cfg(feature = "em")]
     {
         use crate::em::{render, EmRoute};

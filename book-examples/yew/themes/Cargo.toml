@@ -32,6 +32,7 @@ default = [
     "checkbox",
     "code",
     "container",
+    "data-list",
     "em",
     "flex",
     "grid",
@@ -66,6 +67,7 @@ card = []
 code = []
 container = []
 checkbox = []
+data-list = ["radix-yew-icons/copy"]
 em = []
 flex = []
 grid = []

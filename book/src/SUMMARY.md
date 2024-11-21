@@ -91,7 +91,7 @@
         -   [Checkbox Group]()
         -   [Checkbox Cards]()
         -   [Context Menu]()
-        -   [Data List]()
+        -   [Data List](./themes/components/data-list.md)
         -   [Dialog]()
         -   [Dropdown Menu]()
         -   [Hover Card]()

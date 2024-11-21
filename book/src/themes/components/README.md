@@ -7,6 +7,7 @@
 -   [Callout](./callout.md)
 -   [Card](./card.md)
 -   [Checkbox](./checkbox.md)
+-   [Data List](./data-list.md)
 -   [Icon Button](./icon-button.md)
 -   [Inset](./inset.md)
 -   [Select](./select.md)
