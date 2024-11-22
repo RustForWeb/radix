@@ -63,7 +63,7 @@ The tables below show the support for the various frameworks.
 | Compose Refs           | ❌ [#129](https://github.com/RustForWeb/radix/issues/129) | 🟦 [#26](https://github.com/RustForWeb/radix/issues/26) | 🟦 [#78](https://github.com/RustForWeb/radix/issues/78)   |
 | Context Menu           | ❌ [#130](https://github.com/RustForWeb/radix/issues/130) | ❌ [#27](https://github.com/RustForWeb/radix/issues/27) | ❌ [#79](https://github.com/RustForWeb/radix/issues/79)   |
 | Context                | ❌ [#131](https://github.com/RustForWeb/radix/issues/131) | ❌ [#28](https://github.com/RustForWeb/radix/issues/28) | ❌ [#80](https://github.com/RustForWeb/radix/issues/80)   |
-| Dialog                 | ❌ [#132](https://github.com/RustForWeb/radix/issues/132) | ❌ [#29](https://github.com/RustForWeb/radix/issues/29) | ❌ [#81](https://github.com/RustForWeb/radix/issues/81)   |
+| Dialog                 | ❌ [#132](https://github.com/RustForWeb/radix/issues/132) | ❌ [#29](https://github.com/RustForWeb/radix/issues/29) | 🚧 [#81](https://github.com/RustForWeb/radix/issues/81)   |
 | Direction              | ❌ [#133](https://github.com/RustForWeb/radix/issues/133) | 🟦 [#30](https://github.com/RustForWeb/radix/issues/30) | 🟦 [#82](https://github.com/RustForWeb/radix/issues/82)   |
 | Dismissable Layer      | ❌ [#134](https://github.com/RustForWeb/radix/issues/134) | 🚧 [#31](https://github.com/RustForWeb/radix/issues/31) | 🚧 [#83](https://github.com/RustForWeb/radix/issues/83)   |
 | Dropdown Menu          | ❌ [#135](https://github.com/RustForWeb/radix/issues/135) | ❌ [#32](https://github.com/RustForWeb/radix/issues/32) | ❌ [#84](https://github.com/RustForWeb/radix/issues/84)   |
@@ -104,7 +104,7 @@ The tables below show the support for the various frameworks.
 | Use Rect               | ❌ [#167](https://github.com/RustForWeb/radix/issues/167) | ❌ [#64](https://github.com/RustForWeb/radix/issues/64) | ❌ [#116](https://github.com/RustForWeb/radix/issues/116) |
 | Use Size               | ❌ [#168](https://github.com/RustForWeb/radix/issues/168) | 🟦 [#65](https://github.com/RustForWeb/radix/issues/65) | 🟦 [#117](https://github.com/RustForWeb/radix/issues/117) |
 | Visually Hidden        | ❌ [#169](https://github.com/RustForWeb/radix/issues/169) | 🟦 [#66](https://github.com/RustForWeb/radix/issues/66) | 🟦 [#118](https://github.com/RustForWeb/radix/issues/118) |
-| **Total**              | 0 / 52                                                    | 29 / 52                                                 | 23 / 52                                                   |
+| **Total**              | 0 / 52                                                    | 29 / 52                                                 | 24 / 52                                                   |
 
 ### Themes Support
 
