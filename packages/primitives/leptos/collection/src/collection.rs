@@ -38,7 +38,7 @@ struct CollectionContextValue<ItemData: Clone + 'static> {
 
 #[component]
 pub fn CollectionProvider<ItemData: Clone + 'static>(
-    #[allow(unused_variables)]
+    #[expect(unused_variables)]
     #[prop(into, optional)]
     item_data_type: Option<PhantomData<ItemData>>,
     children: ChildrenFn,
@@ -57,7 +57,7 @@ pub fn CollectionProvider<ItemData: Clone + 'static>(
 
 #[component]
 pub fn CollectionSlot<ItemData: Clone + 'static>(
-    #[allow(unused_variables)]
+    #[expect(unused_variables)]
     #[prop(into, optional)]
     item_data_type: Option<PhantomData<ItemData>>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
@@ -78,12 +78,10 @@ const ITEM_DATA_ATTR: &str = "data-radix-collection-item";
 
 #[component]
 pub fn CollectionItemSlot<ItemData: Clone + Debug + 'static>(
-    #[allow(unused_variables)]
+    #[expect(unused_variables)]
     #[prop(into, optional)]
     item_data_type: Option<PhantomData<ItemData>>,
-    #[allow(unused_variables)]
-    #[prop(into, optional)]
-    item_data: MaybeProp<ItemData>,
+    #[prop(into, optional)] item_data: MaybeProp<ItemData>,
     #[prop(optional)] node_ref: NodeRef<AnyElement>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: ChildrenFn,
