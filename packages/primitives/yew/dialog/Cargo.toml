@@ -1,0 +1,24 @@
+[package]
+name = "radix-yew-dialog"
+description = "Yew port of Radix Dialog."
+homepage = "https://radix.rustforweb.org/primitives/components/dialog.html"
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+log.workspace = true
+radix-yew-dismissable-layer = { path = "../dismissable-layer", version = "0.0.2" }
+radix-yew-focus-scope = { path = "../focus-scope", version = "0.0.2" }
+radix-yew-id = { path = "../id", version = "0.0.2" }
+radix-yew-presence = { path = "../presence", version = "0.0.2" }
+radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
+radix-yew-portal = { path = "../portal", version = "0.0.2" }
+radix-yew-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
+web-sys.workspace = true
+yew.workspace = true
+yew-struct-component.workspace = true
+yew-style.workspace = true

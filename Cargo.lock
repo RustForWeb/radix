@@ -3347,6 +3347,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-dialog"
+version = "0.0.2"
+dependencies = [
+ "log",
+ "radix-yew-dismissable-layer",
+ "radix-yew-focus-scope",
+ "radix-yew-id",
+ "radix-yew-portal",
+ "radix-yew-presence",
+ "radix-yew-primitive",
+ "radix-yew-use-controllable-state",
+ "web-sys",
+ "yew",
+ "yew-struct-component",
+ "yew-style",
+]
+
+[[package]]
 name = "radix-yew-direction"
 version = "0.0.2"
 dependencies = [
