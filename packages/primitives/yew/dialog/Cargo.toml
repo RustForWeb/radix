@@ -12,6 +12,7 @@ version.workspace = true
 [dependencies]
 log.workspace = true
 radix-yew-dismissable-layer = { path = "../dismissable-layer", version = "0.0.2" }
+radix-yew-focus-guards = { path = "../focus-guards", version = "0.0.2" }
 radix-yew-focus-scope = { path = "../focus-scope", version = "0.0.2" }
 radix-yew-id = { path = "../id", version = "0.0.2" }
 radix-yew-presence = { path = "../presence", version = "0.0.2" }

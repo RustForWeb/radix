@@ -720,12 +720,12 @@ pub struct SelectPortalProps {
     #[prop_or_default]
     pub attributes: Attributes,
     #[prop_or_default]
-    pub as_child: Option<Callback<SelectPortalAsChildProps, Html>>,
+    pub as_child: Option<Callback<SelectPortalChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-pub type SelectPortalAsChildProps = PortalChildProps;
+pub type SelectPortalChildProps = PortalChildProps;
 
 #[function_component]
 pub fn SelectPortal(props: &SelectPortalProps) -> Html {

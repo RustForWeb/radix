@@ -3352,6 +3352,7 @@ version = "0.0.2"
 dependencies = [
  "log",
  "radix-yew-dismissable-layer",
+ "radix-yew-focus-guards",
  "radix-yew-focus-scope",
  "radix-yew-id",
  "radix-yew-portal",
@@ -3508,6 +3509,7 @@ dependencies = [
  "radix-yew-avatar",
  "radix-yew-checkbox",
  "radix-yew-collection",
+ "radix-yew-dialog",
  "radix-yew-focus-scope",
  "radix-yew-label",
  "radix-yew-popper",

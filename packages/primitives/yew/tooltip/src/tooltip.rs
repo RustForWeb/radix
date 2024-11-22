@@ -686,12 +686,12 @@ pub struct TooltipPortalProps {
     pub container_ref: Option<NodeRef>,
 
     #[prop_or_default]
-    pub as_child: Option<Callback<TooltipPortalAsChildProps, Html>>,
+    pub as_child: Option<Callback<TooltipPortalChildProps, Html>>,
     #[prop_or_default]
     pub children: Html,
 }
 
-pub type TooltipPortalAsChildProps = PortalChildProps;
+pub type TooltipPortalChildProps = PortalChildProps;
 
 #[function_component]
 pub fn TooltipPortal(props: &TooltipPortalProps) -> Html {

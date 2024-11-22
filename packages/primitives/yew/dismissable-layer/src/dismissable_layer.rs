@@ -48,6 +48,10 @@ pub struct DismissableLayerProps {
     #[prop_or_default]
     pub style: Style,
 
+    // Event handler attributes
+    #[prop_or_default]
+    pub on_key_down: Callback<KeyboardEvent>,
+
     #[prop_or_default]
     pub node_ref: NodeRef,
     #[prop_or_default]
@@ -68,6 +72,9 @@ pub struct DismissableLayerChildProps {
     pub class: Option<String>,
     pub id: Option<String>,
     pub style: Style,
+
+    // Event handler attributes
+    pub onkeydown: Callback<KeyboardEvent>,
 }
 
 #[function_component]
@@ -137,6 +144,9 @@ pub fn DismissableLayerImpl(props: &DismissableLayerProps) -> Html {
                 "none"
             }),
         )]),
+
+        // Event handler attributes
+        onkeydown: props.on_key_down.clone(),
     };
 
     if let Some(as_child) = props.as_child.as_ref() {
