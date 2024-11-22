@@ -417,7 +417,7 @@ fn Index() -> Html {
 pub fn App() -> Html {
     html! {
         <BrowserRouter>
-            <nav class="bg-slate-200 p-4 fixed top-0 bottom-0 start-0 w-64 box-border overflow-y-auto">
+            <nav class="bg-slate-200 p-4 fixed top-0 bottom-0 start-0 w-64 box-border overflow-y-auto leading-normal">
                 <ul class="list-none m-0 p-0">
                     <li>
                         <NavLink<Route> to={Route::Index}>{"Index"}</NavLink<Route>>
