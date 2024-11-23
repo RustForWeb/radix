@@ -157,8 +157,10 @@ pub struct SelectTriggerChildProps {
     pub aria_expanded: String,
     pub aria_required: Option<String>,
     pub aria_autocomplete: String,
+    pub data_accent_color: Option<String>,
     pub data_disabled: Option<String>,
     pub data_placeholder: Option<String>,
+    pub data_radius: Option<String>,
     pub data_state: String,
     pub dir: String,
     pub class: String,
@@ -238,10 +240,7 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                 }| {
                     let child_props = SelectTriggerChildProps {
                         node_ref,
-                        attributes: attributes.with_defaults([
-                            ("data-accent-color", color.map(|color| color.to_string())),
-                            ("data-radius", radius.map(|radius| radius.to_string())),
-                        ]),
+                        attributes,
 
                         // Global attributes
                         aria_autocomplete,
@@ -249,8 +248,10 @@ pub fn SelectTrigger(props: &SelectTriggerProps) -> Html {
                         aria_expanded,
                         aria_required,
                         class: classes!("rt-reset", "rt-SelectTrigger", class).to_string(),
+                        data_accent_color: color.map(|color| color.to_string()),
                         data_disabled,
                         data_placeholder,
+                        data_radius: radius.map(|radius| radius.to_string()),
                         data_state,
                         dir,
                         id,

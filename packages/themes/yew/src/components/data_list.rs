@@ -66,6 +66,7 @@ pub struct DataListChildProps {
 
     // Global attributes
     pub class: String,
+    pub data_accent_color: Option<String>,
     pub id: Option<String>,
     pub style: Style,
 }
@@ -113,12 +114,11 @@ pub fn DataList(props: &DataListProps) -> Html {
                 } | {
                     let child_props = DataListChildProps {
                         node_ref,
-                        attributes: attributes.with_defaults([
-                            ("data-accent-color", data_accent_color),
-                        ]),
+                        attributes,
 
                         // Global attributes
                         class: classes!("rt-DataListRoot", class).to_string(),
+                        data_accent_color,
                         id,
                         style,
                     };
