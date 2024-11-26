@@ -3467,6 +3467,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-yew-scroll-area"
+version = "0.0.2"
+dependencies = [
+ "radix-number",
+ "radix-yew-direction",
+ "radix-yew-presence",
+ "radix-yew-primitive",
+ "web-sys",
+ "yew",
+ "yew-struct-component",
+ "yew-style",
+]
+
+[[package]]
 name = "radix-yew-select"
 version = "0.0.2"
 dependencies = [
@@ -3516,6 +3530,7 @@ dependencies = [
  "radix-yew-portal",
  "radix-yew-presence",
  "radix-yew-primitive",
+ "radix-yew-scroll-area",
  "radix-yew-select",
  "radix-yew-separator",
  "radix-yew-switch",

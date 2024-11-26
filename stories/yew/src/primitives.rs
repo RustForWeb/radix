@@ -9,6 +9,7 @@ pub mod label;
 pub mod popper;
 pub mod portal;
 pub mod presence;
+pub mod scroll_area;
 pub mod select;
 pub mod separator;
 pub mod switch;

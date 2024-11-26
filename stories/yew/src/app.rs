@@ -3,7 +3,7 @@ use yew_router::prelude::*;
 
 use crate::primitives::{
     arrow, aspect_ratio, avatar, checkbox, collection, dialog, focus_scope, label, popper, portal,
-    presence, select, separator, switch, tooltip, visually_hidden,
+    presence, scroll_area, select, separator, switch, tooltip, visually_hidden,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Routable)]
@@ -184,6 +184,21 @@ enum Route {
     #[at("/separator/styled")]
     SeparatorStyled,
 
+    #[at("/scroll-area/basic")]
+    ScrollAreaBasic,
+    #[at("/scroll-area/resizable")]
+    ScrollAreaResizable,
+    #[at("/scroll-area/content-change")]
+    ScrollAreaContentChange,
+    #[at("/scroll-area/animated")]
+    ScrollAreaAnimated,
+    #[at("/scroll-area/chromatic")]
+    ScrollAreaChromatic,
+    #[at("/scroll-area/chromatic-dynamic-content-before-loaded")]
+    ScrollAreaChromaticDynamicContentBeforeLoaded,
+    #[at("/scroll-area/chromatic-dynamic-content-after-loaded")]
+    ScrollAreaChromaticDynamicContentAfterLoaded,
+
     #[at("/switch/styled")]
     SwitchStyled,
     #[at("/switch/controlled")]
@@ -354,6 +369,18 @@ fn switch(routes: Route) -> Html {
         Route::SelectCypress => html! { <select::Cypress /> },
 
         Route::SeparatorStyled => html! { <separator::Styled /> },
+
+        Route::ScrollAreaBasic => html! { <scroll_area::Basic /> },
+        Route::ScrollAreaResizable => html! { <scroll_area::Resizable /> },
+        Route::ScrollAreaContentChange => html! { <scroll_area::ContentChange /> },
+        Route::ScrollAreaAnimated => html! { <scroll_area::Animated /> },
+        Route::ScrollAreaChromatic => html! { <scroll_area::Chromatic /> },
+        Route::ScrollAreaChromaticDynamicContentBeforeLoaded => {
+            html! { <scroll_area::ChromaticDynamicContentBeforeLoaded /> }
+        }
+        Route::ScrollAreaChromaticDynamicContentAfterLoaded => {
+            html! { <scroll_area::ChromaticDynamicContentAfterLoaded /> }
+        }
 
         Route::SwitchStyled => html! { <switch::Styled /> },
         Route::SwitchControlled => html! { <switch::Controlled /> },
@@ -578,6 +605,19 @@ pub fn App() -> Html {
 
                         <ul class="list-none m-0 ms-4 p-0">
                             <li><NavLink<Route> to={Route::SeparatorStyled}>{"Styled"}</NavLink<Route>></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {"Scroll Area"}
+
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink<Route> to={Route::ScrollAreaBasic}>{"Basic"}</NavLink<Route>></li>
+                            <li><NavLink<Route> to={Route::ScrollAreaResizable}>{"Resizable"}</NavLink<Route>></li>
+                            <li><NavLink<Route> to={Route::ScrollAreaContentChange}>{"Content Change"}</NavLink<Route>></li>
+                            <li><NavLink<Route> to={Route::ScrollAreaAnimated}>{"Animated"}</NavLink<Route>></li>
+                            <li><NavLink<Route> to={Route::ScrollAreaChromatic}>{"Chromatic"}</NavLink<Route>></li>
+                            <li><NavLink<Route> to={Route::ScrollAreaChromaticDynamicContentBeforeLoaded}>{"Chromatic Dynamic Content Before Loaded"}</NavLink<Route>></li>
+                            <li><NavLink<Route> to={Route::ScrollAreaChromaticDynamicContentAfterLoaded}>{"Chromatic Dynamic Content After Loaded"}</NavLink<Route>></li>
                         </ul>
                     </li>
                     <li>

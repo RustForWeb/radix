@@ -27,6 +27,7 @@ radix-yew-presence = { path = "../../packages/primitives/yew/presence" }
 radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
 radix-yew-select = { path = "../../packages/primitives/yew/select" }
 radix-yew-separator = { path = "../../packages/primitives/yew/separator" }
+radix-yew-scroll-area = { path = "../../packages/primitives/yew/scroll-area" }
 radix-yew-switch = { path = "../../packages/primitives/yew/switch" }
 radix-yew-tooltip = { path = "../../packages/primitives/yew/tooltip" }
 radix-yew-visually-hidden = { path = "../../packages/primitives/yew/visually-hidden" }
