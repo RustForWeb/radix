@@ -978,11 +978,9 @@ fn get_next_match(
     let exclude_current_match = normilized_search.chars().count() == 1;
     if exclude_current_match {
         wrapped_values.retain(|v| {
-            // TODO: Replace with `Option::is_none_or` once it's stable.
-            current_match.as_ref().is_none()
-                || current_match
-                    .as_ref()
-                    .is_some_and(|current_match| v != current_match)
+            current_match
+                .as_ref()
+                .is_none_or(|current_match| v != current_match)
         });
     }
     let next_match = wrapped_values.into_iter().find(|value| {

@@ -3132,8 +3132,7 @@ pub fn SelectArrow(props: &SelectArrowProps) -> Html {
     }
 }
 fn should_show_placeholder(value: Option<String>) -> bool {
-    // TODO: Replace with `Option::is_none_or` once it's stable.
-    value.is_none() || value.is_some_and(|value| value.is_empty())
+    value.is_none_or(|value| value.is_empty())
 }
 
 #[derive(PartialEq, Properties)]
@@ -3358,11 +3357,9 @@ fn find_next_item(
     let exclude_current_item = normalized_search.chars().count() == 1;
     if exclude_current_item {
         wrapped_items.retain(|item| {
-            // TODO: Replace with `Option::is_none_or` once it's stable.
-            current_item.as_ref().is_none()
-                || current_item
-                    .as_ref()
-                    .is_some_and(|current_item| item != current_item)
+            current_item
+                .as_ref()
+                .is_none_or(|current_item| item != current_item)
         });
     }
     let next_item = wrapped_items.into_iter().find(|item| {
