@@ -18,4 +18,4 @@ yew = { workspace = true, features = ["csr"] }
 
 [features]
 default = []
-icons = ["dep:radix-yew-icons", "radix-yew-icons/full"]
+icons = ["dep:radix-yew-icons"]

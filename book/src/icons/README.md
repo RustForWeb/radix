@@ -31,11 +31,7 @@ Install the icons from your command line.
 {{#tab name="Leptos" }}
 
 ```shell
-# Selective Icons
-cargo add radix-leptos-icons --features face,image,sun
-
-# All Icons
-cargo add radix-leptos-icons --features full
+cargo add radix-leptos-icons
 ```
 
 -   [View on crates.io](https://crates.io/crates/radix-leptos-icons)
@@ -46,11 +42,7 @@ cargo add radix-leptos-icons --features full
 {{#tab name="Yew" }}
 
 ```shell
-# Selective Icons
-cargo add radix-yew-icons --features face,image,sun
-
-# All Icons
-cargo add radix-yew-icons --features full
+cargo add radix-yew-icons
 ```
 
 -   [View on crates.io](https://crates.io/crates/radix-yew-icons)

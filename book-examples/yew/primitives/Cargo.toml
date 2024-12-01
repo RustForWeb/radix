@@ -37,23 +37,9 @@ default = [
 ]
 aspect-ratio = ["dep:radix-yew-aspect-ratio"]
 avatar = ["dep:radix-yew-avatar"]
-checkbox = [
-    "dep:radix-yew-checkbox",
-    "dep:radix-yew-icons",
-    "radix-yew-icons/check",
-]
+checkbox = ["dep:radix-yew-checkbox", "dep:radix-yew-icons"]
 label = ["dep:radix-yew-label"]
-select = [
-    "dep:radix-yew-select",
-    "dep:radix-yew-icons",
-    "radix-yew-icons/check",
-    "radix-yew-icons/chevron-down",
-    "radix-yew-icons/chevron-up",
-]
+select = ["dep:radix-yew-select", "dep:radix-yew-icons"]
 separator = ["dep:radix-yew-separator"]
 switch = ["dep:radix-yew-switch"]
-tooltip = [
-    "dep:radix-yew-tooltip",
-    "dep:radix-yew-icons",
-    "radix-yew-icons/plus",
-]
+tooltip = ["dep:radix-yew-tooltip", "dep:radix-yew-icons"]
