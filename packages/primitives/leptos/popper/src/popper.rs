@@ -290,7 +290,7 @@ pub fn PopperContent(
     let arrow_x = Signal::derive(move || arrow_data().and_then(|arrow_data| arrow_data.x));
     let arrow_y = Signal::derive(move || arrow_data().and_then(|arrow_data| arrow_data.y));
     let cannot_center_arrow = Signal::derive(move || {
-        arrow_data().map_or(true, |arrow_data| arrow_data.center_offset != 0.0)
+        arrow_data().is_none_or(|arrow_data| arrow_data.center_offset != 0.0)
     });
 
     let (content_z_index, set_content_z_index) = create_signal::<Option<String>>(None);
@@ -502,7 +502,7 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
         let arrow_data: Option<ArrowData> = middleware_data.get_as(ARROW_NAME);
         let cannot_center_arrow = arrow_data
             .as_ref()
-            .map_or(true, |arrow_data| arrow_data.center_offset != 0.0);
+            .is_none_or(|arrow_data| arrow_data.center_offset != 0.0);
         let is_arrow_hidden = cannot_center_arrow;
         let arrow_width = match is_arrow_hidden {
             true => 0.0,
