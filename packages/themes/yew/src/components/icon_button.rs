@@ -157,6 +157,7 @@ pub fn IconButton(props: &IconButtonProps) -> Html {
 
             node_ref={props.node_ref.clone()}
             attributes={props.attributes.clone()}
+            as_child={props.as_child.clone()}
         >
             {props.children.clone()}
         </BaseButton>
