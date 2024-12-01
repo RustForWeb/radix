@@ -423,7 +423,7 @@ where
     let arrow_y = arrow_data.as_ref().and_then(|arrow_data| arrow_data.y);
     let cannot_center_arrow = arrow_data
         .as_ref()
-        .map_or(true, |arrow_data| arrow_data.center_offset != 0.0);
+        .is_none_or(|arrow_data| arrow_data.center_offset != 0.0);
 
     let content_z_index: UseStateHandle<Option<String>> = use_state_eq(|| None);
     use_effect_with(content_ref.clone(), {
@@ -715,7 +715,7 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
         let arrow_data: Option<ArrowData> = middleware_data.get_as(ARROW_NAME);
         let cannot_center_arrow = arrow_data
             .as_ref()
-            .map_or(true, |arrow_data| arrow_data.center_offset != 0.0);
+            .is_none_or(|arrow_data| arrow_data.center_offset != 0.0);
         let is_arrow_hidden = cannot_center_arrow;
         let arrow_width = match is_arrow_hidden {
             true => 0.0,
