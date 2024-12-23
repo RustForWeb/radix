@@ -1006,7 +1006,20 @@ checksum = "5b7ffdfa7ba96bd164a3da390309772038d6eb93cc053d20a0b93420ecf5fa2f"
 dependencies = [
  "dyn_derive",
  "dyn_std",
- "floating-ui-utils",
+ "floating-ui-utils 0.1.3",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "floating-ui-core"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3203b2392cfbdd0bdaf332b5e7db81d61e9d0491e96d2279f7eb7a558dc5ff1a"
+dependencies = [
+ "dyn_derive",
+ "dyn_std",
+ "floating-ui-utils 0.2.0",
  "serde",
  "serde_json",
 ]
@@ -1017,8 +1030,19 @@ version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e83c762a16c4f7bf9e8efc6209ac69a94b0a04877c11b859e43c007d549dc52"
 dependencies = [
- "floating-ui-core",
- "floating-ui-utils",
+ "floating-ui-core 0.1.3",
+ "floating-ui-utils 0.1.3",
+ "web-sys",
+]
+
+[[package]]
+name = "floating-ui-dom"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "45bdf105cf32d25b7c6ba0a1bc7cc6fe2a25c7a4a2d1e22b2de767ee21483473"
+dependencies = [
+ "floating-ui-core 0.2.0",
+ "floating-ui-utils 0.2.0",
  "web-sys",
 ]
 
@@ -1030,7 +1054,7 @@ checksum = "ace14ad65cd62f47971c6c731151b704ed984a518165ceedba5d59119e862615"
 dependencies = [
  "dyn_derive",
  "dyn_std",
- "floating-ui-dom",
+ "floating-ui-dom 0.1.3",
  "leptos",
  "paste",
  "web-sys",
@@ -1050,12 +1074,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "floating-ui-yew"
-version = "0.1.3"
+name = "floating-ui-utils"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3537c9bdd7c10814c2aabbbcc32bec09da5bbf85f1b4c436078b3182646a84e1"
+checksum = "706cd6b3c878ddff44d5fd450531d039858c831e0f1de4f962f7899e110c7bcf"
 dependencies = [
- "floating-ui-dom",
+ "cfg-if",
+ "dyn_derive",
+ "dyn_std",
+ "serde",
+ "web-sys",
+]
+
+[[package]]
+name = "floating-ui-yew"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f3b99d5c69b0cc267bcdd1be8965b0a06dedca5a140e0170dd22d7d395e1c281"
+dependencies = [
+ "floating-ui-dom 0.2.0",
  "web-sys",
  "yew",
 ]
