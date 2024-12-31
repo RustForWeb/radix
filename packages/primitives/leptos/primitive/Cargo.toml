@@ -11,4 +11,3 @@ version.workspace = true
 [dependencies]
 leptos.workspace = true
 leptos-node-ref.workspace = true
-wasm-bindgen = "0.2.99"

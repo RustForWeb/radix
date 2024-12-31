@@ -4,10 +4,10 @@ use leptos::{
     ev::Event,
     html::{ElementType, HtmlElement},
     prelude::*,
+    wasm_bindgen::JsCast,
     tachys::html::{class::IntoClass, node_ref::NodeRefContainer, style::IntoStyle},
 };
 use leptos_node_ref::{any_node_ref, AnyNodeRef};
-use wasm_bindgen::JsCast;
 
 /// We need our own show instead of leptos' Show because attribute spreading does not work
 /// across AnyView as of 0.7.3, which is required here.
