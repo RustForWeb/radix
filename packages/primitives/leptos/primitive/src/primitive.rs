@@ -10,7 +10,7 @@ use leptos::{
 use leptos_node_ref::{any_node_ref, AnyNodeRef};
 
 /// We need our own show instead of leptos' Show because attribute spreading does not work
-/// across AnyView as of 0.7.3, which is required here.
+/// across AnyView as of 0.7.2, which is required here.
 #[component]
 #[allow(non_snake_case)]
 pub fn TypedFallbackShow<F, IV, W, C>(
