@@ -8,7 +8,7 @@ pub fn use_previous<T: Clone + PartialEq + Send + Sync + 'static>(value: Signal<
 
     // Return a Memo that recalculates the previous value only when `value` changes
     Memo::new(move |_| {
-        let current_value = value.get_untracked();  // Changed from get() to get_untracked()
+        let current_value = value.get_untracked();
         let (stored_current, stored_previous) = container.get_value();
 
         if stored_current != current_value {
