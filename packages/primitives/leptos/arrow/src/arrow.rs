@@ -1,42 +1,62 @@
-use leptos::{html::AnyElement, *};
-use radix_leptos_primitive::Primitive;
+use leptos::{prelude::*, svg};
+use radix_leptos_primitive::{Primitive, TypedFallbackShow};
+use leptos_node_ref::AnyNodeRef;
+
+/* -------------------------------------------------------------------------------------------------
+ * Arrow
+ * -----------------------------------------------------------------------------------------------*/
+
+const NAME: &'static str = "Arrow";
 
 #[component]
 pub fn Arrow(
-    #[prop(into, optional)] width: MaybeProp<f64>,
-    #[prop(into, optional)] height: MaybeProp<f64>,
-    #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     #[prop(optional)] children: Option<ChildrenFn>,
+    #[prop(into, optional, default=10.0.into())] width: MaybeProp<f64>,
+    #[prop(into, optional, default=5.0.into())] height: MaybeProp<f64>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
 ) -> impl IntoView {
-    let width = move || width.get().unwrap_or(10.0);
-    let height = move || height.get().unwrap_or(5.0);
     let children = StoredValue::new(children);
 
-    let mut attrs = attrs.clone();
-    attrs.extend([
-        ("width", width.into_attribute()),
-        ("height", height.into_attribute()),
-        ("viewBox", "0 0 30 10".into_attribute()),
-        ("preserveAspectRatio", "none".into_attribute()),
-    ]);
+    #[cfg(debug_assertions)]
+    Effect::new(move |_| {
+        leptos::logging::log!("[{NAME}] width: {:?}", width.get());
+        leptos::logging::log!("[{NAME}] height: {:?}", height.get());
+        leptos::logging::log!("[{NAME}] node_ref: {:?}", node_ref.get());
+        leptos::logging::log!("[{NAME}] as_child: {:?}", as_child.get());
+    });
 
     view! {
         <Primitive
             element=svg::svg
             as_child=as_child
+            attr:width=move || width.get()
+            attr:height=move || height.get()
             node_ref=node_ref
-            attrs=attrs
         >
-            <Show
+            <TypedFallbackShow
                 when=move || as_child.get().unwrap_or_default()
-                fallback=move || view!{
-                    <polygon points="0,0 30,0 15,10" />
+                fallback=move || view! {
+                    <polygon points="0,0 30,0 15,10"/>
                 }
             >
-                {children.with_value(|children| children.as_ref().map(|children| children()))}
-            </Show>
+                {
+                    children.with_value(|maybe_children| {
+                        maybe_children.as_ref().map(|child_fn| child_fn())
+                    })
+                }
+            </TypedFallbackShow>
         </Primitive>
     }
+    .attr("viewBox", "0 0 30 10")
+    .attr("preserveAspectRatio", "none")
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Primitive re-exports
+ * -----------------------------------------------------------------------------------------------*/
+
+pub mod primitive {
+    pub use super::*;
+    pub use Arrow as Root;
 }
