@@ -12,4 +12,5 @@ version.workspace = true
 [dependencies]
 leptos.workspace = true
 radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
+leptos-node-ref.workspace = true
 web-sys.workspace = true
