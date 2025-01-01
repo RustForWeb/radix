@@ -1,16 +1,21 @@
-use leptos::{Memo, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSetUntracked};
+use leptos::prelude::*;
 
-pub fn use_previous<T: Clone + PartialEq>(value: Signal<T>) -> Memo<T> {
-    let current = RwSignal::new(value.get_untracked());
-    let previous = RwSignal::new(value.get_untracked());
+/// A Leptos hook that returns the *previous* value of a reactive Signal.
+/// Similar to React's `usePrevious`, it only updates when `value` actually changes.
+pub fn use_previous<T: Clone + PartialEq + 'static>(value: Signal<T>) -> Memo<T> {
+    // Keep a store of (current, previous)
+    let container = StoredValue::new((value.get_untracked(), value.get_untracked()));
 
+    // Return a Memo that recalculates the previous value only when `value` changes
     Memo::new(move |_| {
-        let value = value.get();
-        let current_value = current.get();
-        if current_value != value {
-            previous.set_untracked(current_value);
-            current.set_untracked(value.clone());
+        let current_value = value.get();
+        let (stored_current, stored_previous) = container.get_value();
+
+        if stored_current != current_value {
+            container.set_value((current_value.clone(), stored_current));
+            stored_previous
+        } else {
+            stored_previous
         }
-        previous.get()
     })
 }
