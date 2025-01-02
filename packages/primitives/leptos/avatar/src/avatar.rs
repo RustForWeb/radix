@@ -1,9 +1,18 @@
-use leptos::{html::AnyElement, *};
-use radix_leptos_primitive::Primitive;
-use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
-    HtmlImageElement,
-};
+use leptos::prelude::*;
+use leptos::context::Provider;
+use leptos::{html};
+use leptos::html::Img;
+use leptos::wasm_bindgen::closure::Closure;
+use leptos::wasm_bindgen::JsCast;
+use leptos_node_ref::prelude::*;
+use leptos_use::{use_timeout_fn, UseTimeoutFnReturn};
+use leptos_maybe_callback::MaybeCallback;
+use radix_leptos_context::create_context;
+use radix_leptos_primitive::{Primitive, VoidPrimitive};
+
+/* -------------------------------------------------------------------------------------------------
+ * Types
+ * -----------------------------------------------------------------------------------------------*/
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum ImageLoadingStatus {
@@ -19,182 +28,231 @@ struct AvatarContextValue {
     on_image_loading_status_change: Callback<ImageLoadingStatus>,
 }
 
-#[component]
-pub fn Avatar(
-    #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    children: ChildrenFn,
-) -> impl IntoView {
-    let (image_loading_status, set_image_loading_status) = create_signal(ImageLoadingStatus::Idle);
+/* -------------------------------------------------------------------------------------------------
+ * Avatar (Root)
+ * -----------------------------------------------------------------------------------------------*/
 
+const AVATAR_NAME: &'static str = "Avatar";
+
+create_context!(
+    context_type: AvatarContextValue,
+    provider: AvatarProvider,
+    hook: use_avatar_context,
+    root: AVATAR_NAME
+);
+
+#[component]
+#[allow(non_snake_case)]
+pub fn Avatar(
+    /// If `true`, renders only its children without a `<span>` wrapper.
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    /// A reference to the underlying `<span>` element, if needed.
+    #[prop(into, optional)] node_ref: AnyNodeRef,
+    /// The children of the Avatar component.
+    children: TypedChildrenFn<impl IntoView + 'static>,
+) -> impl IntoView {
+    let children = StoredValue::new(children.into_inner());
+
+    // Initialize the image loading status signal using `RwSignal`
+    let image_loading_status = RwSignal::new(ImageLoadingStatus::Idle);
+
+    // Define the context value with the current loading status and a callback to update it
     let context_value = AvatarContextValue {
-        image_loading_status,
-        on_image_loading_status_change: Callback::new(move |image_loading_status| {
-            set_image_loading_status.set(image_loading_status)
+        image_loading_status: image_loading_status.read_only(),
+        on_image_loading_status_change: Callback::new(move |status| {
+            image_loading_status.set(status);
         }),
     };
 
     view! {
-        <Provider value=context_value>
-             <Primitive
-                element=html::span
-                as_child=as_child
-                node_ref=node_ref
-                attrs=attrs
-            >
-                {children()}
+        <AvatarProvider value=context_value>
+            <Primitive element=leptos::html::span as_child=as_child node_ref=node_ref>
+                {children.with_value(|children| children())}
             </Primitive>
-        </Provider>
+        </AvatarProvider>
     }
 }
 
+/* -------------------------------------------------------------------------------------------------
+ * AvatarImage
+ * -----------------------------------------------------------------------------------------------*/
+
+const IMAGE_NAME: &'static str = "AvatarImage";
+
 #[component]
+#[allow(non_snake_case)]
 pub fn AvatarImage(
     #[prop(into, optional)] src: MaybeProp<String>,
-    #[prop(into, optional)] on_loading_status_change: Option<Callback<ImageLoadingStatus>>,
+    #[prop(into, optional)] referrer_policy: MaybeProp<String>,
+    #[prop(into, optional)] on_loading_status_change: MaybeCallback<ImageLoadingStatus>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    #[prop(optional)] children: Option<ChildrenFn>,
+    #[prop(optional)] node_ref: NodeRef<Img>,
 ) -> impl IntoView {
-    let children = StoredValue::new(children);
+    let context = use_avatar_context(IMAGE_NAME);
+    let loading_status = use_image_loading_status(src.clone(), referrer_policy.clone());
 
-    let context = expect_context::<AvatarContextValue>();
-    let image_loading_status = use_image_loading_status(src.clone());
-    let handle_loading_status_change = move |status: ImageLoadingStatus| {
-        if let Some(on_loading_status_change) = on_loading_status_change {
-            on_loading_status_change.call(status);
-        }
-        context.on_image_loading_status_change.call(status);
-    };
-
+    // Update context and callback when loading status changes
     Effect::new(move |_| {
-        let image_loading_status = image_loading_status.get();
-        if image_loading_status != ImageLoadingStatus::Idle {
-            handle_loading_status_change(image_loading_status);
-        }
+        let status = loading_status.get();
+        context.on_image_loading_status_change.run(status);
+        on_loading_status_change.run(status);
     });
 
-    let mut attrs = attrs.clone();
-    attrs.extend([("src", src.into_attribute())]);
-    let attrs = StoredValue::new(attrs);
-
     view! {
-        <Show when=move || image_loading_status.get() == ImageLoadingStatus::Loaded>
-            <Primitive
+        <Show
+            when=move || loading_status.get() == ImageLoadingStatus::Loaded
+            fallback=|| ()
+        >
+            <VoidPrimitive
                 element=html::img
                 as_child=as_child
-                node_ref=node_ref
-                attrs=attrs.get_value()
+                node_ref=node_ref.into_any()
+                attr:src=move || src.get()
+                attr:referrerpolicy=move || referrer_policy.get()
             >
-                {children.with_value(|children| children.as_ref().map(|children| children()))}
-            </Primitive>
+                {()}
+            </VoidPrimitive>
         </Show>
     }
 }
+
+/* -------------------------------------------------------------------------------------------------
+ * AvatarFallback
+ * -----------------------------------------------------------------------------------------------*/
+
+const FALLBACK_NAME: &'static str = "AvatarFallback";
 
 #[component]
 pub fn AvatarFallback(
-    #[prop(into, optional)] delay_ms: MaybeProp<i32>,
+    /// Children (for example, initials or an icon).
+    children: TypedChildrenFn<impl IntoView + 'static>,
+    /// Delay (in ms) before showing the fallback `<span>`. If no delay, fallback appears immediately.
+    #[prop(into, optional)] delay_ms: MaybeProp<f64>,
+    /// If `true`, renders only its children without a `<span>` wrapper.
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    #[prop(optional)] children: Option<ChildrenFn>,
+    /// A reference to the `<span>` element for the fallback.
+    #[prop(into, optional)] node_ref: AnyNodeRef,
 ) -> impl IntoView {
-    let attrs = StoredValue::new(attrs);
-    let children = StoredValue::new(children);
+    let children = StoredValue::new(children.into_inner());
+    let context = use_avatar_context(FALLBACK_NAME);
 
-    let context = expect_context::<AvatarContextValue>();
-    let (can_render, set_can_render) = create_signal(delay_ms.get().is_none());
+    // use_timeout_fn from leptos_use to handle the delay before showing fallback
+    let UseTimeoutFnReturn { start, stop, is_pending, .. } = use_timeout_fn(
+        move |_| {},
+        delay_ms.get().unwrap_or_default(),
+    );
 
-    let handler: Closure<dyn Fn()> = Closure::new(move || {
-        set_can_render.set(true);
-    });
+    // If no delay is set, fallback can render immediately
+    let can_render = RwSignal::new(delay_ms.get().is_none());
 
-    let timer_id = StoredValue::new(None::<i32>);
-    Effect::new(move |_| {
-        if let Some(timer_id) = timer_id.get_value() {
-            window().clear_timeout_with_handle(timer_id);
-        }
+    // Re-initialize the timer whenever `delay_ms` changes
+    Effect::new(move || {
+        stop();
+        can_render.set(delay_ms.get().is_none());
 
-        if let Some(delay_ms) = delay_ms.get() {
-            timer_id.set_value(Some(
-                window()
-                    .set_timeout_with_callback_and_timeout_and_arguments_0(
-                        handler.as_ref().unchecked_ref(),
-                        delay_ms,
-                    )
-                    .expect("Timeout should be set."),
-            ));
-        }
-    });
+        #[cfg(debug_assertions)]
+        leptos::logging::log!(
+            "[{FALLBACK_NAME}] delay_ms changed: {:?}",
+            delay_ms.get()
+        );
 
-    on_cleanup(move || {
-        if let Some(timer_id) = timer_id.get_value() {
-            window().clear_timeout_with_handle(timer_id);
+        if let Some(ms) = delay_ms.get() {
+            #[cfg(debug_assertions)]
+            leptos::logging::log!("[{FALLBACK_NAME}] Starting timeout for {} ms", ms);
+            start(ms as i32);
         }
     });
 
+    // Watch if the timer has completed
+    Effect::new(move || {
+        if !is_pending.get() && delay_ms.get().is_some() {
+            #[cfg(debug_assertions)]
+            leptos::logging::log!("[{FALLBACK_NAME}] Timer completed, can_render=true");
+            can_render.set(true);
+        }
+    });
+
+    // Render fallback <span> only if `can_render` is true and the image is not loaded
     view! {
-        <Show when=move || can_render.get() && context.image_loading_status.get() != ImageLoadingStatus::Loaded>
-            <Primitive
-                element=html::span
-                as_child=as_child
-                node_ref=node_ref
-                attrs=attrs.get_value()
-            >
-                {children.with_value(|children| children.as_ref().map(|children| children()))}
+        <Show
+            when=move || {
+                can_render.get() && context.image_loading_status.get() != ImageLoadingStatus::Loaded
+            }
+            fallback=|| ()
+        >
+            <Primitive element=html::span as_child=as_child node_ref=node_ref>
+                {children.with_value(|children| children())}
             </Primitive>
         </Show>
     }
 }
 
-fn use_image_loading_status(src: MaybeProp<String>) -> ReadSignal<ImageLoadingStatus> {
-    let (loading_status, set_loading_status) = create_signal(ImageLoadingStatus::Idle);
-    let is_mounted = StoredValue::new(true);
+/* -----------------------------------------------------------------------------------------------*/
 
-    let update_status_loaded: Closure<dyn Fn()> = Closure::new(move || {
-        if is_mounted.get_value() {
-            set_loading_status.set(ImageLoadingStatus::Loaded);
-        }
-    });
-    let update_status_error: Closure<dyn Fn()> = Closure::new(move || {
-        if is_mounted.get_value() {
-            set_loading_status.set(ImageLoadingStatus::Error);
-        }
-    });
+fn use_image_loading_status(
+    src: MaybeProp<String>,
+    referrer_policy: MaybeProp<String>,
+) -> ReadSignal<ImageLoadingStatus> {
+    let loading_status = RwSignal::new(ImageLoadingStatus::Idle);
 
     Effect::new(move |_| {
-        if let Some(src) = src.get() {
-            let image = document()
-                .create_element("img")
-                .map(|element| element.unchecked_into::<HtmlImageElement>())
-                .expect("Image element should be created.");
+        if let Some(src_val) = src.get() {
+            #[cfg(debug_assertions)]
+            leptos::logging::log!("[{IMAGE_NAME}] Starting load for: {}", src_val);
 
-            set_loading_status.set(ImageLoadingStatus::Loading);
+            loading_status.set(ImageLoadingStatus::Loading);
 
-            image
-                .add_event_listener_with_callback(
-                    "load",
-                    update_status_loaded.as_ref().unchecked_ref(),
-                )
-                .expect("Load event listener should be added.");
-            image
-                .add_event_listener_with_callback(
-                    "error",
-                    update_status_error.as_ref().unchecked_ref(),
-                )
-                .expect("Error event listener should be added.");
-            image.set_src(&src);
+            let image = web_sys::HtmlImageElement::new().unwrap();
+
+            // Clone image for closures
+            let image_clone = image.clone();
+            let onload = Closure::wrap(Box::new(move || {
+                if image_clone.natural_width() > 0 {
+                    #[cfg(debug_assertions)]
+                    leptos::logging::log!("[{IMAGE_NAME}] Load successful");
+                    loading_status.set(ImageLoadingStatus::Loaded);
+                } else {
+                    #[cfg(debug_assertions)]
+                    leptos::logging::log!("[{IMAGE_NAME}] Load failed - invalid image");
+                    loading_status.set(ImageLoadingStatus::Error);
+                }
+            }) as Box<dyn FnMut()>);
+
+            let onerror = Closure::wrap(Box::new(move || {
+                #[cfg(debug_assertions)]
+                leptos::logging::log!("[{IMAGE_NAME}] Load failed");
+                loading_status.set(ImageLoadingStatus::Error);
+            }) as Box<dyn FnMut()>);
+
+            image.set_onload(Some(onload.as_ref().unchecked_ref()));
+            image.set_onerror(Some(onerror.as_ref().unchecked_ref()));
+
+            if let Some(policy) = referrer_policy.get() {
+                image.set_referrer_policy(&policy);
+            }
+
+            image.set_src(&src_val);
+
+            onload.forget();
+            onerror.forget();
         } else {
-            set_loading_status.set(ImageLoadingStatus::Error);
+            #[cfg(debug_assertions)]
+            leptos::logging::log!("[{IMAGE_NAME}] No src provided");
+            loading_status.set(ImageLoadingStatus::Error);
         }
     });
 
-    on_cleanup(move || {
-        is_mounted.set_value(false);
-    });
+    loading_status.read_only()
+}
 
-    loading_status
+/* -------------------------------------------------------------------------------------------------
+ * Primitive re-exports
+ * -----------------------------------------------------------------------------------------------*/
+
+pub mod primitive {
+    // Re-export core items so consumers can use avatar::primitive::* as AvatarPrimitive
+    pub use super::*;
+    pub use Avatar as Root;
+    pub use AvatarImage as Image;
+    pub use AvatarFallback as Fallback;
 }
