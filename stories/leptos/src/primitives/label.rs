@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use radix_leptos_label::*;
 use tailwind_fuse::*;
 
@@ -23,7 +23,7 @@ pub fn WithControl() -> impl IntoView {
 
         <h1>Referencing control</h1>
         <Control attr:id="control" attr:class=control_class />
-        <Label attr:for="control">Label</Label>
+        <Label attr:r#for="control">Label</Label>
     }
 }
 
@@ -38,9 +38,9 @@ pub fn WithInputNumber() -> impl IntoView {
 }
 
 #[component]
-fn Control(#[prop(attrs)] attrs: Vec<(&'static str, Attribute)>) -> impl IntoView {
+fn Control() -> impl IntoView {
     view! {
-        <button {..attrs} on:click=move |_| window().alert_with_message("clicked").expect("Alert should be successful.")>
+        <button on:click=move |_| window().alert_with_message("clicked").expect("Alert should be successful.")>
             Control
         </button>
     }

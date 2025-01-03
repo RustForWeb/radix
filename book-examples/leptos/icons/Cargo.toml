@@ -14,8 +14,9 @@ console_error_panic_hook.workspace = true
 console_log.workspace = true
 leptos = { workspace = true, features = ["csr"] }
 log.workspace = true
-radix-leptos-icons = { path = "../../../packages/icons/leptos", optional = true }
+# radix-leptos-icons = { path = "../../../packages/icons/leptos", optional = true }
 
 [features]
 default = []
-icons = ["dep:radix-leptos-icons"]
+icons = []
+# icons = ["dep:radix-leptos-icons"]

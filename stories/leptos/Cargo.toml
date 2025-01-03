@@ -13,27 +13,27 @@ version.workspace = true
 console_log.workspace = true
 console_error_panic_hook.workspace = true
 leptos = { workspace = true, features = ["csr"] }
-leptos_router = { workspace = true, features = ["csr"] }
+leptos_router.workspace = true
 log.workspace = true
-radix-leptos-accessible-icon = { path = "../../packages/primitives/leptos/accessible-icon" }
-radix-leptos-arrow = { path = "../../packages/primitives/leptos/arrow" }
-radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio" }
-radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
-radix-leptos-checkbox = { path = "../../packages/primitives/leptos/checkbox" }
-radix-leptos-collection = { path = "../../packages/primitives/leptos/collection" }
-radix-leptos-focus-scope = { path = "../../packages/primitives/leptos/focus-scope" }
+# radix-leptos-accessible-icon = { path = "../../packages/primitives/leptos/accessible-icon" }
+# radix-leptos-arrow = { path = "../../packages/primitives/leptos/arrow" }
+# radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio" }
+# radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
+# radix-leptos-checkbox = { path = "../../packages/primitives/leptos/checkbox" }
+# radix-leptos-collection = { path = "../../packages/primitives/leptos/collection" }
+# radix-leptos-focus-scope = { path = "../../packages/primitives/leptos/focus-scope" }
 radix-leptos-label = { path = "../../packages/primitives/leptos/label" }
-radix-leptos-menu = { path = "../../packages/primitives/leptos/menu" }
-radix-leptos-popper = { path = "../../packages/primitives/leptos/popper" }
-radix-leptos-portal = { path = "../../packages/primitives/leptos/portal", features = [
-    "csr",
-] }
-radix-leptos-presence = { path = "../../packages/primitives/leptos/presence" }
-radix-leptos-progress = { path = "../../packages/primitives/leptos/progress" }
-radix-leptos-separator = { path = "../../packages/primitives/leptos/separator" }
-radix-leptos-slot = { path = "../../packages/primitives/leptos/slot" }
-radix-leptos-switch = { path = "../../packages/primitives/leptos/switch" }
-radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle" }
-radix-leptos-visually-hidden = { path = "../../packages/primitives/leptos/visually-hidden" }
+# radix-leptos-menu = { path = "../../packages/primitives/leptos/menu" }
+# radix-leptos-popper = { path = "../../packages/primitives/leptos/popper" }
+# radix-leptos-portal = { path = "../../packages/primitives/leptos/portal", features = [
+#     "csr",
+# ] }
+# radix-leptos-presence = { path = "../../packages/primitives/leptos/presence" }
+# radix-leptos-progress = { path = "../../packages/primitives/leptos/progress" }
+# radix-leptos-separator = { path = "../../packages/primitives/leptos/separator" }
+# radix-leptos-slot = { path = "../../packages/primitives/leptos/slot" }
+# radix-leptos-switch = { path = "../../packages/primitives/leptos/switch" }
+# radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle" }
+# radix-leptos-visually-hidden = { path = "../../packages/primitives/leptos/visually-hidden" }
 tailwind_fuse.workspace = true
 web-sys.workspace = true
