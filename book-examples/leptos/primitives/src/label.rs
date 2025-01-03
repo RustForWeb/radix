@@ -1,11 +1,11 @@
-use leptos::*;
+use leptos::prelude::*;
 use radix_leptos_label::*;
 
 #[component]
 pub fn LabelDemo() -> impl IntoView {
     view! {
         <div class="flex flex-wrap items-center gap-[15px] px-5">
-            <Label attr:class="text-[15px] font-medium leading-[35px] text-white" attr:for="firstName">
+            <Label attr:class="text-[15px] font-medium leading-[35px] text-white" attr:r#for="firstName">
                 First name
             </Label>
             <input

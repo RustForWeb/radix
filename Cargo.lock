@@ -2205,6 +2205,41 @@ dependencies = [
 ]
 
 [[package]]
+name = "leptos_router"
+version = "0.7.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c93e40eef0b39384dc8a9aceb0f598d36de8f40d9ad14ef431023fae9b40bc88"
+dependencies = [
+ "any_spawner",
+ "either_of",
+ "futures",
+ "gloo-net 0.6.0",
+ "js-sys",
+ "leptos",
+ "leptos_router_macro",
+ "once_cell",
+ "or_poisoned",
+ "reactive_graph",
+ "send_wrapper",
+ "tachys",
+ "thiserror 2.0.9",
+ "url",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
+name = "leptos_router_macro"
+version = "0.7.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "757692288bd1aeb03d597481ec350c4eba26ffd98f06c5491e30a9c21ae9fbfb"
+dependencies = [
+ "proc-macro-error2",
+ "proc-macro2",
+ "quote",
+]
+
+[[package]]
 name = "leptos_server"
 version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2797,10 +2832,53 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-book-icons"
+version = "0.0.2"
+dependencies = [
+ "console_error_panic_hook",
+ "console_log",
+ "leptos",
+ "log",
+]
+
+[[package]]
+name = "radix-leptos-book-primitives"
+version = "0.0.2"
+dependencies = [
+ "console_error_panic_hook",
+ "console_log",
+ "leptos",
+ "log",
+ "radix-leptos-label",
+]
+
+[[package]]
 name = "radix-leptos-id"
 version = "0.0.2"
 dependencies = [
  "leptos",
+]
+
+[[package]]
+name = "radix-leptos-label"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "web-sys",
+]
+
+[[package]]
+name = "radix-leptos-stories"
+version = "0.0.2"
+dependencies = [
+ "console_error_panic_hook",
+ "console_log",
+ "leptos",
+ "leptos_router",
+ "log",
+ "radix-leptos-label",
+ "tailwind_fuse",
+ "web-sys",
 ]
 
 [[package]]

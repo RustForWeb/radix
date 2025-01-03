@@ -10,17 +10,16 @@
 #     "stories/*",
 # ]
 members = [
-    "book-examples/dioxus/*",
-    "book-examples/yew/*",
+    "book-examples/*/*",
     "packages/colors",
     "packages/icons/dioxus",
     "packages/icons/yew",
     "packages/primitives/leptos/id",
+    "packages/primitives/leptos/label",
     "packages/primitives/yew/*",
     "packages/themes/yew",
     "scripts",
-    "stories/dioxus",
-    "stories/yew",
+    "stories/*",
 ]
 resolver = "2"
 
