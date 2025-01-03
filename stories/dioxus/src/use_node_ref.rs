@@ -16,7 +16,7 @@ impl NodeRef {
     }
 
     pub fn web_element(&self) -> Option<web_sys::Element> {
-        (self.signal)().map(|mounted_data| mounted_data.web_event().clone())
+        (self.signal)().map(|mounted_data| mounted_data.as_web_event().clone())
     }
 }
 

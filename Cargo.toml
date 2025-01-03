@@ -1,12 +1,25 @@
 [workspace]
+# Temporarily disabled to upgrade individual packages to Leptos 0.7.
+# members = [
+#     "book-examples/*/*",
+#     "packages/colors",
+#     "packages/icons/*",
+#     "packages/primitives/*/*",
+#     "packages/themes/*",
+#     "scripts",
+#     "stories/*",
+# ]
 members = [
-    "book-examples/*/*",
+    "book-examples/dioxus/*",
+    "book-examples/yew/*",
     "packages/colors",
-    "packages/icons/*",
-    "packages/primitives/*/*",
-    "packages/themes/*",
+    "packages/icons/dioxus",
+    "packages/icons/yew",
+    "packages/primitives/yew/*",
+    "packages/themes/yew",
     "scripts",
-    "stories/*",
+    "stories/dioxus",
+    "stories/yew",
 ]
 resolver = "2"
 
@@ -20,11 +33,10 @@ version = "0.0.2"
 [workspace.dependencies]
 console_log = "1.0.0"
 console_error_panic_hook = "0.1.7"
-dioxus = "0.5.6"
-dioxus-router = "0.5.6"
-leptos = "0.6.13"
-leptos_dom = "0.6.13"
-leptos_router = "0.6.13"
+dioxus = "0.6.1"
+leptos = "0.7.2"
+leptos_dom = "0.7.2"
+leptos_router = "0.7.2"
 log = "0.4.22"
 serde = "1.0.198"
 serde_json = "1.0.116"
