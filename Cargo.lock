@@ -2850,6 +2850,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-arrow"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
 name = "radix-leptos-book-icons"
 version = "0.0.2"
 dependencies = [
@@ -2895,6 +2902,7 @@ dependencies = [
  "leptos_router",
  "log",
  "radix-leptos-accessible-icon",
+ "radix-leptos-arrow",
  "radix-leptos-label",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",

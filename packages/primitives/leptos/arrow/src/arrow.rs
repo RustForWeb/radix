@@ -1,42 +1,52 @@
-use leptos::{html::AnyElement, *};
-use radix_leptos_primitive::Primitive;
+use leptos::prelude::*;
+
+pub struct UseArrowProps {
+    width: MaybeProp<f64>,
+    height: MaybeProp<f64>,
+}
+
+pub struct UseArrowReturn {
+    width: Signal<String>,
+    height: Signal<String>,
+    view_box: String,
+    preserve_aspect_ratio: String,
+}
+
+pub fn use_arrow(props: UseArrowProps) -> UseArrowReturn {
+    let width = Signal::derive(move || props.width.get().unwrap_or(10.0).to_string());
+    let height = Signal::derive(move || props.height.get().unwrap_or(5.0).to_string());
+
+    UseArrowReturn {
+        width,
+        height,
+        view_box: "0 0 30 10".to_owned(),
+        preserve_aspect_ratio: "none".to_owned(),
+    }
+}
 
 #[component]
 pub fn Arrow(
     #[prop(into, optional)] width: MaybeProp<f64>,
     #[prop(into, optional)] height: MaybeProp<f64>,
-    #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    #[prop(optional)] children: Option<ChildrenFn>,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let width = move || width.get().unwrap_or(10.0);
-    let height = move || height.get().unwrap_or(5.0);
-    let children = StoredValue::new(children);
-
-    let mut attrs = attrs.clone();
-    attrs.extend([
-        ("width", width.into_attribute()),
-        ("height", height.into_attribute()),
-        ("viewBox", "0 0 30 10".into_attribute()),
-        ("preserveAspectRatio", "none".into_attribute()),
-    ]);
+    let UseArrowReturn {
+        width,
+        height,
+        view_box,
+        preserve_aspect_ratio,
+    } = use_arrow(UseArrowProps { width, height });
 
     view! {
-        <Primitive
-            element=svg::svg
-            as_child=as_child
-            node_ref=node_ref
-            attrs=attrs
+        <svg
+            width=width
+            height=height
+            viewBox=view_box
+            preserveAspectRatio=preserve_aspect_ratio
         >
-            <Show
-                when=move || as_child.get().unwrap_or_default()
-                fallback=move || view!{
-                    <polygon points="0,0 30,0 15,10" />
-                }
-            >
-                {children.with_value(|children| children.as_ref().map(|children| children()))}
-            </Show>
-        </Primitive>
+            {children.map(|children| children()).unwrap_or_else(|| view! {
+                <polygon points="0,0 30,0 15,10" />
+            }.into_any())}
+        </svg>
     }
 }
