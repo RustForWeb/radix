@@ -4,11 +4,7 @@ use leptos_router::{
     path,
 };
 
-// use crate::primitives::{
-//     accessible_icon, arrow, aspect_ratio, avatar, checkbox, collection, focus_scope, label, menu,
-//     popper, portal, presence, progress, separator, slot, switch, toggle, visually_hidden,
-// };
-use crate::primitives::{accessible_icon, arrow, label, visually_hidden};
+use crate::primitives::{accessible_icon, arrow, aspect_ratio, label, visually_hidden};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -56,15 +52,15 @@ pub fn App() -> impl IntoView {
                             <li><NavLink href="/arrow/custom-arrow">Custom Arrow</NavLink></li>
                         </ul>
                     </li>
-                    // <li>
-                    //     Aspect Ratio
+                    <li>
+                        Aspect Ratio
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/aspect-ratio/styled">Styled</NavLink></li>
-                    //         <li><NavLink href="/aspect-ratio/custom-ratios">Custom Ratios</NavLink></li>
-                    //         <li><NavLink href="/aspect-ratio/chromatic">Chromatic</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/aspect-ratio/styled">Styled</NavLink></li>
+                            <li><NavLink href="/aspect-ratio/custom-ratios">Custom Ratios</NavLink></li>
+                            <li><NavLink href="/aspect-ratio/chromatic">Chromatic</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Avatar
 
@@ -218,9 +214,9 @@ pub fn App() -> impl IntoView {
                     <Route path=path!("/arrow/custom-sizes") view=arrow::CustomSizes />
                     <Route path=path!("/arrow/custom-arrow") view=arrow::CustomArrow />
 
-                    // <Route path="/aspect-ratio/styled" view=aspect_ratio::Styled />
-                    // <Route path="/aspect-ratio/custom-ratios" view=aspect_ratio::CustomRatios />
-                    // <Route path="/aspect-ratio/chromatic" view=aspect_ratio::Chromatic />
+                    <Route path=path!("/aspect-ratio/styled") view=aspect_ratio::Styled />
+                    <Route path=path!("/aspect-ratio/custom-ratios") view=aspect_ratio::CustomRatios />
+                    <Route path=path!("/aspect-ratio/chromatic") view=aspect_ratio::Chromatic />
 
                     // <Route path="/avatar/styled" view=avatar::Styled />
                     // <Route path="/avatar/chromatic" view=avatar::Chromatic />

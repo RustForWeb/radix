@@ -5,12 +5,12 @@ pub struct UseVisuallyHiddenProps {
     style: Style,
 }
 
-pub struct UseVisuallyHiddenReturn {
+pub struct UseVisuallyHiddenAttrs {
     style: Style,
 }
 
-pub fn use_visually_hidden(props: UseVisuallyHiddenProps) -> UseVisuallyHiddenReturn {
-    UseVisuallyHiddenReturn {
+pub fn use_visually_hidden(props: UseVisuallyHiddenProps) -> UseVisuallyHiddenAttrs {
+    UseVisuallyHiddenAttrs {
         style: props.style.with_defaults([
             // See: https://github.com/twbs/bootstrap/blob/master/scss/mixins/_screen-reader.scss
             ("position", "absolute"),
@@ -32,11 +32,25 @@ pub fn VisuallyHidden(
     #[prop(into, optional)] style: Style,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let UseVisuallyHiddenReturn { style } = use_visually_hidden(UseVisuallyHiddenProps { style });
+    let UseVisuallyHiddenAttrs { style } = use_visually_hidden(UseVisuallyHiddenProps { style });
 
     view! {
         <span style=style>
             {children.map(|children| children())}
         </span>
     }
+}
+
+#[component]
+pub fn VisuallyHiddenAsChild<R, RV>(
+    #[prop(into, optional)] style: Style,
+    render: R,
+) -> impl IntoView
+where
+    R: Fn(UseVisuallyHiddenAttrs) -> RV,
+    RV: IntoView,
+{
+    let attrs = use_visually_hidden(UseVisuallyHiddenProps { style });
+
+    render(attrs)
 }

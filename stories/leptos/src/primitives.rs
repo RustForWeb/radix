@@ -1,6 +1,6 @@
 pub mod accessible_icon;
 pub mod arrow;
-// pub mod aspect_ratio;
+pub mod aspect_ratio;
 // pub mod avatar;
 // pub mod checkbox;
 // pub mod collection;

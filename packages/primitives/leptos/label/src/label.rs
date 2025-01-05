@@ -4,12 +4,12 @@ pub struct UseLabelProps {
     on_mouse_down: Option<Callback<MouseEvent>>,
 }
 
-pub struct UseLabelReturn {
+pub struct UseLabelAttrs {
     on_mouse_down: Callback<MouseEvent>,
 }
 
-pub fn use_label(props: UseLabelProps) -> UseLabelReturn {
-    UseLabelReturn {
+pub fn use_label(props: UseLabelProps) -> UseLabelAttrs {
+    UseLabelAttrs {
         on_mouse_down: Callback::new(move |event: MouseEvent| {
             // Only prevent text selection if clicking inside the label itself.
             let target = event_target::<web_sys::Element>(&event);
@@ -38,11 +38,25 @@ pub fn Label(
     #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let UseLabelReturn { on_mouse_down } = use_label(UseLabelProps { on_mouse_down });
+    let UseLabelAttrs { on_mouse_down } = use_label(UseLabelProps { on_mouse_down });
 
     view! {
         <label on:mousedown=move |event| on_mouse_down.run(event)>
             {children.map(|children| children())}
         </label>
     }
+}
+
+#[component]
+pub fn LabelAsChild<R, RV>(
+    #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
+    render: R,
+) -> impl IntoView
+where
+    R: Fn(UseLabelAttrs) -> RV,
+    RV: IntoView,
+{
+    let attrs = use_label(UseLabelProps { on_mouse_down });
+
+    render(attrs)
 }

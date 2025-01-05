@@ -2857,6 +2857,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-aspect-ratio"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-style",
+]
+
+[[package]]
 name = "radix-leptos-book-icons"
 version = "0.0.2"
 dependencies = [
@@ -2903,6 +2911,7 @@ dependencies = [
  "log",
  "radix-leptos-accessible-icon",
  "radix-leptos-arrow",
+ "radix-leptos-aspect-ratio",
  "radix-leptos-label",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",

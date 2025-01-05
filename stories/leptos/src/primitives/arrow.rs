@@ -19,15 +19,17 @@ pub fn CustomSizes() -> impl IntoView {
 
 #[component]
 pub fn CustomArrow() -> impl IntoView {
-    // No props needed from `use_arrow()`, because this is not an SVG element.
-
     view! {
-        <div
-            style:width="20px"
-            style:height="10px"
-            style:border-bottom-left-radius="10px"
-            style:border-bottom-right-radius="10px"
-            style:background-color="tomato"
+        <ArrowAsChild
+            render=|_| view!{
+                <div
+                    style:width="20px"
+                    style:height="10px"
+                    style:border-bottom-left-radius="10px"
+                    style:border-bottom-right-radius="10px"
+                    style:background-color="tomato"
+                />
+            }
         />
     }
 }

@@ -5,18 +5,18 @@ pub struct UseArrowProps {
     height: MaybeProp<f64>,
 }
 
-pub struct UseArrowReturn {
+pub struct UseArrowAttrs {
     width: Signal<String>,
     height: Signal<String>,
     view_box: String,
     preserve_aspect_ratio: String,
 }
 
-pub fn use_arrow(props: UseArrowProps) -> UseArrowReturn {
+pub fn use_arrow(props: UseArrowProps) -> UseArrowAttrs {
     let width = Signal::derive(move || props.width.get().unwrap_or(10.0).to_string());
     let height = Signal::derive(move || props.height.get().unwrap_or(5.0).to_string());
 
-    UseArrowReturn {
+    UseArrowAttrs {
         width,
         height,
         view_box: "0 0 30 10".to_owned(),
@@ -30,7 +30,7 @@ pub fn Arrow(
     #[prop(into, optional)] height: MaybeProp<f64>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let UseArrowReturn {
+    let UseArrowAttrs {
         width,
         height,
         view_box,
@@ -49,4 +49,19 @@ pub fn Arrow(
             }.into_any())}
         </svg>
     }
+}
+
+#[component]
+pub fn ArrowAsChild<R, RV>(
+    #[prop(into, optional)] width: MaybeProp<f64>,
+    #[prop(into, optional)] height: MaybeProp<f64>,
+    render: R,
+) -> impl IntoView
+where
+    R: Fn(UseArrowAttrs) -> RV,
+    RV: IntoView,
+{
+    let attrs = use_arrow(UseArrowProps { width, height });
+
+    render(attrs)
 }
