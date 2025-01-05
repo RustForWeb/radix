@@ -1,5 +1,4 @@
 use leptos::{html::AnyElement, *};
-use radix_leptos_primitive::Primitive;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     HtmlImageElement,

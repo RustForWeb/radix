@@ -1,7 +1,6 @@
 use std::fmt::{Display, Formatter};
 
 use leptos::{html::AnyElement, *};
-use radix_leptos_primitive::Primitive;
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Orientation {

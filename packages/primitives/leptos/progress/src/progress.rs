@@ -1,7 +1,6 @@
 use std::fmt::{Display, Formatter};
 
 use leptos::{html::AnyElement, *};
-use radix_leptos_primitive::Primitive;
 
 const DEFAULT_MAX: f64 = 100.0;
 

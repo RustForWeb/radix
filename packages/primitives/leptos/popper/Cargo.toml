@@ -13,7 +13,6 @@ floating-ui-leptos = "0.1.2"
 leptos.workspace = true
 radix-leptos-arrow = { path = "../arrow", version = "0.0.2" }
 radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
-radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
 radix-leptos-use-size = { path = "../use-size", version = "0.0.2" }
 serde.workspace = true
 serde_json.workspace = true

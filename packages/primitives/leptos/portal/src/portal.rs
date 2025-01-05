@@ -1,6 +1,5 @@
 use leptos::{html::AnyElement, *};
 use leptos_portal::LeptosPortal;
-use radix_leptos_primitive::Primitive;
 
 #[component]
 pub fn Portal(

@@ -17,6 +17,5 @@ radix-leptos-dismissable-layer = { path = "../dismissable-layer", version = "0.0
 radix-leptos-focus-guards = { path = "../focus-guards", version = "0.0.2" }
 radix-leptos-focus-scope = { path = "../focus-scope", version = "0.0.2" }
 radix-leptos-popper = { path = "../popper", version = "0.0.2" }
-radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
 radix-leptos-roving-focus = { path = "../roving-focus", version = "0.0.2" }
 web-sys = { workspace = true, features = ["EventListenerOptions"] }

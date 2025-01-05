@@ -12,7 +12,6 @@ version.workspace = true
 [dependencies]
 leptos.workspace = true
 radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
-radix-leptos-primitive = { path = "../primitive", version = "0.0.2" }
 radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
 radix-leptos-use-previous = { path = "../use-previous", version = "0.0.2" }
 radix-leptos-use-size = { path = "../use-size", version = "0.0.2" }
