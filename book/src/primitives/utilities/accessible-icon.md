@@ -56,9 +56,9 @@ Contains the icon to make accessible.
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop    | Type                  | Default |
-| ------- | --------------------- | ------- |
-| `label` | `MaybeSignal<String>` | -       |
+| Prop    | Type             | Default |
+| ------- | ---------------- | ------- |
+| `label` | `Signal<String>` | -       |
 
 {{#endtab }}
 {{#endtabs }}
