@@ -4,13 +4,16 @@ use leptos::prelude::*;
 pub fn App() -> impl IntoView {
     let mut views: Vec<AnyView> = vec![];
 
-    // #[cfg(feature = "aspect-ratio")]
-    // {
-    //     use crate::aspect_ratio::AspectRatioDemo;
-    //     views.push(view! {
-    //         <AspectRatioDemo />
-    //     });
-    // }
+    #[cfg(feature = "aspect-ratio")]
+    {
+        use crate::aspect_ratio::AspectRatioDemo;
+        views.push(
+            view! {
+                <AspectRatioDemo />
+            }
+            .into_any(),
+        );
+    }
     // #[cfg(feature = "avatar")]
     // {
     //     use crate::avatar::AvatarDemo;

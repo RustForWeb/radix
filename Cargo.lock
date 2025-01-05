@@ -2882,6 +2882,7 @@ dependencies = [
  "console_log",
  "leptos",
  "log",
+ "radix-leptos-aspect-ratio",
  "radix-leptos-label",
 ]
 

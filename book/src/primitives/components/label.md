@@ -105,7 +105,6 @@ Contains the content for the label.
 
 | Prop            | Type                           | Default |
 | --------------- | ------------------------------ | ------- |
-| `as_child`      | `MaybeProp<bool>`              | `false` |
 | `on_mouse_down` | `Option<Callback<MouseEvent>>` | -       |
 
 {{#endtab }}

@@ -102,10 +102,9 @@ Contains the content you want to constrain to a given ratio.
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop       | Type              | Default |
-| ---------- | ----------------- | ------- |
-| `as_child` | `MaybeProp<bool>` | `false` |
-| `ratio`    | `MaybeProp<f64>`  | `1.0`   |
+| Prop    | Type             | Default |
+| ------- | ---------------- | ------- |
+| `ratio` | `MaybeProp<f64>` | `1.0`   |
 
 {{#endtab }}
 {{#tab name="Yew" }}
