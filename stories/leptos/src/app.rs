@@ -8,7 +8,7 @@ use leptos_router::{
 //     accessible_icon, arrow, aspect_ratio, avatar, checkbox, collection, focus_scope, label, menu,
 //     popper, portal, presence, progress, separator, slot, switch, toggle, visually_hidden,
 // };
-use crate::primitives::{label, visually_hidden};
+use crate::primitives::{accessible_icon, label, visually_hidden};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -39,14 +39,14 @@ pub fn App() -> impl IntoView {
                     <li>
                         <NavLink href="/">Index</NavLink>
                     </li>
-                    // <li>
-                    //     Accessible Icon
+                    <li>
+                        Accessible Icon
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/accessible-icon/styled">Styled</NavLink></li>
-                    //         <li><NavLink href="/accessible-icon/chromatic">Chromatic</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/accessible-icon/styled">Styled</NavLink></li>
+                            <li><NavLink href="/accessible-icon/chromatic">Chromatic</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Arrow
 
@@ -211,8 +211,8 @@ pub fn App() -> impl IntoView {
                 <Routes fallback=|| "Not found.".into_view()>
                     <Route path=path!("/") view=Index />
 
-                    // <Route path="/accessible-icon/styled" view=accessible_icon::Styled />
-                    // <Route path="/accessible-icon/chromatic" view=accessible_icon::Chromatic />
+                    <Route path=path!("/accessible-icon/styled") view=accessible_icon::Styled />
+                    <Route path=path!("/accessible-icon/chromatic") view=accessible_icon::Chromatic />
 
                     // <Route path="/arrow/styled" view=arrow::Styled />
                     // <Route path="/arrow/custom-sizes" view=arrow::CustomSizes />

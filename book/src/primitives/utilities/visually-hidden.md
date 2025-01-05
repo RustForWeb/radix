@@ -81,9 +81,7 @@ Anything you put inside this component will be hidden from the screen but will b
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop       | Type              | Default |
-| ---------- | ----------------- | ------- |
-| `as_child` | `MaybeProp<bool>` | `false` |
+<i>No props.</i>
 
 {{#endtab }}
 {{#tab name="Yew" }}
@@ -112,7 +110,7 @@ fn Example() -> impl IntoView {
     view! {
         <button>
             <GearIcon />
-            <VisuallyHidden>Settings</VisuallyHidden>
+            <VisuallyHidden>"Settings"</VisuallyHidden>
         </button>
     }
 }
