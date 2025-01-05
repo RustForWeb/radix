@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use radix_leptos_aspect_ratio::*;
 use tailwind_fuse::*;
 
