@@ -15,6 +15,7 @@ members = [
     "packages/icons/dioxus",
     "packages/icons/yew",
     "packages/primitives/leptos/accessible-icon",
+    "packages/primitives/leptos/arrow",
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
     "packages/primitives/leptos/visually-hidden",

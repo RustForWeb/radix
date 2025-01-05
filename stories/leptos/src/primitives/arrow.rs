@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use radix_leptos_arrow::*;
 
 #[component]
@@ -19,15 +19,15 @@ pub fn CustomSizes() -> impl IntoView {
 
 #[component]
 pub fn CustomArrow() -> impl IntoView {
+    // No props needed from `use_arrow()`, because this is not an SVG element.
+
     view! {
-        <Arrow as_child=true>
-            <div
-                style:width="20px"
-                style:height="10px"
-                style:border-bottom-left-radius="10px"
-                style:border-bottom-right-radius="10px"
-                style:background-color="tomato"
-            />
-        </Arrow>
+        <div
+            style:width="20px"
+            style:height="10px"
+            style:border-bottom-left-radius="10px"
+            style:border-bottom-right-radius="10px"
+            style:background-color="tomato"
+        />
     }
 }

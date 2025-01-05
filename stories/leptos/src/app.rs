@@ -8,7 +8,7 @@ use leptos_router::{
 //     accessible_icon, arrow, aspect_ratio, avatar, checkbox, collection, focus_scope, label, menu,
 //     popper, portal, presence, progress, separator, slot, switch, toggle, visually_hidden,
 // };
-use crate::primitives::{accessible_icon, label, visually_hidden};
+use crate::primitives::{accessible_icon, arrow, label, visually_hidden};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -47,15 +47,15 @@ pub fn App() -> impl IntoView {
                             <li><NavLink href="/accessible-icon/chromatic">Chromatic</NavLink></li>
                         </ul>
                     </li>
-                    // <li>
-                    //     Arrow
+                    <li>
+                        Arrow
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/arrow/styled">Styled</NavLink></li>
-                    //         <li><NavLink href="/arrow/custom-sizes">Custom Sizes</NavLink></li>
-                    //         <li><NavLink href="/arrow/custom-arrow">Custom Arrow</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/arrow/styled">Styled</NavLink></li>
+                            <li><NavLink href="/arrow/custom-sizes">Custom Sizes</NavLink></li>
+                            <li><NavLink href="/arrow/custom-arrow">Custom Arrow</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Aspect Ratio
 
@@ -214,9 +214,9 @@ pub fn App() -> impl IntoView {
                     <Route path=path!("/accessible-icon/styled") view=accessible_icon::Styled />
                     <Route path=path!("/accessible-icon/chromatic") view=accessible_icon::Chromatic />
 
-                    // <Route path="/arrow/styled" view=arrow::Styled />
-                    // <Route path="/arrow/custom-sizes" view=arrow::CustomSizes />
-                    // <Route path="/arrow/custom-arrow" view=arrow::CustomArrow />
+                    <Route path=path!("/arrow/styled") view=arrow::Styled />
+                    <Route path=path!("/arrow/custom-sizes") view=arrow::CustomSizes />
+                    <Route path=path!("/arrow/custom-arrow") view=arrow::CustomArrow />
 
                     // <Route path="/aspect-ratio/styled" view=aspect_ratio::Styled />
                     // <Route path="/aspect-ratio/custom-ratios" view=aspect_ratio::CustomRatios />
