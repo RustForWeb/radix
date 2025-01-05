@@ -17,6 +17,7 @@ members = [
     "packages/primitives/leptos/accessible-icon",
     "packages/primitives/leptos/arrow",
     "packages/primitives/leptos/aspect-ratio",
+    "packages/primitives/leptos/direction",
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
     "packages/primitives/leptos/visually-hidden",

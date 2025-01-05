@@ -81,9 +81,9 @@ When creating localized apps that require right-to-left (RTL) reading direction,
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop  | Type                     | Default |
-| ----- | ------------------------ | ------- |
-| `dir` | `MaybeSignal<Direction>` | -       |
+| Prop  | Type                | Default |
+| ----- | ------------------- | ------- |
+| `dir` | `Signal<Direction>` | -       |
 
 {{#endtab }}
 {{#tab name="Yew" }}
