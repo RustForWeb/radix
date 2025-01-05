@@ -11,7 +11,7 @@ pub struct UseLabelReturn {
 pub fn use_label(props: UseLabelProps) -> UseLabelReturn {
     UseLabelReturn {
         on_mouse_down: Callback::new(move |event: MouseEvent| {
-            // Only prevent text selection if clicking inside the label itself
+            // Only prevent text selection if clicking inside the label itself.
             let target = event_target::<web_sys::Element>(&event);
             if target
                 .closest("button, input, select, textarea")
@@ -25,7 +25,7 @@ pub fn use_label(props: UseLabelProps) -> UseLabelReturn {
                 on_mouse_down.run(event.clone());
             }
 
-            // Prevent text selection when double clicking label
+            // Prevent text selection when double clicking label.
             if !event.default_prevented() && event.detail() > 1 {
                 event.prevent_default();
             }

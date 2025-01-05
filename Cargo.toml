@@ -16,6 +16,7 @@ members = [
     "packages/icons/yew",
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
+    "packages/primitives/leptos/visually-hidden",
     "packages/primitives/yew/*",
     "packages/themes/yew",
     "scripts",
@@ -37,6 +38,7 @@ dioxus = "0.6.1"
 leptos = "0.7.2"
 leptos_dom = "0.7.2"
 leptos_router = "0.7.2"
+leptos-style = "0.0.3"
 log = "0.4.22"
 serde = "1.0.198"
 serde_json = "1.0.116"

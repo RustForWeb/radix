@@ -16,4 +16,4 @@ pub mod label;
 // pub mod slot;
 // pub mod switch;
 // pub mod toggle;
-// pub mod visually_hidden;
+pub mod visually_hidden;
