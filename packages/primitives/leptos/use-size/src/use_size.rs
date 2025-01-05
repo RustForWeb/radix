@@ -1,6 +1,8 @@
-use std::{cell::RefCell, rc::Rc};
+use std::sync::{Arc, Mutex};
 
-use leptos::{create_signal, html::AnyElement, on_cleanup, Effect, NodeRef, ReadSignal, SignalSet};
+use leptos::prelude::*;
+use leptos_node_ref::AnyNodeRef;
+use send_wrapper::SendWrapper;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry, ResizeObserverOptions,
@@ -13,14 +15,18 @@ pub struct Size {
     pub height: f64,
 }
 
-pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
-    let (size, set_size) = create_signal::<Option<Size>>(None);
+pub fn use_size(element_ref: AnyNodeRef) -> ReadSignal<Option<Size>> {
+    let (size, set_size) = signal::<Option<Size>>(None);
 
-    let resize_observer: Rc<RefCell<Option<ResizeObserver>>> = Rc::new(RefCell::new(None));
+    let resize_observer: Arc<Mutex<Option<SendWrapper<ResizeObserver>>>> =
+        Arc::new(Mutex::new(None));
     let cleanup_resize_observer = resize_observer.clone();
 
     Effect::new(move |_| {
-        if let Some(element) = element_ref.get() {
+        if let Some(element) = element_ref
+            .get()
+            .and_then(|element| element.dyn_into::<web_sys::HtmlElement>().ok())
+        {
             // Provide size as early as possible.
             set_size.set(Some(Size {
                 width: element.offset_width() as f64,
@@ -43,7 +49,7 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
                     }
                 });
 
-            resize_observer.replace(Some(
+            *resize_observer.lock().expect("Lock should be acquired.") = Some(SendWrapper::new(
                 ResizeObserver::new(resize_closure.into_js_value().unchecked_ref())
                     .expect("Resize observer should be created."),
             ));
@@ -52,7 +58,8 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
             options.set_box(ResizeObserverBoxOptions::BorderBox);
 
             resize_observer
-                .borrow()
+                .lock()
+                .expect("Lock should be acquired.")
                 .as_ref()
                 .expect("Resize observer should exist.")
                 .observe_with_options(element.as_ref(), &options);
@@ -63,7 +70,11 @@ pub fn use_size(element_ref: NodeRef<AnyElement>) -> ReadSignal<Option<Size>> {
     });
 
     on_cleanup(move || {
-        if let Some(resize_observer) = cleanup_resize_observer.take() {
+        if let Some(resize_observer) = cleanup_resize_observer
+            .lock()
+            .expect("Lock should be acquired.")
+            .as_ref()
+        {
             resize_observer.disconnect();
         }
     });

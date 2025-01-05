@@ -2137,6 +2137,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "leptos-node-ref"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0497a30ec51e76bdbf9542d29b65399c70d88c0397bc38551d8eff0385847bfc"
+dependencies = [
+ "leptos",
+ "send_wrapper",
+]
+
+[[package]]
 name = "leptos-style"
 version = "0.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2923,6 +2933,39 @@ dependencies = [
  "radix-leptos-label",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",
+ "web-sys",
+]
+
+[[package]]
+name = "radix-leptos-use-controllable-state"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
+name = "radix-leptos-use-escape-keydown"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "send_wrapper",
+ "web-sys",
+]
+
+[[package]]
+name = "radix-leptos-use-previous"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
+name = "radix-leptos-use-size"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-node-ref",
+ "send_wrapper",
  "web-sys",
 ]
 

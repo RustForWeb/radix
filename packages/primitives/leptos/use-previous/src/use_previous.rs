@@ -1,16 +1,17 @@
-use leptos::{Memo, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSetUntracked};
+use leptos::prelude::*;
 
-pub fn use_previous<T: Clone + PartialEq>(value: Signal<T>) -> Memo<T> {
-    let current = RwSignal::new(value.get_untracked());
-    let previous = RwSignal::new(value.get_untracked());
+pub fn use_previous<T: Clone + PartialEq + Send + Sync + 'static>(value: Signal<T>) -> Memo<T> {
+    let stored_value = StoredValue::new((value.get_untracked(), value.get_untracked()));
 
     Memo::new(move |_| {
         let value = value.get();
-        let current_value = current.get();
+        let (current_value, previous_value) = stored_value.get_value();
+
         if current_value != value {
-            previous.set_untracked(current_value);
-            current.set_untracked(value.clone());
+            stored_value.set_value((value.clone(), current_value.clone()));
+            current_value
+        } else {
+            previous_value
         }
-        previous.get()
     })
 }
