@@ -10,4 +10,5 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
+send_wrapper.workspace = true
 web-sys = { workspace = true, features = ["EventListenerOptions"] }

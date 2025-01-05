@@ -1,15 +1,12 @@
-use leptos::{
-    create_signal, Callable, Callback, Effect, MaybeProp, ReadSignal, RwSignal, Signal, SignalGet,
-    SignalGetUntracked, SignalSet, WriteSignal,
-};
+use leptos::prelude::*;
 
-pub struct UseControllableStateParams<T: 'static> {
+pub struct UseControllableStateParams<T: Send + Sync + 'static> {
     pub prop: MaybeProp<T>,
     pub default_prop: MaybeProp<T>,
     pub on_change: Option<Callback<Option<T>>>,
 }
 
-pub fn use_controllable_state<T: Clone + PartialEq>(
+pub fn use_controllable_state<T: Clone + PartialEq + Send + Sync>(
     UseControllableStateParams {
         prop,
         default_prop,
@@ -32,7 +29,7 @@ pub fn use_controllable_state<T: Clone + PartialEq>(
         if is_controlled.get() {
             if next_value != prop.get() {
                 if let Some(on_change) = on_change {
-                    on_change.call(next_value);
+                    on_change.run(next_value);
                 }
             }
         } else {
@@ -43,18 +40,18 @@ pub fn use_controllable_state<T: Clone + PartialEq>(
     (value, set_value)
 }
 
-pub struct UseUncontrollableStateParams<T: 'static> {
+pub struct UseUncontrollableStateParams<T: Send + Sync + 'static> {
     pub default_prop: MaybeProp<T>,
     pub on_change: Option<Callback<Option<T>>>,
 }
 
-fn use_uncontrolled_state<T: Clone + PartialEq>(
+fn use_uncontrolled_state<T: Clone + PartialEq + Send + Sync>(
     UseUncontrollableStateParams {
         default_prop,
         on_change,
     }: UseUncontrollableStateParams<T>,
 ) -> (ReadSignal<Option<T>>, WriteSignal<Option<T>>) {
-    let uncontrolled_state = create_signal::<Option<T>>(default_prop.get());
+    let uncontrolled_state = signal::<Option<T>>(default_prop.get());
     let (value, _) = uncontrolled_state;
     let prev_value = RwSignal::new(value.get_untracked());
 
@@ -62,7 +59,7 @@ fn use_uncontrolled_state<T: Clone + PartialEq>(
         let value = value.get();
         if prev_value.get() != value {
             if let Some(on_change) = on_change {
-                on_change.call(value.clone());
+                on_change.run(value.clone());
                 prev_value.set(value);
             }
         }
