@@ -5,7 +5,6 @@ use std::{collections::HashMap, fmt::Debug};
 use leptos::{html::AnyElement, *};
 use nanoid::nanoid;
 use radix_leptos_compose_refs::use_composed_refs;
-use radix_leptos_slot::Slot;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 struct CollectionItemId(String);

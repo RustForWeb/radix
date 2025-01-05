@@ -7,7 +7,6 @@ use std::{cell::RefCell, sync::Arc};
 use leptos::{html::AnyElement, *};
 use once_cell::sync::Lazy;
 use radix_leptos_compose_refs::use_composed_refs;
-use radix_leptos_primitive::Primitive;
 use web_sys::{
     wasm_bindgen::{closure::Closure, JsCast},
     CustomEvent, CustomEventInit, Event, FocusEvent, KeyboardEvent, MutationObserver,
