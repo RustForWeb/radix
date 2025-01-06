@@ -1,7 +1,7 @@
 mod app;
 
-// #[cfg(feature = "icons")]
-// mod icons;
+#[cfg(feature = "icons")]
+mod icons;
 
 use leptos::prelude::*;
 

@@ -12,8 +12,7 @@
 members = [
     "book-examples/*/*",
     "packages/colors",
-    "packages/icons/dioxus",
-    "packages/icons/yew",
+    "packages/icons/*",
     "packages/primitives/leptos/accessible-icon",
     "packages/primitives/leptos/arrow",
     "packages/primitives/leptos/aspect-ratio",

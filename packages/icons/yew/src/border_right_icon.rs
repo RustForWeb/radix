@@ -1,24 +1,25 @@
 use yew::prelude::*;
 #[derive(PartialEq, Properties)]
 pub struct BorderRightIconProps {
-    #[prop_or_default]
-    pub class: Option<AttrValue>,
+    #[prop_or(15)]
+    pub width: usize,
+    #[prop_or(15)]
+    pub height: usize,
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub width: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub height: AttrValue,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 #[function_component]
 pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
-    let node_ref = use_node_ref();
     html! {
         <svg
-            ref={node_ref}
-            class={&props.class}
-            width={&props.width}
-            height={&props.height}
+            ref={props.node_ref.clone()}
+            class={props.class.clone()}
+            width={props.width.to_string()}
+            height={props.height.to_string()}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,178 +28,121 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M13.25 1L13.25 14L14.75 14L14.75 1L13.25 1Z"
-                fill={&props
-        .color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 5 7)"
-                fill={&props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 5 13)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 3 7)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 3 13)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 7)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 7)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 13)"
-                fill={&props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 13)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 5)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 5)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 3)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 3)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 9)"
-                fill={&props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 9)"
-                fill={&props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 7 11)"
-                fill={&
-        props.color}
+                fill={& props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 1 11)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 9 7)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 9 13)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 11 7)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 11 13)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 5 1)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 3 1)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 7 1)"
-                fill={&props.color}
-            />
-            <rect
-                width="1"
-                height="1"
-                rx=".5"
-                transform="matrix(0 1 1 0 1 1)"
                 fill={&
         props.color}
             />
@@ -206,15 +150,73 @@ pub fn BorderRightIcon(props: &BorderRightIconProps) -> Html {
                 width="1"
                 height="1"
                 rx=".5"
+                transform="matrix(0 1 1 0 9 7)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 9 13)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 11 7)"
+                fill={&
+        props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 11 13)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 5 1)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 3 1)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 7 1)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
+                transform="matrix(0 1 1 0 1 1)"
+                fill={& props.color}
+            />
+            <rect
+                width="1"
+                height="1"
+                rx=".5"
                 transform="matrix(0 1 1 0 9 1)"
-                fill={&props.color}
+                fill={&
+        props.color}
             />
             <rect
                 width="1"
                 height="1"
                 rx=".5"
                 transform="matrix(0 1 1 0 11 1)"
-                fill={&props.color}
+                fill={& props.color}
             />
         </svg>
     }

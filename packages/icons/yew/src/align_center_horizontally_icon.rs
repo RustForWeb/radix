@@ -1,24 +1,25 @@
 use yew::prelude::*;
 #[derive(PartialEq, Properties)]
 pub struct AlignCenterHorizontallyIconProps {
-    #[prop_or_default]
-    pub class: Option<AttrValue>,
+    #[prop_or(15)]
+    pub width: usize,
+    #[prop_or(15)]
+    pub height: usize,
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub width: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub height: AttrValue,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 #[function_component]
 pub fn AlignCenterHorizontallyIcon(props: &AlignCenterHorizontallyIconProps) -> Html {
-    let node_ref = use_node_ref();
     html! {
         <svg
-            ref={node_ref}
-            class={&props.class}
-            width={&props.width}
-            height={&props.height}
+            ref={props.node_ref.clone()}
+            class={props.class.clone()}
+            width={props.width.to_string()}
+            height={props.height.to_string()}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +28,7 @@ pub fn AlignCenterHorizontallyIcon(props: &AlignCenterHorizontallyIconProps) -> 
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M1.99988 6C1.44759 6 0.999877 6.44772 0.999877 7L0.999877 8C0.999877 8.55228 1.44759 9 1.99988 9L6.99988 9L6.99988 13.5C6.99988 13.7761 7.22374 14 7.49988 14C7.77602 14 7.99988 13.7761 7.99988 13.5L7.99988 9L12.9999 9C13.5522 9 13.9999 8.55228 13.9999 8L13.9999 7C13.9999 6.44772 13.5522 6 12.9999 6L7.99988 6L7.99988 1.5C7.99988 1.22386 7.77602 1 7.49988 1C7.22373 1 6.99988 1.22386 6.99988 1.5L6.99988 6L1.99988 6Z"
-                fill={&props.color}
+                fill={& props.color}
             />
         </svg>
     }

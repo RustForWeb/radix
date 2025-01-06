@@ -6,7 +6,7 @@ use yew::prelude::*;
 pub fn IconButtonVariantGhostExample() -> Html {
     html! {
         <IconButton variant={IconButtonVariant::Ghost}>
-            <MagnifyingGlassIcon width="18" height="18" />
+            <MagnifyingGlassIcon width=18 height=18 />
         </IconButton>
     }
 }

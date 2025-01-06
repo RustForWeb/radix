@@ -7,7 +7,7 @@ pub fn TextFieldExample() -> Html {
     html! {
         <TextField placeholder="Search the docs…">
             <TextFieldSlot>
-                <MagnifyingGlassIcon height="16" width="16" />
+                <MagnifyingGlassIcon height=16 width=16 />
             </TextFieldSlot>
         </TextField>
     }

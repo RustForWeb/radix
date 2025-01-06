@@ -7,19 +7,19 @@ pub fn IconButtonLoadingExample() -> Html {
     html! {
         <Flex gap=3>
             <IconButton loading=true variant={IconButtonVariant::Classic}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton loading=true variant={IconButtonVariant::Solid}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton loading=true variant={IconButtonVariant::Soft}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton loading=true variant={IconButtonVariant::Surface}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton loading=true variant={IconButtonVariant::Outline}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
         </Flex>
     }

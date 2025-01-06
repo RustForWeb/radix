@@ -1,4 +1,10 @@
-#![allow(ambiguous_glob_reexports, non_snake_case)]
+//! Yew port of [Radix Icons](https://www.radix-ui.com/icons).
+//!
+//! Radix Icons is a crisp set of 15x15 icons.
+//!
+//! See [the Rust Radix book](https://radix.rustforweb.org/icons/index.html) for more documenation.
+
+#![allow(ambiguous_glob_reexports)]
 
 mod accessibility_icon;
 mod activity_log_icon;
