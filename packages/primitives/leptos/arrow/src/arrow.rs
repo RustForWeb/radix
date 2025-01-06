@@ -1,6 +1,7 @@
 use leptos::{prelude::*, svg};
-use radix_leptos_primitive::{Primitive, TypedFallbackShow};
+use radix_leptos_primitive::{Primitive};
 use leptos_node_ref::AnyNodeRef;
+use leptos_typed_fallback_show::TypedFallbackShow;
 
 /* -------------------------------------------------------------------------------------------------
  * Arrow
@@ -9,6 +10,7 @@ use leptos_node_ref::AnyNodeRef;
 const NAME: &'static str = "Arrow";
 
 #[component]
+#[allow(non_snake_case)]
 pub fn Arrow(
     #[prop(optional)] children: Option<ChildrenFn>,
     #[prop(into, optional, default=10.0.into())] width: MaybeProp<f64>,

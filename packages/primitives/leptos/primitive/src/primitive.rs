@@ -1,6 +1,5 @@
 use leptos::{
     attr::Attribute,
-    either::Either,
     ev::Event,
     html::{ElementType, HtmlElement},
     prelude::*,
@@ -8,32 +7,14 @@ use leptos::{
     tachys::html::{class::IntoClass, node_ref::NodeRefContainer, style::IntoStyle},
 };
 use leptos_node_ref::{any_node_ref, AnyNodeRef};
+use leptos_typed_fallback_show::TypedFallbackShow;
 
-/// We need our own show instead of leptos' Show because attribute spreading does not work
-/// across AnyView as of 0.7.2, which is required here.
+/* -------------------------------------------------------------------------------------------------
+ * Primitive
+ * -----------------------------------------------------------------------------------------------*/
+
 #[component]
 #[allow(non_snake_case)]
-pub fn TypedFallbackShow<F, IV, W, C>(
-    children: TypedChildrenFn<C>,
-    when: W,
-    fallback: F,
-) -> impl IntoView
-where
-    W: Fn() -> bool + Send + Sync + 'static,
-    F: Fn() -> IV + Send + Sync + 'static,
-    IV: IntoView + 'static,
-    C: IntoView + 'static,
-{
-    let memoized_when = ArcMemo::new(move |_| when());
-    let children = children.into_inner();
-
-    move || match memoized_when.get() {
-        true => Either::Left(children()),
-        false => Either::Right(fallback().into_view()),
-    }
-}
-
-#[component]
 pub fn Primitive<E, C>(
     element: fn() -> HtmlElement<E, (), ()>,
     children: TypedChildrenFn<C>,
@@ -64,6 +45,7 @@ where
 }
 
 #[component]
+#[allow(non_snake_case)]
 pub fn VoidPrimitive<E, C>(
     element: fn() -> HtmlElement<E, (), ()>,
     children: TypedChildrenFn<C>,
@@ -88,6 +70,10 @@ where
     }
 }
 
+/* -------------------------------------------------------------------------------------------------
+ * Utils
+ * -----------------------------------------------------------------------------------------------*/
+
 pub fn compose_callbacks<E>(
     original_handler: Option<Callback<E>>,
     our_handler: Option<Callback<E>>,
@@ -111,4 +97,13 @@ where
             }
         }
     }
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Primitive re-exports
+ * -----------------------------------------------------------------------------------------------*/
+
+pub mod primitive {
+    pub use super::*;
+    pub use Primitive as Root;
 }

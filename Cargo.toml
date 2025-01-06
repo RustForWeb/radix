@@ -25,7 +25,9 @@ dioxus-router = "0.5.6"
 leptos = "0.7.2"
 leptos_dom = "0.7.2"
 leptos_router = "0.7.2"
-leptos-node-ref = { git = "https://github.com/geoffreygarrett/leptos-utils", branch = "update/leptos-0.7" }
+leptos-node-ref = { version = "0.0.3" }
+leptos-maybe-callback = { version = "0.0.3" }
+leptos-typed-fallback-show = { version = "0.0.3" }
 leptos-use = "0.15.0"
 log = "0.4.22"
 serde = "1.0.198"
@@ -40,3 +42,4 @@ yew-style = "0.1.4"
 [patch.crates-io]
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
 yew-router = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
+leptos-node-ref = { git = "https://github.com/geoffreygarrett/leptos-utils", branch = "feature/any-node-ref" }
