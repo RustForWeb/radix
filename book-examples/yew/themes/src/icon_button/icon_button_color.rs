@@ -7,16 +7,16 @@ pub fn IconButtonColorExample() -> Html {
     html! {
         <Flex gap=3>
             <IconButton color={AccentColor::Indigo} variant={IconButtonVariant::Soft}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton color={AccentColor::Cyan} variant={IconButtonVariant::Soft}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton color={AccentColor::Orange} variant={IconButtonVariant::Soft}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
             <IconButton color={AccentColor::Crimson} variant={IconButtonVariant::Soft}>
-                <MagnifyingGlassIcon width="18" height="18" />
+                <MagnifyingGlassIcon width=18 height=18 />
             </IconButton>
         </Flex>
     }

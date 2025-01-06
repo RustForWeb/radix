@@ -1,0 +1,21 @@
+[package]
+name = "radix-dioxus-book-icons"
+description = "Book examples for Radix Icons Dioxus."
+publish = false
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+log.workspace = true
+radix-dioxus-icons = { path = "../../../packages/icons/dioxus", optional = true }
+dioxus = { workspace = true, features = ["web"] }
+
+[features]
+default = []
+icons = ["dep:radix-dioxus-icons"]

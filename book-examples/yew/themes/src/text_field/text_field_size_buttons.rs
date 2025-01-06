@@ -11,7 +11,7 @@ pub fn TextFieldSizeButtonsExample() -> Html {
             <Box max_width="200px">
                 <TextField placeholder="Search the docs…" size=1>
                     <TextFieldSlot>
-                        <MagnifyingGlassIcon height="16" width="16" />
+                        <MagnifyingGlassIcon height=16 width=16 />
                     </TextFieldSlot>
                 </TextField>
             </Box>
@@ -19,11 +19,11 @@ pub fn TextFieldSizeButtonsExample() -> Html {
             <Box max_width="250px">
                 <TextField placeholder="Search the docs…" size=2>
                     <TextFieldSlot>
-                        <MagnifyingGlassIcon height="16" width="16" />
+                        <MagnifyingGlassIcon height=16 width=16 />
                     </TextFieldSlot>
                     <TextFieldSlot>
                         <IconButton size=1 variant={IconButtonVariant::Ghost}>
-                            <DotsHorizontalIcon height="14" width="14" />
+                            <DotsHorizontalIcon height=14 width=14 />
                         </IconButton>
                     </TextFieldSlot>
                 </TextField>
@@ -32,11 +32,11 @@ pub fn TextFieldSizeButtonsExample() -> Html {
             <Box max_width="300px">
                 <TextField placeholder="Search the docs…" size=3>
                     <TextFieldSlot>
-                        <MagnifyingGlassIcon height="16" width="16" />
+                        <MagnifyingGlassIcon height=16 width=16 />
                     </TextFieldSlot>
                     <TextFieldSlot pr=3>
                         <IconButton size=2 variant={IconButtonVariant::Ghost}>
-                            <DotsHorizontalIcon height="16" width="16" />
+                            <DotsHorizontalIcon height=16 width=16 />
                         </IconButton>
                     </TextFieldSlot>
                 </TextField>

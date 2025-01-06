@@ -1,3 +1,9 @@
+//! Leptos port of [Radix Icons](https://www.radix-ui.com/icons).
+//!
+//! Radix Icons is a crisp set of 15x15 icons.
+//!
+//! See [the Rust Radix book](https://radix.rustforweb.org/icons/index.html) for more documenation.
+
 mod accessibility_icon;
 mod activity_log_icon;
 mod align_baseline_icon;

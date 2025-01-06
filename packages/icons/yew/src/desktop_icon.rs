@@ -1,24 +1,25 @@
 use yew::prelude::*;
 #[derive(PartialEq, Properties)]
 pub struct DesktopIconProps {
-    #[prop_or_default]
-    pub class: Option<AttrValue>,
+    #[prop_or(15)]
+    pub width: usize,
+    #[prop_or(15)]
+    pub height: usize,
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub width: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub height: AttrValue,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 #[function_component]
 pub fn DesktopIcon(props: &DesktopIconProps) -> Html {
-    let node_ref = use_node_ref();
     html! {
         <svg
-            ref={node_ref}
-            class={&props.class}
-            width={&props.width}
-            height={&props.height}
+            ref={props.node_ref.clone()}
+            class={props.class.clone()}
+            width={props.width.to_string()}
+            height={props.height.to_string()}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +28,7 @@ pub fn DesktopIcon(props: &DesktopIconProps) -> Html {
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M1 3.25C1 3.11193 1.11193 3 1.25 3H13.75C13.8881 3 14 3.11193 14 3.25V10.75C14 10.8881 13.8881 11 13.75 11H1.25C1.11193 11 1 10.8881 1 10.75V3.25ZM1.25 2C0.559643 2 0 2.55964 0 3.25V10.75C0 11.4404 0.559644 12 1.25 12H5.07341L4.82991 13.2986C4.76645 13.6371 5.02612 13.95 5.37049 13.95H9.62951C9.97389 13.95 10.2336 13.6371 10.1701 13.2986L9.92659 12H13.75C14.4404 12 15 11.4404 15 10.75V3.25C15 2.55964 14.4404 2 13.75 2H1.25ZM9.01091 12H5.98909L5.79222 13.05H9.20778L9.01091 12Z"
-                fill={&props.color}
+                fill={& props.color}
             />
         </svg>
     }

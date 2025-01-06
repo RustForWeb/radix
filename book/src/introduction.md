@@ -21,12 +21,9 @@ Rust Radix consists of the following parts:
 
 Rust Radix is available for the following frameworks:
 
+-   [Dioxus](https://dioxuslabs.com/)
 -   [Leptos](https://leptos.dev/)
 -   [Yew](https://yew.rs/)
-
-The following frameworks are under consideration:
-
--   [Dioxus](https://dioxuslabs.com/)
 
 The tables below show the support for the various frameworks.
 
@@ -45,7 +42,7 @@ The tables below show the support for the various frameworks.
 
 | Name  | Dioxus | Leptos | Yew |
 | ----- | ------ | ------ | --- |
-| Icons | ❌     | 🚧     | 🟦  |
+| Icons | ✅     | ✅     | ✅  |
 
 ### Primitives Support
 

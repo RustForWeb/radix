@@ -7,8 +7,8 @@ pub fn App() -> Html {
 
     #[cfg(feature = "icons")]
     {
-        use crate::icons::IconsDemo;
-        children.push(html! { <IconsDemo /> });
+        use crate::icons::Icons;
+        children.push(html! { <Icons /> });
     }
 
     html! { <div class="w-full h-full flex justify-center items-start">{ children }</div> }

@@ -1,24 +1,25 @@
 use yew::prelude::*;
 #[derive(PartialEq, Properties)]
 pub struct StretchVerticallyIconProps {
-    #[prop_or_default]
-    pub class: Option<AttrValue>,
+    #[prop_or(15)]
+    pub width: usize,
+    #[prop_or(15)]
+    pub height: usize,
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub width: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub height: AttrValue,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 #[function_component]
 pub fn StretchVerticallyIcon(props: &StretchVerticallyIconProps) -> Html {
-    let node_ref = use_node_ref();
     html! {
         <svg
-            ref={node_ref}
-            class={&props.class}
-            width={&props.width}
-            height={&props.height}
+            ref={props.node_ref.clone()}
+            class={props.class.clone()}
+            width={props.width.to_string()}
+            height={props.height.to_string()}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +28,7 @@ pub fn StretchVerticallyIcon(props: &StretchVerticallyIconProps) -> Html {
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M0.999878 0.5C0.999878 0.223858 1.22374 0 1.49988 0H13.4999C13.776 0 13.9999 0.223858 13.9999 0.5C13.9999 0.776142 13.776 1 13.4999 1H6H1.49988C1.22374 1 0.999878 0.776142 0.999878 0.5ZM9 14V1L6 1V14H1.49988C1.22374 14 0.999878 14.2239 0.999878 14.5C0.999878 14.7761 1.22374 15 1.49988 15H13.4999C13.776 15 13.9999 14.7761 13.9999 14.5C13.9999 14.2239 13.776 14 13.4999 14H9Z"
-                fill={&props.color}
+                fill={& props.color}
             />
         </svg>
     }

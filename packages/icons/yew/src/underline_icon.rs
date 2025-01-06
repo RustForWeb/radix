@@ -1,24 +1,25 @@
 use yew::prelude::*;
 #[derive(PartialEq, Properties)]
 pub struct UnderlineIconProps {
-    #[prop_or_default]
-    pub class: Option<AttrValue>,
+    #[prop_or(15)]
+    pub width: usize,
+    #[prop_or(15)]
+    pub height: usize,
     #[prop_or(AttrValue::from("currentColor"))]
     pub color: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub width: AttrValue,
-    #[prop_or(AttrValue::from("15"))]
-    pub height: AttrValue,
+    #[prop_or_default]
+    pub class: Classes,
+    #[prop_or_default]
+    pub node_ref: NodeRef,
 }
 #[function_component]
 pub fn UnderlineIcon(props: &UnderlineIconProps) -> Html {
-    let node_ref = use_node_ref();
     html! {
         <svg
-            ref={node_ref}
-            class={&props.class}
-            width={&props.width}
-            height={&props.height}
+            ref={props.node_ref.clone()}
+            class={props.class.clone()}
+            width={props.width.to_string()}
+            height={props.height.to_string()}
             viewBox="0 0 15 15"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +28,7 @@ pub fn UnderlineIcon(props: &UnderlineIconProps) -> Html {
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M5.00001 2.75C5.00001 2.47386 4.77615 2.25 4.50001 2.25C4.22387 2.25 4.00001 2.47386 4.00001 2.75V8.05C4.00001 9.983 5.56702 11.55 7.50001 11.55C9.43301 11.55 11 9.983 11 8.05V2.75C11 2.47386 10.7762 2.25 10.5 2.25C10.2239 2.25 10 2.47386 10 2.75V8.05C10 9.43071 8.88072 10.55 7.50001 10.55C6.1193 10.55 5.00001 9.43071 5.00001 8.05V2.75ZM3.49998 13.1001C3.27906 13.1001 3.09998 13.2791 3.09998 13.5001C3.09998 13.721 3.27906 13.9001 3.49998 13.9001H11.5C11.7209 13.9001 11.9 13.721 11.9 13.5001C11.9 13.2791 11.7209 13.1001 11.5 13.1001H3.49998Z"
-                fill={&props.color}
+                fill={& props.color}
             />
         </svg>
     }
