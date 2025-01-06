@@ -1,67 +1,69 @@
-use leptos::prelude::*;
+use leptos::{prelude::*, svg};
+use radix_leptos_primitive::{Primitive};
+use leptos_node_ref::AnyNodeRef;
+use leptos_typed_fallback_show::TypedFallbackShow;
 
-pub struct UseArrowProps {
-    width: MaybeProp<f64>,
-    height: MaybeProp<f64>,
-}
+/* -------------------------------------------------------------------------------------------------
+ * Arrow
+ * -----------------------------------------------------------------------------------------------*/
 
-pub struct UseArrowAttrs {
-    width: Signal<String>,
-    height: Signal<String>,
-    view_box: String,
-    preserve_aspect_ratio: String,
-}
-
-pub fn use_arrow(props: UseArrowProps) -> UseArrowAttrs {
-    let width = Signal::derive(move || props.width.get().unwrap_or(10.0).to_string());
-    let height = Signal::derive(move || props.height.get().unwrap_or(5.0).to_string());
-
-    UseArrowAttrs {
-        width,
-        height,
-        view_box: "0 0 30 10".to_owned(),
-        preserve_aspect_ratio: "none".to_owned(),
-    }
-}
+const NAME: &'static str = "Arrow";
 
 #[component]
+#[allow(non_snake_case)]
 pub fn Arrow(
-    #[prop(into, optional)] width: MaybeProp<f64>,
-    #[prop(into, optional)] height: MaybeProp<f64>,
-    #[prop(optional)] children: Option<Children>,
+    #[prop(optional)] children: Option<ChildrenFn>,
+    #[prop(into, optional, default=10.0.into())] width: MaybeProp<f64>,
+    #[prop(into, optional, default=5.0.into())] height: MaybeProp<f64>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
 ) -> impl IntoView {
-    let UseArrowAttrs {
-        width,
-        height,
-        view_box,
-        preserve_aspect_ratio,
-    } = use_arrow(UseArrowProps { width, height });
+    let children = StoredValue::new(children);
+
+    #[cfg(debug_assertions)]
+    Effect::new(move |_| {
+        leptos::logging::log!("[{NAME}] width: {:?}", width.get());
+        leptos::logging::log!("[{NAME}] height: {:?}", height.get());
+        leptos::logging::log!("[{NAME}] node_ref: {:?}", node_ref.get());
+        leptos::logging::log!("[{NAME}] as_child: {:?}", as_child.get());
+    });
 
     view! {
-        <svg
-            width=width
-            height=height
-            viewBox=view_box
-            preserveAspectRatio=preserve_aspect_ratio
+        <Primitive
+            element=svg::svg
+            as_child=as_child
+            attr:width=move || width.get()
+            attr:height=move || height.get()
+            node_ref=node_ref
         >
-            {children.map(|children| children()).unwrap_or_else(|| view! {
-                <polygon points="0,0 30,0 15,10" />
-            }.into_any())}
-        </svg>
-    }
+            <TypedFallbackShow
+                when=move || as_child.get().unwrap_or_default()
+                fallback=move || {
+                    view! {
+                        <polygon
+                            points="0,0 30,0 15,10"
+                            viewBox="0 0 30 10"
+                            preserveAspectRatio="none"
+                        />
+                    }
+                }
+            >
+                {children
+                    .with_value(|maybe_children| {
+                        { maybe_children.as_ref().map(|child_fn| child_fn()) }
+                    })
+                    .attr("viewBox", "0 0 30 10")
+                    .attr("preserveAspectRatio", "none")}
+            </TypedFallbackShow>
+        </Primitive>
+    };
 }
 
-#[component]
-pub fn ArrowAsChild<R, RV>(
-    #[prop(into, optional)] width: MaybeProp<f64>,
-    #[prop(into, optional)] height: MaybeProp<f64>,
-    render: R,
-) -> impl IntoView
-where
-    R: Fn(UseArrowAttrs) -> RV,
-    RV: IntoView,
-{
-    let attrs = use_arrow(UseArrowProps { width, height });
+/* -------------------------------------------------------------------------------------------------
+ * Primitive re-exports
+ * -----------------------------------------------------------------------------------------------*/
 
-    render(attrs)
+pub mod primitive {
+    pub use super::*;
+    pub use Arrow as Root;
 }

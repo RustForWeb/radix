@@ -68,7 +68,7 @@ leptos = "0.7.2"
 leptos_dom = "0.7.2"
 leptos_router = "0.7.2"
 leptos-node-ref = "0.0.3"
-leptos-maybe-callback = "0.0.3"
+leptos-typed-fallback-show = "0.0.3"
 leptos-style = "0.0.3"
 leptos-typed-fallback-show = "0.0.3"
 leptos-use = "0.15.2"
@@ -82,6 +82,7 @@ yew = "0.21.0"
 yew-router = "0.18.0"
 yew-struct-component = "0.1.4"
 yew-style = "0.1.4"
+radix-leptos-primitive.version = "0.0.2"
 
 # Subcrate packages (paths remain the same; you can comment out any subcrate not yet upgraded).
 # We centralize shared dependencies in [workspace.dependencies] for a single source of truth,
@@ -123,3 +124,4 @@ radix-leptos-primitive.path = "./packages/primitives/leptos/primitive"
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
 yew-router = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
 leptos-node-ref = { git = "https://github.com/geoffreygarrett/leptos-utils", branch = "feature/any-node-ref" }
+radix-leptos-primitive = { git = "https://github.com/geoffreygarrett/radix", branch = "update/leptos-0.7-primitive" }
