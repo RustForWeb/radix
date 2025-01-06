@@ -1,12 +1,15 @@
 use leptos::{prelude::*, svg};
+use leptos::attr::custom::custom_attribute;
 use radix_leptos_primitive::{Primitive};
 use leptos_node_ref::AnyNodeRef;
 use leptos_typed_fallback_show::TypedFallbackShow;
+use leptos::attr::NextAttribute;
 
 /* -------------------------------------------------------------------------------------------------
  * Arrow
  * -----------------------------------------------------------------------------------------------*/
 
+#[allow(unused)]
 const NAME: &'static str = "Arrow";
 
 #[component]
@@ -28,35 +31,31 @@ pub fn Arrow(
         leptos::logging::log!("[{NAME}] as_child: {:?}", as_child.get());
     });
 
+    let attrs = custom_attribute("viewBox", "0 0 30 10")
+        .add_any_attr(custom_attribute("preserveAspectRatio", "none"));
+
     view! {
         <Primitive
             element=svg::svg
             as_child=as_child
             attr:width=move || width.get()
             attr:height=move || height.get()
-            node_ref=node_ref
+            node_ref={node_ref}
+            {..attrs}
         >
             <TypedFallbackShow
                 when=move || as_child.get().unwrap_or_default()
                 fallback=move || {
-                    view! {
-                        <polygon
-                            points="0,0 30,0 15,10"
-                            viewBox="0 0 30 10"
-                            preserveAspectRatio="none"
-                        />
-                    }
+                    view! { <polygon points="0,0 30,0 15,10" /> }
                 }
             >
                 {children
                     .with_value(|maybe_children| {
                         { maybe_children.as_ref().map(|child_fn| child_fn()) }
-                    })
-                    .attr("viewBox", "0 0 30 10")
-                    .attr("preserveAspectRatio", "none")}
+                    })}
             </TypedFallbackShow>
         </Primitive>
-    };
+    }
 }
 
 /* -------------------------------------------------------------------------------------------------
