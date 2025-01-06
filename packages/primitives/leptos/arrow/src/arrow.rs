@@ -1,4 +1,5 @@
 use leptos::{prelude::*, svg};
+use leptos::attr::{Attr, AttributeKey, AttributeValue};
 use radix_leptos_primitive::{Primitive};
 use leptos_node_ref::AnyNodeRef;
 use leptos_typed_fallback_show::TypedFallbackShow;
@@ -38,20 +39,25 @@ pub fn Arrow(
         >
             <TypedFallbackShow
                 when=move || as_child.get().unwrap_or_default()
-                fallback=move || view! {
-                    <polygon points="0,0 30,0 15,10"/>
+                fallback=move || {
+                    view! {
+                        <polygon
+                            points="0,0 30,0 15,10"
+                            viewBox="0 0 30 10"
+                            preserveAspectRatio="none"
+                        />
+                    }
                 }
             >
-                {
-                    children.with_value(|maybe_children| {
-                        maybe_children.as_ref().map(|child_fn| child_fn())
+                {children
+                    .with_value(|maybe_children| {
+                        { maybe_children.as_ref().map(|child_fn| child_fn()) }
                     })
-                }
+                    .attr("viewBox", "0 0 30 10")
+                    .attr("preserveAspectRatio", "none")}
             </TypedFallbackShow>
         </Primitive>
-    }
-    .attr("viewBox", "0 0 30 10")
-    .attr("preserveAspectRatio", "none")
+    };
 }
 
 /* -------------------------------------------------------------------------------------------------
