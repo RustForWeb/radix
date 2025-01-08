@@ -1,10 +1,9 @@
 use leptos::{
-    attr::Attribute,
     ev::Event,
     html::{ElementType, HtmlElement},
     prelude::*,
     wasm_bindgen::JsCast,
-    tachys::html::{class::IntoClass, node_ref::NodeRefContainer, style::IntoStyle},
+    tachys::html::{node_ref::NodeRefContainer},
 };
 use leptos_node_ref::{any_node_ref, AnyNodeRef};
 use leptos_typed_fallback_show::TypedFallbackShow;
@@ -97,13 +96,4 @@ where
             }
         }
     }
-}
-
-/* -------------------------------------------------------------------------------------------------
- * Primitive re-exports
- * -----------------------------------------------------------------------------------------------*/
-
-pub mod primitive {
-    pub use super::*;
-    pub use Primitive as Root;
 }
