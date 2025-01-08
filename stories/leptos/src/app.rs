@@ -4,7 +4,7 @@ use leptos_router::{
     path,
 };
 
-use crate::primitives::{accessible_icon, arrow, aspect_ratio, label, visually_hidden};
+use crate::primitives::{accessible_icon, arrow, aspect_ratio, label, progress, visually_hidden};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -152,14 +152,14 @@ pub fn App() -> impl IntoView {
                     //         <li><NavLink href="/presence/with-deferred-mount-animation">With Deferred Mount Animation</NavLink></li>
                     //     </ul>
                     // </li>
-                    // <li>
-                    //     Progress
+                    <li>
+                        Progress
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/progress/styled">Styled</NavLink></li>
-                    //         <li><NavLink href="/progress/chromatic">Chromatic</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/progress/styled">Styled</NavLink></li>
+                            <li><NavLink href="/progress/chromatic">Chromatic</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Separator
 
@@ -264,8 +264,8 @@ pub fn App() -> impl IntoView {
                     // <Route path="/presence/with-multiple-open-and-close-animations" view=presence::WithMultipleOpenAndCloseAnimations />
                     // <Route path="/presence/with-deferred-mount-animation" view=presence::WithDeferredMountAnimation />
 
-                    // <Route path="/progress/styled" view=progress::Styled />
-                    // <Route path="/progress/chromatic" view=progress::Chromatic />
+                    <Route path=path!("/progress/styled") view=progress::Styled />
+                    <Route path=path!("/progress/chromatic") view=progress::Chromatic />
 
                     // <Route path="/separator/styled" view=separator::Styled />
 
