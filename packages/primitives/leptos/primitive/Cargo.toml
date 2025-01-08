@@ -8,7 +8,12 @@ license.workspace = true
 repository.workspace = true
 version.workspace = true
 
+[features]
+default = ["no-any-view-any-attr"]
+any-view-any-attr = []
+no-any-view-any-attr = ["dep:leptos-typed-fallback-show"]
+
 [dependencies]
 leptos.workspace = true
 leptos-node-ref.workspace = true
-leptos-typed-fallback-show.workspace = true
+leptos-typed-fallback-show = { workspace = true, optional = true }

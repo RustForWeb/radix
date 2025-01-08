@@ -6,12 +6,18 @@ use leptos::{
     tachys::html::{node_ref::NodeRefContainer},
 };
 use leptos_node_ref::{any_node_ref, AnyNodeRef};
+
+#[cfg(all(feature = "any-view-any-attr", feature = "no-any-view-any-attr"))]
+compile_error!("Features 'any-view-any-attr' and 'no-any-view-any-attr' cannot be enabled at the same time");
+
+#[cfg(not(feature = "any-view-any-attr"))]
 use leptos_typed_fallback_show::TypedFallbackShow;
 
 /* -------------------------------------------------------------------------------------------------
  * Primitive
  * -----------------------------------------------------------------------------------------------*/
 
+#[cfg(not(feature = "any-view-any-attr"))]
 #[component]
 #[allow(non_snake_case)]
 pub fn Primitive<E, C>(
@@ -30,7 +36,6 @@ where
     AnyNodeRef: NodeRefContainer<E>,
 {
     let children = StoredValue::new(children.into_inner());
-
     view! {
         <TypedFallbackShow
             when=move || as_child.get().unwrap_or_default()
@@ -43,6 +48,36 @@ where
     }
 }
 
+#[cfg(feature = "any-view-any-attr")]
+#[component]
+#[allow(non_snake_case)]
+pub fn Primitive<E>(
+    element: fn() -> HtmlElement<E, (), ()>,
+    children: ChildrenFn,
+    #[prop(optional, into)] as_child: MaybeProp<bool>,
+    #[prop(optional, into)] node_ref: AnyNodeRef,
+) -> impl IntoView
+where
+    E: ElementType + 'static,
+    HtmlElement<E, (), ()>: ElementChild<AnyView>,
+    <HtmlElement<E, (), ()> as ElementChild<AnyView>>::Output: IntoView,
+    <E as ElementType>::Output: JsCast,
+    AnyNodeRef: NodeRefContainer<E>,
+{
+    let children = StoredValue::new(children);
+    view! {
+        <Show
+            when=move || as_child.get().unwrap_or_default()
+            fallback=move || {
+                element().child(children.with_value(|children| children())).add_any_attr(any_node_ref(node_ref))
+            }
+        >
+            {children.with_value(|children| children()).add_any_attr(any_node_ref(node_ref))}
+        </Show>
+    }
+}
+
+#[cfg(not(feature = "any-view-any-attr"))]
 #[component]
 #[allow(non_snake_case)]
 pub fn VoidPrimitive<E, C>(
@@ -66,6 +101,31 @@ where
         >
             {children.with_value(|children| children()).add_any_attr(any_node_ref(node_ref))}
         </TypedFallbackShow>
+    }
+}
+
+#[cfg(feature = "any-view-any-attr")]
+#[component]
+#[allow(non_snake_case)]
+pub fn VoidPrimitive<E>(
+    element: fn() -> HtmlElement<E, (), ()>,
+    children: ChildrenFn,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
+) -> impl IntoView
+where
+    E: ElementType + 'static,
+    <E as ElementType>::Output: JsCast,
+    AnyNodeRef: NodeRefContainer<E>,
+{
+    let children = StoredValue::new(children.into_inner());
+    view! {
+        <Show
+            when=move || as_child.get().unwrap_or_default()
+            fallback=move || { element().add_any_attr(any_node_ref(node_ref)) }
+        >
+            {children.with_value(|children| children()).add_any_attr(any_node_ref(node_ref))}
+        </Show>
     }
 }
 
