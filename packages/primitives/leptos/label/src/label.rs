@@ -1,62 +1,55 @@
-use leptos::{ev::MouseEvent, prelude::*};
+use leptos::{ev::MouseEvent, html, prelude::*};
+use radix_leptos_primitive::Primitive;
+use leptos_maybe_callback::MaybeCallback;
+use leptos_node_ref::prelude::*;
 
-pub struct UseLabelProps {
-    on_mouse_down: Option<Callback<MouseEvent>>,
-}
+/* -------------------------------------------------------------------------------------------------
+ * Label
+ * -----------------------------------------------------------------------------------------------*/
 
-pub struct UseLabelAttrs {
-    on_mouse_down: Callback<MouseEvent>,
-}
-
-pub fn use_label(props: UseLabelProps) -> UseLabelAttrs {
-    UseLabelAttrs {
-        on_mouse_down: Callback::new(move |event: MouseEvent| {
-            // Only prevent text selection if clicking inside the label itself.
-            let target = event_target::<web_sys::Element>(&event);
-            if target
-                .closest("button, input, select, textarea")
-                .expect("Element should be able to query closest.")
-                .is_some()
-            {
-                return;
-            }
-
-            if let Some(on_mouse_down) = props.on_mouse_down {
-                on_mouse_down.run(event.clone());
-            }
-
-            // Prevent text selection when double clicking label.
-            if !event.default_prevented() && event.detail() > 1 {
-                event.prevent_default();
-            }
-        }),
-    }
-}
+#[allow(unused)]
+const NAME: &str = "Label";
 
 #[component]
+#[allow(non_snake_case)]
 pub fn Label(
-    #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
-    #[prop(optional)] children: Option<Children>,
+    children: TypedChildrenFn<impl IntoView + 'static>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(into, optional)] on_mouse_down: MaybeCallback<MouseEvent>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
 ) -> impl IntoView {
-    let UseLabelAttrs { on_mouse_down } = use_label(UseLabelProps { on_mouse_down });
-
     view! {
-        <label on:mousedown=move |event| on_mouse_down.run(event)>
-            {children.map(|children| children())}
-        </label>
+        <Primitive
+            children={children}
+            element=html::label
+            as_child=as_child
+            on:mousedown=move |event: MouseEvent| {
+                // only prevent text selection if clicking inside the label itself
+                let target: web_sys::Element = event_target(&event);
+                if target
+                    .closest("button, input, select, textarea")
+                    .expect("Element should be able to query closest.")
+                    .is_some()
+                {
+                    return;
+                }
+
+                // run callback if provided
+                on_mouse_down.run(event.clone());
+
+                // prevent text selection when double-clicking label
+                if !event.default_prevented() && event.detail() > 1 {
+                    event.prevent_default();
+                }
+            }
+            node_ref=node_ref
+        />
     }
 }
 
-#[component]
-pub fn LabelAsChild<R, RV>(
-    #[prop(into, optional)] on_mouse_down: Option<Callback<MouseEvent>>,
-    render: R,
-) -> impl IntoView
-where
-    R: Fn(UseLabelAttrs) -> RV,
-    RV: IntoView,
-{
-    let attrs = use_label(UseLabelProps { on_mouse_down });
+/* -----------------------------------------------------------------------------------------------*/
 
-    render(attrs)
+pub mod primitive {
+    pub use super::*;
+    pub use Label as Root;
 }
