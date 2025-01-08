@@ -29,7 +29,7 @@ members = [
     # "packages/primitives/leptos/portal",
     # "packages/primitives/leptos/presence",
     "packages/primitives/leptos/primitive",
-    # "packages/primitives/leptos/progress",
+    "packages/primitives/leptos/progress",
     # "packages/primitives/leptos/roving-focus",
     # "packages/primitives/leptos/select",
     # "packages/primitives/leptos/separator",
@@ -107,7 +107,7 @@ radix-leptos-context.path = "./packages/primitives/leptos/context"
 #radix-leptos-portal.path = "./packages/primitives/leptos/portal"
 #radix-leptos-presence.path = "./packages/primitives/leptos/presence"
 radix-leptos-primitive.path = "./packages/primitives/leptos/primitive"
-#radix-leptos-progress.path = "./packages/primitives/leptos/progress"
+radix-leptos-progress.path = "./packages/primitives/leptos/progress"
 #radix-leptos-roving-focus.path = "./packages/primitives/leptos/roving-focus"
 #radix-leptos-select.path = "./packages/primitives/leptos/select"
 #radix-leptos-separator.path = "./packages/primitives/leptos/separator"
