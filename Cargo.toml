@@ -21,6 +21,7 @@ members = [
     "packages/primitives/leptos/focus-guards",
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
+    "packages/primitives/leptos/primitive",
     "packages/primitives/leptos/use-controllable-state",
     "packages/primitives/leptos/use-escape-keydown",
     "packages/primitives/leptos/use-previous",
@@ -47,8 +48,10 @@ dioxus = "0.6.1"
 leptos = "0.7.2"
 leptos_dom = "0.7.2"
 leptos_router = "0.7.2"
-leptos-node-ref = "0.0.3"
-leptos-style = "0.0.3"
+leptos-maybe-callback = "0.1.0"
+leptos-node-ref = "0.1.0"
+leptos-style = "0.1.0"
+leptos-typed-fallback-show = "0.1.0"
 log = "0.4.22"
 send_wrapper = "0.6.0"
 serde = "1.0.198"
