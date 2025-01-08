@@ -4,7 +4,7 @@ use leptos_router::{
     path,
 };
 
-use crate::primitives::{accessible_icon, arrow, aspect_ratio, label, visually_hidden};
+use crate::primitives::{accessible_icon, arrow, aspect_ratio, separator, label, visually_hidden};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -160,13 +160,13 @@ pub fn App() -> impl IntoView {
                     //         <li><NavLink href="/progress/chromatic">Chromatic</NavLink></li>
                     //     </ul>
                     // </li>
-                    // <li>
-                    //     Separator
+                    <li>
+                        Separator
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/separator/styled">Styled</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/separator/styled">Styled</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Slot
 
@@ -267,7 +267,7 @@ pub fn App() -> impl IntoView {
                     // <Route path="/progress/styled" view=progress::Styled />
                     // <Route path="/progress/chromatic" view=progress::Chromatic />
 
-                    // <Route path="/separator/styled" view=separator::Styled />
+                    <Route path=path!("/separator/styled") view=separator::Styled />
 
                     // <Route path="/slot/without-slottable" view=slot::WithoutSlottable />
                     // <Route path="/slot/with-slottable" view=slot::WithSlottable />

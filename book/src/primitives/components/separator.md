@@ -25,11 +25,9 @@ files = ["src/separator.rs"]
 
 ## Features
 
--   Supports horizontal and vertical orientations.
+- Supports horizontal and vertical orientations.
 
 ## Installation
-
-Install the component from your command line.
 
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
@@ -38,9 +36,9 @@ Install the component from your command line.
 cargo add radix-leptos-separator
 ```
 
--   [View on crates.io](https://crates.io/crates/radix-leptos-separator)
--   [View on docs.rs](https://docs.rs/radix-leptos-separator/latest/radix_leptos_separator/)
--   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/separator)
+- [View on crates.io](https://crates.io/crates/radix-leptos-separator)
+- [View on docs.rs](https://docs.rs/radix-leptos-separator/latest/radix_leptos_separator/)
+- [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/separator)
 
 {{#endtab }}
 {{#tab name="Yew" }}
@@ -49,16 +47,14 @@ cargo add radix-leptos-separator
 cargo add radix-yew-separator
 ```
 
--   [View on crates.io](https://crates.io/crates/radix-yew-separator)
--   [View on docs.rs](https://docs.rs/radix-yew-separator/latest/radix_yew_separator/)
--   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/separator)
+- [View on crates.io](https://crates.io/crates/radix-yew-separator)
+- [View on docs.rs](https://docs.rs/radix-yew-separator/latest/radix_yew_separator/)
+- [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/yew/separator)
 
 {{#endtab }}
 {{#endtabs }}
 
 ## Anatomy
-
-Import the component.
 
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
@@ -79,10 +75,10 @@ fn Anatomy() -> impl IntoView {
 {{#tab name="Yew" }}
 
 ```rust,ignore
-use radix_yew_separator::*;
 use yew::prelude::*;
+use radix_yew_separator::*;
 
-#[component]
+#[function_component]
 fn Anatomy() -> Html {
     html! {
         <Separator />
@@ -97,39 +93,41 @@ fn Anatomy() -> Html {
 
 ### Root
 
-The separator.
+The separator component.
 
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop          | Type                     | Default                   |
-| ------------- | ------------------------ | ------------------------- |
-| `as_child`    | `MaybeProp<bool>`        | `false`                   |
-| `orientation` | `MaybeProp<Orientation>` | `Orientation::Horizontal` |
-| `decorative`  | `MaybeProp<bool>`        | `false`                   |
+| Prop          | Type                     | Default                   | Description                                                                                          |
+|---------------|--------------------------|---------------------------|------------------------------------------------------------------------------------------------------|
+| `as_child`    | `MaybeProp<bool>`        | `false`                   | If `true`, renders only its children without the default wrapper.                                    |
+| `orientation` | `MaybeProp<Orientation>` | `Orientation::Horizontal` | Determines whether the separator is horizontal or vertical.                                          |
+| `decorative`  | `MaybeProp<bool>`        | `false`                   | If `true`, the separator is considered purely visual, and does not appear in the accessibility tree. |
 
 {{#endtab }}
 {{#tab name="Yew" }}
 
-| Prop          | Type                                          | Default                   |
-| ------------- | --------------------------------------------- | ------------------------- |
-| `as_child`    | `Option<Callback<SeparatorChildProps, Html>>` | -                         |
-| `orientation` | `Orientation`                                 | `Orientation::Horizontal` |
-| `decorative`  | `bool`                                        | `false`                   |
+| Prop          | Type                                          | Default                   | Description                                                                                          |
+|---------------|-----------------------------------------------|---------------------------|------------------------------------------------------------------------------------------------------|
+| `as_child`    | `Option<Callback<SeparatorChildProps, Html>>` | -                         | If present, renders only its children without the default wrapper.                                   |
+| `orientation` | `Orientation`                                 | `Orientation::Horizontal` | Determines whether the separator is horizontal or vertical.                                          |
+| `decorative`  | `bool`                                        | `false`                   | If `true`, the separator is considered purely visual, and does not appear in the accessibility tree. |
 
 {{#endtab }}
 {{#endtabs }}
 
 <div style="height: 1em;"></div>
 
-| Data attribute       | Values                       |
-| -------------------- | ---------------------------- |
-| `[data-orientation]` | `"horizontal" \| "vertical"` |
+**Data attributes**:
+
+| Data Attribute       | Values                         |
+|----------------------|--------------------------------|
+| `[data-orientation]` | `"horizontal"` \| `"vertical"` |
 
 ## Accessibility
 
-Adheres to the [`separator` role requirements](https://www.w3.org/TR/wai-aria-1.2/#separator).
+Adheres to the [separator role requirements](https://www.w3.org/TR/wai-aria-1.2/#separator).
 
 ## See Also
 
--   [Radix documentation](https://www.radix-ui.com/primitives/docs/components/separator)
+- [Radix documentation](https://www.radix-ui.com/primitives/docs/components/separator)

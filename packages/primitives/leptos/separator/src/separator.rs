@@ -1,6 +1,8 @@
 use std::fmt::{Display, Formatter};
-
-use leptos::{html::AnyElement, *};
+use leptos::prelude::*;
+use leptos::html;
+use leptos_node_ref::AnyNodeRef;
+use radix_leptos_primitive::Primitive;
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum Orientation {
@@ -22,61 +24,53 @@ impl Display for Orientation {
     }
 }
 
-impl IntoAttribute for Orientation {
-    fn into_attribute(self) -> Attribute {
-        Attribute::String(self.to_string().into())
+impl From<&str> for Orientation {
+    fn from(s: &str) -> Self {
+        match s.to_lowercase().as_str() {
+            "vertical" => Orientation::Vertical,
+            _ => Orientation::Horizontal,
+        }
     }
+}
 
-    fn into_attribute_boxed(self: Box<Self>) -> Attribute {
-        self.into_attribute()
+impl From<String> for Orientation {
+    fn from(s: String) -> Self {
+        Self::from(s.as_str())
     }
 }
 
 #[component]
+#[allow(non_snake_case)]
 pub fn Separator(
     #[prop(into, optional)] orientation: MaybeProp<Orientation>,
     #[prop(into, optional)] decorative: MaybeProp<bool>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
+    #[prop(into, optional)] class: MaybeProp<String>,
+    // if as_child=true, there will be no attribute passthrough to the children,
+    // but we opt for this design so we can allow children to be optional.
     #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
     let children = StoredValue::new(children);
-
     let orientation = Signal::derive(move || orientation.get().unwrap_or_default());
-    let aria_orientation = Signal::derive(move || match orientation.get() {
-        Orientation::Horizontal => None,
-        Orientation::Vertical => Some("vertical".to_string()),
-    });
     let decorative = Signal::derive(move || decorative.get().unwrap_or_default());
-
-    let mut attrs = attrs.clone();
-    attrs.extend([
-        ("data-orientation", orientation.into_attribute()),
-        (
-            "aria-orientation",
-            (match decorative.get() {
-                true => aria_orientation.get(),
-                false => None,
-            })
-            .into_attribute(),
-        ),
-        (
-            "role",
-            (match decorative.get() {
-                true => "none",
-                false => "separator",
-            })
-            .into_attribute(),
-        ),
-    ]);
-
     view! {
         <Primitive
             element=html::div
             as_child=as_child
             node_ref=node_ref
-            attrs=attrs
+            attr:data-orientation=move || orientation.get().to_string()
+            attr:aria-orientation=move || {
+                if !decorative.get() {
+                    match orientation.get() {
+                        Orientation::Vertical => Some("vertical".to_string()),
+                        Orientation::Horizontal => None,
+                    }
+                } else {
+                    None
+                }
+            }
+            attr:role=move || if decorative.get() { "none" } else { "separator" }
         >
             {children.with_value(|children| children.as_ref().map(|children| children()))}
         </Primitive>

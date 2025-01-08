@@ -22,6 +22,7 @@ members = [
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
     "packages/primitives/leptos/primitive",
+    "packages/primitives/leptos/separator",
     "packages/primitives/leptos/use-controllable-state",
     "packages/primitives/leptos/use-escape-keydown",
     "packages/primitives/leptos/use-previous",
