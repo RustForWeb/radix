@@ -2,7 +2,6 @@
 name = "radix-leptos-accessible-icon"
 description = "Leptos port of Radix Accessible Icon."
 homepage = "https://radix.rustforweb.org/primitives/utilities/accessible-icon.html"
-
 authors.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -11,4 +10,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-visually-hidden = { path = "../visually-hidden", version = "0.0.2" }
+radix-leptos-visually-hidden.workspace = true
