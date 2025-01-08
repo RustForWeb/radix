@@ -1,6 +1,6 @@
 [package]
-name = "radix-leptos-arrow"
-description = "Leptos port of Radix Arrow."
+name = "radix-leptos-primitive"
+description = "Leptos port of Radix Primitive."
 
 authors.workspace = true
 edition.workspace = true
@@ -12,4 +12,3 @@ version.workspace = true
 leptos.workspace = true
 leptos-node-ref.workspace = true
 leptos-typed-fallback-show.workspace = true
-radix-leptos-primitive.workspace = true
