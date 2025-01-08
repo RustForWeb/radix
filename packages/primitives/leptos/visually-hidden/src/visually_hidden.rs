@@ -1,56 +1,54 @@
-use leptos::prelude::*;
-use leptos_style::Style;
+use leptos::{html, prelude::*};
+use leptos_node_ref::AnyNodeRef;
+use radix_leptos_primitive::Primitive;
 
-pub struct UseVisuallyHiddenProps {
-    style: Style,
-}
+/* -------------------------------------------------------------------------------------------------
+ * VisuallyHidden
+ * -----------------------------------------------------------------------------------------------*/
 
-pub struct UseVisuallyHiddenAttrs {
-    style: Style,
-}
-
-pub fn use_visually_hidden(props: UseVisuallyHiddenProps) -> UseVisuallyHiddenAttrs {
-    UseVisuallyHiddenAttrs {
-        style: props.style.with_defaults([
-            // See: https://github.com/twbs/bootstrap/blob/master/scss/mixins/_screen-reader.scss
-            ("position", "absolute"),
-            ("border", "0px"),
-            ("width", "1px"),
-            ("height", "1px"),
-            ("padding", "0px"),
-            ("margin", "-1px"),
-            ("overflow", "hidden"),
-            ("clip", "rect(0, 0, 0, 0)"),
-            ("white-space", "nowrap"),
-            ("word-wrap", "normal"),
-        ]),
-    }
-}
-
+/// A component that visually hides its children while keeping them accessible
+/// to screen reader users. Matches the React `VisuallyHidden` component’s
+/// default styles and behavior.
 #[component]
+#[allow(non_snake_case)]
 pub fn VisuallyHidden(
-    #[prop(into, optional)] style: Style,
-    #[prop(optional)] children: Option<Children>,
-) -> impl IntoView {
-    let UseVisuallyHiddenAttrs { style } = use_visually_hidden(UseVisuallyHiddenProps { style });
+    /// The content to be visually hidden but still accessible to screen readers.
+    children: TypedChildrenFn<impl IntoView + 'static>,
 
+    /// If `true`, the `Primitive` is rendered as the child element rather than wrapped.
+    #[prop(into, optional)]
+    as_child: MaybeProp<bool>,
+
+    /// A reference to the underlying DOM node.
+    #[prop(into, optional)]
+    node_ref: AnyNodeRef,
+) -> impl IntoView {
+    // See: https://github.com/twbs/bootstrap/blob/main/scss/mixins/_visually-hidden.scss
     view! {
-        <span style=style>
-            {children.map(|children| children())}
-        </span>
+        <Primitive
+            element=html::span
+            children=children
+            as_child=as_child
+            node_ref=node_ref
+
+            // visually hide this content but keep it available to assistive tech
+            style:position="absolute"
+            style:border="0px"
+            style:width="1px"
+            style:height="1px"
+            style:padding="0px"
+            style:margin="-1px"
+            style:overflow="hidden"
+            style:clip="rect(0, 0, 0, 0)"
+            style:white-space="nowrap"
+            style:word-wrap="normal"
+        />
     }
 }
 
-#[component]
-pub fn VisuallyHiddenAsChild<R, RV>(
-    #[prop(into, optional)] style: Style,
-    render: R,
-) -> impl IntoView
-where
-    R: Fn(UseVisuallyHiddenAttrs) -> RV,
-    RV: IntoView,
-{
-    let attrs = use_visually_hidden(UseVisuallyHiddenProps { style });
+/* -----------------------------------------------------------------------------------------------*/
 
-    render(attrs)
+pub mod primitive {
+    pub use super::*;
+    pub use VisuallyHidden as Root;
 }
