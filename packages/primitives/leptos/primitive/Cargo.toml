@@ -1,7 +1,6 @@
 [package]
-name = "radix-leptos-aspect-ratio"
-description = "Leptos port of Radix Aspect Ratio."
-homepage = "https://radix.rustforweb.org/primitives/components/aspect-ratio.html"
+name = "radix-leptos-primitive"
+description = "Leptos port of Radix Primitive."
 
 authors.workspace = true
 edition.workspace = true
@@ -12,4 +11,4 @@ version.workspace = true
 [dependencies]
 leptos.workspace = true
 leptos-node-ref.workspace = true
-radix-leptos-primitive.workspace = true
+leptos-typed-fallback-show.workspace = true
