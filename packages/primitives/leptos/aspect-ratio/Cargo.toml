@@ -11,4 +11,5 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-leptos-style.workspace = true
+leptos-node-ref.workspace = true
+radix-leptos-primitive.workspace = true
