@@ -123,4 +123,3 @@ yew-style = "0.1.4"
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
 yew-router = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
 leptos-node-ref = { git = "https://github.com/geoffreygarrett/leptos-utils", branch = "feature/any-node-ref" }
-radix-leptos-primitive = { git = "https://github.com/geoffreygarrett/radix", branch = "update/leptos-0.7-primitive" }
