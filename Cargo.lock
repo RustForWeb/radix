@@ -3016,6 +3016,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-compose-refs"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
 name = "radix-leptos-direction"
 version = "0.0.2"
 dependencies = [
