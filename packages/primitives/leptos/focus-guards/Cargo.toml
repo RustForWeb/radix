@@ -10,4 +10,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-web-sys.workspace = true
+web-sys = { workspace = true, features = ["Document", "NodeList"] }
