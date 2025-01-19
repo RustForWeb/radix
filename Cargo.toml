@@ -17,6 +17,7 @@ members = [
     "packages/primitives/leptos/arrow",
     "packages/primitives/leptos/aspect-ratio",
     "packages/primitives/leptos/direction",
+    "packages/primitives/leptos/focus-guards",
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
     "packages/primitives/leptos/use-controllable-state",
