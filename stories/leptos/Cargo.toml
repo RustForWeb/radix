@@ -30,7 +30,7 @@ radix-leptos-label = { path = "../../packages/primitives/leptos/label" }
 # ] }
 # radix-leptos-presence = { path = "../../packages/primitives/leptos/presence" }
 # radix-leptos-progress = { path = "../../packages/primitives/leptos/progress" }
-# radix-leptos-separator = { path = "../../packages/primitives/leptos/separator" }
+radix-leptos-separator = { path = "../../packages/primitives/leptos/separator" }
 # radix-leptos-switch = { path = "../../packages/primitives/leptos/switch" }
 # radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle" }
 radix-leptos-visually-hidden = { path = "../../packages/primitives/leptos/visually-hidden" }
