@@ -18,7 +18,7 @@ log.workspace = true
 radix-leptos-accessible-icon = { path = "../../packages/primitives/leptos/accessible-icon" }
 radix-leptos-arrow = { path = "../../packages/primitives/leptos/arrow" }
 radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio" }
-# radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
+ radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
 # radix-leptos-checkbox = { path = "../../packages/primitives/leptos/checkbox" }
 # radix-leptos-collection = { path = "../../packages/primitives/leptos/collection" }
 # radix-leptos-focus-scope = { path = "../../packages/primitives/leptos/focus-scope" }

@@ -4,7 +4,9 @@
     </a>
 </p>
 
-<h1 align="center">radix-leptos-avatar</h1>
+<h1 align="center">radix-leptos-context</h1>
+
+This is an internal utility, not intended for public usage.
 
 [Rust Radix](https://github.com/RustForWeb/radix) is a Rust port of [Radix](https://www.radix-ui.com/primitives).
 

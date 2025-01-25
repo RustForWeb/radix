@@ -4,7 +4,7 @@ use leptos_router::{
     path,
 };
 
-use crate::primitives::{accessible_icon, arrow, aspect_ratio, label, visually_hidden};
+use crate::primitives::{accessible_icon, arrow, avatar, aspect_ratio, label, visually_hidden};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -61,14 +61,14 @@ pub fn App() -> impl IntoView {
                             <li><NavLink href="/aspect-ratio/chromatic">Chromatic</NavLink></li>
                         </ul>
                     </li>
-                    // <li>
-                    //     Avatar
+                    <li>
+                        Avatar
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/avatar/styled">Styled</NavLink></li>
-                    //         <li><NavLink href="/avatar/chromatic">Chromatic</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/avatar/styled">Styled</NavLink></li>
+                            <li><NavLink href="/avatar/chromatic">Chromatic</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Checkbox
 
@@ -218,8 +218,8 @@ pub fn App() -> impl IntoView {
                     <Route path=path!("/aspect-ratio/custom-ratios") view=aspect_ratio::CustomRatios />
                     <Route path=path!("/aspect-ratio/chromatic") view=aspect_ratio::Chromatic />
 
-                    // <Route path="/avatar/styled" view=avatar::Styled />
-                    // <Route path="/avatar/chromatic" view=avatar::Chromatic />
+                    <Route path=path!("/avatar/styled") view=avatar::Styled />
+                    <Route path=path!("/avatar/chromatic") view=avatar::Chromatic />
 
                     // <Route path="/checkbox/styled" view=checkbox::Styled />
                     // <Route path="/checkbox/controlled" view=checkbox::Controlled />
