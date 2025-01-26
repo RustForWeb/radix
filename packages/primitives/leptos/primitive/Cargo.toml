@@ -1,0 +1,14 @@
+[package]
+name = "radix-leptos-primitive"
+description = "Leptos port of Radix Primitive."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+leptos-node-ref.workspace = true
+leptos-typed-fallback-show.workspace = true

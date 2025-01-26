@@ -6,6 +6,8 @@
 //!
 //! See [`@radix-ui/react-progress`](https://www.npmjs.com/package/@radix-ui/react-progress) for the original package.
 
+extern crate core;
+
 mod progress;
 
 pub use progress::*;

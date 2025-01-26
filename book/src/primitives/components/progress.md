@@ -16,7 +16,7 @@ files = ["src/progress.rs"]
 
 ## Features
 
--   Provides context for assistive technology to read the progress of a task.
+- Provides context for assistive technology to read the progress of a task.
 
 ## Installation
 
@@ -29,9 +29,9 @@ Install the component from your command line.
 cargo add radix-leptos-progress
 ```
 
--   [View on crates.io](https://crates.io/crates/radix-leptos-progress)
--   [View on docs.rs](https://docs.rs/radix-leptos-progress/latest/radix_leptos_progress/)
--   [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/progress)
+- [View on crates.io](https://crates.io/crates/radix-leptos-progress)
+- [View on docs.rs](https://docs.rs/radix-leptos-progress/latest/radix_leptos_progress/)
+- [View source](https://github.com/RustForWeb/radix/tree/main/packages/primitives/leptos/progress)
 
 {{#endtab }}
 {{#endtabs }}
@@ -45,14 +45,14 @@ Import all parts and piece them together.
 
 ```rust,ignore
 use leptos::*;
-use radix_leptos_progress::*;
+use radix_leptos_progress::primitive as Progress;
 
 #[component]
 fn Anatomy() -> impl IntoView {
     view! {
-        <Progress>
-            <ProgressIndicator />
-        </Progress>
+        <Progress::Root>
+            <Progress::Indicator />
+        </Progress::Root>
     }
 }
 ```
@@ -70,11 +70,11 @@ Contains all of the progress parts.
 {{#tab name="Leptos" }}
 
 | Prop              | Type                                   | Default |
-| ----------------- | -------------------------------------- | ------- |
+|-------------------|----------------------------------------|---------|
 | `as_child`        | `MaybeProp<bool>`                      | `false` |
-| `value`           | `MaybeProp<f64>`                       | -       |
+| `value`           | `MaybeProp<f64>`                       | –       |
 | `max`             | `MaybeProp<f64>`                       | `100.0` |
-| `get_value_label` | `Option<Callback<(f64, f64), String>>` | -       |
+| `get_value_label` | `Option<Callback<(f64, f64), String>>` | –       |
 
 {{#endtab }}
 {{#endtabs }}
@@ -82,7 +82,7 @@ Contains all of the progress parts.
 <div style="height: 1em;"></div>
 
 | Data attribute | Values                                       |
-| -------------- | -------------------------------------------- |
+|----------------|----------------------------------------------|
 | `[data-state]` | `"complete" \| "indeterminate" \| "loading"` |
 | `[data-value]` | The current value                            |
 | `[data-max]`   | The max value                                |
@@ -95,7 +95,7 @@ Used to show the progress visually. It also makes progress accessible to assisti
 {{#tab name="Leptos" }}
 
 | Prop       | Type              | Default |
-| ---------- | ----------------- | ------- |
+|------------|-------------------|---------|
 | `as_child` | `MaybeProp<bool>` | `false` |
 
 {{#endtab }}
@@ -104,15 +104,15 @@ Used to show the progress visually. It also makes progress accessible to assisti
 <div style="height: 1em;"></div>
 
 | Data attribute | Values                                       |
-| -------------- | -------------------------------------------- |
+|----------------|----------------------------------------------|
 | `[data-state]` | `"complete" \| "indeterminate" \| "loading"` |
 | `[data-value]` | The current value                            |
 | `[data-max]`   | The max value                                |
 
 ## Accessibility
 
-Adheres to the [`progressbar` role requirements](https://www.w3.org/WAI/ARIA/apg/patterns/meter/).
+Adheres to the [`progressbar` role requirements](https://www.w3.org/WAI/ARIA/apg/patterns/meter).
 
 ## See Also
 
--   [Radix documentation](https://www.radix-ui.com/primitives/docs/components/progress)
+- [Radix documentation](https://www.radix-ui.com/primitives/docs/components/progress)

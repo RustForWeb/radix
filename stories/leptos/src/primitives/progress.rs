@@ -1,5 +1,5 @@
-use leptos::*;
-use radix_leptos_progress::*;
+use leptos::prelude::*;
+use radix_leptos_progress::primitive as Progress;
 use tailwind_fuse::*;
 
 #[component]
@@ -7,18 +7,23 @@ pub fn Styled() -> impl IntoView {
     let root_class = Memo::new(move |_| RootClass::default().to_class());
     let indicator_class = Memo::new(move |_| IndicatorClass::default().to_class());
 
-    let (max, _) = create_signal(150.0);
+    let (max, _) = signal(150.0);
     let (value, percentage, set_value) = use_progress_value_state(Some(0.0), max);
     let toggle_indeterminate = use_indeterminate_toggle(value, set_value);
 
     view! {
         <div>
-            <Progress attr:class=root_class value=value max=max>
-                <ProgressIndicator attr:class=indicator_class attr:style=move || percentage.get().map(|percentage| format!("width: {}%", percentage)) />
-            </Progress>
+            <Progress::Root attr:class=root_class value=value max=max>
+                <Progress::Indicator
+                    attr:class=indicator_class
+                    attr:style=move || {
+                        percentage.get().map(|percentage| format!("width: {}%", percentage))
+                    }
+                />
+            </Progress::Root>
             <hr />
-            <button on:click=move |_| toggle_indeterminate.call(())>Toggle Indeterminate</button>
-            <ProgressRange value=value set_value=move |val| set_value.set(Some(val)) max=max />
+            <button on:click=move |_| toggle_indeterminate.run(())>Toggle Indeterminate</button>
+            <ProgressRange value=value set_value=Callback::new(move |val| set_value.set(Some(val))) max=max />
         </div>
     }
 }
@@ -33,40 +38,40 @@ pub fn Chromatic() -> impl IntoView {
 
     view! {
         <h1>Loading (not started)</h1>
-        <Progress attr:class=root_class value=0.0>
-            <ProgressIndicator attr:class=chromatic_indicator_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_class value=0.0>
+            <Progress::Indicator attr:class=chromatic_indicator_class>/</Progress::Indicator>
+        </Progress::Root>
 
         <h1>Loading (started)</h1>
-        <Progress attr:class=root_class value=30.0>
-            <ProgressIndicator attr:class=chromatic_indicator_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_class value=30.0>
+            <Progress::Indicator attr:class=chromatic_indicator_class>/</Progress::Indicator>
+        </Progress::Root>
 
         <h1>Indeterminate</h1>
-        <Progress attr:class=root_class>
-            <ProgressIndicator attr:class=chromatic_indicator_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_class>
+            <Progress::Indicator attr:class=chromatic_indicator_class>/</Progress::Indicator>
+        </Progress::Root>
 
         <h1>Complete</h1>
-        <Progress attr:class=root_class value=100.0>
-            <ProgressIndicator attr:class=chromatic_indicator_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_class value=100.0>
+            <Progress::Indicator attr:class=chromatic_indicator_class>/</Progress::Indicator>
+        </Progress::Root>
 
         <h1>State attributes</h1>
         <h2>Loading (started)</h2>
-        <Progress attr:class=root_attr_class value=30.0>
-            <ProgressIndicator attr:class=indicator_attr_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_attr_class value=30.0>
+            <Progress::Indicator attr:class=indicator_attr_class>/</Progress::Indicator>
+        </Progress::Root>
 
         <h2>Indeterminate</h2>
-        <Progress attr:class=root_attr_class>
-            <ProgressIndicator attr:class=indicator_attr_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_attr_class>
+            <Progress::Indicator attr:class=indicator_attr_class>/</Progress::Indicator>
+        </Progress::Root>
 
         <h2>Complete</h2>
-        <Progress attr:class=root_attr_class value=100.0>
-            <ProgressIndicator attr:class=indicator_attr_class>/</ProgressIndicator>
-        </Progress>
+        <Progress::Root attr:class=root_attr_class value=100.0>
+            <Progress::Indicator attr:class=indicator_attr_class>/</Progress::Indicator>
+        </Progress::Root>
     }
 }
 
@@ -81,13 +86,13 @@ pub fn ProgressRange(
     view! {
         <input
             type="range"
-            disabled={move || value.get().is_none()}
-            value={move || value.get().unwrap_or(previous_value.get())}
+            disabled=move || value.get().is_none()
+            value=move || value.get().unwrap_or(previous_value.get())
             max=max
             min="0"
             on:input=move |event| {
                 if let Ok(val) = event_target_value(&event).parse::<f64>() {
-                    set_value.call(val);
+                    set_value.run(val);
                 }
             }
         />
@@ -132,7 +137,7 @@ fn use_progress_value_state(
     initial_state: Option<f64>,
     max: ReadSignal<f64>,
 ) -> UsePreviousValueReturn {
-    let (value, set_value) = create_signal(initial_state);
+    let (value, set_value) = signal(initial_state);
     let percentage = Signal::derive(move || {
         value
             .get()
@@ -158,7 +163,7 @@ fn use_indeterminate_toggle(
 }
 
 fn use_previous_value(value: ReadSignal<Option<f64>>) -> ReadSignal<f64> {
-    let (previous, set_previous) = create_signal(value.get_untracked().unwrap_or(0.0));
+    let (previous, set_previous) = signal(value.get_untracked().unwrap_or(0.0));
 
     Effect::new(move |_| {
         if let Some(value) = value.get() {
