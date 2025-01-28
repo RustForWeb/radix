@@ -3048,6 +3048,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-focus-guards"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "web-sys",
+]
+
+[[package]]
 name = "radix-leptos-icons"
 version = "0.0.2"
 dependencies = [

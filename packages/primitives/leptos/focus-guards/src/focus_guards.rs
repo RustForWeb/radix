@@ -1,6 +1,6 @@
 use std::sync::atomic::{AtomicU64, Ordering};
 
-use leptos::*;
+use leptos::prelude::*;
 use web_sys::{wasm_bindgen::JsCast, Element, HtmlElement};
 
 static COUNT: AtomicU64 = AtomicU64::new(0);
@@ -9,7 +9,9 @@ static COUNT: AtomicU64 = AtomicU64::new(0);
 pub fn FocusGuards(children: ChildrenFn) -> impl IntoView {
     use_focus_guards();
 
-    children
+    view! {
+        {children()}
+    }
 }
 
 pub fn use_focus_guards() {
