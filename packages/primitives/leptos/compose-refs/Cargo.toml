@@ -10,3 +10,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
+leptos-node-ref.workspace = true
