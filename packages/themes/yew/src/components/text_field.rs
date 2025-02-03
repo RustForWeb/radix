@@ -202,9 +202,11 @@ pub fn TextField(props: &TextFieldProps) -> Html {
                         .rt-TextFieldSlot:not([data-side='right']) ~ .rt-TextFieldSlot:not([data-side='left'])\
                     ").ok().flatten().is_some();
 
-                let cursor_position = is_right_slot
-                    .then(|| input.value().len() as u32)
-                    .unwrap_or(0);
+                let cursor_position = if is_right_slot {
+                    input.value().len() as u32
+                } else {
+                    0
+                };
 
                 let closure = Closure::new(move || {
                     // Only some input types support this, browsers will throw an error if not supported.
