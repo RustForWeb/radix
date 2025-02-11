@@ -1069,7 +1069,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33d852cb9b869c2a9b3df2f71a3074817f01e1844f839a144f5fcef059a4eb5d"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2216,9 +2216,9 @@ dependencies = [
 
 [[package]]
 name = "leptos-node-ref"
-version = "0.0.3"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0497a30ec51e76bdbf9542d29b65399c70d88c0397bc38551d8eff0385847bfc"
+checksum = "7e47d5ede19fa2fd036c032542b53683fa55140512e5d5d91af3fa3f578a1a6d"
 dependencies = [
  "leptos",
  "send_wrapper",
@@ -2226,11 +2226,20 @@ dependencies = [
 
 [[package]]
 name = "leptos-style"
-version = "0.0.3"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50860556542aa8466b849e628192d5f99035481ee62ddd09667ee4409eb59128"
+checksum = "a8e30510c7ebb1bf6d28167cd4ac83221f3eaa09077e280c172b56464fd0d38f"
 dependencies = [
  "indexmap",
+ "leptos",
+]
+
+[[package]]
+name = "leptos-typed-fallback-show"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "621509b63a15fe1470d65a8b4c326ca470c9d3043fa515d7ab3b3e9b5223a9f7"
+dependencies = [
  "leptos",
 ]
 
@@ -3097,6 +3106,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-primitive"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-node-ref",
+ "leptos-typed-fallback-show",
+]
+
+[[package]]
 name = "radix-leptos-stories"
 version = "0.0.2"
 dependencies = [
@@ -3726,7 +3744,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -4365,7 +4383,7 @@ dependencies = [
  "getrandom 0.3.1",
  "once_cell",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -4985,7 +5003,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
