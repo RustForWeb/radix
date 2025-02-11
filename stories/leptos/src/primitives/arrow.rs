@@ -20,16 +20,14 @@ pub fn CustomSizes() -> impl IntoView {
 #[component]
 pub fn CustomArrow() -> impl IntoView {
     view! {
-        <ArrowAsChild
-            render=|_| view!{
-                <div
-                    style:width="20px"
-                    style:height="10px"
-                    style:border-bottom-left-radius="10px"
-                    style:border-bottom-right-radius="10px"
-                    style:background-color="tomato"
-                />
-            }
-        />
+        <Arrow as_child=true>
+            <div
+                style:width="20px"
+                style:height="10px"
+                style:border-bottom-left-radius="10px"
+                style:border-bottom-right-radius="10px"
+                style:background-color="tomato"
+            />
+        </Arrow>
     }
 }
