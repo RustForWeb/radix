@@ -1,7 +1,7 @@
 use radix_yew_primitive::compose_callbacks;
-use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
+use radix_yew_use_controllable_state::{UseControllableStateParams, use_controllable_state};
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 use crate::{

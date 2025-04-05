@@ -1,9 +1,9 @@
 use web_sys::{
-    wasm_bindgen::{prelude::Closure, JsCast},
+    wasm_bindgen::{JsCast, prelude::Closure},
     window,
 };
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 use crate::{

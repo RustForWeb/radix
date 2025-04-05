@@ -1,8 +1,8 @@
 use std::fmt::{self, Display};
 
 use crate::props::prop_def::{
-    prop_optional_responsive_enum, prop_optional_responsive_number_enum_or_string,
-    prop_optional_responsive_string, StringValue,
+    StringValue, prop_optional_responsive_enum, prop_optional_responsive_number_enum_or_string,
+    prop_optional_responsive_string,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

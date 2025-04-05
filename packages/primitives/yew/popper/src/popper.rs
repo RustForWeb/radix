@@ -1,17 +1,17 @@
 use floating_ui_yew::{
-    use_auto_update_with_options, use_floating, Alignment, ApplyState, Arrow, ArrowData,
-    ArrowOptions, AutoUpdateOptions, Boundary, DetectOverflowOptions, Flip, FlipOptions, Hide,
-    HideData, HideOptions, HideStrategy, LimitShift, LimitShiftOptions, Middleware,
-    MiddlewareReturn, MiddlewareState, MiddlewareVec, Offset, OffsetOptions, OffsetOptionsValues,
-    Padding, Placement, Shift, ShiftOptions, Side, Size, SizeOptions, Strategy, UseFloatingOptions,
-    UseFloatingReturn, ARROW_NAME, HIDE_NAME,
+    ARROW_NAME, Alignment, ApplyState, Arrow, ArrowData, ArrowOptions, AutoUpdateOptions, Boundary,
+    DetectOverflowOptions, Flip, FlipOptions, HIDE_NAME, Hide, HideData, HideOptions, HideStrategy,
+    LimitShift, LimitShiftOptions, Middleware, MiddlewareReturn, MiddlewareState, MiddlewareVec,
+    Offset, OffsetOptions, OffsetOptionsValues, Padding, Placement, Shift, ShiftOptions, Side,
+    Size, SizeOptions, Strategy, UseFloatingOptions, UseFloatingReturn,
+    use_auto_update_with_options, use_floating,
 };
 use radix_yew_arrow::{Arrow as ArrowPrimitive, ArrowChildProps, SetArrowChildProps};
 use radix_yew_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use web_sys::{wasm_bindgen::JsCast, window};
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

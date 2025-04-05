@@ -1,11 +1,12 @@
 use std::{cell::RefCell, rc::Rc};
 
 use web_sys::{
-    wasm_bindgen::{prelude::Closure, JsCast, JsValue},
-    window, AddEventListenerOptions, CustomEvent, CustomEventInit,
+    AddEventListenerOptions, CustomEvent, CustomEventInit,
+    wasm_bindgen::{JsCast, JsValue, prelude::Closure},
+    window,
 };
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 #[expect(unused)]

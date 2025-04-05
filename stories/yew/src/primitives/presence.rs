@@ -3,7 +3,7 @@ use std::rc::Rc;
 use radix_yew_presence::*;
 use tailwind_fuse::*;
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
+    wasm_bindgen::{JsCast, closure::Closure},
     window,
 };
 use yew::prelude::*;

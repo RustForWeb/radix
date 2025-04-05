@@ -1,12 +1,12 @@
 use std::rc::Rc;
 
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
+    wasm_bindgen::{JsCast, closure::Closure},
     window,
 };
 use yew::prelude::*;
 
-use crate::use_state_machine::{use_state_machine, MachineState};
+use crate::use_state_machine::{MachineState, use_state_machine};
 
 #[derive(PartialEq, Properties)]
 pub struct PresenceProps {

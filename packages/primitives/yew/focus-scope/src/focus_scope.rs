@@ -1,18 +1,18 @@
 use std::ops::Deref;
 use std::rc::Rc;
-use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Mutex;
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::{cell::RefCell, sync::Arc};
 
 use once_cell::sync::Lazy;
 use web_sys::window;
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
     CustomEvent, CustomEventInit, Event, FocusEvent, KeyboardEvent, MutationObserver,
     MutationObserverInit, MutationRecord, NodeFilter,
+    wasm_bindgen::{JsCast, closure::Closure},
 };
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";

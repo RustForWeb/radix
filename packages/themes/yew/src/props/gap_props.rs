@@ -1,6 +1,6 @@
 use std::fmt::{self, Display};
 
-use crate::props::prop_def::{prop_optional_responsive_number_enum_or_string, StringValue};
+use crate::props::prop_def::{StringValue, prop_optional_responsive_number_enum_or_string};
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub enum Gap {

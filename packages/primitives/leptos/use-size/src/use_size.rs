@@ -4,9 +4,9 @@ use leptos::prelude::*;
 use leptos_node_ref::AnyNodeRef;
 use send_wrapper::SendWrapper;
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
     ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry, ResizeObserverOptions,
     ResizeObserverSize,
+    wasm_bindgen::{JsCast, closure::Closure},
 };
 
 #[derive(Clone, Debug)]

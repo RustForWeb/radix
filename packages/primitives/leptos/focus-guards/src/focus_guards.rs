@@ -1,7 +1,7 @@
 use std::sync::atomic::{AtomicU64, Ordering};
 
 use leptos::prelude::*;
-use web_sys::{wasm_bindgen::JsCast, Element, HtmlElement};
+use web_sys::{Element, HtmlElement, wasm_bindgen::JsCast};
 
 static COUNT: AtomicU64 = AtomicU64::new(0);
 

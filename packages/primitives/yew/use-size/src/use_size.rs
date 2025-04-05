@@ -1,7 +1,7 @@
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
     ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry, ResizeObserverOptions,
     ResizeObserverSize,
+    wasm_bindgen::{JsCast, closure::Closure},
 };
 use yew::prelude::*;
 

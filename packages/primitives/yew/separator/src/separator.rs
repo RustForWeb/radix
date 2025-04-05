@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]

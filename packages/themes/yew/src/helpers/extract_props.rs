@@ -1,4 +1,4 @@
-use yew::{prelude::classes, Classes};
+use yew::{Classes, prelude::classes};
 use yew_style::Style;
 
 use crate::{
