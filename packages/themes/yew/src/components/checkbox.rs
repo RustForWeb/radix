@@ -3,7 +3,7 @@ use radix_yew_checkbox::{
     Checkbox as CheckboxPrimitive, CheckboxIndicator as CheckboxIndicatorPrimitive,
     CheckboxIndicatorChildProps as CheckboxIndicatorPrimitiveChildProps,
 };
-use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
+use radix_yew_use_controllable_state::{UseControllableStateParams, use_controllable_state};
 use yew::prelude::*;
 use yew_struct_component::Attributes;
 use yew_style::Style;

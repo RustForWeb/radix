@@ -11,14 +11,14 @@ use radix_yew_select::{
     SelectViewportChildProps,
 };
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 use crate::{
     components::{
         icons::{ChevronDownIcon, ThickCheckIcon},
         select_props::{SelectContentVariantProp, SelectSizeProp, SelectTriggerVariantProp},
-        theme::{use_theme_context, Theme, ThemeChildProps},
+        theme::{Theme, ThemeChildProps, use_theme_context},
     },
     helpers::extract_props::extract_props,
     props::{

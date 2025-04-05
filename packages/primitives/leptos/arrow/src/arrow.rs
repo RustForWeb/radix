@@ -1,5 +1,5 @@
 use leptos::{
-    attr::{custom::custom_attribute, NextAttribute},
+    attr::{NextAttribute, custom::custom_attribute},
     prelude::*,
     svg,
 };

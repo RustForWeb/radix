@@ -2,7 +2,7 @@ use std::fmt::{self, Display};
 
 use yew::html::IntoPropValue;
 
-use crate::props::prop_def::{prop_optional_enum, PropDef, PropDefType, PropValue, StringValue};
+use crate::props::prop_def::{PropDef, PropDefType, PropValue, StringValue, prop_optional_enum};
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub enum AccentColor {

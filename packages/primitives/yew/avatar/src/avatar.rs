@@ -1,11 +1,12 @@
 use std::rc::Rc;
 
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
-    window, HtmlImageElement,
+    HtmlImageElement,
+    wasm_bindgen::{JsCast, closure::Closure},
+    window,
 };
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

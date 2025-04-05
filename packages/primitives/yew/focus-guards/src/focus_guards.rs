@@ -1,6 +1,6 @@
 use std::sync::atomic::{AtomicU64, Ordering};
 
-use web_sys::{wasm_bindgen::JsCast, window, Element, HtmlElement};
+use web_sys::{Element, HtmlElement, wasm_bindgen::JsCast, window};
 use yew::prelude::*;
 
 static COUNT: AtomicU64 = AtomicU64::new(0);

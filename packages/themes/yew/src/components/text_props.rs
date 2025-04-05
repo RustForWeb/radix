@@ -4,7 +4,7 @@ use yew::html::IntoPropValue;
 
 use crate::{
     components::callout_props::{CalloutSize, CalloutSizeProp},
-    props::prop_def::{prop_enum, prop_optional_responsive_number_enum, Responsive},
+    props::prop_def::{Responsive, prop_enum, prop_optional_responsive_number_enum},
 };
 
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]

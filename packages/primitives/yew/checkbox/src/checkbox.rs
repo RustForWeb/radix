@@ -5,12 +5,12 @@ use std::{
 
 use radix_yew_presence::{Presence, PresenceChildProps};
 use radix_yew_primitive::compose_callbacks;
-use radix_yew_use_controllable_state::{use_controllable_state, UseControllableStateParams};
+use radix_yew_use_controllable_state::{UseControllableStateParams, use_controllable_state};
 use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
-use web_sys::wasm_bindgen::{closure::Closure, JsCast};
+use web_sys::wasm_bindgen::{JsCast, closure::Closure};
 use yew::prelude::*;
-use yew_struct_component::{struct_component, Attributes, StructComponent};
+use yew_struct_component::{Attributes, StructComponent, struct_component};
 use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

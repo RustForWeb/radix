@@ -4,7 +4,7 @@ use yew::html::IntoPropValue;
 
 use crate::{
     components::base_button_props::{BaseButtonSize, BaseButtonSizeProp},
-    props::prop_def::{prop_bool, prop_responsive_number_enum, Responsive},
+    props::prop_def::{Responsive, prop_bool, prop_responsive_number_enum},
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

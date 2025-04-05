@@ -5,7 +5,7 @@ use leptos::{
     tachys::html::node_ref::NodeRefContainer,
     wasm_bindgen::JsCast,
 };
-use leptos_node_ref::{any_node_ref, AnyNodeRef};
+use leptos_node_ref::{AnyNodeRef, any_node_ref};
 use leptos_typed_fallback_show::TypedFallbackShow;
 
 #[component]

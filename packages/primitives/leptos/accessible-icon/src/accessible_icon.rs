@@ -1,8 +1,7 @@
 use leptos::{
     attr::{
-        aria_hidden,
-        custom::{custom_attribute, CustomAttr},
-        AriaHidden, Attr, NextAttribute,
+        AriaHidden, Attr, NextAttribute, aria_hidden,
+        custom::{CustomAttr, custom_attribute},
     },
     prelude::*,
 };

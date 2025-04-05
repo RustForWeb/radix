@@ -3,8 +3,8 @@ use std::sync::Arc;
 use leptos::{ev::KeyboardEvent, prelude::*};
 use send_wrapper::SendWrapper;
 use web_sys::{
-    wasm_bindgen::{closure::Closure, JsCast},
     AddEventListenerOptions, Document, EventListenerOptions,
+    wasm_bindgen::{JsCast, closure::Closure},
 };
 
 /// Listens for when the escape key is down.

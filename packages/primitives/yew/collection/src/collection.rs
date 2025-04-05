@@ -188,5 +188,6 @@ where
         },
     );
 
+    #[expect(clippy::let_and_return)]
     get_items
 }
