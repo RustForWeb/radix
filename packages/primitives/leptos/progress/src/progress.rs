@@ -112,7 +112,7 @@ pub fn Progress(
     });
 
     // Add a reactive effect for warning checks
-    #[debug_assertions]
+    #[cfg(debug_assertions)]
     Effect::new(move |_| {
         let current_max = max_signal.get();
         if current_max <= 0.0 {
