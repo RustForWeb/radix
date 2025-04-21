@@ -9,7 +9,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-floating-ui-yew = "0.2.0"
+floating-ui-yew = "0.3.0"
 radix-yew-arrow = { path = "../arrow", version = "0.0.2" }
 radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
 radix-yew-use-size = { path = "../use-size", version = "0.0.2" }
