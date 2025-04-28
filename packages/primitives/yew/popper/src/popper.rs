@@ -344,13 +344,13 @@ where
                         content_style
                             .set_property(
                                 "--radix-popper-available-width",
-                                &format!("{}px", available_width),
+                                &format!("{available_width}px"),
                             )
                             .expect("Style should be updated.");
                         content_style
                             .set_property(
                                 "--radix-popper-available-height",
-                                &format!("{}px", available_height),
+                                &format!("{available_height}px"),
                             )
                             .expect("Style should be updated.");
                         content_style
@@ -468,8 +468,8 @@ where
 
         // Global attributes
         class: props.class.clone(),
-        data_align: format!("{:?}", placed_align).to_lowercase(),
-        data_side: format!("{:?}", placed_side).to_lowercase(),
+        data_align: format!("{placed_align:?}").to_lowercase(),
+        data_side: format!("{placed_side:?}").to_lowercase(),
         id: props.id.clone(),
         role: props.role.clone(),
         style: props.style.clone().with_defaults([
@@ -749,7 +749,7 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
             Side::Top => (
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_x_center),
+                    false => format!("{arrow_x_center}px"),
                 },
                 format!("{}px", rects.floating.height + arrow_height),
             ),
@@ -757,13 +757,13 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
                 format!("{}px", -arrow_height),
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_y_center),
+                    false => format!("{arrow_y_center}px"),
                 },
             ),
             Side::Bottom => (
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_x_center),
+                    false => format!("{arrow_x_center}px"),
                 },
                 format!("{}px", -arrow_height),
             ),
@@ -771,7 +771,7 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
                 format!("{}px", rects.floating.width + arrow_height),
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_y_center),
+                    false => format!("{arrow_y_center}px"),
                 },
             ),
         };

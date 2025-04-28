@@ -16,10 +16,7 @@ impl TryFrom<u8> for KbdSize {
 
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=9).contains(&value) {
-            Err(format!(
-                "Kbd size must be between 1 and 9, but is {}.",
-                value
-            ))
+            Err(format!("Kbd size must be between 1 and 9, but is {value}."))
         } else {
             Ok(Self(value))
         }

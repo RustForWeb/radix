@@ -41,8 +41,8 @@ pub enum PositionEdge {
 impl Display for PositionEdge {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            PositionEdge::Defined(value) => write!(f, "{}", value),
-            PositionEdge::Arbitrary(value) => write!(f, "{}", value),
+            PositionEdge::Defined(value) => write!(f, "{value}"),
+            PositionEdge::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -53,8 +53,7 @@ impl TryFrom<i8> for PositionEdge {
     fn try_from(value: i8) -> Result<Self, Self::Error> {
         if !(-9..=9).contains(&value) {
             Err(format!(
-                "Position edge must be between -9 and 9, but is {}.",
-                value
+                "Position edge must be between -9 and 9, but is {value}."
             ))
         } else {
             Ok(Self::Defined(value))
@@ -159,8 +158,8 @@ pub enum FlexShrink {
 impl Display for FlexShrink {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            FlexShrink::Defined(value) => write!(f, "{}", value),
-            FlexShrink::Arbitrary(value) => write!(f, "{}", value),
+            FlexShrink::Defined(value) => write!(f, "{value}"),
+            FlexShrink::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -170,7 +169,7 @@ impl TryFrom<u8> for FlexShrink {
 
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(0..=1).contains(&value) {
-            Err(format!("Flex shrink must be 0 or 1, but is {}.", value))
+            Err(format!("Flex shrink must be 0 or 1, but is {value}."))
         } else {
             Ok(Self::Defined(value))
         }
@@ -215,8 +214,8 @@ pub enum FlexGrow {
 impl Display for FlexGrow {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            FlexGrow::Defined(value) => write!(f, "{}", value),
-            FlexGrow::Arbitrary(value) => write!(f, "{}", value),
+            FlexGrow::Defined(value) => write!(f, "{value}"),
+            FlexGrow::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -226,7 +225,7 @@ impl TryFrom<u8> for FlexGrow {
 
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(0..=1).contains(&value) {
-            Err(format!("Flex grow must be 0 or 1, but is {}.", value))
+            Err(format!("Flex grow must be 0 or 1, but is {value}."))
         } else {
             Ok(Self::Defined(value))
         }

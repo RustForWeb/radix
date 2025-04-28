@@ -36,7 +36,7 @@ pub fn Styled() -> Html {
                     class={(*image_class).clone()}
                     alt="John Smith"
                     src={SRC_BROKEN}
-                    on_loading_status_change={move |status| log::info!("{:?}", status)}
+                    on_loading_status_change={move |status| log::info!("{status:?}")}
                 />
                 <AvatarFallback class={(*fallback_class).clone()}>
                     <AvatarIcon />

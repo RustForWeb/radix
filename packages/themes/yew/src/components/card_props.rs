@@ -23,8 +23,7 @@ impl TryFrom<u8> for CardSize {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=5).contains(&value) {
             Err(format!(
-                "Card size must be between 1 and 5, but is {}.",
-                value
+                "Card size must be between 1 and 5, but is {value}."
             ))
         } else {
             Ok(Self(value))

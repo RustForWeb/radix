@@ -11,8 +11,8 @@ pub enum Padding {
 impl Display for Padding {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Padding::Defined(value) => write!(f, "{}", value),
-            Padding::Arbitrary(value) => write!(f, "{}", value),
+            Padding::Defined(value) => write!(f, "{value}"),
+            Padding::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -22,10 +22,7 @@ impl TryFrom<i8> for Padding {
 
     fn try_from(value: i8) -> Result<Self, Self::Error> {
         if !(-9..=9).contains(&value) {
-            Err(format!(
-                "Padding must be between -9 and 9, but is {}.",
-                value
-            ))
+            Err(format!("Padding must be between -9 and 9, but is {value}."))
         } else {
             Ok(Self::Defined(value))
         }

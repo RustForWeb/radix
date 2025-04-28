@@ -65,8 +65,8 @@ pub enum GridColumns {
 impl Display for GridColumns {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            GridColumns::Defined(value) => write!(f, "{}", value),
-            GridColumns::Arbitrary(value) => write!(f, "{}", value),
+            GridColumns::Defined(value) => write!(f, "{value}"),
+            GridColumns::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -77,8 +77,7 @@ impl TryFrom<u8> for GridColumns {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=9).contains(&value) {
             Err(format!(
-                "Grid columns must be between 1 and 9, but is {}.",
-                value
+                "Grid columns must be between 1 and 9, but is {value}."
             ))
         } else {
             Ok(Self::Defined(value))
@@ -130,8 +129,8 @@ pub enum GridRows {
 impl Display for GridRows {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            GridRows::Defined(value) => write!(f, "{}", value),
-            GridRows::Arbitrary(value) => write!(f, "{}", value),
+            GridRows::Defined(value) => write!(f, "{value}"),
+            GridRows::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -142,8 +141,7 @@ impl TryFrom<u8> for GridRows {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=9).contains(&value) {
             Err(format!(
-                "Grid rows must be between 1 and 9, but is {}.",
-                value
+                "Grid rows must be between 1 and 9, but is {value}."
             ))
         } else {
             Ok(Self::Defined(value))
