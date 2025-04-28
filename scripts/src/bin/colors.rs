@@ -79,22 +79,19 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
         let output_modules = modules
             .iter()
-            .map(|module| format!("mod {};", module))
+            .map(|module| format!("mod {module};"))
             .collect::<Vec<String>>()
             .join("\n");
 
         let output_uses = modules
             .iter()
-            .map(|module| format!("pub use {}::*;", module))
+            .map(|module| format!("pub use {module}::*;"))
             .collect::<Vec<String>>()
             .join("\n");
 
         let output_statements = statements.join("\n\n");
 
-        let output = format!(
-            "{}\n\n{}\n{}\n",
-            output_modules, output_uses, output_statements
-        );
+        let output = format!("{output_modules}\n\n{output_uses}\n{output_statements}\n");
 
         fs::write(output_path, output)?;
     }

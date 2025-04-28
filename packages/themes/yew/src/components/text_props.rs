@@ -58,8 +58,7 @@ impl TryFrom<u8> for TextSize {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=9).contains(&value) {
             Err(format!(
-                "Text size must be between 1 and 9, but is {}.",
-                value
+                "Text size must be between 1 and 9, but is {value}."
             ))
         } else {
             Ok(Self(value))

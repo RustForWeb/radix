@@ -40,7 +40,7 @@ pub fn UseNodeRef() -> Element {
 
     use_effect(move || {
         if let Some(element) = node_ref.web_element() {
-            log::info!("mounted {:?}", element);
+            log::info!("mounted {element:?}");
         }
     });
 

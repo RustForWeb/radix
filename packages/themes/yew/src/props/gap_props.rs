@@ -11,8 +11,8 @@ pub enum Gap {
 impl Display for Gap {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Gap::Defined(value) => write!(f, "{}", value),
-            Gap::Arbitrary(value) => write!(f, "{}", value),
+            Gap::Defined(value) => write!(f, "{value}"),
+            Gap::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -22,7 +22,7 @@ impl TryFrom<u8> for Gap {
 
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(0..=9).contains(&value) {
-            Err(format!("Gap must be between 0 and 9, but is {}.", value))
+            Err(format!("Gap must be between 0 and 9, but is {value}."))
         } else {
             Ok(Self::Defined(value))
         }

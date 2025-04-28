@@ -23,8 +23,7 @@ impl TryFrom<u8> for CalloutSize {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=3).contains(&value) {
             Err(format!(
-                "Callout size must be between 1 and 3, but is {}.",
-                value
+                "Callout size must be between 1 and 3, but is {value}."
             ))
         } else {
             Ok(Self(value))

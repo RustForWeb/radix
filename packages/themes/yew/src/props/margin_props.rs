@@ -11,8 +11,8 @@ pub enum Margin {
 impl Display for Margin {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Margin::Defined(value) => write!(f, "{}", value),
-            Margin::Arbitrary(value) => write!(f, "{}", value),
+            Margin::Defined(value) => write!(f, "{value}"),
+            Margin::Arbitrary(value) => write!(f, "{value}"),
         }
     }
 }
@@ -22,10 +22,7 @@ impl TryFrom<i8> for Margin {
 
     fn try_from(value: i8) -> Result<Self, Self::Error> {
         if !(-9..=9).contains(&value) {
-            Err(format!(
-                "Margin must be between -9 and 9, but is {}.",
-                value
-            ))
+            Err(format!("Margin must be between -9 and 9, but is {value}."))
         } else {
             Ok(Self::Defined(value))
         }

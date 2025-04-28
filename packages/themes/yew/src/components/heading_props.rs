@@ -53,8 +53,7 @@ impl TryFrom<u8> for HeadingSize {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=9).contains(&value) {
             Err(format!(
-                "Heading size must be between 1 and 9, but is {}.",
-                value
+                "Heading size must be between 1 and 9, but is {value}."
             ))
         } else {
             Ok(Self(value))

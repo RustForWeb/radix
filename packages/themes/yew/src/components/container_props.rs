@@ -23,8 +23,7 @@ impl TryFrom<u8> for ContainerSize {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         if !(1..=4).contains(&value) {
             Err(format!(
-                "Container size must be between 1 and 4, but is {}.",
-                value
+                "Container size must be between 1 and 4, but is {value}."
             ))
         } else {
             Ok(Self(value))
