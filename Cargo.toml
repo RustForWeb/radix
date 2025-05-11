@@ -54,6 +54,58 @@ leptos-node-ref = "0.2.0"
 leptos-style = "0.2.0"
 leptos-typed-fallback-show = "0.2.0"
 log = "0.4.22"
+radix-dioxus-icons = { path = "./packages/icons/dioxus", version = "0.0.2" }
+radix-leptos-accessible-icon = { path = "./packages/primitives/leptos/accessible-icon", version = "0.0.2" }
+radix-leptos-arrow = { path = "./packages/primitives/leptos/arrow", version = "0.0.2" }
+radix-leptos-aspect-ratio = { path = "./packages/primitives/leptos/aspect-ratio", version = "0.0.2" }
+# radix-leptos-collection = { path = "./packages/primitives/leptos/collection", version = "0.0.2" }
+radix-leptos-compose-refs = { path = "./packages/primitives/leptos/compose-refs", version = "0.0.2" }
+# radix-leptos-dismissable-layer = { path = "./packages/primitives/leptos/dismissable-layer", version = "0.0.2" }
+radix-leptos-direction = { path = "./packages/primitives/leptos/direction", version = "0.0.2" }
+radix-leptos-focus-guards = { path = "./packages/primitives/leptos/focus-guards", version = "0.0.2" }
+# radix-leptos-focus-scope = { path = "./packages/primitives/leptos/focus-scope", version = "0.0.2" }
+radix-leptos-icons = { path = "./packages/icons/leptos", version = "0.0.2" }
+radix-leptos-id = { path = "./packages/primitives/leptos/id", version = "0.0.2" }
+radix-leptos-label = { path = "./packages/primitives/leptos/label", version = "0.0.2" }
+# radix-leptos-popper = { path = "./packages/primitives/leptos/popper", version = "0.0.2" }
+# radix-leptos-presence = { path = "./packages/primitives/leptos/presence", version = "0.0.2" }
+radix-leptos-primitive = { path = "./packages/primitives/leptos/primitive", version = "0.0.2" }
+# radix-leptos-roving-focus = { path = "./packages/primitives/leptos/roving-focus", version = "0.0.2" }
+radix-leptos-separator = { path = "./packages/primitives/leptos/separator", version = "0.0.2" }
+radix-leptos-visually-hidden = { path = "./packages/primitives/leptos/visually-hidden", version = "0.0.2" }
+radix-leptos-use-controllable-state = { path = "./packages/primitives/leptos/use-controllable-state", version = "0.0.2" }
+radix-leptos-use-previous = { path = "./packages/primitives/leptos/use-previous", version = "0.0.2" }
+radix-leptos-use-size = { path = "./packages/primitives/leptos/use-size", version = "0.0.2" }
+radix-number = { path = "./packages/primitives/core/number", version = "0.0.2" }
+radix-yew-arrow = { path = "./packages/primitives/yew/arrow", version = "0.0.2" }
+radix-yew-aspect-ratio = { path = "./packages/primitives/yew/aspect-ratio", version = "0.0.2" }
+radix-yew-avatar = { path = "./packages/primitives/yew/avatar", version = "0.0.2" }
+radix-yew-checkbox = { path = "./packages/primitives/yew/checkbox", version = "0.0.2" }
+radix-yew-collection = { path = "./packages/primitives/yew/collection", version = "0.0.2" }
+radix-yew-compose-refs = { path = "./packages/primitives/yew/compose-refs", version = "0.0.2" }
+radix-yew-dialog = { path = "./packages/primitives/yew/dialog", version = "0.0.2" }
+radix-yew-dismissable-layer = { path = "./packages/primitives/yew/dismissable-layer", version = "0.0.2" }
+radix-yew-direction = { path = "./packages/primitives/yew/direction", version = "0.0.2" }
+radix-yew-focus-guards = { path = "./packages/primitives/yew/focus-guards", version = "0.0.2" }
+radix-yew-focus-scope = { path = "./packages/primitives/yew/focus-scope", version = "0.0.2" }
+radix-yew-icons = { path = "./packages/icons/yew", version = "0.0.2" }
+radix-yew-id = { path = "./packages/primitives/yew/id", version = "0.0.2" }
+radix-yew-label = { path = "./packages/primitives/yew/label", version = "0.0.2" }
+radix-yew-popper = { path = "./packages/primitives/yew/popper", version = "0.0.2" }
+radix-yew-portal = { path = "./packages/primitives/yew/portal", version = "0.0.2" }
+radix-yew-presence = { path = "./packages/primitives/yew/presence", version = "0.0.2" }
+radix-yew-primitive = { path = "./packages/primitives/yew/primitive", version = "0.0.2" }
+radix-yew-roving-focus = { path = "./packages/primitives/yew/roving-focus", version = "0.0.2" }
+radix-yew-scroll-area = { path = "./packages/primitives/yew/scroll-area", version = "0.0.2" }
+radix-yew-select = { path = "./packages/primitives/yew/select", version = "0.0.2" }
+radix-yew-separator = { path = "./packages/primitives/yew/separator", version = "0.0.2" }
+radix-yew-switch = { path = "./packages/primitives/yew/switch", version = "0.0.2" }
+radix-yew-themes = { path = "./packages/themes/yew", version = "0.0.2" }
+radix-yew-tooltip = { path = "./packages/primitives/yew/tooltip", version = "0.0.2" }
+radix-yew-visually-hidden = { path = "./packages/primitives/yew/visually-hidden", version = "0.0.2" }
+radix-yew-use-controllable-state = { path = "./packages/primitives/yew/use-controllable-state", version = "0.0.2" }
+radix-yew-use-previous = { path = "./packages/primitives/yew/use-previous", version = "0.0.2" }
+radix-yew-use-size = { path = "./packages/primitives/yew/use-size", version = "0.0.2" }
 send_wrapper = "0.6.0"
 serde = "1.0.198"
 serde_json = "1.0.116"

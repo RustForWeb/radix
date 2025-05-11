@@ -11,14 +11,14 @@ version.workspace = true
 
 [dependencies]
 log.workspace = true
-radix-yew-dismissable-layer = { path = "../dismissable-layer", version = "0.0.2" }
-radix-yew-focus-guards = { path = "../focus-guards", version = "0.0.2" }
-radix-yew-focus-scope = { path = "../focus-scope", version = "0.0.2" }
-radix-yew-id = { path = "../id", version = "0.0.2" }
-radix-yew-presence = { path = "../presence", version = "0.0.2" }
-radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
-radix-yew-portal = { path = "../portal", version = "0.0.2" }
-radix-yew-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
+radix-yew-dismissable-layer.workspace = true
+radix-yew-focus-guards.workspace = true
+radix-yew-focus-scope.workspace = true
+radix-yew-id.workspace = true
+radix-yew-presence.workspace = true
+radix-yew-primitive.workspace = true
+radix-yew-portal.workspace = true
+radix-yew-use-controllable-state.workspace = true
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true

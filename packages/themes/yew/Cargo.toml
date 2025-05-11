@@ -11,18 +11,18 @@ version.workspace = true
 
 [dependencies]
 indexmap = "2.6.0"
-radix-yew-aspect-ratio = { path = "../../primitives/yew/aspect-ratio", version = "0.0.2" }
-radix-yew-avatar = { path = "../../primitives/yew/avatar", version = "0.0.2" }
-radix-yew-checkbox = { path = "../../primitives/yew/checkbox", version = "0.0.2" }
-radix-yew-direction = { path = "../../primitives/yew/direction", version = "0.0.2" }
-radix-yew-portal = { path = "../../primitives/yew/portal", version = "0.0.2" }
-radix-yew-primitive = { path = "../../primitives/yew/primitive", version = "0.0.2" }
-radix-yew-select = { path = "../../primitives/yew/select", version = "0.0.2" }
-radix-yew-separator = { path = "../../primitives/yew/separator", version = "0.0.2" }
-radix-yew-switch = { path = "../../primitives/yew/switch", version = "0.0.2" }
-radix-yew-tooltip = { path = "../../primitives/yew/tooltip", version = "0.0.2" }
-radix-yew-use-controllable-state = { path = "../../primitives/yew/use-controllable-state", version = "0.0.2" }
-radix-yew-visually-hidden = { path = "../../primitives/yew/visually-hidden", version = "0.0.2" }
+radix-yew-aspect-ratio.workspace = true
+radix-yew-avatar.workspace = true
+radix-yew-checkbox.workspace = true
+radix-yew-direction.workspace = true
+radix-yew-portal.workspace = true
+radix-yew-primitive.workspace = true
+radix-yew-select.workspace = true
+radix-yew-separator.workspace = true
+radix-yew-switch.workspace = true
+radix-yew-tooltip.workspace = true
+radix-yew-use-controllable-state.workspace = true
+radix-yew-visually-hidden.workspace = true
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true

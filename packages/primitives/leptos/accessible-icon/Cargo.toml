@@ -11,4 +11,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-visually-hidden = { path = "../visually-hidden", version = "0.0.2" }
+radix-leptos-visually-hidden.workspace = true

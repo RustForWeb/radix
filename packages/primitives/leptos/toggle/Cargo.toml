@@ -11,4 +11,4 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
+radix-leptos-use-controllable-state.workspace = true

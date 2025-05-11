@@ -13,24 +13,24 @@ version.workspace = true
 console_log.workspace = true
 console_error_panic_hook.workspace = true
 log.workspace = true
-radix-yew-arrow = { path = "../../packages/primitives/yew/arrow" }
-radix-yew-aspect-ratio = { path = "../../packages/primitives/yew/aspect-ratio" }
-radix-yew-avatar = { path = "../../packages/primitives/yew/avatar" }
-radix-yew-checkbox = { path = "../../packages/primitives/yew/checkbox" }
-radix-yew-collection = { path = "../../packages/primitives/yew/collection" }
-radix-yew-dialog = { path = "../../packages/primitives/yew/dialog" }
-radix-yew-focus-scope = { path = "../../packages/primitives/yew/focus-scope" }
-radix-yew-label = { path = "../../packages/primitives/yew/label" }
-radix-yew-popper = { path = "../../packages/primitives/yew/popper" }
-radix-yew-portal = { path = "../../packages/primitives/yew/portal" }
-radix-yew-presence = { path = "../../packages/primitives/yew/presence" }
-radix-yew-primitive = { path = "../../packages/primitives/yew/primitive" }
-radix-yew-select = { path = "../../packages/primitives/yew/select" }
-radix-yew-separator = { path = "../../packages/primitives/yew/separator" }
-radix-yew-scroll-area = { path = "../../packages/primitives/yew/scroll-area" }
-radix-yew-switch = { path = "../../packages/primitives/yew/switch" }
-radix-yew-tooltip = { path = "../../packages/primitives/yew/tooltip" }
-radix-yew-visually-hidden = { path = "../../packages/primitives/yew/visually-hidden" }
+radix-yew-arrow.workspace = true
+radix-yew-aspect-ratio.workspace = true
+radix-yew-avatar.workspace = true
+radix-yew-checkbox.workspace = true
+radix-yew-collection.workspace = true
+radix-yew-dialog.workspace = true
+radix-yew-focus-scope.workspace = true
+radix-yew-label.workspace = true
+radix-yew-popper.workspace = true
+radix-yew-portal.workspace = true
+radix-yew-presence.workspace = true
+radix-yew-primitive.workspace = true
+radix-yew-select.workspace = true
+radix-yew-separator.workspace = true
+radix-yew-scroll-area.workspace = true
+radix-yew-switch.workspace = true
+radix-yew-tooltip.workspace = true
+radix-yew-visually-hidden.workspace = true
 tailwind_fuse.workspace = true
 web-sys.workspace = true
 yew = { workspace = true, features = ["csr"] }

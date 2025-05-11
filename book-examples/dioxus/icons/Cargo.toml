@@ -13,7 +13,7 @@ version.workspace = true
 console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
-radix-dioxus-icons = { path = "../../../packages/icons/dioxus", optional = true }
+radix-dioxus-icons = { workspace = true, optional = true }
 dioxus = { workspace = true, features = ["web"] }
 
 [features]

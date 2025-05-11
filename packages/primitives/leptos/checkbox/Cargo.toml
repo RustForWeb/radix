@@ -11,9 +11,9 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
-radix-leptos-presence = { path = "../presence", version = "0.0.2" }
-radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
-radix-leptos-use-previous = { path = "../use-previous", version = "0.0.2" }
-radix-leptos-use-size = { path = "../use-size", version = "0.0.2" }
+radix-leptos-compose-refs.workspace = true
+radix-leptos-presence.workspace = true
+radix-leptos-use-controllable-state.workspace = true
+radix-leptos-use-previous.workspace = true
+radix-leptos-use-size.workspace = true
 web-sys = { workspace = true, features = ["Event", "EventInit"] }
