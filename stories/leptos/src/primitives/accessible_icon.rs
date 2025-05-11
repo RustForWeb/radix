@@ -1,15 +1,13 @@
 use leptos::prelude::*;
-use radix_leptos_accessible_icon::primitive as AccessibleIcon;
+use radix_leptos_accessible_icon::AccessibleIcon;
 
 #[component]
 pub fn Styled() -> impl IntoView {
     view! {
         <button r#type="button">
-            <AccessibleIcon::Root
-                label="Close"
-            >
+            <AccessibleIcon label="Close">
                 <CrossIcon />
-            </AccessibleIcon::Root>
+            </AccessibleIcon>
         </button>
     }
 }
@@ -19,11 +17,9 @@ pub fn Chromatic() -> impl IntoView {
     view! {
         <p>
             Some text with an inline accessible icon{" "}
-            <AccessibleIcon::Root
-                label="Close"
-            >
+            <AccessibleIcon label="Close">
                 <CrossIcon attr:class="inline-block" />
-            </AccessibleIcon::Root>
+            </AccessibleIcon>
         </p>
     }
 }
