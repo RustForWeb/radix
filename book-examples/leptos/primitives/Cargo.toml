@@ -20,7 +20,7 @@ radix-leptos-aspect-ratio = { path = "../../../packages/primitives/leptos/aspect
 # radix-leptos-icons = { path = "../../../packages/icons/leptos", optional = true }
 radix-leptos-label = { path = "../../../packages/primitives/leptos/label", optional = true }
 # radix-leptos-progress = { path = "../../../packages/primitives/leptos/progress", optional = true }
-# radix-leptos-separator = { path = "../../../packages/primitives/leptos/separator", optional = true }
+radix-leptos-separator = { path = "../../../packages/primitives/leptos/separator", optional = true }
 # radix-leptos-switch = { path = "../../../packages/primitives/leptos/switch", optional = true }
 # radix-leptos-toggle = { path = "../../../packages/primitives/leptos/toggle", optional = true }
 
@@ -40,12 +40,11 @@ avatar = []
 checkbox = []
 label = ["dep:radix-leptos-label"]
 progress = []
-separator = []
+separator = ["dep:radix-leptos-separator"]
 switch = []
 toggle = []
 # avatar = ["dep:radix-leptos-avatar"]
 # checkbox = ["dep:radix-leptos-checkbox", "dep:radix-leptos-icons"]
 # progress = ["dep:radix-leptos-progress"]
-# separator = ["dep:radix-leptos-separator"]
 # switch = ["dep:radix-leptos-switch"]
 # toggle = ["dep:radix-leptos-toggle", "dep:radix-leptos-icons"]
