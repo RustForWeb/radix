@@ -1,31 +1,24 @@
 use leptos::{ev::MouseEvent, html, prelude::*};
-use radix_leptos_primitive::Primitive;
 use leptos_maybe_callback::MaybeCallback;
-use leptos_node_ref::prelude::*;
-
-/* -------------------------------------------------------------------------------------------------
- * Label
- * -----------------------------------------------------------------------------------------------*/
-
-#[allow(unused)]
-const NAME: &str = "Label";
+use leptos_node_ref::AnyNodeRef;
+use radix_leptos_primitive::Primitive;
 
 #[component]
-#[allow(non_snake_case)]
 pub fn Label(
-    children: TypedChildrenFn<impl IntoView + 'static>,
-    #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(into, optional)] on_mouse_down: MaybeCallback<MouseEvent>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
     #[prop(into, optional)] node_ref: AnyNodeRef,
+    children: TypedChildrenFn<impl IntoView + 'static>,
 ) -> impl IntoView {
     view! {
         <Primitive
-            children={children}
             element=html::label
             as_child=as_child
+            node_ref=node_ref
+            children=children
             on:mousedown=move |event: MouseEvent| {
-                // only prevent text selection if clicking inside the label itself
-                let target: web_sys::Element = event_target(&event);
+                // Only prevent text selection if clicking inside the label itself.
+                let target = event_target::<web_sys::Element>(&event);
                 if target
                     .closest("button, input, select, textarea")
                     .expect("Element should be able to query closest.")
@@ -34,22 +27,13 @@ pub fn Label(
                     return;
                 }
 
-                // run callback if provided
                 on_mouse_down.run(event.clone());
 
-                // prevent text selection when double-clicking label
+                // Prevent text selection when double clicking label.
                 if !event.default_prevented() && event.detail() > 1 {
                     event.prevent_default();
                 }
             }
-            node_ref=node_ref
         />
     }
-}
-
-/* -----------------------------------------------------------------------------------------------*/
-
-pub mod primitive {
-    pub use super::*;
-    pub use Label as Root;
 }

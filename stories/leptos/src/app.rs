@@ -106,10 +106,9 @@ pub fn App() -> impl IntoView {
                         Label
 
                         <ul class="list-none m-0 ms-4 p-0">
-                            <li><NavLink href="/label/basic">Basic</NavLink></li>
+                            <li><NavLink href="/label/styled">Styled</NavLink></li>
                             <li><NavLink href="/label/with-control">With Control</NavLink></li>
-                            <li><NavLink href="/label/with-inputs">With Inputs</NavLink></li>
-                            <li><NavLink href="/label/with-events">With Events</NavLink></li>
+                            <li><NavLink href="/label/with-input-number">With Input Number</NavLink></li>
                         </ul>
                     </li>
                     // <li>
@@ -240,10 +239,9 @@ pub fn App() -> impl IntoView {
                     // <Route path="/focus-scope/basic" view=focus_scope::Basic />
                     // <Route path="/focus-scope/multiple" view=focus_scope::Multiple />
 
-                    <Route path=path!("/label/basic") view=label::Basic />
+                    <Route path=path!("/label/styled") view=label::Styled />
                     <Route path=path!("/label/with-control") view=label::WithControl />
-                    <Route path=path!("/label/with-inputs") view=label::WithInputs />
-                    <Route path=path!("/label/with-events") view=label::WithEvents />
+                    <Route path=path!("/label/with-input-number") view=label::WithInputNumber />
 
                     // <Route path="/menu/styled" view=menu::Styled />
 
