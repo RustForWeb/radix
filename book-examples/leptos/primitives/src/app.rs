@@ -45,13 +45,16 @@ pub fn App() -> impl IntoView {
     //         <ProgressDemo />
     //     });
     // }
-    // #[cfg(feature = "separator")]
-    // {
-    //     use crate::separator::SeparatorDemo;
-    //     views.push(view! {
-    //         <SeparatorDemo />
-    //     });
-    // }
+    #[cfg(feature = "separator")]
+    {
+        use crate::separator::SeparatorDemo;
+        views.push(
+            view! {
+                <SeparatorDemo />
+            }
+            .into_any(),
+        );
+    }
     // #[cfg(feature = "switch")]
     // {
     //     use crate::switch::SwitchDemo;
