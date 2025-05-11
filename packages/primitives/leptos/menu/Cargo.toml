@@ -10,12 +10,12 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-collection = { path = "../collection", version = "0.0.2" }
-radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
-radix-leptos-direction = { path = "../direction", version = "0.0.2" }
-radix-leptos-dismissable-layer = { path = "../dismissable-layer", version = "0.0.2" }
-radix-leptos-focus-guards = { path = "../focus-guards", version = "0.0.2" }
-radix-leptos-focus-scope = { path = "../focus-scope", version = "0.0.2" }
-radix-leptos-popper = { path = "../popper", version = "0.0.2" }
-radix-leptos-roving-focus = { path = "../roving-focus", version = "0.0.2" }
+radix-leptos-collection.workspace = true
+radix-leptos-compose-refs.workspace = true
+radix-leptos-direction.workspace = true
+radix-leptos-dismissable-layer.workspace = true
+radix-leptos-focus-guards.workspace = true
+radix-leptos-focus-scope.workspace = true
+radix-leptos-popper.workspace = true
+radix-leptos-roving-focus.workspace = true
 web-sys = { workspace = true, features = ["EventListenerOptions"] }

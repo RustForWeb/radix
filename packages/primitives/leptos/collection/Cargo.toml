@@ -11,5 +11,5 @@ version.workspace = true
 [dependencies]
 leptos.workspace = true
 nanoid = "0.4.0"
-radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
+radix-leptos-compose-refs.workspace = true
 web-sys.workspace = true

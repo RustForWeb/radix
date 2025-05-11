@@ -10,10 +10,10 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
-radix-yew-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
-radix-yew-use-previous = { path = "../use-previous", version = "0.0.2" }
-radix-yew-use-size = { path = "../use-size", version = "0.0.2" }
+radix-yew-primitive.workspace = true
+radix-yew-use-controllable-state.workspace = true
+radix-yew-use-previous.workspace = true
+radix-yew-use-size.workspace = true
 web-sys = { workspace = true, features = ["Event", "EventInit"] }
 yew.workspace = true
 yew-struct-component.workspace = true

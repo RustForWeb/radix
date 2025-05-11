@@ -10,10 +10,10 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-radix-number = { path = "../../core/number", version = "0.0.2" }
-radix-yew-direction = { path = "../direction", version = "0.0.2" }
-radix-yew-presence = { path = "../presence", version = "0.0.2" }
-radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
+radix-number.workspace = true
+radix-yew-direction.workspace = true
+radix-yew-presence.workspace = true
+radix-yew-primitive.workspace = true
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true

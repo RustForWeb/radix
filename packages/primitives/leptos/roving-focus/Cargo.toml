@@ -10,9 +10,9 @@ version.workspace = true
 
 [dependencies]
 leptos.workspace = true
-radix-leptos-collection = { path = "../collection", version = "0.0.2" }
-radix-leptos-compose-refs = { path = "../compose-refs", version = "0.0.2" }
-radix-leptos-direction = { path = "../direction", version = "0.0.2" }
-radix-leptos-id = { path = "../id", version = "0.0.2" }
-radix-leptos-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
+radix-leptos-collection.workspace = true
+radix-leptos-compose-refs.workspace = true
+radix-leptos-direction.workspace = true
+radix-leptos-id.workspace = true
+radix-leptos-use-controllable-state.workspace = true
 web-sys = { workspace = true, features = ["CustomEvent", "CustomEventInit"] }

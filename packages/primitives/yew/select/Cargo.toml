@@ -11,17 +11,17 @@ version.workspace = true
 
 [dependencies]
 log.workspace = true
-radix-number = { path = "../../core/number", version = "0.0.2" }
-radix-yew-collection = { path = "../collection", version = "0.0.2" }
-radix-yew-direction = { path = "../direction", version = "0.0.2" }
-radix-yew-focus-guards = { path = "../focus-guards", version = "0.0.2" }
-radix-yew-focus-scope = { path = "../focus-scope", version = "0.0.2" }
-radix-yew-id = { path = "../id", version = "0.0.2" }
-radix-yew-popper = { path = "../popper", version = "0.0.2" }
-radix-yew-portal = { path = "../portal", version = "0.0.2" }
-radix-yew-primitive = { path = "../primitive", version = "0.0.2" }
-radix-yew-use-controllable-state = { path = "../use-controllable-state", version = "0.0.2" }
-radix-yew-visually-hidden = { path = "../visually-hidden", version = "0.0.2" }
+radix-number.workspace = true
+radix-yew-collection.workspace = true
+radix-yew-direction.workspace = true
+radix-yew-focus-guards.workspace = true
+radix-yew-focus-scope.workspace = true
+radix-yew-id.workspace = true
+radix-yew-popper.workspace = true
+radix-yew-portal.workspace = true
+radix-yew-primitive.workspace = true
+radix-yew-use-controllable-state.workspace = true
+radix-yew-visually-hidden.workspace = true
 web-sys = { workspace = true, features = [
     "FocusOptions",
     "HtmlSelectElement",

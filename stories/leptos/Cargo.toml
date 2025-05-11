@@ -15,24 +15,24 @@ console_error_panic_hook.workspace = true
 leptos = { workspace = true, features = ["csr"] }
 leptos_router.workspace = true
 log.workspace = true
-radix-leptos-accessible-icon = { path = "../../packages/primitives/leptos/accessible-icon" }
-radix-leptos-arrow = { path = "../../packages/primitives/leptos/arrow" }
-radix-leptos-aspect-ratio = { path = "../../packages/primitives/leptos/aspect-ratio" }
-# radix-leptos-avatar = { path = "../../packages/primitives/leptos/avatar" }
-# radix-leptos-checkbox = { path = "../../packages/primitives/leptos/checkbox" }
-# radix-leptos-collection = { path = "../../packages/primitives/leptos/collection" }
-# radix-leptos-focus-scope = { path = "../../packages/primitives/leptos/focus-scope" }
-radix-leptos-label = { path = "../../packages/primitives/leptos/label" }
-# radix-leptos-menu = { path = "../../packages/primitives/leptos/menu" }
-# radix-leptos-popper = { path = "../../packages/primitives/leptos/popper" }
-# radix-leptos-portal = { path = "../../packages/primitives/leptos/portal", features = [
+radix-leptos-accessible-icon.workspace = true
+radix-leptos-arrow.workspace = true
+radix-leptos-aspect-ratio.workspace = true
+# radix-leptos-avatar.workspace = true
+# radix-leptos-checkbox.workspace = true
+# radix-leptos-collection.workspace = true
+# radix-leptos-focus-scope.workspace = true
+radix-leptos-label.workspace = true
+# radix-leptos-menu.workspace = true
+# radix-leptos-popper.workspace = true
+# radix-leptos-portal = { workspace = true, features = [
 #     "csr",
 # ] }
-# radix-leptos-presence = { path = "../../packages/primitives/leptos/presence" }
-# radix-leptos-progress = { path = "../../packages/primitives/leptos/progress" }
-radix-leptos-separator = { path = "../../packages/primitives/leptos/separator" }
-# radix-leptos-switch = { path = "../../packages/primitives/leptos/switch" }
-# radix-leptos-toggle = { path = "../../packages/primitives/leptos/toggle" }
-radix-leptos-visually-hidden = { path = "../../packages/primitives/leptos/visually-hidden" }
+# radix-leptos-presence.workspace = true
+# radix-leptos-progress.workspace = true
+radix-leptos-separator.workspace = true
+# radix-leptos-switch.workspace = true
+# radix-leptos-toggle.workspace = true
+radix-leptos-visually-hidden.workspace = true
 tailwind_fuse.workspace = true
 web-sys.workspace = true

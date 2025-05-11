@@ -13,15 +13,15 @@ version.workspace = true
 console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
-radix-yew-aspect-ratio = { path = "../../../packages/primitives/yew/aspect-ratio", optional = true }
-radix-yew-avatar = { path = "../../../packages/primitives/yew/avatar", optional = true }
-radix-yew-checkbox = { path = "../../../packages/primitives/yew/checkbox", optional = true }
-radix-yew-icons = { path = "../../../packages/icons/yew", optional = true }
-radix-yew-label = { path = "../../../packages/primitives/yew/label", optional = true }
-radix-yew-select = { path = "../../../packages/primitives/yew/select", optional = true }
-radix-yew-separator = { path = "../../../packages/primitives/yew/separator", optional = true }
-radix-yew-switch = { path = "../../../packages/primitives/yew/switch", optional = true }
-radix-yew-tooltip = { path = "../../../packages/primitives/yew/tooltip", optional = true }
+radix-yew-aspect-ratio = { workspace = true, optional = true }
+radix-yew-avatar = { workspace = true, optional = true }
+radix-yew-checkbox = { workspace = true, optional = true }
+radix-yew-icons = { workspace = true, optional = true }
+radix-yew-label = { workspace = true, optional = true }
+radix-yew-select = { workspace = true, optional = true }
+radix-yew-separator = { workspace = true, optional = true }
+radix-yew-switch = { workspace = true, optional = true }
+radix-yew-tooltip = { workspace = true, optional = true }
 yew = { workspace = true, features = ["csr"] }
 
 [features]

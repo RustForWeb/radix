@@ -13,7 +13,7 @@ version.workspace = true
 console_error_panic_hook.workspace = true
 console_log.workspace = true
 log.workspace = true
-radix-yew-icons = { path = "../../../packages/icons/yew", optional = true }
+radix-yew-icons = { workspace = true, optional = true }
 yew = { workspace = true, features = ["csr"] }
 
 [features]
