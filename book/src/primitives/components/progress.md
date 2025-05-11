@@ -5,11 +5,17 @@ Displays an indicator showing the completion progress of a task, typically displ
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-```toml,trunk
+<div class="warning">
+
+This component is not yet updated to Leptos 0.7+.
+
+</div>
+
+<!-- ```toml,trunk
 package = "radix-leptos-book-primitives"
 features = ["progress"]
 files = ["src/progress.rs"]
-```
+``` -->
 
 {{#endtab }}
 {{#endtabs }}

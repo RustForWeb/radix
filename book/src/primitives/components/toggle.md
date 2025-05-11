@@ -5,11 +5,17 @@ A two-state button that can be either on or off.
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-```toml,trunk
+<div class="warning">
+
+This component is not yet updated to Leptos 0.7+.
+
+</div>
+
+<!-- ```toml,trunk
 package = "radix-leptos-book-primitives"
 features = ["toggle"]
 files = ["src/toggle.rs"]
-```
+``` -->
 
 {{#endtab }}
 {{#endtabs }}
