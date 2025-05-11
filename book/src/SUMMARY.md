@@ -46,7 +46,7 @@
         -   [Accessible Icon](./primitives/utilities/accessible-icon.md)
         -   [Direction Provider](./primitives/utilities/direction-provider.md)
         -   [Portal](./primitives/utilities/portal.md)
-        -   [Slot]
+        -   [Slot]()
         -   [Visually Hidden](./primitives/utilities/visually-hidden.md)
 -   [Themes](./themes/README.md)
     -   [Overview](./themes/overview/README.md)

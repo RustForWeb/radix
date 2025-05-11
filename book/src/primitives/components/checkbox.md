@@ -5,11 +5,17 @@ A control that allows the user to toggle between checked and not checked.
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-```toml,trunk
+<div class="warning">
+
+This component is not yet updated to Leptos 0.7+.
+
+</div>
+
+<!-- ```toml,trunk
 package = "radix-leptos-book-primitives"
 features = ["checkbox"]
 files = ["src/checkbox.rs"]
-```
+``` -->
 
 {{#endtab }}
 {{#tab name="Yew" }}

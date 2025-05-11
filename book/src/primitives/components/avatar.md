@@ -5,13 +5,20 @@ An image element with a fallback for representing the user.
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-```toml,trunk
+<div class="warning">
+
+This component is not yet updated to Leptos 0.7+.
+
+</div>
+
+<!-- ```toml,trunk
 package = "radix-leptos-book-primitives"
 features = ["avatar"]
 files = ["src/avatar.rs"]
-```
+``` -->
 
 {{#endtab }}
+
 {{#tab name="Yew" }}
 
 ```toml,trunk
