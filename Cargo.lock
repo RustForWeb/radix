@@ -2239,6 +2239,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "leptos-maybe-callback"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bff44378da0a611bd446e8354585fa0768206610b8e4b0ab8e6ce5988e06a0cc"
+dependencies = [
+ "leptos",
+]
+
+[[package]]
 name = "leptos-node-ref"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3151,6 +3160,9 @@ name = "radix-leptos-label"
 version = "0.0.2"
 dependencies = [
  "leptos",
+ "leptos-maybe-callback",
+ "leptos-node-ref",
+ "radix-leptos-primitive",
  "web-sys",
 ]
 

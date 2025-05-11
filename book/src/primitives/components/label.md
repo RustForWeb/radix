@@ -103,9 +103,10 @@ Contains the content for the label.
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop            | Type                           | Default |
-| --------------- | ------------------------------ | ------- |
-| `on_mouse_down` | `Option<Callback<MouseEvent>>` | -       |
+| Prop            | Type                        | Default |
+| --------------- | --------------------------- | ------- |
+| `as_child`      | `MaybeProp<bool>`           | `false` |
+| `on_mouse_down` | `MaybeCallback<MouseEvent>` | -       |
 
 {{#endtab }}
 {{#tab name="Yew" }}
