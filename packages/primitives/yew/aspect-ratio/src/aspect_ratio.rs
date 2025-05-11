@@ -64,7 +64,7 @@ pub fn AspectRatio(props: &AspectRatioProps) -> Html {
                 ("position", "relative"),
                 // Width ensures padding bottom trick maths works.
                 ("width", "100%"),
-                ("padding-bottom", &(100.0 / props.ratio).to_string()),
+                ("padding-bottom", &format!("{}%", 100.0 / props.ratio)),
             ])}
         >
             if let Some(as_child) = props.as_child.as_ref() {
