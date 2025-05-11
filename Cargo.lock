@@ -2258,16 +2258,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "leptos-style"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c65408961a0bd8e70f317de8973d532a0cb9ffbac910c488d97f9c5a2e4411e2"
-dependencies = [
- "indexmap",
- "leptos",
-]
-
-[[package]]
 name = "leptos-typed-fallback-show"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3093,7 +3083,8 @@ name = "radix-leptos-aspect-ratio"
 version = "0.0.2"
 dependencies = [
  "leptos",
- "leptos-style",
+ "leptos-node-ref",
+ "radix-leptos-primitive",
 ]
 
 [[package]]
