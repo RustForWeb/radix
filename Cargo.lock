@@ -3117,6 +3117,7 @@ dependencies = [
  "log",
  "radix-leptos-aspect-ratio",
  "radix-leptos-label",
+ "radix-leptos-separator",
 ]
 
 [[package]]
@@ -3176,6 +3177,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-separator"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-node-ref",
+ "radix-leptos-primitive",
+]
+
+[[package]]
 name = "radix-leptos-stories"
 version = "0.0.2"
 dependencies = [
@@ -3188,6 +3198,7 @@ dependencies = [
  "radix-leptos-arrow",
  "radix-leptos-aspect-ratio",
  "radix-leptos-label",
+ "radix-leptos-separator",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",
  "web-sys",

@@ -10,8 +10,8 @@ mod aspect_ratio;
 mod label;
 // #[cfg(feature = "progress")]
 // mod progress;
-// #[cfg(feature = "separator")]
-// mod separator;
+#[cfg(feature = "separator")]
+mod separator;
 // #[cfg(feature = "switch")]
 // mod switch;
 // #[cfg(feature = "toggle")]
