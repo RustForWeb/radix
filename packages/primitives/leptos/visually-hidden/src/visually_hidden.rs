@@ -1,56 +1,31 @@
-use leptos::prelude::*;
-use leptos_style::Style;
-
-pub struct UseVisuallyHiddenProps {
-    style: Style,
-}
-
-pub struct UseVisuallyHiddenAttrs {
-    style: Style,
-}
-
-pub fn use_visually_hidden(props: UseVisuallyHiddenProps) -> UseVisuallyHiddenAttrs {
-    UseVisuallyHiddenAttrs {
-        style: props.style.with_defaults([
-            // See: https://github.com/twbs/bootstrap/blob/master/scss/mixins/_screen-reader.scss
-            ("position", "absolute"),
-            ("border", "0px"),
-            ("width", "1px"),
-            ("height", "1px"),
-            ("padding", "0px"),
-            ("margin", "-1px"),
-            ("overflow", "hidden"),
-            ("clip", "rect(0, 0, 0, 0)"),
-            ("white-space", "nowrap"),
-            ("word-wrap", "normal"),
-        ]),
-    }
-}
+use leptos::{html, prelude::*};
+use leptos_node_ref::AnyNodeRef;
+use radix_leptos_primitive::Primitive;
 
 #[component]
 pub fn VisuallyHidden(
-    #[prop(into, optional)] style: Style,
-    #[prop(optional)] children: Option<Children>,
+    #[prop(into, optional)] as_child: MaybeProp<bool>,
+    #[prop(into, optional)] node_ref: AnyNodeRef,
+    children: TypedChildrenFn<impl IntoView + 'static>,
 ) -> impl IntoView {
-    let UseVisuallyHiddenAttrs { style } = use_visually_hidden(UseVisuallyHiddenProps { style });
-
     view! {
-        <span style=style>
-            {children.map(|children| children())}
-        </span>
+        <Primitive
+            element=html::span
+            as_child=as_child
+            node_ref=node_ref
+            children=children
+
+            // See: https://github.com/twbs/bootstrap/blob/main/scss/mixins/_visually-hidden.scss
+            style:position="absolute"
+            style:border="0px"
+            style:width="1px"
+            style:height="1px"
+            style:padding="0px"
+            style:margin="-1px"
+            style:overflow="hidden"
+            style:clip="rect(0, 0, 0, 0)"
+            style:white-space="nowrap"
+            style:word-wrap="normal"
+        />
     }
-}
-
-#[component]
-pub fn VisuallyHiddenAsChild<R, RV>(
-    #[prop(into, optional)] style: Style,
-    render: R,
-) -> impl IntoView
-where
-    R: Fn(UseVisuallyHiddenAttrs) -> RV,
-    RV: IntoView,
-{
-    let attrs = use_visually_hidden(UseVisuallyHiddenProps { style });
-
-    render(attrs)
 }

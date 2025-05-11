@@ -81,7 +81,9 @@ Anything you put inside this component will be hidden from the screen but will b
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-<i>No props.</i>
+| Prop       | Type              | Default |
+| ---------- | ----------------- | ------- |
+| `as_child` | `MaybeProp<bool>` | `false` |
 
 {{#endtab }}
 {{#tab name="Yew" }}
@@ -124,9 +126,9 @@ use radix_yew_icons::GearIcon;
 use radix_yew_visually_hidden::*;
 use yew::prelude::*;
 
-#[component]
-fn Example() -> impl IntoView {
-    view! {
+#[function_component]
+fn Example() -> Html {
+    html! {
         <button>
             <GearIcon />
             <VisuallyHidden>{"Settings"}</VisuallyHidden>
