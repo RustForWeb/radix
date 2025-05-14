@@ -9,11 +9,15 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-floating-ui-leptos = "0.3.0"
+floating-ui-leptos = "0.4.0"
 leptos.workspace = true
+leptos-maybe-callback.workspace = true
+leptos-node-ref.workspace = true
 radix-leptos-arrow.workspace = true
 radix-leptos-compose-refs.workspace = true
+radix-leptos-primitive.workspace = true
 radix-leptos-use-size.workspace = true
+send_wrapper.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 web-sys.workspace = true

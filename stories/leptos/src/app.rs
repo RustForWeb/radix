@@ -5,7 +5,7 @@ use leptos_router::{
 };
 
 use crate::primitives::{
-    accessible_icon, arrow, aspect_ratio, label, portal, separator, visually_hidden,
+    accessible_icon, arrow, aspect_ratio, label, popper, portal, separator, visually_hidden,
 };
 
 #[component]
@@ -120,18 +120,18 @@ pub fn App() -> impl IntoView {
                     //         <li><NavLink href="/menu/styled">Styled</NavLink></li>
                     //     </ul>
                     // </li>
-                    // <li>
-                    //     Popper
+                    <li>
+                        Popper
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/popper/styled">Styled</NavLink></li>
-                    //         <li><NavLink href="/popper/with-custom-arrow">With Custom Arrow</NavLink></li>
-                    //         <li><NavLink href="/popper/animated">Animated</NavLink></li>
-                    //         <li><NavLink href="/popper/with-portal">With Portal</NavLink></li>
-                    //         <li><NavLink href="/popper/with-update-position-strategy-always">With Update Position Strategy Always</NavLink></li>
-                    //         <li><NavLink href="/popper/chromatic">Chromatic</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/popper/styled">Styled</NavLink></li>
+                            <li><NavLink href="/popper/with-custom-arrow">With Custom Arrow</NavLink></li>
+                            <li><NavLink href="/popper/animated">Animated</NavLink></li>
+                            <li><NavLink href="/popper/with-portal">With Portal</NavLink></li>
+                            <li><NavLink href="/popper/with-update-position-strategy-always">With Update Position Strategy Always</NavLink></li>
+                            <li><NavLink href="/popper/chromatic">Chromatic</NavLink></li>
+                        </ul>
+                    </li>
                     <li>
                         Portal
 
@@ -247,12 +247,12 @@ pub fn App() -> impl IntoView {
 
                     // <Route path="/menu/styled" view=menu::Styled />
 
-                    // <Route path="/popper/styled" view=popper::Styled />
-                    // <Route path="/popper/with-custom-arrow" view=popper::WithCustomArrow />
-                    // <Route path="/popper/animated" view=popper::Animated />
-                    // <Route path="/popper/with-portal" view=popper::WithPortal />
-                    // <Route path="/popper/with-update-position-strategy-always" view=popper::WithUpdatePositionStrategyAlways />
-                    // <Route path="/popper/chromatic" view=popper::Chromatic />
+                    <Route path=path!("/popper/styled") view=popper::Styled />
+                    <Route path=path!("/popper/with-custom-arrow") view=popper::WithCustomArrow />
+                    <Route path=path!("/popper/animated") view=popper::Animated />
+                    <Route path=path!("/popper/with-portal") view=popper::WithPortal />
+                    <Route path=path!("/popper/with-update-position-strategy-always") view=popper::WithUpdatePositionStrategyAlways />
+                    <Route path=path!("/popper/chromatic") view=popper::Chromatic />
 
                     <Route path=path!("/portal/base") view=portal::Base />
                     <Route path=path!("/portal/custom-container") view=portal::CustomContainer />
