@@ -172,8 +172,8 @@ The tables below show the support for the various frameworks.
 
 This project is available under the [MIT license](https://github.com/RustForWeb/radix/blob/main/LICENSE.md).
 
-## Rust For Web
+## Rust for Web
 
-The Rust Radix project is part of [Rust For Web](https://github.com/RustForWeb).
+The Rust Radix project is part of [Rust for Web](https://github.com/RustForWeb).
 
-[Rust For Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
+[Rust for Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
