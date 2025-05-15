@@ -14,8 +14,8 @@ Radix Themes is a pre-styled component library that is designed to work out of t
 
 See [the Rust Radix book](https://radix.rustforweb.org/) for documentation.
 
-## Rust For Web
+## Rust for Web
 
-The Rust Radix project is part of [Rust For Web](https://github.com/RustForWeb).
+The Rust Radix project is part of [Rust for Web](https://github.com/RustForWeb).
 
-[Rust For Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
+[Rust for Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
