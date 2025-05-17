@@ -1,18 +1,18 @@
 use floating_ui_leptos::{
-    use_floating, Alignment, ApplyState, Arrow, ArrowData, ArrowOptions, AutoUpdateOptions,
-    Boundary, DetectOverflowOptions, Flip, FlipOptions, Hide, HideData, HideOptions, HideStrategy,
-    IntoReference, LimitShift, LimitShiftOptions, Middleware, MiddlewareReturn, MiddlewareState,
-    MiddlewareVec, Offset, OffsetOptions, OffsetOptionsValues, Padding, Placement, Shift,
-    ShiftOptions, Side, Size, SizeOptions, Strategy, UseFloatingOptions, UseFloatingReturn,
-    ARROW_NAME, HIDE_NAME,
+    ARROW_NAME, Alignment, ApplyState, Arrow, ArrowData, ArrowOptions, AutoUpdateOptions, Boundary,
+    DetectOverflowOptions, Flip, FlipOptions, HIDE_NAME, Hide, HideData, HideOptions, HideStrategy,
+    LimitShift, LimitShiftOptions, Middleware, MiddlewareReturn, MiddlewareState, MiddlewareVec,
+    Offset, OffsetOptions, OffsetOptionsValues, Padding, Placement, Shift, ShiftOptions, Side,
+    Size, SizeOptions, Strategy, UseFloatingOptions, UseFloatingReturn, use_floating,
 };
-use leptos::{
-    html::{AnyElement, Div},
-    *,
-};
+use leptos::{attribute_interceptor::AttributeInterceptor, context::Provider, html, prelude::*};
+use leptos_maybe_callback::MaybeCallback;
+use leptos_node_ref::AnyNodeRef;
 use radix_leptos_arrow::Arrow as ArrowPrimitive;
 use radix_leptos_compose_refs::use_composed_refs;
+use radix_leptos_primitive::Primitive;
 use radix_leptos_use_size::use_size;
+use send_wrapper::SendWrapper;
 use serde::{Deserialize, Serialize};
 use web_sys::wasm_bindgen::JsCast;
 
@@ -56,12 +56,12 @@ pub enum UpdatePositionStrategy {
 
 #[derive(Clone)]
 struct PopperContextValue {
-    pub anchor_ref: NodeRef<AnyElement>,
+    pub anchor_ref: AnyNodeRef,
 }
 
 #[component]
 pub fn Popper(children: ChildrenFn) -> impl IntoView {
-    let anchor_ref: NodeRef<AnyElement> = NodeRef::new();
+    let anchor_ref = AnyNodeRef::new();
 
     let context_value = PopperContextValue { anchor_ref };
 
@@ -75,8 +75,7 @@ pub fn Popper(children: ChildrenFn) -> impl IntoView {
 #[component]
 pub fn PopperAnchor(
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] node_ref: AnyNodeRef,
     children: ChildrenFn,
 ) -> impl IntoView {
     let context: PopperContextValue = expect_context();
@@ -87,7 +86,6 @@ pub fn PopperAnchor(
             element=html::div
             as_child=as_child
             node_ref=composed_refs
-            attrs=attrs
         >
             {children()}
         </Primitive>
@@ -97,7 +95,7 @@ pub fn PopperAnchor(
 #[derive(Clone)]
 struct PopperContentContextValue {
     pub placed_side: Signal<Side>,
-    pub arrow_ref: NodeRef<AnyElement>,
+    pub arrow_ref: AnyNodeRef,
     pub arrow_x: Signal<Option<f64>>,
     pub arrow_y: Signal<Option<f64>>,
     pub should_hide_arrow: Signal<bool>,
@@ -105,45 +103,34 @@ struct PopperContentContextValue {
 
 #[component]
 pub fn PopperContent(
-    #[prop(into, optional)] side: MaybeProp<Side>,
-    #[prop(into, optional)] side_offset: MaybeProp<f64>,
-    #[prop(into, optional)] align: MaybeProp<Align>,
-    #[prop(into, optional)] align_offset: MaybeProp<f64>,
-    #[prop(into, optional)] arrow_padding: MaybeProp<f64>,
-    #[prop(into, optional)] avoid_collisions: MaybeProp<bool>,
-    #[prop(into, optional)] collision_boundary: MaybeProp<Vec<web_sys::Element>>,
-    #[prop(into, optional)] collision_padding: MaybeProp<Padding>,
-    #[prop(into, optional)] sticky: MaybeProp<Sticky>,
-    #[prop(into, optional)] hide_when_detached: MaybeProp<bool>,
-    #[prop(into, optional)] update_position_strategy: MaybeProp<UpdatePositionStrategy>,
-    #[prop(into, optional)] on_placed: Option<Callback<()>>,
+    #[prop(into, optional, default = Side::Bottom.into())] side: Signal<Side>,
+    #[prop(into, optional, default = 0.0.into())] side_offset: Signal<f64>,
+    #[prop(into, optional, default = Align::Center.into())] align: Signal<Align>,
+    #[prop(into, optional, default = 0.0.into())] align_offset: Signal<f64>,
+    #[prop(into, optional, default = 0.0.into())] arrow_padding: Signal<f64>,
+    #[prop(into, optional, default = true.into())] avoid_collisions: Signal<bool>,
+    #[prop(into, optional, default = SendWrapper::new(vec![]).into())] collision_boundary: Signal<
+        SendWrapper<Vec<web_sys::Element>>,
+    >,
+    #[prop(into, optional, default = Padding::All(0.0).into())] collision_padding: Signal<Padding>,
+    #[prop(into, optional, default = Sticky::Partial.into())] sticky: Signal<Sticky>,
+    #[prop(into, optional, default = false.into())] hide_when_detached: Signal<bool>,
+    #[prop(into, optional, default = UpdatePositionStrategy::Optimized.into())]
+    update_position_strategy: Signal<UpdatePositionStrategy>,
+    #[prop(into, optional)] on_placed: MaybeCallback<()>,
+    #[prop(into, optional)] dir: MaybeProp<String>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] node_ref: AnyNodeRef,
     children: ChildrenFn,
 ) -> impl IntoView {
-    let side = move || side.get().unwrap_or(Side::Bottom);
-    let side_offset = move || side_offset.get().unwrap_or(0.0);
-    let align = move || align.get().unwrap_or(Align::Center);
-    let align_offset = move || align_offset.get().unwrap_or(0.0);
-    let arrow_padding = move || arrow_padding.get().unwrap_or(0.0);
-    let avoid_collisions = move || avoid_collisions.get().unwrap_or(true);
-    let collision_boundary = move || collision_boundary.get().unwrap_or_default();
-    let collision_padding = move || collision_padding.get().unwrap_or(Padding::All(0.0));
-    let sticky = move || sticky.get().unwrap_or(Sticky::Partial);
-    let hide_when_detached = move || hide_when_detached.get().unwrap_or(false);
-    let update_position_strategy = move || {
-        update_position_strategy
-            .get()
-            .unwrap_or(UpdatePositionStrategy::Optimized)
-    };
+    let children = StoredValue::new(children);
 
     let context: PopperContextValue = expect_context();
 
-    let content_ref: NodeRef<AnyElement> = NodeRef::new();
+    let content_ref = AnyNodeRef::new();
     let composed_refs = use_composed_refs(vec![node_ref, content_ref]);
 
-    let arrow_ref: NodeRef<AnyElement> = NodeRef::new();
+    let arrow_ref = AnyNodeRef::new();
     let arrow_size = use_size(arrow_ref);
     let arrow_width = move || {
         arrow_size
@@ -158,9 +145,10 @@ pub fn PopperContent(
             .unwrap_or(0.0)
     };
 
-    let desired_placement = Signal::derive(move || Placement::from((side(), align().alignment())));
+    let desired_placement =
+        Signal::derive(move || Placement::from((side.get(), align.get().alignment())));
 
-    let floating_ref: NodeRef<Div> = NodeRef::new();
+    let floating_ref = AnyNodeRef::new();
 
     let UseFloatingReturn {
         floating_styles,
@@ -169,35 +157,36 @@ pub fn PopperContent(
         middleware_data,
         ..
     } = use_floating(
-        context.anchor_ref.into_reference(),
+        context.anchor_ref,
         floating_ref,
         UseFloatingOptions::default()
             .strategy(Strategy::Fixed.into())
             .placement(desired_placement.into())
-            .while_elements_mounted_auto_update_with_options(MaybeSignal::derive(move || {
-                AutoUpdateOptions::default()
-                    .animation_frame(update_position_strategy() == UpdatePositionStrategy::Always)
+            .while_elements_mounted_auto_update_with_options(Signal::derive(move || {
+                AutoUpdateOptions::default().animation_frame(
+                    update_position_strategy.get() == UpdatePositionStrategy::Always,
+                )
             }))
             .middleware(MaybeProp::derive(move || {
                 let detect_overflow_options = DetectOverflowOptions::default()
-                    .padding(collision_padding())
-                    .boundary(Boundary::Elements(collision_boundary()))
-                    .alt_boundary(!collision_boundary().is_empty());
+                    .padding(collision_padding.get())
+                    .boundary(Boundary::Elements((*collision_boundary.get()).clone()))
+                    .alt_boundary(!collision_boundary.get().is_empty());
 
                 let mut middleware: MiddlewareVec =
                     vec![Box::new(Offset::new(OffsetOptions::Values(
                         OffsetOptionsValues::default()
-                            .main_axis(side_offset() + arrow_height())
-                            .alignment_axis(align_offset()),
+                            .main_axis(side_offset.get() + arrow_height())
+                            .alignment_axis(align_offset.get()),
                     )))];
 
-                if avoid_collisions() {
+                if avoid_collisions.get() {
                     let mut shift_options = ShiftOptions::default()
                         .detect_overflow(detect_overflow_options.clone())
                         .main_axis(true)
                         .cross_axis(false);
 
-                    if sticky() == Sticky::Partial {
+                    if sticky.get() == Sticky::Partial {
                         shift_options = shift_options
                             .limiter(Box::new(LimitShift::new(LimitShiftOptions::default())));
                     }
@@ -229,13 +218,13 @@ pub fn PopperContent(
                             content_style
                                 .set_property(
                                     "--radix-popper-available-width",
-                                    &format!("{}px", available_width),
+                                    &format!("{available_width}px"),
                                 )
                                 .expect("Style should be updated.");
                             content_style
                                 .set_property(
                                     "--radix-popper-available-height",
-                                    &format!("{}px", available_height),
+                                    &format!("{available_height}px"),
                                 )
                                 .expect("Style should be updated.");
                             content_style
@@ -254,7 +243,7 @@ pub fn PopperContent(
                 )));
 
                 middleware.push(Box::new(Arrow::new(
-                    ArrowOptions::new(arrow_ref).padding(Padding::All(arrow_padding())),
+                    ArrowOptions::new(arrow_ref).padding(Padding::All(arrow_padding.get())),
                 )));
 
                 middleware.push(Box::new(TransformOrigin::new(TransformOriginOptions {
@@ -262,7 +251,7 @@ pub fn PopperContent(
                     arrow_height: arrow_height(),
                 })));
 
-                if hide_when_detached() {
+                if hide_when_detached.get() {
                     middleware.push(Box::new(Hide::new(
                         HideOptions::default()
                             .detect_overflow(detect_overflow_options)
@@ -270,7 +259,7 @@ pub fn PopperContent(
                     )));
                 }
 
-                Some(middleware)
+                Some(SendWrapper::new(middleware))
             })),
     );
 
@@ -279,9 +268,7 @@ pub fn PopperContent(
 
     Effect::new(move |_| {
         if is_positioned.get() {
-            if let Some(on_placed) = on_placed {
-                on_placed.call(());
-            }
+            on_placed.run(());
         }
     });
 
@@ -292,7 +279,7 @@ pub fn PopperContent(
         arrow_data().is_none_or(|arrow_data| arrow_data.center_offset != 0.0)
     });
 
-    let (content_z_index, set_content_z_index) = create_signal::<Option<String>>(None);
+    let (content_z_index, set_content_z_index) = signal::<Option<String>>(None);
     Effect::new(move |_| {
         if let Some(content) = content_ref.get() {
             set_content_z_index.set(Some(
@@ -321,10 +308,6 @@ pub fn PopperContent(
             .unwrap_or(false)
     };
 
-    let dir = attrs
-        .iter()
-        .find_map(|(key, value)| (*key == "dir").then_some(value.clone()));
-
     let content_context_value = PopperContentContextValue {
         placed_side,
         arrow_ref,
@@ -333,62 +316,51 @@ pub fn PopperContent(
         should_hide_arrow: cannot_center_arrow,
     };
 
-    let mut attrs = attrs.clone();
-    attrs.extend([
-        (
-            "data-side",
-            (move || format!("{:?}", placed_side.get()).to_lowercase()).into_attribute(),
-        ),
-        (
-            "data-align",
-            (move || format!("{:?}", placed_align()).to_lowercase()).into_attribute(),
-        ),
-        // If the PopperContent hasn't been placed yet (not all measurements done),
-        // we prevent animations so that users's animation don't kick in too early referring wrong sides.
-        (
-            "style",
-            (move || (!is_positioned.get()).then_some("animation: none;")).into_attribute(),
-        ),
-    ]);
-
     view! {
-        <div
-            _ref={floating_ref}
-            data-radix-popper-content-wrapper=""
-            style:position=move || floating_styles.get().style_position()
-            style:top=move || floating_styles.get().style_top()
-            style:left=move || floating_styles.get().style_left()
-            style:transform=move || match is_positioned.get() {
-                true => floating_styles.get().style_transform(),
-                // Keep off the page when measuring
-                false => Some("translate(0, -200%)".into())
-            }
-            style:will-change=move || floating_styles.get().style_will_change()
-            style:min-width="max-content"
-            style:z-index=content_z_index
-            style=("--radix-popper-transform-origin", transform_origin)
+        <AttributeInterceptor let:attrs>
+            <div
+                node_ref={floating_ref}
+                data-radix-popper-content-wrapper=""
+                style:position=move || floating_styles.get().style_position()
+                style:top=move || floating_styles.get().style_top()
+                style:left=move || floating_styles.get().style_left()
+                style:transform=move || match is_positioned.get() {
+                    true => floating_styles.get().style_transform(),
+                    // Keep off the page when measuring
+                    false => Some("translate(0, -200%)".into())
+                }
+                style:will-change=move || floating_styles.get().style_will_change()
+                style:min-width="max-content"
+                style:z-index=content_z_index
+                style=("--radix-popper-transform-origin", transform_origin)
 
-            // Hide the content if using the hide middleware and should be hidden set visibility to hidden
-            // and disable pointer events so the UI behaves as if the PopperContent isn't there at all.
-            style:visibility=move || reference_hidden().then_some("hidden")
-            style:pointer-events=move || reference_hidden().then_some("none")
+                // Hide the content if using the hide middleware and should be hidden set visibility to hidden
+                // and disable pointer events so the UI behaves as if the PopperContent isn't there at all.
+                style:visibility=move || reference_hidden().then_some("hidden")
+                style:pointer-events=move || reference_hidden().then_some("none")
 
-            // Floating UI interally calculates logical alignment based the `dir` attribute on
-            // the reference/floating node, we must add this attribute here to ensure
-            // this is calculated when portalled as well as inline.
-            dir={dir}
-        >
-            <Provider value={content_context_value}>
-                <Primitive
-                    element=html::div
-                    as_child=as_child
-                    node_ref=composed_refs
-                    attrs=attrs
-                >
-                    {children()}
-                </Primitive>
-            </Provider>
-        </div>
+                // Floating UI interally calculates logical alignment based the `dir` attribute on
+                // the reference/floating node, we must add this attribute here to ensure
+                // this is calculated when portalled as well as inline.
+                dir=move || dir.get()
+            >
+                <Provider value={content_context_value.clone()}>
+                    <Primitive
+                        element=html::div
+                        as_child=as_child
+                        node_ref={composed_refs}
+                        {..attrs}
+                        attr:data-side=move || format!("{:?}", placed_side.get()).to_lowercase()
+                        attr:data-align=move || format!("{:?}", placed_align()).to_lowercase()
+                        // If the PopperContent hasn't been placed yet (not all measurements done),
+                        // we prevent animations so that users's animation don't kick in too early referring wrong sides.
+                        style:animation=move || (!is_positioned.get()).then_some("none")
+                    >
+                        {children.with_value(|children| children())}
+                    </Primitive>
+                </Provider>
+            </div>
+        </AttributeInterceptor>
     }
 }
 
@@ -397,62 +369,66 @@ pub fn PopperArrow(
     #[prop(into, optional)] width: MaybeProp<f64>,
     #[prop(into, optional)] height: MaybeProp<f64>,
     #[prop(into, optional)] as_child: MaybeProp<bool>,
-    #[prop(optional)] node_ref: NodeRef<AnyElement>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] node_ref: AnyNodeRef,
     #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
     let children = StoredValue::new(children);
 
     let content_context: PopperContentContextValue = expect_context();
-    let arrow_ref = content_context.arrow_ref;
     let base_side = move || content_context.placed_side.get().opposite();
 
-    let mut attrs = attrs.clone();
-    attrs.extend([("style", "display: block".into_attribute())]);
-
     view! {
-        // We have to use an extra wrapper, because `ResizeObserver` (used by `useSize`)
-        // doesn't report size as we'd expect on SVG elements.
-        // It reports their bounding box, which is effectively the largest path inside the SVG.
-        <span
-            style:position="absolute"
-            style:left=move || match base_side() {
-                Side::Left => Some("0px".into()),
-                _ => content_context.arrow_x.get().map(|arrow_x| format!("{}px", arrow_x))
-            }
-            style:top=move || match base_side() {
-                Side::Top => Some("0px".into()),
-                _ => content_context.arrow_y.get().map(|arrow_y| format!("{}px", arrow_y))
-            }
-            style:right=move || match base_side() {
-                Side::Right => Some("0px"),
-                _ => None
-            }
-            style:bottom=move || match base_side() {
-                Side::Bottom => Some("0px"),
-                _ => None
-            }
-            style:transform-origin=move || match content_context.placed_side.get() {
-                Side::Top => "",
-                Side::Right => "0 0",
-                Side::Bottom => "center 0",
-                Side::Left => "100% 0",
-            }
-            style:transform=move || match content_context.placed_side.get() {
-                Side::Top => "translateY(100%)",
-                Side::Right => "translateY(50%) rotate(90deg) translateX(-50%)",
-                Side::Bottom => "rotate(180deg)",
-                Side::Left => "translateY(50%) rotate(-90deg) translateX(50%)",
-            }
-            style:visibility=move || content_context.should_hide_arrow.get().then_some("hidden")
-        >
-            <ArrowPrimitive width=width height=height as_child=as_child node_ref=node_ref attrs=attrs>
-                {children.with_value(|children| children.as_ref().map(|children| children()))}
-            </ArrowPrimitive>
-        </span>
+        <AttributeInterceptor let:attrs>
+            // We have to use an extra wrapper, because `ResizeObserver` (used by `useSize`)
+            // doesn't report size as we'd expect on SVG elements.
+            // It reports their bounding box, which is effectively the largest path inside the SVG.
+            <span
+                node_ref=content_context.arrow_ref
+                style:position="absolute"
+                style:left=move || match base_side() {
+                    Side::Left => Some("0px".into()),
+                    _ => content_context.arrow_x.get().map(|arrow_x| format!("{arrow_x}px"))
+                }
+                style:top=move || match base_side() {
+                    Side::Top => Some("0px".into()),
+                    _ => content_context.arrow_y.get().map(|arrow_y| format!("{arrow_y}px"))
+                }
+                style:right=move || match base_side() {
+                    Side::Right => Some("0px"),
+                    _ => None
+                }
+                style:bottom=move || match base_side() {
+                    Side::Bottom => Some("0px"),
+                    _ => None
+                }
+                style:transform-origin=move || match content_context.placed_side.get() {
+                    Side::Top => "",
+                    Side::Right => "0 0",
+                    Side::Bottom => "center 0",
+                    Side::Left => "100% 0",
+                }
+                style:transform=move || match content_context.placed_side.get() {
+                    Side::Top => "translateY(100%)",
+                    Side::Right => "translateY(50%) rotate(90deg) translateX(-50%)",
+                    Side::Bottom => "rotate(180deg)",
+                    Side::Left => "translateY(50%) rotate(-90deg) translateX(50%)",
+                }
+                style:visibility=move || content_context.should_hide_arrow.get().then_some("hidden")
+            >
+                <ArrowPrimitive
+                    width=width
+                    height=height
+                    as_child=as_child
+                    node_ref={node_ref}
+                    {..attrs}
+                    // Ensures the element can be measured correctly (mostly for if SVG).
+                    style:display="block"
+                >
+                    {children.with_value(|children| children.as_ref().map(|children| children()))}
+                </ArrowPrimitive>
+            </span>
+        </AttributeInterceptor>
     }
-    .into_any()
-    .node_ref(arrow_ref)
 }
 
 const TRANSFORM_ORIGIN_NAME: &str = "transformOrigin";
@@ -535,7 +511,7 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
             Side::Top => (
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_x_center),
+                    false => format!("{arrow_x_center}px"),
                 },
                 format!("{}px", rects.floating.height + arrow_height),
             ),
@@ -543,13 +519,13 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
                 format!("{}px", -arrow_height),
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_y_center),
+                    false => format!("{arrow_y_center}px"),
                 },
             ),
             Side::Bottom => (
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_x_center),
+                    false => format!("{arrow_x_center}px"),
                 },
                 format!("{}px", -arrow_height),
             ),
@@ -557,7 +533,7 @@ impl Middleware<web_sys::Element, web_sys::Window> for TransformOrigin {
                 format!("{}px", rects.floating.width + arrow_height),
                 match is_arrow_hidden {
                     true => no_arrow_align.into(),
-                    false => format!("{}px", arrow_y_center),
+                    false => format!("{arrow_y_center}px"),
                 },
             ),
         };

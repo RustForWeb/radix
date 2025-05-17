@@ -8,7 +8,7 @@ pub mod aspect_ratio;
 pub mod label;
 // pub mod menu;
 // pub mod playground;
-// pub mod popper;
+pub mod popper;
 pub mod portal;
 // pub mod presence;
 // pub mod progress;

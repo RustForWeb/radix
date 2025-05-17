@@ -1,15 +1,14 @@
-use leptos::web_sys::Element;
-use leptos::{html::ElementType, prelude::*, tachys::html::node_ref::NodeRefContainer};
+use leptos::{html::Div, prelude::*, tachys::html::node_ref::NodeRefContainer};
+use leptos_node_ref::AnyNodeRef;
 
-fn compose_refs<T: ElementType<Output = Element> + Clone + 'static>(
-    refs: Vec<NodeRef<T>>,
-) -> NodeRef<T> {
-    let composed_ref = NodeRef::new();
+fn compose_refs(refs: Vec<AnyNodeRef>) -> AnyNodeRef {
+    let composed_ref = AnyNodeRef::new();
 
     Effect::new(move |_| {
         if let Some(node) = composed_ref.get() {
             for r#ref in &refs {
-                r#ref.load(&node);
+                NodeRefContainer::<Div>::load(*r#ref, &node);
+                // r#ref.load_any(&node);
             }
         }
     });
@@ -17,8 +16,6 @@ fn compose_refs<T: ElementType<Output = Element> + Clone + 'static>(
     composed_ref
 }
 
-pub fn use_composed_refs<T: ElementType<Output = Element> + Clone + 'static>(
-    refs: Vec<NodeRef<T>>,
-) -> NodeRef<T> {
+pub fn use_composed_refs(refs: Vec<AnyNodeRef>) -> AnyNodeRef {
     compose_refs(refs)
 }

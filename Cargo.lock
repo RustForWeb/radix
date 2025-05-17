@@ -1071,7 +1071,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "976dd42dc7e85965fe702eb8164f21f450704bdde31faefd6471dba214cb594e"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -1112,9 +1112,9 @@ checksum = "37909eebbb50d72f9059c3b6d82c0463f2ff062c9e95845c43a6c9c0355411be"
 
 [[package]]
 name = "floating-ui-core"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "17ddaac8c05713a3deaee030a40c388807b32ca3e710223c9a21a0a2951f7892"
+checksum = "33144e69ad91d34cc8b957bdf03ee3f1e46c89e3b1a25e6a6eff473a2d547fe6"
 dependencies = [
  "dyn_derive",
  "dyn_std",
@@ -1125,9 +1125,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-dom"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "837c61fb0a929dd5fcad207268329e42f1cdf17ad465588a72642ffead3d2657"
+checksum = "ba1dda137b7efa08d33f0beba3fe2ccbf538570e43d511bf2d49b5eb1ccb7fc9"
 dependencies = [
  "floating-ui-core",
  "floating-ui-utils",
@@ -1135,10 +1135,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "floating-ui-utils"
-version = "0.3.0"
+name = "floating-ui-leptos"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a15f62b552ac1f916247a8322aef0f4fd29d1c3ec8af84c62ce24579114d7c46"
+checksum = "fed4535c2cd9560d4e9e2825d0e03491cad257d63b0a6e21f59a62152d9e4585"
+dependencies = [
+ "dyn_derive",
+ "dyn_std",
+ "floating-ui-dom",
+ "leptos",
+ "leptos-node-ref",
+ "send_wrapper",
+ "web-sys",
+]
+
+[[package]]
+name = "floating-ui-utils"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a193a216061d7701bd01885d868020d8f7ba0dff21d4f2f4cf4308031fbb9e7a"
 dependencies = [
  "cfg-if",
  "dyn_derive",
@@ -1149,9 +1164,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-yew"
-version = "0.3.1"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "641f592ec86f0c393dbf5920eb84d49167c86335a5782e9cdfa8db62973c7bdb"
+checksum = "aca22fbe7581604ea23434e5424c45baa22f924dc79434001f0d9718602ab240"
 dependencies = [
  "floating-ui-dom",
  "web-sys",
@@ -3116,6 +3131,7 @@ name = "radix-leptos-compose-refs"
 version = "0.0.2"
 dependencies = [
  "leptos",
+ "leptos-node-ref",
 ]
 
 [[package]]
@@ -3155,6 +3171,24 @@ dependencies = [
  "leptos-maybe-callback",
  "leptos-node-ref",
  "radix-leptos-primitive",
+ "web-sys",
+]
+
+[[package]]
+name = "radix-leptos-popper"
+version = "0.0.2"
+dependencies = [
+ "floating-ui-leptos",
+ "leptos",
+ "leptos-maybe-callback",
+ "leptos-node-ref",
+ "radix-leptos-arrow",
+ "radix-leptos-compose-refs",
+ "radix-leptos-primitive",
+ "radix-leptos-use-size",
+ "send_wrapper",
+ "serde",
+ "serde_json",
  "web-sys",
 ]
 
@@ -3203,9 +3237,11 @@ dependencies = [
  "radix-leptos-arrow",
  "radix-leptos-aspect-ratio",
  "radix-leptos-label",
+ "radix-leptos-popper",
  "radix-leptos-portal",
  "radix-leptos-separator",
  "radix-leptos-visually-hidden",
+ "send_wrapper",
  "tailwind_fuse",
  "web-sys",
 ]
@@ -3834,7 +3870,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -4468,7 +4504,7 @@ dependencies = [
  "getrandom 0.3.2",
  "once_cell",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -5091,7 +5127,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

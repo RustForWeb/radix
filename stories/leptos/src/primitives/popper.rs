@@ -1,8 +1,9 @@
 use std::time::Duration;
 
-use leptos::*;
+use leptos::prelude::*;
 use radix_leptos_popper::*;
 use radix_leptos_portal::Portal;
+use send_wrapper::SendWrapper;
 use tailwind_fuse::*;
 
 #[component]
@@ -11,7 +12,7 @@ pub fn Styled() -> impl IntoView {
     let content_class = Memo::new(move |_| ContentClass::default().to_class());
     let arrow_class = Memo::new(move |_| ArrowClass::default().to_class());
 
-    let (open, set_open) = create_signal(false);
+    let (open, set_open) = signal(false);
 
     view! {
         <Scrollable>
@@ -36,7 +37,7 @@ pub fn WithCustomArrow() -> impl IntoView {
     let anchor_class = Memo::new(move |_| AnchorClass::default().to_class());
     let content_class = Memo::new(move |_| ContentClass::default().to_class());
 
-    let (open, set_open) = create_signal(false);
+    let (open, set_open) = signal(false);
 
     view! {
         <Scrollable>
@@ -48,7 +49,7 @@ pub fn WithCustomArrow() -> impl IntoView {
                 <Show when=move || open.get()>
                     <PopperContent attr:class=content_class side=Side::Right side_offset=5.0>
                         <button on:click=move |_| set_open.set(false)>close</button>
-                        <PopperArrow as_child=true attr:offset=20>
+                        <PopperArrow as_child=true>
                             <CustomArrow />
                         </PopperArrow>
                     </PopperContent>
@@ -64,7 +65,7 @@ pub fn Animated() -> impl IntoView {
     let animated_content_class = Memo::new(move |_| AnimatedContentClass::default().to_class());
     let arrow_class = Memo::new(move |_| ArrowClass::default().to_class());
 
-    let (open, set_open) = create_signal(false);
+    let (open, set_open) = signal(false);
 
     view! {
         <Scrollable>
@@ -76,7 +77,7 @@ pub fn Animated() -> impl IntoView {
                 <Show when=move || open.get()>
                     <PopperContent attr:class=animated_content_class side_offset=5.0>
                         <button on:click=move |_| set_open.set(false)>close</button>
-                        <PopperArrow attr:class=arrow_class width=20.0 height=10.0 attr:offset=25 />
+                        <PopperArrow attr:class=arrow_class width=20.0 height=10.0 />
                     </PopperContent>
                 </Show>
             </Popper>
@@ -90,7 +91,7 @@ pub fn WithPortal() -> impl IntoView {
     let content_class = Memo::new(move |_| ContentClass::default().to_class());
     let arrow_class = Memo::new(move |_| ArrowClass::default().to_class());
 
-    let (open, set_open) = create_signal(false);
+    let (open, set_open) = signal(false);
 
     view! {
         <Scrollable>
@@ -118,8 +119,8 @@ pub fn WithUpdatePositionStrategyAlways() -> impl IntoView {
     let content_class = Memo::new(move |_| ContentClass::default().to_class());
     let arrow_class = Memo::new(move |_| ArrowClass::default().to_class());
 
-    let (open, set_open) = create_signal(false);
-    let (left, set_left) = create_signal(0);
+    let (open, set_open) = signal(false);
+    let (left, set_left) = signal(0);
 
     let handle = set_interval_with_handle(
         move || {
@@ -164,24 +165,28 @@ pub fn Chromatic() -> impl IntoView {
     let arrow_class = Memo::new(move |_| ArrowClass::default().to_class());
 
     let scroll_container1_ref = NodeRef::new();
-    let scroll_container1: Signal<Vec<web_sys::Element>> = Signal::derive(move || {
-        scroll_container1_ref
-            .get()
-            .map(|scroll_container| {
-                let element: &web_sys::HtmlDivElement = &scroll_container;
-                vec![element.clone().into()]
-            })
-            .unwrap_or(vec![])
+    let scroll_container1: Signal<SendWrapper<Vec<web_sys::Element>>> = Signal::derive(move || {
+        SendWrapper::new(
+            scroll_container1_ref
+                .get()
+                .map(|scroll_container| {
+                    let element: &web_sys::HtmlDivElement = &scroll_container;
+                    vec![element.clone().into()]
+                })
+                .unwrap_or(vec![]),
+        )
     });
     let scroll_container2_ref = NodeRef::new();
-    let scroll_container2: Signal<Vec<web_sys::Element>> = Signal::derive(move || {
-        scroll_container2_ref
-            .get()
-            .map(|scroll_container| {
-                let element: &web_sys::HtmlDivElement = &scroll_container;
-                vec![element.clone().into()]
-            })
-            .unwrap_or(vec![])
+    let scroll_container2: Signal<SendWrapper<Vec<web_sys::Element>>> = Signal::derive(move || {
+        SendWrapper::new(
+            scroll_container2_ref
+                .get()
+                .map(|scroll_container| {
+                    let element: &web_sys::HtmlDivElement = &scroll_container;
+                    vec![element.clone().into()]
+                })
+                .unwrap_or(vec![]),
+        )
     });
 
     view! {
@@ -479,10 +484,9 @@ fn Scrollable(children: Children) -> impl IntoView {
 }
 
 #[component]
-fn CustomArrow(#[prop(attrs)] attrs: Vec<(&'static str, Attribute)>) -> impl IntoView {
+fn CustomArrow() -> impl IntoView {
     view! {
         <div
-            {..attrs}
             style:width="20px"
             style:height="10px"
             style:border-bottom-left-radius="10px"
