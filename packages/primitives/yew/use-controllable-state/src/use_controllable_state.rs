@@ -31,10 +31,10 @@ where
 
     let set_value = Callback::from(move |next_value| {
         if is_controlled {
-            if next_value != prop {
-                if let Some(on_change) = &on_change {
-                    on_change.emit(next_value);
-                }
+            if next_value != prop
+                && let Some(on_change) = &on_change
+            {
+                on_change.emit(next_value);
             }
         } else {
             uncontrolled_prop.set(next_value);
@@ -64,11 +64,11 @@ where
 
     use_effect_with((value.clone(), prev_value), |(value, prev_value)| {
         let value = (**value).clone();
-        if **prev_value != value {
-            if let Some(on_change) = on_change {
-                on_change.emit(value.clone());
-                prev_value.set(value);
-            }
+        if **prev_value != value
+            && let Some(on_change) = on_change
+        {
+            on_change.emit(value.clone());
+            prev_value.set(value);
         }
     });
 

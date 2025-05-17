@@ -13,13 +13,15 @@ version.workspace = true
 cfg-if = "1.0.0"
 leptos.workspace = true
 leptos_dom.workspace = true
-tracing = "0.1"
+leptos-node-ref.workspace = true
+radix-leptos-primitive.workspace = true
+send_wrapper.workspace = true
 web-sys.workspace = true
 
-[features]
-csr = ["leptos_dom/csr"]
-hydrate = ["leptos_dom/hydrate"]
-ssr = ["leptos_dom/ssr"]
+# [features]
+# csr = ["leptos_dom/csr"]
+# hydrate = ["leptos_dom/hydrate"]
+# ssr = ["leptos_dom/ssr"]
 
-[package.metadata.cargo-all-features]
-skip_feature_sets = [["csr", "ssr"], ["csr", "hydrate"], ["ssr", "hydrate"]]
+# [package.metadata.cargo-all-features]
+# skip_feature_sets = [["csr", "ssr"], ["csr", "hydrate"], ["ssr", "hydrate"]]

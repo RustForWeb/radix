@@ -14,6 +14,7 @@ console_log.workspace = true
 console_error_panic_hook.workspace = true
 leptos = { workspace = true, features = ["csr"] }
 leptos_router.workspace = true
+leptos-node-ref.workspace = true
 log.workspace = true
 radix-leptos-accessible-icon.workspace = true
 radix-leptos-arrow.workspace = true
@@ -25,9 +26,7 @@ radix-leptos-aspect-ratio.workspace = true
 radix-leptos-label.workspace = true
 # radix-leptos-menu.workspace = true
 # radix-leptos-popper.workspace = true
-# radix-leptos-portal = { workspace = true, features = [
-#     "csr",
-# ] }
+radix-leptos-portal.workspace = true
 # radix-leptos-presence.workspace = true
 # radix-leptos-progress.workspace = true
 radix-leptos-separator.workspace = true

@@ -391,25 +391,25 @@ fn BubbleInput(props: &BubbleInputProps) -> Html {
     use_effect_with(
         (node_ref.clone(), prev_checked, props.checked, props.bubbles),
         |(node_ref, prev_checked, checked, bubbles)| {
-            if let Some(input) = node_ref.cast::<web_sys::HtmlInputElement>() {
-                if **prev_checked != *checked {
-                    let init = web_sys::EventInit::new();
-                    init.set_bubbles(*bubbles);
+            if let Some(input) = node_ref.cast::<web_sys::HtmlInputElement>()
+                && **prev_checked != *checked
+            {
+                let init = web_sys::EventInit::new();
+                init.set_bubbles(*bubbles);
 
-                    let event = web_sys::Event::new_with_event_init_dict("click", &init)
-                        .expect("Click event should be instantiated.");
+                let event = web_sys::Event::new_with_event_init_dict("click", &init)
+                    .expect("Click event should be instantiated.");
 
-                    input.set_indeterminate(is_indeterminiate(*checked));
-                    input.set_checked(match checked {
-                        CheckedState::False => false,
-                        CheckedState::True => true,
-                        CheckedState::Indeterminate => false,
-                    });
+                input.set_indeterminate(is_indeterminiate(*checked));
+                input.set_checked(match checked {
+                    CheckedState::False => false,
+                    CheckedState::True => true,
+                    CheckedState::Indeterminate => false,
+                });
 
-                    input
-                        .dispatch_event(&event)
-                        .expect("Click event should be dispatched.");
-                }
+                input
+                    .dispatch_event(&event)
+                    .expect("Click event should be dispatched.");
             }
         },
     );

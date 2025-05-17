@@ -27,10 +27,10 @@ pub fn use_controllable_state<T: Clone + PartialEq + Send + Sync>(
 
     let set_value = Callback::new(move |next_value| {
         if is_controlled.get() {
-            if next_value != prop.get() {
-                if let Some(on_change) = on_change {
-                    on_change.run(next_value);
-                }
+            if next_value != prop.get()
+                && let Some(on_change) = on_change
+            {
+                on_change.run(next_value);
             }
         } else {
             set_uncontrolled_prop.set(next_value);
@@ -57,11 +57,11 @@ fn use_uncontrolled_state<T: Clone + PartialEq + Send + Sync>(
 
     Effect::new(move |_| {
         let value = value.get();
-        if prev_value.get() != value {
-            if let Some(on_change) = on_change {
-                on_change.run(value.clone());
-                prev_value.set(value);
-            }
+        if prev_value.get() != value
+            && let Some(on_change) = on_change
+        {
+            on_change.run(value.clone());
+            prev_value.set(value);
         }
     });
 

@@ -21,6 +21,7 @@ members = [
     "packages/primitives/leptos/focus-guards",
     "packages/primitives/leptos/id",
     "packages/primitives/leptos/label",
+    "packages/primitives/leptos/portal",
     "packages/primitives/leptos/primitive",
     "packages/primitives/leptos/separator",
     "packages/primitives/leptos/use-controllable-state",
@@ -68,6 +69,7 @@ radix-leptos-icons = { path = "./packages/icons/leptos", version = "0.0.2" }
 radix-leptos-id = { path = "./packages/primitives/leptos/id", version = "0.0.2" }
 radix-leptos-label = { path = "./packages/primitives/leptos/label", version = "0.0.2" }
 # radix-leptos-popper = { path = "./packages/primitives/leptos/popper", version = "0.0.2" }
+radix-leptos-portal = { path = "./packages/primitives/leptos/portal", version = "0.0.2" }
 # radix-leptos-presence = { path = "./packages/primitives/leptos/presence", version = "0.0.2" }
 radix-leptos-primitive = { path = "./packages/primitives/leptos/primitive", version = "0.0.2" }
 # radix-leptos-roving-focus = { path = "./packages/primitives/leptos/roving-focus", version = "0.0.2" }

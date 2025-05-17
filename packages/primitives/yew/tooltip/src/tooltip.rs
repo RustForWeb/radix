@@ -1294,10 +1294,10 @@ fn TooltipContentImpl(props: &TooltipContentImplProps) -> Html {
 
                     move |event: Event| {
                         let target = event.target_dyn_into::<web_sys::HtmlElement>();
-                        if let Some(target) = target {
-                            if target.contains(Some(&trigger)) {
-                                on_close.emit(());
-                            }
+                        if let Some(target) = target
+                            && target.contains(Some(&trigger))
+                        {
+                            on_close.emit(());
                         }
                     }
                 });

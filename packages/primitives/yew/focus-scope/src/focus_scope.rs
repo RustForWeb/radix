@@ -399,44 +399,40 @@ pub fn FocusScope(props: &FocusScopeProps) -> Html {
                 .active_element()
                 .map(|element| element.unchecked_into::<web_sys::HtmlElement>());
 
-            if is_tab_key {
-                if let Some(focused_element) = focused_element {
-                    // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
-                    //
-                    // let container = event
-                    //     .current_target()
-                    //     .expect("Event should have current target.")
-                    //     .unchecked_into::<web_sys::HtmlElement>();
-                    let container = container_ref
-                        .cast::<web_sys::HtmlElement>()
-                        .expect("Container should exist.");
-                    let (first, last) = get_tabbable_edges(&container);
-                    let has_tabbable_elements_inside = first.is_some() && last.is_some();
+            if is_tab_key && let Some(focused_element) = focused_element {
+                // Yew messes up `current_target`, see https://yew.rs/docs/concepts/html/events#event-delegation.
+                //
+                // let container = event
+                //     .current_target()
+                //     .expect("Event should have current target.")
+                //     .unchecked_into::<web_sys::HtmlElement>();
+                let container = container_ref
+                    .cast::<web_sys::HtmlElement>()
+                    .expect("Container should exist.");
+                let (first, last) = get_tabbable_edges(&container);
+                let has_tabbable_elements_inside = first.is_some() && last.is_some();
 
-                    if !has_tabbable_elements_inside {
-                        if focused_element == container {
-                            event.prevent_default();
+                if !has_tabbable_elements_inside {
+                    if focused_element == container {
+                        event.prevent_default();
+                    }
+                } else {
+                    #[allow(clippy::collapsible_else_if)]
+                    if !event.shift_key()
+                        && &focused_element == last.as_ref().expect("Last option checked above.")
+                    {
+                        event.prevent_default();
+
+                        if r#loop {
+                            focus(first, Some(FocusOptions { select: true }));
                         }
-                    } else {
-                        #[allow(clippy::collapsible_else_if)]
-                        if !event.shift_key()
-                            && &focused_element
-                                == last.as_ref().expect("Last option checked above.")
-                        {
-                            event.prevent_default();
+                    } else if event.shift_key()
+                        && &focused_element == first.as_ref().expect("First option checked above.")
+                    {
+                        event.prevent_default();
 
-                            if r#loop {
-                                focus(first, Some(FocusOptions { select: true }));
-                            }
-                        } else if event.shift_key()
-                            && &focused_element
-                                == first.as_ref().expect("First option checked above.")
-                        {
-                            event.prevent_default();
-
-                            if r#loop {
-                                focus(last, Some(FocusOptions { select: true }));
-                            }
+                        if r#loop {
+                            focus(last, Some(FocusOptions { select: true }));
                         }
                     }
                 }
@@ -521,11 +517,11 @@ fn get_tabbable_candidates(container: &web_sys::HtmlElement) -> Vec<web_sys::Htm
                     return 3;
                 }
 
-                if let Some(input_element) = node.dyn_ref::<web_sys::HtmlInputElement>() {
-                    if input_element.disabled() || input_element.type_() == "hidden" {
-                        // NodeFilter.FILTER_SKIP
-                        return 3;
-                    }
+                if let Some(input_element) = node.dyn_ref::<web_sys::HtmlInputElement>()
+                    && (input_element.disabled() || input_element.type_() == "hidden")
+                {
+                    // NodeFilter.FILTER_SKIP
+                    return 3;
                 }
 
                 if html_element.tab_index() >= 0 {
@@ -715,10 +711,10 @@ impl FocusScopeStack {
 
     fn add(&mut self, focus_scope: FocusScopeAPI) {
         // Pause the currently active focus scope (at the top of the stack).
-        if let Some(active_focus_scope) = self.stack.first_mut() {
-            if focus_scope != *active_focus_scope {
-                active_focus_scope.pause();
-            }
+        if let Some(active_focus_scope) = self.stack.first_mut()
+            && focus_scope != *active_focus_scope
+        {
+            active_focus_scope.pause();
         }
 
         // Remove in case it already exists (because we'll re-add it at the top of the stack).

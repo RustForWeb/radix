@@ -12,10 +12,10 @@ pub fn compose_callbacks<E: Clone + Into<Event> + 'static>(
             original_event_handler.emit(event.clone());
         }
 
-        if !check_for_default_prevented || !event.clone().into().default_prevented() {
-            if let Some(our_event_handler) = &our_event_handler {
-                our_event_handler.emit(event);
-            }
+        if (!check_for_default_prevented || !event.clone().into().default_prevented())
+            && let Some(our_event_handler) = &our_event_handler
+        {
+            our_event_handler.emit(event);
         }
     })
 }

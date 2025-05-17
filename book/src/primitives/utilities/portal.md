@@ -15,14 +15,7 @@ Install the component from your command line.
 {{#tab name="Leptos" }}
 
 ```shell
-# CSR
-cargo add radix-leptos-portal --features csr
-
-# Hydrate
-cargo add radix-leptos-portal --features hydrate
-
-# SSR
-cargo add radix-leptos-portal --features ssr
+cargo add radix-leptos-portal
 ```
 
 -   [View on crates.io](https://crates.io/crates/radix-leptos-portal)
@@ -89,11 +82,11 @@ Anything you put inside this component will be rendered in a separate `<div>` el
 {{#tabs global="framework" }}
 {{#tab name="Leptos" }}
 
-| Prop            | Type                          | Default |
-| --------------- | ----------------------------- | ------- |
-| `as_child`      | `MaybeProp<bool>`             | `false` |
-| `container`     | `MaybeProp<web_sys::Element>` | -       |
-| `container_ref` | `NodeRef<AnyElement>`         | -       |
+| Prop            | Type                                       | Default |
+| --------------- | ------------------------------------------ | ------- |
+| `as_child`      | `MaybeProp<bool>`                          | `false` |
+| `container`     | `MaybeProp<SendWrapper<web_sys::Element>>` | -       |
+| `container_ref` | `NodeRef<AnyElement>`                      | -       |
 
 {{#endtab }}
 {{#tab name="Yew" }}
