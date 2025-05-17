@@ -4,7 +4,9 @@ use leptos_router::{
     path,
 };
 
-use crate::primitives::{accessible_icon, arrow, aspect_ratio, label, separator, visually_hidden};
+use crate::primitives::{
+    accessible_icon, arrow, aspect_ratio, label, portal, separator, visually_hidden,
+};
 
 #[component]
 fn NavLink<H>(href: H, children: Children) -> impl IntoView
@@ -130,15 +132,15 @@ pub fn App() -> impl IntoView {
                     //         <li><NavLink href="/popper/chromatic">Chromatic</NavLink></li>
                     //     </ul>
                     // </li>
-                    // <li>
-                    //     Portal
+                    <li>
+                        Portal
 
-                    //     <ul class="list-none m-0 ms-4 p-0">
-                    //         <li><NavLink href="/portal/base">Base</NavLink></li>
-                    //         <li><NavLink href="/portal/custom-container">Custom Container</NavLink></li>
-                    //         <li><NavLink href="/portal/chromatic">Chromatic</NavLink></li>
-                    //     </ul>
-                    // </li>
+                        <ul class="list-none m-0 ms-4 p-0">
+                            <li><NavLink href="/portal/base">Base</NavLink></li>
+                            <li><NavLink href="/portal/custom-container">Custom Container</NavLink></li>
+                            <li><NavLink href="/portal/chromatic">Chromatic</NavLink></li>
+                        </ul>
+                    </li>
                     // <li>
                     //     Presence
 
@@ -252,9 +254,9 @@ pub fn App() -> impl IntoView {
                     // <Route path="/popper/with-update-position-strategy-always" view=popper::WithUpdatePositionStrategyAlways />
                     // <Route path="/popper/chromatic" view=popper::Chromatic />
 
-                    // <Route path="/portal/base" view=portal::Base />
-                    // <Route path="/portal/custom-container" view=portal::CustomContainer />
-                    // <Route path="/portal/chromatic" view=portal::Chromatic />
+                    <Route path=path!("/portal/base") view=portal::Base />
+                    <Route path=path!("/portal/custom-container") view=portal::CustomContainer />
+                    <Route path=path!("/portal/chromatic") view=portal::Chromatic />
 
                     // <Route path="/presence/basic" view=presence::Basic />
                     // <Route path="/presence/with-mount-animation" view=presence::WithMountAnimation />

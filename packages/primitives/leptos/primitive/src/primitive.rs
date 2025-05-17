@@ -79,10 +79,10 @@ where
             original.run(event.clone());
         }
 
-        if !check_default_prevented || !event.clone().into().default_prevented() {
-            if let Some(our) = &our_handler {
-                our.run(event);
-            }
+        if (!check_default_prevented || !event.clone().into().default_prevented())
+            && let Some(our) = &our_handler
+        {
+            our.run(event);
         }
     }
 }

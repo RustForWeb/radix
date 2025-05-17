@@ -1,4 +1,5 @@
-use leptos::{html::AnyElement, *};
+use leptos::prelude::*;
+use leptos_node_ref::AnyNodeRef;
 use radix_leptos_portal::Portal;
 
 #[component]
@@ -30,7 +31,7 @@ pub fn Base() -> impl IntoView {
 
 #[component]
 pub fn CustomContainer() -> impl IntoView {
-    let portal_container_ref: NodeRef<AnyElement> = NodeRef::new();
+    let portal_container_ref = AnyNodeRef::new();
 
     view! {
         <div
@@ -48,22 +49,21 @@ pub fn CustomContainer() -> impl IntoView {
             </Portal>
         </div>
 
-        {view! {
-            <div
-                style:max-width="300px"
-                style:padding="10px"
-                style:margin="10px"
-                style:border="1px solid"
-            >
-                <h1>Container B</h1>
-            </div>
-        }.into_any().node_ref(portal_container_ref)}
+        <div
+            node_ref=portal_container_ref
+            style:max-width="300px"
+            style:padding="10px"
+            style:margin="10px"
+            style:border="1px solid"
+        >
+            <h1>Container B</h1>
+        </div>
     }
 }
 
 #[component]
 pub fn Chromatic() -> impl IntoView {
-    let portal_container_ref: NodeRef<AnyElement> = NodeRef::new();
+    let portal_container_ref = AnyNodeRef::new();
 
     view! {
         <div style:padding="150px">
@@ -115,15 +115,14 @@ pub fn Chromatic() -> impl IntoView {
                 </Portal>
             </div>
 
-            {view! {
-                <div
-                    style:padding="10px"
-                    style:margin="10px"
-                    style:border="1px solid"
-                >
-                    <h1>Container C</h1>
-                </div>
-            }.into_any().node_ref(portal_container_ref)}
+            <div
+                node_ref=portal_container_ref
+                style:padding="10px"
+                style:margin="10px"
+                style:border="1px solid"
+            >
+                <h1>Container C</h1>
+            </div>
 
             <h1>zIndex and order</h1>
             <p>See squares in top-left</p>

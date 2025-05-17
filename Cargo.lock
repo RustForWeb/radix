@@ -3159,6 +3159,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-portal"
+version = "0.0.2"
+dependencies = [
+ "cfg-if",
+ "leptos",
+ "leptos-node-ref",
+ "leptos_dom",
+ "radix-leptos-primitive",
+ "send_wrapper",
+ "web-sys",
+]
+
+[[package]]
 name = "radix-leptos-primitive"
 version = "0.0.2"
 dependencies = [
@@ -3183,12 +3196,14 @@ dependencies = [
  "console_error_panic_hook",
  "console_log",
  "leptos",
+ "leptos-node-ref",
  "leptos_router",
  "log",
  "radix-leptos-accessible-icon",
  "radix-leptos-arrow",
  "radix-leptos-aspect-ratio",
  "radix-leptos-label",
+ "radix-leptos-portal",
  "radix-leptos-separator",
  "radix-leptos-visually-hidden",
  "tailwind_fuse",

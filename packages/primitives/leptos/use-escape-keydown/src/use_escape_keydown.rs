@@ -17,10 +17,10 @@ pub fn use_escape_keydown(
     type HandleKeyDown = dyn Fn(KeyboardEvent);
     let handle_key_down: Arc<SendWrapper<Closure<HandleKeyDown>>> = Arc::new(SendWrapper::new(
         Closure::new(move |event: KeyboardEvent| {
-            if event.key() == "Escape" {
-                if let Some(on_escape_key_down) = on_escape_key_down {
-                    on_escape_key_down.run(event);
-                }
+            if event.key() == "Escape"
+                && let Some(on_escape_key_down) = on_escape_key_down
+            {
+                on_escape_key_down.run(event);
             }
         }),
     ));
