@@ -1164,9 +1164,9 @@ dependencies = [
 
 [[package]]
 name = "floating-ui-yew"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aca22fbe7581604ea23434e5424c45baa22f924dc79434001f0d9718602ab240"
+checksum = "885a13e05bbb12e839d132ce7823980d23c45b7285082f6287a259fb820d52b0"
 dependencies = [
  "floating-ui-dom",
  "web-sys",
