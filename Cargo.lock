@@ -3270,6 +3270,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "radix-leptos-use-rect"
+version = "0.0.2"
+dependencies = [
+ "leptos",
+ "leptos-node-ref",
+ "radix-rect",
+ "send_wrapper",
+ "web-sys",
+]
+
+[[package]]
 name = "radix-leptos-use-size"
 version = "0.0.2"
 dependencies = [
@@ -3291,6 +3302,15 @@ dependencies = [
 [[package]]
 name = "radix-number"
 version = "0.0.2"
+
+[[package]]
+name = "radix-rect"
+version = "0.0.2"
+dependencies = [
+ "dashmap 6.1.0",
+ "send_wrapper",
+ "web-sys",
+]
 
 [[package]]
 name = "radix-yew-arrow"

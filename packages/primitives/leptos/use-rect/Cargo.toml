@@ -1,0 +1,16 @@
+[package]
+name = "radix-leptos-use-rect"
+description = "Leptos port of Radix Use Rect."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+leptos.workspace = true
+leptos-node-ref.workspace = true
+send_wrapper.workspace = true
+web-sys = { workspace = true, features = ["DomRect", "Element"] }
+radix-rect.workspace = true

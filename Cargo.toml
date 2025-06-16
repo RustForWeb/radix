@@ -13,6 +13,7 @@ members = [
     "book-examples/*/*",
     "packages/colors",
     "packages/icons/*",
+    "packages/primitives/core/rect",
     "packages/primitives/leptos/accessible-icon",
     "packages/primitives/leptos/arrow",
     "packages/primitives/leptos/aspect-ratio",
@@ -28,6 +29,7 @@ members = [
     "packages/primitives/leptos/use-controllable-state",
     "packages/primitives/leptos/use-escape-keydown",
     "packages/primitives/leptos/use-previous",
+    "packages/primitives/leptos/use-rect",
     "packages/primitives/leptos/use-size",
     "packages/primitives/leptos/visually-hidden",
     "packages/primitives/yew/*",
@@ -78,8 +80,10 @@ radix-leptos-separator = { path = "./packages/primitives/leptos/separator", vers
 radix-leptos-visually-hidden = { path = "./packages/primitives/leptos/visually-hidden", version = "0.0.2" }
 radix-leptos-use-controllable-state = { path = "./packages/primitives/leptos/use-controllable-state", version = "0.0.2" }
 radix-leptos-use-previous = { path = "./packages/primitives/leptos/use-previous", version = "0.0.2" }
+radix-leptos-use-rect = { path = "./packages/primitives/leptos/use-rect", version = "0.0.2" }
 radix-leptos-use-size = { path = "./packages/primitives/leptos/use-size", version = "0.0.2" }
 radix-number = { path = "./packages/primitives/core/number", version = "0.0.2" }
+radix-rect = { path = "./packages/primitives/core/rect", version = "0.0.2" }
 radix-yew-arrow = { path = "./packages/primitives/yew/arrow", version = "0.0.2" }
 radix-yew-aspect-ratio = { path = "./packages/primitives/yew/aspect-ratio", version = "0.0.2" }
 radix-yew-avatar = { path = "./packages/primitives/yew/avatar", version = "0.0.2" }
@@ -118,6 +122,7 @@ yew = "0.21.0"
 yew-router = "0.18.0"
 yew-struct-component = "0.1.4"
 yew-style = "0.1.4"
+dashmap = "6.1.0"
 
 [patch.crates-io]
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }

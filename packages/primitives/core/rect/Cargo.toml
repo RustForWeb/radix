@@ -9,3 +9,10 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
+dashmap.workspace = true
+web-sys = { workspace = true, features = [
+    "DomRect",
+    "Element",
+    "ResizeObserver",
+] }
+send_wrapper.workspace = true
