@@ -5,7 +5,8 @@ use std::{
 
 use send_wrapper::SendWrapper;
 use web_sys::{
-    DomRect, Element, ResizeObserver, ResizeObserverEntry,
+    DomRect, Element, ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry,
+    ResizeObserverOptions,
     wasm_bindgen::{JsCast, closure::Closure},
 };
 
@@ -108,7 +109,10 @@ where
                 },
             }));
 
-        RESIZE_OBSERVER.observe(element_to_observe);
+        let options = ResizeObserverOptions::new();
+        options.set_box(ResizeObserverBoxOptions::BorderBox);
+
+        RESIZE_OBSERVER.observe_with_options(element_to_observe, &options);
     }
 
     let wrapped_element = SendWrapper::new(element_to_observe.clone());

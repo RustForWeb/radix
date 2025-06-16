@@ -122,7 +122,6 @@ yew = "0.21.0"
 yew-router = "0.18.0"
 yew-struct-component = "0.1.4"
 yew-style = "0.1.4"
-dashmap = "6.1.0"
 
 [patch.crates-io]
 yew = { git = "https://github.com/RustForWeb/yew.git", branch = "feature/use-composed-ref" }
