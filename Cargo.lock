@@ -3307,7 +3307,6 @@ version = "0.0.2"
 name = "radix-rect"
 version = "0.0.2"
 dependencies = [
- "dashmap 6.1.0",
  "send_wrapper",
  "web-sys",
 ]

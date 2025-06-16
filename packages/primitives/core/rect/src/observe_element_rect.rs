@@ -6,14 +6,18 @@ use web_sys::{
     wasm_bindgen::{JsCast, closure::Closure},
 };
 
-struct ObservedData {
+// TODO: should it be Arc or Rc
+type Callback<'a> = Arc<dyn Fn(DomRect) + 'a>;
+
+#[derive(Clone)]
+struct ObservedData<'a> {
     rect: DomRect,
-    callbacks: Vec<Option<Box<dyn Fn(DomRect)>>>,
+    callbacks: Vec<Option<Callback<'a>>>,
 }
 
 struct ObservedElement {
     element: Element,
-    observed_data: ObservedData,
+    observed_data: ObservedData<'static>,
 }
 
 static OBSERVED_ELEMENTS: LazyLock<Arc<RwLock<Vec<SendWrapper<ObservedElement>>>>> =
@@ -24,13 +28,8 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
         Closure::new(|entries: Vec<ResizeObserverEntry>| {
             for entry in entries {
                 let target = entry.target();
-                if let Some(observed_element) = OBSERVED_ELEMENTS
-                    .read()
-                    .expect("Read lock should be acquired.")
-                    .iter()
-                    .find(|observed_element| observed_element.element == target)
-                {
-                    for callback in observed_element.observed_data.callbacks.iter().flatten() {
+                if let Some(observed_element) = find_observed_data(&target) {
+                    for callback in observed_element.callbacks.iter().flatten() {
                         callback(entry.target().get_bounding_client_rect().clone());
                     }
                 }
@@ -43,6 +42,21 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
     )
 });
 
+fn find_observed_data(element: &Element) -> Option<ObservedData<'static>> {
+    OBSERVED_ELEMENTS
+        .read()
+        .expect("Read lock should be acquired.")
+        .iter()
+        .find(|observed_element| observed_element.element == *element)
+        .map(|observed_element| observed_element.observed_data.clone())
+}
+
+/// uses `ResizeObserver` to observe an element an calls all the registered callbacks when element's
+/// size changes
+///
+/// # Panics
+///
+/// Panics if failed to acquire locks
 #[allow(clippy::significant_drop_tightening)]
 pub fn observe_element_rect<C>(
     element_to_observe: &Element,
@@ -74,7 +88,7 @@ where
             observed_element
                 .observed_data
                 .callbacks
-                .push(Some(Box::new(callback)));
+                .push(Some(Arc::new(callback)));
 
             callback_idx = observed_element.observed_data.callbacks.len() - 1;
         }
@@ -86,9 +100,11 @@ where
                 element: element_to_observe.clone(),
                 observed_data: ObservedData {
                     rect: DomRect::new().expect("DomRect should be created"),
-                    callbacks: vec![Some(Box::new(callback))],
+                    callbacks: vec![Some(Arc::new(callback))],
                 },
             }));
+
+        RESIZE_OBSERVER.observe(element_to_observe);
     }
 
     Box::new(move || {
@@ -112,8 +128,8 @@ where
                 .iter()
                 .any(std::option::Option::is_some)
             {
-                lock.remove(idx);
                 RESIZE_OBSERVER.unobserve(element);
+                lock.remove(idx);
             }
         }
     })
