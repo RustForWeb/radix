@@ -1,57 +1,36 @@
-use std::{
-    hash::Hash,
-    sync::{Arc, LazyLock},
-};
+use std::sync::{Arc, LazyLock, RwLock};
 
-use dashmap::DashMap;
 use send_wrapper::SendWrapper;
 use web_sys::{
     DomRect, Element, ResizeObserver, ResizeObserverEntry,
-    js_sys::Object,
-    wasm_bindgen::{JsCast, JsValue, closure::Closure},
+    wasm_bindgen::{JsCast, closure::Closure},
 };
 
 struct ObservedData {
     rect: DomRect,
-    callbacks: Vec<Box<dyn Fn(DomRect)>>,
+    callbacks: Vec<Option<Box<dyn Fn(DomRect)>>>,
 }
 
-#[derive(Debug, Clone)]
-struct ElementWrapper {
-    pub inner: SendWrapper<Element>,
+struct ObservedElement {
+    element: Element,
+    observed_data: ObservedData,
 }
 
-impl PartialEq for ElementWrapper {
-    fn eq(&self, other: &Self) -> bool {
-        *self.inner == *other.inner
-    }
-}
-
-impl Eq for ElementWrapper {}
-
-impl Hash for ElementWrapper {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        let res = self.inner.unchecked_ref::<Object>();
-        let val: &JsValue = res.as_ref();
-        Object::is(val, val);
-        // self.inner.hash(state);
-    }
-}
-
-static OBSERVED_ELEMENTS: LazyLock<Arc<DashMap<ElementWrapper, SendWrapper<ObservedData>>>> =
-    LazyLock::new(|| Arc::new(DashMap::new()));
+static OBSERVED_ELEMENTS: LazyLock<Arc<RwLock<Vec<SendWrapper<ObservedElement>>>>> =
+    LazyLock::new(|| Arc::new(RwLock::new(Vec::new())));
 
 static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(|| {
     let callback: Closure<dyn Fn(Vec<ResizeObserverEntry>)> =
         Closure::new(|entries: Vec<ResizeObserverEntry>| {
             for entry in entries {
                 let target = entry.target();
-                let data = OBSERVED_ELEMENTS.get(&ElementWrapper {
-                    inner: SendWrapper::new(target),
-                });
-
-                if let Some(data) = data {
-                    for callback in &data.callbacks {
+                if let Some(observed_element) = OBSERVED_ELEMENTS
+                    .read()
+                    .expect("Read lock should be acquired.")
+                    .iter()
+                    .find(|observed_element| observed_element.element == target)
+                {
+                    for callback in observed_element.observed_data.callbacks.iter().flatten() {
                         callback(entry.target().get_bounding_client_rect().clone());
                     }
                 }
@@ -72,34 +51,70 @@ pub fn observe_element_rect<C>(
 where
     C: Fn(DomRect) + 'static,
 {
-    let safe_element = SendWrapper::new(element_to_observe.clone());
-    let observed_data = OBSERVED_ELEMENTS.get_mut(&ElementWrapper {
-        inner: safe_element.clone(),
-    });
+    let mut callback_idx = 0;
+    let wrapped_element = SendWrapper::new(element_to_observe.clone());
+    let element_exists = OBSERVED_ELEMENTS
+        .read()
+        .expect("Read lock should be acquired.")
+        .iter()
+        .any(|observed_element| &observed_element.element == element_to_observe);
 
-    if let Some(mut observed_data) = observed_data {
-        // TODO: is this optimal or needed?
-        callback(observed_data.rect.clone());
+    if element_exists {
+        let mut lock = OBSERVED_ELEMENTS
+            .write()
+            .expect("Read lock should be acquired.");
 
-        observed_data
-            .callbacks
-            .push(Box::new(callback) as Box<dyn Fn(DomRect)>);
+        let observed_element = lock
+            .iter_mut()
+            .find(|observed_element| &observed_element.element == element_to_observe);
+
+        if let Some(observed_element) = observed_element {
+            callback(observed_element.observed_data.rect.clone());
+
+            observed_element
+                .observed_data
+                .callbacks
+                .push(Some(Box::new(callback)));
+
+            callback_idx = observed_element.observed_data.callbacks.len() - 1;
+        }
     } else {
-        OBSERVED_ELEMENTS.insert(
-            ElementWrapper {
-                inner: SendWrapper::new(element_to_observe.clone()),
-            },
-            SendWrapper::new(ObservedData {
-                rect: DomRect::new().expect("DomRect should be created"),
-                callbacks: vec![Box::new(callback)],
-            }),
-        );
-
-        RESIZE_OBSERVER.observe(element_to_observe);
+        OBSERVED_ELEMENTS
+            .write()
+            .expect("Write lock should be acquired.")
+            .push(SendWrapper::new(ObservedElement {
+                element: element_to_observe.clone(),
+                observed_data: ObservedData {
+                    rect: DomRect::new().expect("DomRect should be created"),
+                    callbacks: vec![Some(Box::new(callback))],
+                },
+            }));
     }
 
     Box::new(move || {
-        let element = &*safe_element;
-        RESIZE_OBSERVER.unobserve(element);
+        let element = &*wrapped_element;
+
+        let mut lock = OBSERVED_ELEMENTS
+            .write()
+            .expect("Read lock should be acquired.");
+
+        let observed_element = lock
+            .iter_mut()
+            .enumerate()
+            .find(|(_, observed_element)| &observed_element.element == element);
+
+        if let Some((idx, observed_element)) = observed_element {
+            observed_element.observed_data.callbacks[callback_idx] = None;
+
+            if !observed_element
+                .observed_data
+                .callbacks
+                .iter()
+                .any(std::option::Option::is_some)
+            {
+                lock.remove(idx);
+                RESIZE_OBSERVER.unobserve(element);
+            }
+        }
     })
 }
