@@ -1,4 +1,7 @@
-use std::sync::{Arc, LazyLock, RwLock};
+use std::{
+    rc::Rc,
+    sync::{Arc, LazyLock, RwLock},
+};
 
 use send_wrapper::SendWrapper;
 use web_sys::{
@@ -6,8 +9,7 @@ use web_sys::{
     wasm_bindgen::{JsCast, closure::Closure},
 };
 
-// TODO: should it be Arc or Rc
-type Callback<'a> = Arc<dyn Fn(DomRect) + 'a>;
+type Callback<'a> = Rc<dyn Fn(DomRect) + 'a>;
 
 pub type UnobserveCallback = Box<dyn Fn() + Send + Sync>;
 
@@ -74,7 +76,7 @@ where
 {
     let mut callback_idx = 0;
     let observed_element_idx = find_observed_element_idx(element_to_observe);
-    let callback: Arc<dyn Fn(DomRect)> = Arc::new(callback);
+    let callback: Rc<dyn Fn(DomRect)> = Rc::new(callback);
 
     // TODO: what about race conditions, should it be ignored?
     if let Some(idx) = observed_element_idx {
@@ -89,7 +91,7 @@ where
             observed_element
                 .observed_data
                 .callbacks
-                .push(Some(Arc::clone(&callback)));
+                .push(Some(Rc::clone(&callback)));
 
             // TODO: does it worth it?
             callback(observed_element.observed_data.rect.clone());
