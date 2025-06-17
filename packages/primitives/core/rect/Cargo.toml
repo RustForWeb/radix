@@ -17,6 +17,6 @@ web-sys = { workspace = true, features = [
     "ResizeObserverOptions",
     "ResizeObserverSize",
 ] }
-dashmap.workspace = true
-uuid.workspace = true
 send_wrapper.workspace = true
+serde.workspace = true
+serde-wasm-bindgen.workspace = true
