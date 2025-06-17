@@ -3258,7 +3258,7 @@ version = "0.0.2"
 dependencies = [
  "leptos",
  "leptos-node-ref",
- "radix-rect",
+ "radix-observe",
  "send_wrapper",
  "web-sys",
 ]
@@ -3269,6 +3269,7 @@ version = "0.0.2"
 dependencies = [
  "leptos",
  "leptos-node-ref",
+ "radix-observe",
  "send_wrapper",
  "web-sys",
 ]
@@ -3287,7 +3288,7 @@ name = "radix-number"
 version = "0.0.2"
 
 [[package]]
-name = "radix-rect"
+name = "radix-observe"
 version = "0.0.2"
 dependencies = [
  "send_wrapper",

@@ -1,23 +1,23 @@
 use std::sync::LazyLock;
 
 use send_wrapper::SendWrapper;
-use wasm_bindgen::prelude::*;
-use web_sys::js_sys::Map;
+use web_sys::js_sys;
+use web_sys::wasm_bindgen::prelude::*;
 use web_sys::{
-    DomRect, Element, ResizeObserver, ResizeObserverEntry, ResizeObserverOptions, js_sys,
+    Element, ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry, ResizeObserverOptions,
 };
-use web_sys::{ResizeObserverBoxOptions, wasm_bindgen};
 
 pub type UnobserveCallback = Box<dyn Fn() + Send + Sync>;
 
-static OBSERVED_ELEMENTS: LazyLock<SendWrapper<Map>> =
-    LazyLock::new(|| SendWrapper::new(Map::new()));
+static OBSERVED_ELEMENTS: LazyLock<SendWrapper<js_sys::Map>> =
+    LazyLock::new(|| SendWrapper::new(js_sys::Map::new()));
 
 static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(|| {
     let callback: Closure<dyn Fn(Vec<ResizeObserverEntry>)> =
         Closure::new(|entries: Vec<ResizeObserverEntry>| {
             for entry in entries {
                 let target = entry.target();
+                web_sys::console::log_1(&entry);
 
                 let observed_data = OBSERVED_ELEMENTS.get(&target);
 
@@ -29,12 +29,8 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
                         .dyn_into::<js_sys::Object>()
                         .expect("Object should be of type ObservedData");
 
-                    js_sys::Reflect::set(
-                        &observed_data,
-                        &"rect".into(),
-                        &target.get_bounding_client_rect(),
-                    )
-                    .expect("Should be able to set rect");
+                    js_sys::Reflect::set(&observed_data, &"entry".into(), &entry)
+                        .expect("Should be able to set entry");
 
                     let callbacks = js_sys::Reflect::get(&observed_data, &"callbacks".into())
                         .expect("Object should have callbacks array")
@@ -44,7 +40,7 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
                     callbacks.for_each(&mut |obj, _, _| {
                         if let Ok(callback) = obj.dyn_into::<js_sys::Function>() {
                             callback
-                                .call1(&JsValue::NULL, &target.get_bounding_client_rect())
+                                .call1(&JsValue::NULL, &entry)
                                 .expect("callback should be called");
                         }
                     });
@@ -58,12 +54,13 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
     )
 });
 
-pub fn observe_element_rect<C>(element_to_observe: &Element, callback: C) -> UnobserveCallback
+pub fn observe_element<C>(element_to_observe: &Element, callback: C) -> UnobserveCallback
 where
-    C: Fn(DomRect) + 'static + Send + Sync,
+    C: Fn(ResizeObserverEntry) + 'static + Send + Sync,
 {
     let observed_data = OBSERVED_ELEMENTS.get(element_to_observe);
-    let callback: Closure<dyn Fn(DomRect)> = Closure::new(move |rect: DomRect| callback(rect));
+    let callback: Closure<dyn Fn(ResizeObserverEntry)> =
+        Closure::new(move |entry: ResizeObserverEntry| callback(entry));
     let callback = callback.into_js_value();
 
     if observed_data == JsValue::UNDEFINED {
@@ -71,8 +68,8 @@ where
         let callbacks = js_sys::Array::new();
         callbacks.push(callback.unchecked_ref());
 
-        js_sys::Reflect::set(&obj, &"rect".into(), &JsValue::NULL)
-            .expect("Should be able to set rect");
+        js_sys::Reflect::set(&obj, &"entry".into(), &JsValue::NULL)
+            .expect("Should be able to set entry");
         js_sys::Reflect::set(&obj, &"callbacks".into(), &callbacks.into())
             .expect("Should be able to set callbacks");
 
@@ -101,10 +98,10 @@ where
             callback
                 .call1(
                     &JsValue::NULL,
-                    &js_sys::Reflect::get(&observed_data, &"rect".into())
-                        .expect("ObservedData should have rect")
-                        .dyn_into::<DomRect>()
-                        .expect("rect should be of type DOMRect"),
+                    &js_sys::Reflect::get(&observed_data, &"entry".into())
+                        .expect("ObservedData should have entry")
+                        .dyn_into::<ResizeObserverEntry>()
+                        .expect("entry should be of type ResizeObserverEntry"),
                 )
                 .expect("callback should be called");
         }

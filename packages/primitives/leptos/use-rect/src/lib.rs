@@ -2,7 +2,7 @@ use std::sync::{Arc, Mutex};
 
 use leptos::prelude::*;
 use leptos_node_ref::AnyNodeRef;
-use radix_rect::observe_element_rect;
+use radix_observe::observe_element;
 use send_wrapper::SendWrapper;
 use web_sys::{DomRect, wasm_bindgen::JsCast};
 
@@ -22,20 +22,26 @@ pub fn use_rect(element_ref: AnyNodeRef) -> ReadSignal<Option<SendWrapper<DomRec
             .get()
             .and_then(|element| element.dyn_into::<web_sys::HtmlElement>().ok())
         {
-            *unobserve.lock().expect("Lock should be acquired.") =
-                Some(observe_element_rect(&element, move |rect| {
-                    set_rect.set(Some(SendWrapper::new(rect)));
-                }));
+            let cleanup = observe_element(&element, move |entry| {
+                set_rect.set(Some(SendWrapper::new(
+                    entry.target().get_bounding_client_rect(),
+                )));
+            });
+
+            unobserve
+                .lock()
+                .expect("Lock should be acquired.")
+                .replace(cleanup);
         }
     });
 
     on_cleanup(move || {
-        if let Some(unobserve) = unobserve_clone
+        if let Some(cleanup) = unobserve_clone
             .lock()
             .expect("Lock should be acquired.")
             .as_ref()
         {
-            unobserve();
+            cleanup();
         }
     });
 

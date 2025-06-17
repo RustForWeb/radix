@@ -1,6 +1,6 @@
 [package]
-name = "radix-rect"
-description = "Rust port of Radix Core Rect."
+name = "radix-observe"
+description = "Rust alternative of Radix Core Rect."
 
 authors.workspace = true
 edition.workspace = true

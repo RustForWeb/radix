@@ -12,5 +12,5 @@ version.workspace = true
 leptos.workspace = true
 leptos-node-ref.workspace = true
 send_wrapper.workspace = true
-web-sys = { workspace = true, features = ["DomRect", "Element"] }
-radix-rect.workspace = true
+web-sys = { workspace = true }
+radix-observe.workspace = true
