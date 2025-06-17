@@ -33,9 +33,9 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
         Closure::new(|entries: Vec<ResizeObserverEntry>| {
             for entry in entries {
                 let target = entry.target();
-                if let Some(observed_element) = find_observed_data(&target) {
-                    for callback in observed_element.callbacks.iter().flatten() {
-                        callback(entry.target().get_bounding_client_rect().clone());
+                if let Some(observed_data) = find_observed_data(&target) {
+                    for callback in observed_data.callbacks.iter().flatten() {
+                        callback(target.get_bounding_client_rect().clone());
                     }
                 }
             }
@@ -75,9 +75,9 @@ pub fn observe_element_rect<C>(element_to_observe: &Element, callback: C) -> Uno
 where
     C: Fn(DomRect) + 'static,
 {
+    let callback: Rc<dyn Fn(DomRect)> = Rc::new(callback);
     let mut callback_idx = 0;
     let observed_element_idx = find_observed_element_idx(element_to_observe);
-    let callback: Rc<dyn Fn(DomRect)> = Rc::new(callback);
 
     // TODO: what about race conditions, should it be ignored?
     if let Some(idx) = observed_element_idx {
