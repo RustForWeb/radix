@@ -131,8 +131,10 @@ where
 
         if let Ok(index) = u32::try_from(index) {
             callbacks.splice(index, 1, &JsValue::NULL);
-        } else {
-            RESIZE_OBSERVER.unobserve(&element);
+        }
+
+        if callbacks.length() == 0 {
+            RESIZE_OBSERVER.unobserve(element);
             OBSERVED_ELEMENTS.delete(element);
         }
     })
