@@ -23,4 +23,4 @@ The Rust Radix project is part of [Rust for Web](https://github.com/RustForWeb).
 ## Modifications
 
 This implementation is generalized where the callbacks are provided with the `ResizeObserverEntry`
-directly so any dependants than need to observe changes can use it.
+directly so any dependants that need to observe changes can use it.
