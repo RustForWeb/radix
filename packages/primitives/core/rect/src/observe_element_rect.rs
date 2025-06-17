@@ -1,8 +1,6 @@
-use std::{
-    rc::Rc,
-    sync::{Arc, LazyLock, RwLock},
-};
+use std::sync::{Arc, LazyLock};
 
+use dashmap::DashMap;
 use send_wrapper::SendWrapper;
 use web_sys::{
     DomRect, Element, ResizeObserver, ResizeObserverBoxOptions, ResizeObserverEntry,
@@ -10,33 +8,31 @@ use web_sys::{
     wasm_bindgen::{JsCast, closure::Closure},
 };
 
-type Callback<'a> = Rc<dyn Fn(DomRect) + 'a>;
+type Callback = Arc<dyn Fn(DomRect) + Send + Sync>;
 
 pub type UnobserveCallback = Box<dyn Fn() + Send + Sync>;
 
-#[derive(Clone)]
-struct ObservedData<'a> {
-    rect: DomRect,
-    callbacks: Vec<Option<Callback<'a>>>,
+struct ElementData {
+    callbacks: Vec<Option<Callback>>,
 }
 
-struct ObservedElement {
-    element: Element,
-    observed_data: ObservedData<'static>,
-}
-
-static OBSERVED_ELEMENTS: LazyLock<Arc<RwLock<Vec<SendWrapper<ObservedElement>>>>> =
-    LazyLock::new(|| Arc::new(RwLock::new(Vec::new())));
+static OBSERVED_ELEMENTS: LazyLock<DashMap<String, ElementData>> = LazyLock::new(DashMap::new);
 
 static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(|| {
     let callback: Closure<dyn Fn(Vec<ResizeObserverEntry>)> =
         Closure::new(|entries: Vec<ResizeObserverEntry>| {
             for entry in entries {
                 let target = entry.target();
-                if let Some(observed_data) = find_observed_data(&target) {
-                    for callback in observed_data.callbacks.iter().flatten() {
-                        callback(target.get_bounding_client_rect().clone());
-                    }
+                let id = target.id();
+
+                let callbacks = if let Some(observed_data) = OBSERVED_ELEMENTS.get(&id) {
+                    Some(observed_data.callbacks.clone())
+                } else {
+                    None
+                };
+
+                for callback in callbacks.iter().flatten().flatten() {
+                    callback(target.get_bounding_client_rect().clone());
                 }
             }
         });
@@ -47,23 +43,6 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
     )
 });
 
-fn find_observed_data(element: &Element) -> Option<ObservedData<'static>> {
-    OBSERVED_ELEMENTS
-        .read()
-        .expect("Read lock should be acquired.")
-        .iter()
-        .find(|observed_element| observed_element.element == *element)
-        .map(|observed_element| observed_element.observed_data.clone())
-}
-
-fn find_observed_element_idx(element: &Element) -> Option<usize> {
-    OBSERVED_ELEMENTS
-        .read()
-        .expect("Read lock should be acquired.")
-        .iter()
-        .position(|observed_element| observed_element.element == *element)
-}
-
 /// uses `ResizeObserver` to observe an element and calls all the registered callbacks when element's
 /// size changes
 ///
@@ -73,42 +52,38 @@ fn find_observed_element_idx(element: &Element) -> Option<usize> {
 #[allow(clippy::significant_drop_tightening)]
 pub fn observe_element_rect<C>(element_to_observe: &Element, callback: C) -> UnobserveCallback
 where
-    C: Fn(DomRect) + 'static,
+    C: Fn(DomRect) + 'static + Send + Sync,
 {
-    let callback: Rc<dyn Fn(DomRect)> = Rc::new(callback);
+    let callback: Arc<dyn Fn(DomRect) + 'static + Send + Sync> = Arc::new(callback);
+    let mut observed = true;
     let mut callback_idx = 0;
-    let observed_element_idx = find_observed_element_idx(element_to_observe);
+    // TODO: find a better way to identify elements
+    let id = {
+        let id = element_to_observe.id();
+        if id.is_empty() {
+            let uuid = uuid::Uuid::new_v4().to_string();
+            element_to_observe.set_id(&uuid);
 
-    // TODO: what about race conditions, should it be ignored?
-    if let Some(idx) = observed_element_idx {
-        let mut guard = OBSERVED_ELEMENTS
-            .write()
-            .expect("Write lock should be acquired.");
-        let observed_element = guard.get_mut(idx);
-
-        if let Some(observed_element) = observed_element {
-            callback_idx = observed_element.observed_data.callbacks.len();
-
-            observed_element
-                .observed_data
-                .callbacks
-                .push(Some(Rc::clone(&callback)));
-
-            // TODO: does it worth it?
-            callback(observed_element.observed_data.rect.clone());
+            uuid
+        } else {
+            id
         }
-    } else {
-        OBSERVED_ELEMENTS
-            .write()
-            .expect("Write lock should be acquired.")
-            .push(SendWrapper::new(ObservedElement {
-                element: element_to_observe.clone(),
-                observed_data: ObservedData {
-                    rect: DomRect::new().expect("DomRect should be created"),
-                    callbacks: vec![Some(callback)],
-                },
-            }));
+    };
 
+    {
+        let mut observed_data = OBSERVED_ELEMENTS.entry(id.clone()).or_insert_with(|| {
+            observed = false;
+
+            ElementData {
+                callbacks: Vec::with_capacity(1),
+            }
+        });
+
+        callback_idx = observed_data.callbacks.len();
+        observed_data.callbacks.push(Some(Arc::clone(&callback)));
+    }
+
+    if !observed {
         let options = ResizeObserverOptions::new();
         options.set_box(ResizeObserverBoxOptions::BorderBox);
 
@@ -119,28 +94,30 @@ where
     Box::new(move || {
         let element = &*wrapped_element;
 
-        let observed_element_idx = find_observed_element_idx(element);
+        let remove = {
+            let observed_data = OBSERVED_ELEMENTS.get_mut(&id);
 
-        // TODO: what about race conditions, should it be ignored?
-        if let Some(idx) = observed_element_idx {
-            let mut guard = OBSERVED_ELEMENTS
-                .write()
-                .expect("Write lock should be acquired.");
-            let observed_element = guard.get_mut(idx);
+            if let Some(mut observed_data) = observed_data {
+                observed_data.callbacks[callback_idx] = None;
 
-            if let Some(observed_element) = observed_element {
-                observed_element.observed_data.callbacks[callback_idx] = None;
-
-                if !observed_element
-                    .observed_data
+                if observed_data
                     .callbacks
                     .iter()
                     .any(std::option::Option::is_some)
                 {
+                    false
+                } else {
                     RESIZE_OBSERVER.unobserve(element);
-                    guard.remove(idx);
+
+                    true
                 }
+            } else {
+                false
             }
+        };
+
+        if remove {
+            OBSERVED_ELEMENTS.remove(&id);
         }
     })
 }
