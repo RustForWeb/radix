@@ -3291,8 +3291,6 @@ name = "radix-rect"
 version = "0.0.2"
 dependencies = [
  "send_wrapper",
- "serde",
- "serde-wasm-bindgen 0.6.5",
  "web-sys",
 ]
 

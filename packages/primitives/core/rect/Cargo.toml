@@ -12,11 +12,10 @@ version.workspace = true
 web-sys = { workspace = true, features = [
     "DomRect",
     "Element",
+    "ResizeObserver",
     "ResizeObserverBoxOptions",
     "ResizeObserverEntry",
     "ResizeObserverOptions",
     "ResizeObserverSize",
 ] }
 send_wrapper.workspace = true
-serde.workspace = true
-serde-wasm-bindgen.workspace = true
