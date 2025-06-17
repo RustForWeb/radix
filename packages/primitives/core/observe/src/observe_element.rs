@@ -17,28 +17,28 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
         Closure::new(|entries: Vec<ResizeObserverEntry>| {
             for entry in entries {
                 let target = entry.target();
-                web_sys::console::log_1(&entry);
 
                 let observed_data = OBSERVED_ELEMENTS.get(&target);
 
                 if observed_data == JsValue::UNDEFINED {
-                    RESIZE_OBSERVER.unobserve(&target);
+                    // cannot happen
+                    // RESIZE_OBSERVER.unobserve(&target);
                 } else {
-                    let observed_data = OBSERVED_ELEMENTS
-                        .get(&target)
-                        .dyn_into::<js_sys::Object>()
+                    let observed_data = OBSERVED_ELEMENTS.get(&target);
+                    let observed_data = observed_data
+                        .dyn_ref::<js_sys::Object>()
                         .expect("Object should be of type ObservedData");
 
-                    js_sys::Reflect::set(&observed_data, &"entry".into(), &entry)
+                    js_sys::Reflect::set(observed_data, &"entry".into(), &entry)
                         .expect("Should be able to set entry");
 
-                    let callbacks = js_sys::Reflect::get(&observed_data, &"callbacks".into())
+                    let callbacks = js_sys::Reflect::get(observed_data, &"callbacks".into())
                         .expect("Object should have callbacks array")
                         .dyn_into::<js_sys::Array>()
                         .expect("Object should be of type array");
 
                     callbacks.for_each(&mut |obj, _, _| {
-                        if let Ok(callback) = obj.dyn_into::<js_sys::Function>() {
+                        if let Some(callback) = obj.dyn_ref::<js_sys::Function>() {
                             callback
                                 .call1(&JsValue::NULL, &entry)
                                 .expect("callback should be called");
@@ -81,26 +81,26 @@ where
         RESIZE_OBSERVER.observe_with_options(element_to_observe, &options);
     } else {
         let observed_data = observed_data
-            .dyn_into::<js_sys::Object>()
+            .dyn_ref::<js_sys::Object>()
             .expect("observed data type should be object");
 
-        let callbacks = js_sys::Reflect::get(&observed_data, &"callbacks".into())
+        let callbacks = js_sys::Reflect::get(observed_data, &"callbacks".into())
             .expect("Object should have callbacks array")
             .dyn_into::<js_sys::Array>()
             .expect("Object should be of type array");
 
         callbacks.push(callback.unchecked_ref());
 
-        if let Ok(callback) = callbacks
+        if let Some(callback) = callbacks
             .get(callbacks.length() - 1)
-            .dyn_into::<js_sys::Function>()
+            .dyn_ref::<js_sys::Function>()
         {
             callback
                 .call1(
                     &JsValue::NULL,
-                    &js_sys::Reflect::get(&observed_data, &"entry".into())
+                    js_sys::Reflect::get(observed_data, &"entry".into())
                         .expect("ObservedData should have entry")
-                        .dyn_into::<ResizeObserverEntry>()
+                        .dyn_ref::<ResizeObserverEntry>()
                         .expect("entry should be of type ResizeObserverEntry"),
                 )
                 .expect("callback should be called");
@@ -119,21 +119,20 @@ where
         }
 
         let observed_data = observed_data
-            .dyn_into::<js_sys::Object>()
+            .dyn_ref::<js_sys::Object>()
             .expect("observed data type should be object");
 
-        let callbacks = js_sys::Reflect::get(&observed_data, &"callbacks".into())
+        let callbacks = js_sys::Reflect::get(observed_data, &"callbacks".into())
             .expect("Object should have callbacks array")
             .dyn_into::<js_sys::Array>()
             .expect("Object should be of type array");
 
         let index = callbacks.index_of(callback.unchecked_ref(), 0);
 
-        if index > -1 {
-            callbacks.splice(index as u32, 1, &JsValue::NULL);
-        }
-
-        if callbacks.length() == 0 {
+        if let Ok(index) = u32::try_from(index) {
+            callbacks.splice(index, 1, &JsValue::NULL);
+        } else {
+            RESIZE_OBSERVER.unobserve(&element);
             OBSERVED_ELEMENTS.delete(element);
         }
     })
