@@ -20,7 +20,7 @@ pub fn use_rect(element_ref: AnyNodeRef) -> ReadSignal<Option<SendWrapper<DomRec
     Effect::new(move |_| {
         if let Some(element) = element_ref
             .get()
-            .and_then(|element| element.dyn_into::<web_sys::Element>().ok())
+            .and_then(|element| element.dyn_into::<web_sys::HtmlElement>().ok())
         {
             *unobserve.lock().expect("Lock should be acquired.") =
                 Some(observe_element_rect(&element, move |rect| {
