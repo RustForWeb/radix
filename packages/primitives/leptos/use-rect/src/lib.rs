@@ -1,6 +1,7 @@
 use std::sync::{Arc, Mutex};
 
-use leptos::{html::ElementType, prelude::*};
+use leptos::prelude::*;
+use leptos_node_ref::AnyNodeRef;
 use radix_rect::observe_element_rect;
 use send_wrapper::SendWrapper;
 use web_sys::{DomRect, wasm_bindgen::JsCast};
@@ -11,11 +12,7 @@ use web_sys::{DomRect, wasm_bindgen::JsCast};
 ///
 /// Panics if failed to acquire the lock
 #[must_use]
-pub fn use_rect<E>(element_ref: NodeRef<E>) -> ReadSignal<Option<SendWrapper<DomRect>>>
-where
-    E: ElementType + JsCast,
-    NodeRef<E>: With + Get<Value = Option<E>>,
-{
+pub fn use_rect(element_ref: AnyNodeRef) -> ReadSignal<Option<SendWrapper<DomRect>>> {
     let (rect, set_rect) = signal::<Option<SendWrapper<DomRect>>>(None);
     let unobserve = Arc::new(Mutex::new(None));
     let unobserve_clone = unobserve.clone();
@@ -23,7 +20,7 @@ where
     Effect::new(move |_| {
         if let Some(element) = element_ref
             .get()
-            .and_then(|element| element.dyn_into::<web_sys::Element>().ok())
+            .and_then(|element| element.dyn_into::<web_sys::HtmlElement>().ok())
         {
             *unobserve.lock().expect("Lock should be acquired.") =
                 Some(observe_element_rect(&element, move |rect| {
