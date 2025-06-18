@@ -57,11 +57,11 @@ pub fn observe_element<C>(element_to_observe: &Element, callback: C) -> Unobserv
 where
     C: Fn(ResizeObserverEntry) + 'static + Send + Sync,
 {
-    let observed_data = OBSERVED_ELEMENTS.get(element_to_observe);
     let callback: Closure<dyn Fn(ResizeObserverEntry)> =
         Closure::new(move |entry: ResizeObserverEntry| callback(entry));
     let callback = callback.into_js_value();
 
+    let observed_data = OBSERVED_ELEMENTS.get(element_to_observe);
     if observed_data == JsValue::UNDEFINED {
         let obj = js_sys::Object::new();
         let callbacks = js_sys::Array::new();
