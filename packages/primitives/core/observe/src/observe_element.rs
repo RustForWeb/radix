@@ -94,15 +94,19 @@ where
             .get(callbacks.length() - 1)
             .dyn_ref::<js_sys::Function>()
         {
-            callback
-                .call1(
-                    &JsValue::NULL,
-                    js_sys::Reflect::get(observed_data, &"entry".into())
-                        .expect("ObservedData should have entry")
-                        .dyn_ref::<ResizeObserverEntry>()
-                        .expect("entry should be of type ResizeObserverEntry"),
-                )
-                .expect("callback should be called");
+            let entry = js_sys::Reflect::get(observed_data, &"entry".into())
+                .expect("ObservedData should have entry");
+
+            if entry != JsValue::NULL {
+                callback
+                    .call1(
+                        &JsValue::NULL,
+                        entry
+                            .dyn_ref::<ResizeObserverEntry>()
+                            .expect("entry should be of type ResizeObserverEntry"),
+                    )
+                    .expect("callback should be called");
+            }
         }
     }
 

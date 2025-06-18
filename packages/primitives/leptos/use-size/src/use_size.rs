@@ -22,12 +22,6 @@ pub fn use_size(element_ref: AnyNodeRef) -> ReadSignal<Option<Size>> {
             .get()
             .and_then(|element| element.dyn_into::<web_sys::HtmlElement>().ok())
         {
-            // Provide size as early as possible.
-            set_size.set(Some(Size {
-                width: f64::from(element.offset_width()),
-                height: f64::from(element.offset_height()),
-            }));
-
             let cleanup = observe_element(&element, move |entry| {
                 let border_size_entry = entry.border_box_size().at(0);
 
