@@ -20,11 +20,10 @@ static RESIZE_OBSERVER: LazyLock<SendWrapper<ResizeObserver>> = LazyLock::new(||
 
                 let observed_data = OBSERVED_ELEMENTS.get(&target);
 
+                // cannot happen
                 if observed_data == JsValue::UNDEFINED {
-                    // cannot happen
                     // RESIZE_OBSERVER.unobserve(&target);
                 } else {
-                    let observed_data = OBSERVED_ELEMENTS.get(&target);
                     let observed_data = observed_data
                         .dyn_ref::<js_sys::Object>()
                         .expect("Object should be of type ObservedData");
