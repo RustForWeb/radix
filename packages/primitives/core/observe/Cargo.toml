@@ -1,0 +1,21 @@
+[package]
+name = "radix-observe"
+description = "Rust alternative of Radix Core Rect."
+
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+web-sys = { workspace = true, features = [
+    "DomRect",
+    "Element",
+    "ResizeObserver",
+    "ResizeObserverBoxOptions",
+    "ResizeObserverEntry",
+    "ResizeObserverOptions",
+    "ResizeObserverSize",
+] }
+send_wrapper.workspace = true
