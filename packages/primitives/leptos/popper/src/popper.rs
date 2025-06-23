@@ -160,8 +160,8 @@ pub fn PopperContent(
         context.anchor_ref,
         floating_ref,
         UseFloatingOptions::default()
-            .strategy(Strategy::Fixed.into())
-            .placement(desired_placement.into())
+            .strategy(Strategy::Fixed)
+            .placement(desired_placement)
             .while_elements_mounted_auto_update_with_options(Signal::derive(move || {
                 AutoUpdateOptions::default().animation_frame(
                     update_position_strategy.get() == UpdatePositionStrategy::Always,
