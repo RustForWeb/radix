@@ -4,6 +4,6 @@
 //!
 //! See [`@radix-ui/rect`](https://www.npmjs.com/package/@radix-ui/rect) for the original package.
 
-mod observe_element_rect;
+mod observe_element;
 
-pub use observe_element_rect::*;
+pub use observe_element::*;

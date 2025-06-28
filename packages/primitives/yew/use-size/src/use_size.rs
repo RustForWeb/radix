@@ -28,8 +28,8 @@ pub fn use_size(element_ref: NodeRef) -> UseStateHandle<Option<Size>> {
 
                 // Provide size as early as possible.
                 size.set(Some(Size {
-                    width: element.offset_width() as f64,
-                    height: element.offset_height() as f64,
+                    width: f64::from(element.offset_width()),
+                    height: f64::from(element.offset_height()),
                 }));
 
                 let resize_closure: Closure<dyn Fn(Vec<ResizeObserverEntry>)> =

@@ -1,6 +1,6 @@
 [package]
-name = "radix-leptos-use-size"
-description = "Leptos port of Radix Use Size."
+name = "radix-leptos-use-rect"
+description = "Leptos port of Radix Use Rect."
 
 authors.workspace = true
 edition.workspace = true
