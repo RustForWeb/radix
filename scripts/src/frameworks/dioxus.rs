@@ -5,7 +5,7 @@ use proc_macro2::TokenStream;
 use quote::{ToTokens, quote};
 use roxmltree::{Attribute, Children, Document, Node, NodeType};
 
-use crate::framework::Framework;
+use crate::{framework::Framework, status::ExitStatusExt};
 
 pub struct Dioxus;
 
@@ -132,14 +132,14 @@ impl Framework for Dioxus {
             .arg("fmt")
             .current_dir(path)
             .status()?
-            .exit_ok()?;
+            .stable_exit_ok()?;
 
         Command::new("cargo")
             .arg("fmt")
             .arg("-p")
             .arg(&package)
             .status()?
-            .exit_ok()?;
+            .stable_exit_ok()?;
 
         Ok(())
     }

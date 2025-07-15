@@ -1,5 +1,3 @@
-#![feature(exit_status_error)]
-
 use std::error::Error;
 use std::path::Path;
 use std::process::Command;
@@ -7,6 +5,7 @@ use std::{fs, str};
 
 use convert_case::{Case, Casing};
 use http_body_util::BodyExt;
+use scripts::status::ExitStatusExt;
 
 const GITHUB_OWNER: &str = "radix-ui";
 const GITHUB_REPO: &str = "colors";
@@ -101,7 +100,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .arg("-p")
         .arg("radix-colors")
         .status()?
-        .exit_ok()?;
+        .stable_exit_ok()?;
 
     Ok(())
 }

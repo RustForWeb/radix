@@ -4,7 +4,7 @@ use convert_case::{Case, Casing};
 use proc_macro2::TokenStream;
 use quote::{ToTokens, quote};
 
-use crate::framework::Framework;
+use crate::{framework::Framework, status::ExitStatusExt};
 
 pub struct Leptos;
 
@@ -128,13 +128,13 @@ impl Framework for Leptos {
             .arg("-p")
             .arg(&package)
             .status()?
-            .exit_ok()?;
+            .stable_exit_ok()?;
 
         Command::new("leptosfmt")
             .arg("--quiet")
             .arg(path)
             .status()?
-            .exit_ok()?;
+            .stable_exit_ok()?;
 
         Ok(())
     }
