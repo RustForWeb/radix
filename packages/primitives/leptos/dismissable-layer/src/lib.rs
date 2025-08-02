@@ -5,5 +5,6 @@
 //! See [`@radix-ui/react-dismissable-layer`](https://www.npmjs.com/package/@radix-ui/react-dismissable-layer) for the original package.
 
 mod dismissable_layer;
+mod object_key;
 
 pub use dismissable_layer::*;

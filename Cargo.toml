@@ -17,6 +17,7 @@ members = [
     "packages/primitives/leptos/arrow",
     "packages/primitives/leptos/aspect-ratio",
     "packages/primitives/leptos/compose-refs",
+    "packages/primitives/leptos/dismissable-layer",
     "packages/primitives/leptos/direction",
     "packages/primitives/leptos/focus-guards",
     "packages/primitives/leptos/id",
@@ -48,12 +49,14 @@ version = "0.0.2"
 console_error_panic_hook = "0.1.7"
 console_log = "1.0.0"
 dioxus = "0.6.1"
+indexmap = "2.10.0"
 leptos = "0.8.0"
 leptos_dom = "0.8.0"
 leptos_router = "0.8.0"
 leptos-maybe-callback = "0.2.0"
 leptos-node-ref = "0.2.0"
 leptos-style = "0.2.0"
+leptos-use = "0.16.0"
 leptos-typed-fallback-show = "0.2.0"
 log = "0.4.22"
 radix-dioxus-icons = { path = "./packages/icons/dioxus", version = "0.0.2" }
@@ -62,7 +65,7 @@ radix-leptos-arrow = { path = "./packages/primitives/leptos/arrow", version = "0
 radix-leptos-aspect-ratio = { path = "./packages/primitives/leptos/aspect-ratio", version = "0.0.2" }
 # radix-leptos-collection = { path = "./packages/primitives/leptos/collection", version = "0.0.2" }
 radix-leptos-compose-refs = { path = "./packages/primitives/leptos/compose-refs", version = "0.0.2" }
-# radix-leptos-dismissable-layer = { path = "./packages/primitives/leptos/dismissable-layer", version = "0.0.2" }
+radix-leptos-dismissable-layer = { path = "./packages/primitives/leptos/dismissable-layer", version = "0.0.2" }
 radix-leptos-direction = { path = "./packages/primitives/leptos/direction", version = "0.0.2" }
 radix-leptos-focus-guards = { path = "./packages/primitives/leptos/focus-guards", version = "0.0.2" }
 # radix-leptos-focus-scope = { path = "./packages/primitives/leptos/focus-scope", version = "0.0.2" }
@@ -77,6 +80,7 @@ radix-leptos-primitive = { path = "./packages/primitives/leptos/primitive", vers
 radix-leptos-separator = { path = "./packages/primitives/leptos/separator", version = "0.0.2" }
 radix-leptos-visually-hidden = { path = "./packages/primitives/leptos/visually-hidden", version = "0.0.2" }
 radix-leptos-use-controllable-state = { path = "./packages/primitives/leptos/use-controllable-state", version = "0.0.2" }
+radix-leptos-use-escape-keydown = { path = "./packages/primitives/leptos/use-escape-keydown", version = "0.0.2" }
 radix-leptos-use-previous = { path = "./packages/primitives/leptos/use-previous", version = "0.0.2" }
 radix-leptos-use-size = { path = "./packages/primitives/leptos/use-size", version = "0.0.2" }
 radix-number = { path = "./packages/primitives/core/number", version = "0.0.2" }
@@ -112,7 +116,9 @@ radix-yew-use-size = { path = "./packages/primitives/yew/use-size", version = "0
 send_wrapper = "0.6.0"
 serde = "1.0.198"
 serde_json = "1.0.116"
+serde-wasm-bindgen = "0.6.5"
 tailwind_fuse = { version = "0.3.0", features = ["variant"] }
+wasm-bindgen = "0.2.100"
 web-sys = "0.3.72"
 yew = "0.21.0"
 yew-router = "0.18.0"
