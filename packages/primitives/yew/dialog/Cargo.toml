@@ -10,14 +10,13 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-log.workspace = true
 radix-yew-dismissable-layer.workspace = true
 radix-yew-focus-guards.workspace = true
 radix-yew-focus-scope.workspace = true
 radix-yew-id.workspace = true
+radix-yew-portal.workspace = true
 radix-yew-presence.workspace = true
 radix-yew-primitive.workspace = true
-radix-yew-portal.workspace = true
 radix-yew-use-controllable-state.workspace = true
 web-sys.workspace = true
 yew.workspace = true

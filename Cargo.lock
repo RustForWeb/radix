@@ -3081,7 +3081,6 @@ dependencies = [
  "console_log",
  "dioxus",
  "log",
- "tailwind_fuse",
  "web-sys",
 ]
 
@@ -3206,7 +3205,6 @@ dependencies = [
 name = "radix-leptos-portal"
 version = "0.0.2"
 dependencies = [
- "cfg-if",
  "leptos",
  "leptos-node-ref",
  "leptos_dom",
@@ -3324,7 +3322,6 @@ dependencies = [
 name = "radix-yew-avatar"
 version = "0.0.2"
 dependencies = [
- "log",
  "web-sys",
  "yew",
  "yew-struct-component",
@@ -3403,7 +3400,6 @@ dependencies = [
 name = "radix-yew-dialog"
 version = "0.0.2"
 dependencies = [
- "log",
  "radix-yew-dismissable-layer",
  "radix-yew-focus-guards",
  "radix-yew-focus-scope",
@@ -3484,7 +3480,6 @@ version = "0.0.2"
 dependencies = [
  "floating-ui-yew",
  "radix-yew-arrow",
- "radix-yew-primitive",
  "radix-yew-use-size",
  "serde",
  "serde_json",
@@ -3523,10 +3518,7 @@ dependencies = [
 name = "radix-yew-scroll-area"
 version = "0.0.2"
 dependencies = [
- "radix-number",
  "radix-yew-direction",
- "radix-yew-presence",
- "radix-yew-primitive",
  "web-sys",
  "yew",
  "yew-struct-component",
@@ -3537,7 +3529,6 @@ dependencies = [
 name = "radix-yew-select"
 version = "0.0.2"
 dependencies = [
- "log",
  "radix-number",
  "radix-yew-collection",
  "radix-yew-direction",
@@ -3582,7 +3573,6 @@ dependencies = [
  "radix-yew-popper",
  "radix-yew-portal",
  "radix-yew-presence",
- "radix-yew-primitive",
  "radix-yew-scroll-area",
  "radix-yew-select",
  "radix-yew-separator",
@@ -3637,7 +3627,6 @@ dependencies = [
 name = "radix-yew-tooltip"
 version = "0.0.2"
 dependencies = [
- "log",
  "radix-yew-id",
  "radix-yew-popper",
  "radix-yew-portal",
@@ -4309,9 +4298,9 @@ dependencies = [
 
 [[package]]
 name = "slab"
-version = "0.4.10"
+version = "0.4.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04dc19736151f35336d325007ac991178d504a119863a2fcb3758cdb5e52c50d"
+checksum = "7a2ae44ef20feb57a68b23d846850f861394c2e02dc425a50098ae8c90267589"
 
 [[package]]
 name = "sledgehammer_bindgen"

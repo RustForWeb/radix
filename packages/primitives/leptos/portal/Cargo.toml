@@ -10,10 +10,9 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-cfg-if = "1.0.0"
 leptos.workspace = true
-leptos_dom.workspace = true
 leptos-node-ref.workspace = true
+leptos_dom.workspace = true
 radix-leptos-primitive.workspace = true
 send_wrapper.workspace = true
 web-sys.workspace = true

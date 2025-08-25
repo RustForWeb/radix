@@ -11,7 +11,6 @@ version.workspace = true
 [dependencies]
 floating-ui-yew = "0.5.0"
 radix-yew-arrow.workspace = true
-radix-yew-primitive.workspace = true
 radix-yew-use-size.workspace = true
 serde.workspace = true
 serde_json.workspace = true

@@ -10,11 +10,11 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-console_log.workspace = true
 console_error_panic_hook.workspace = true
+console_log.workspace = true
 leptos = { workspace = true, features = ["csr"] }
-leptos_router.workspace = true
 leptos-node-ref.workspace = true
+leptos_router.workspace = true
 log.workspace = true
 radix-leptos-accessible-icon.workspace = true
 radix-leptos-arrow.workspace = true

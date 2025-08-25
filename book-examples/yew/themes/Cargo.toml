@@ -9,16 +9,6 @@ license.workspace = true
 repository.workspace = true
 version.workspace = true
 
-[dependencies]
-console_error_panic_hook.workspace = true
-console_log.workspace = true
-log.workspace = true
-radix-yew-icons.workspace = true
-radix-yew-themes.workspace = true
-yew = { workspace = true, features = ["csr"] }
-yew-router.workspace = true
-yew-style.workspace = true
-
 [features]
 default = [
     "aspect-ratio",
@@ -90,3 +80,13 @@ text = []
 text-area = []
 text-field = []
 tooltip = []
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+log.workspace = true
+radix-yew-icons.workspace = true
+radix-yew-themes.workspace = true
+yew = { workspace = true, features = ["csr"] }
+yew-router.workspace = true
+yew-style.workspace = true

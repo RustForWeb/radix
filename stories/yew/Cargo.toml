@@ -10,8 +10,8 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-console_log.workspace = true
 console_error_panic_hook.workspace = true
+console_log.workspace = true
 log.workspace = true
 radix-yew-arrow.workspace = true
 radix-yew-aspect-ratio.workspace = true
@@ -24,10 +24,9 @@ radix-yew-label.workspace = true
 radix-yew-popper.workspace = true
 radix-yew-portal.workspace = true
 radix-yew-presence.workspace = true
-radix-yew-primitive.workspace = true
+radix-yew-scroll-area.workspace = true
 radix-yew-select.workspace = true
 radix-yew-separator.workspace = true
-radix-yew-scroll-area.workspace = true
 radix-yew-switch.workspace = true
 radix-yew-tooltip.workspace = true
 radix-yew-visually-hidden.workspace = true

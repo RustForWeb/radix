@@ -8,19 +8,6 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 version.workspace = true
-
-[dependencies]
-console_error_panic_hook.workspace = true
-console_log.workspace = true
-leptos = { workspace = true, features = ["csr"] }
-log.workspace = true
-radix-leptos-aspect-ratio = { workspace = true, optional = true }
-# radix-leptos-avatar = { workspace = true, optional = true }
-# radix-leptos-checkbox = { workspace = true, optional = true }
-# radix-leptos-icons = { workspace = true, optional = true }
-radix-leptos-label = { workspace = true, optional = true }
-# radix-leptos-progress = { workspace = true, optional = true }
-radix-leptos-separator = { workspace = true, optional = true }
 # radix-leptos-switch = { workspace = true, optional = true }
 # radix-leptos-toggle = { workspace = true, optional = true }
 
@@ -43,6 +30,19 @@ progress = []
 separator = ["dep:radix-leptos-separator"]
 switch = []
 toggle = []
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+leptos = { workspace = true, features = ["csr"] }
+log.workspace = true
+radix-leptos-aspect-ratio = { workspace = true, optional = true }
+# radix-leptos-avatar = { workspace = true, optional = true }
+# radix-leptos-checkbox = { workspace = true, optional = true }
+# radix-leptos-icons = { workspace = true, optional = true }
+radix-leptos-label = { workspace = true, optional = true }
+# radix-leptos-progress = { workspace = true, optional = true }
+radix-leptos-separator = { workspace = true, optional = true }
 # avatar = ["dep:radix-leptos-avatar"]
 # checkbox = ["dep:radix-leptos-checkbox", "dep:radix-leptos-icons"]
 # progress = ["dep:radix-leptos-progress"]
