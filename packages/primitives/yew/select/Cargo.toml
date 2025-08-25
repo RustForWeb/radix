@@ -10,7 +10,6 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-log.workspace = true
 radix-number.workspace = true
 radix-yew-collection.workspace = true
 radix-yew-direction.workspace = true

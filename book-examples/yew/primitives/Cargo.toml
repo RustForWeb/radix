@@ -9,21 +9,6 @@ license.workspace = true
 repository.workspace = true
 version.workspace = true
 
-[dependencies]
-console_error_panic_hook.workspace = true
-console_log.workspace = true
-log.workspace = true
-radix-yew-aspect-ratio = { workspace = true, optional = true }
-radix-yew-avatar = { workspace = true, optional = true }
-radix-yew-checkbox = { workspace = true, optional = true }
-radix-yew-icons = { workspace = true, optional = true }
-radix-yew-label = { workspace = true, optional = true }
-radix-yew-select = { workspace = true, optional = true }
-radix-yew-separator = { workspace = true, optional = true }
-radix-yew-switch = { workspace = true, optional = true }
-radix-yew-tooltip = { workspace = true, optional = true }
-yew = { workspace = true, features = ["csr"] }
-
 [features]
 default = [
     "aspect-ratio",
@@ -43,3 +28,18 @@ select = ["dep:radix-yew-select", "dep:radix-yew-icons"]
 separator = ["dep:radix-yew-separator"]
 switch = ["dep:radix-yew-switch"]
 tooltip = ["dep:radix-yew-tooltip", "dep:radix-yew-icons"]
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+log.workspace = true
+radix-yew-aspect-ratio = { workspace = true, optional = true }
+radix-yew-avatar = { workspace = true, optional = true }
+radix-yew-checkbox = { workspace = true, optional = true }
+radix-yew-icons = { workspace = true, optional = true }
+radix-yew-label = { workspace = true, optional = true }
+radix-yew-select = { workspace = true, optional = true }
+radix-yew-separator = { workspace = true, optional = true }
+radix-yew-switch = { workspace = true, optional = true }
+radix-yew-tooltip = { workspace = true, optional = true }
+yew = { workspace = true, features = ["csr"] }

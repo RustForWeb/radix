@@ -9,11 +9,11 @@ license.workspace = true
 repository.workspace = true
 version.workspace = true
 
+[features]
+default = []
+
 [dependencies]
 console_error_panic_hook.workspace = true
 console_log.workspace = true
-log.workspace = true
 dioxus = { workspace = true, features = ["web"] }
-
-[features]
-default = []
+log.workspace = true

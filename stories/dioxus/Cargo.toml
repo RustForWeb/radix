@@ -10,9 +10,8 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-console_log.workspace = true
 console_error_panic_hook.workspace = true
+console_log.workspace = true
 dioxus = { workspace = true, features = ["router", "web"] }
 log.workspace = true
-tailwind_fuse.workspace = true
 web-sys.workspace = true

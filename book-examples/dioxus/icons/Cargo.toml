@@ -9,13 +9,13 @@ license.workspace = true
 repository.workspace = true
 version.workspace = true
 
-[dependencies]
-console_error_panic_hook.workspace = true
-console_log.workspace = true
-log.workspace = true
-radix-dioxus-icons = { workspace = true, optional = true }
-dioxus = { workspace = true, features = ["web"] }
-
 [features]
 default = []
 icons = ["dep:radix-dioxus-icons"]
+
+[dependencies]
+console_error_panic_hook.workspace = true
+console_log.workspace = true
+dioxus = { workspace = true, features = ["web"] }
+log.workspace = true
+radix-dioxus-icons = { workspace = true, optional = true }

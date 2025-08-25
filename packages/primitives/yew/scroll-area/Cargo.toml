@@ -10,10 +10,7 @@ repository.workspace = true
 version.workspace = true
 
 [dependencies]
-radix-number.workspace = true
 radix-yew-direction.workspace = true
-radix-yew-presence.workspace = true
-radix-yew-primitive.workspace = true
 web-sys.workspace = true
 yew.workspace = true
 yew-struct-component.workspace = true
