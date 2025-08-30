@@ -12,25 +12,25 @@ Rust Radix is a Rust port of [Radix](https://www.radix-ui.com/primitives).
 
 Rust Radix consists of the following parts:
 
--   [Colors](./colors)
--   [Icons](./icons)
--   [Primitives](./primitives)
--   [Themes](./themes)
+- [Colors](./colors)
+- [Icons](./icons)
+- [Primitives](./primitives)
+- [Themes](./themes)
 
 ## Frameworks
 
 Rust Radix is available for the following frameworks:
 
--   [Dioxus](https://dioxuslabs.com/)
--   [Leptos](https://leptos.dev/)
--   [Yew](https://yew.rs/)
+- [Dioxus](https://dioxuslabs.com/)
+- [Leptos](https://leptos.dev/)
+- [Yew](https://yew.rs/)
 
 The tables below show the support for the various frameworks.
 
--   ✅ = Supported
--   🟦 = Early Support
--   🚧 = Work In Progress
--   ❌ = Unsupported
+- ✅ = Supported
+- 🟦 = Early Support
+- 🚧 = Work In Progress
+- ❌ = Unsupported
 
 ### Colors Support
 
@@ -176,4 +176,4 @@ This project is available under the [MIT license](https://github.com/RustForWeb/
 
 The Rust Radix project is part of [Rust for Web](https://github.com/RustForWeb).
 
-[Rust for Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
+[Rust for Web](https://github.com/RustForWeb) creates and ports web libraries for Rust. All projects are free and open source.

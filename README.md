@@ -14,9 +14,9 @@ Rust port of [Radix](https://www.radix-ui.com).
 
 Rust Radix is available for these Rust frameworks:
 
--   [Dioxus](https://dioxuslabs.com/)
--   [Leptos](./packages/primitives/leptos)
--   [Yew](https://yew.rs/)
+- [Dioxus](https://dioxuslabs.com/)
+- [Leptos](./packages/primitives/leptos)
+- [Yew](https://yew.rs/)
 
 See [the Rust Radix book](https://radix.rustforweb.org/introduction.html#frameworks) for more information.
 
@@ -36,4 +36,4 @@ This project is available under the [MIT license](LICENSE.md).
 
 The Rust Radix project is part of [Rust for Web](https://github.com/RustForWeb).
 
-[Rust for Web](https://github.com/RustForWeb) creates and ports web UI libraries for Rust. All projects are free and open source.
+[Rust for Web](https://github.com/RustForWeb) creates and ports web libraries for Rust. All projects are free and open source.
