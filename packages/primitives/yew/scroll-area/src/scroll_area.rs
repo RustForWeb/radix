@@ -1,3 +1,6 @@
+// TODO: Remove
+#![allow(dead_code)]
+
 use radix_yew_direction::{Direction, use_direction};
 use yew::prelude::*;
 use yew_struct_component::{Attributes, StructComponent, struct_component};

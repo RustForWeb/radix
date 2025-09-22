@@ -1,3 +1,6 @@
+// TODO: Remove
+#![allow(dead_code)]
+
 use radix_yew_scroll_area::*;
 use tailwind_fuse::*;
 use yew::prelude::*;
