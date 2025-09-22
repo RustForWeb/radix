@@ -1,3 +1,6 @@
+// TODO: Remove
+#![allow(dead_code)]
+
 use radix_yew_icons::{CheckIcon, ChevronDownIcon, ChevronUpIcon};
 use radix_yew_select::*;
 use yew::prelude::*;
