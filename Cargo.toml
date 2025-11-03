@@ -47,7 +47,7 @@ version = "0.0.2"
 [workspace.dependencies]
 console_error_panic_hook = "0.1.7"
 console_log = "1.0.0"
-dioxus = "0.6.1"
+dioxus = "0.7.0"
 leptos = "0.8.0"
 leptos-maybe-callback = "0.2.0"
 leptos-node-ref = "0.2.0"
