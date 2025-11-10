@@ -1412,39 +1412,15 @@ checksum = "37909eebbb50d72f9059c3b6d82c0463f2ff062c9e95845c43a6c9c0355411be"
 
 [[package]]
 name = "floating-ui-core"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "07b820214ebb0d8d1f76df7ebd20e80f4beb7fbecd575d636be36e1fdc300cd0"
-dependencies = [
- "dyn_derive",
- "dyn_std",
- "floating-ui-utils 0.5.0",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "floating-ui-core"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c9cb2c7fcddeb646e63f25eb953a9aa941da66b5d7d1d4a8834f661aa1a3db2"
 dependencies = [
  "dyn_derive",
  "dyn_std",
- "floating-ui-utils 0.6.0",
+ "floating-ui-utils",
  "serde",
  "serde_json",
-]
-
-[[package]]
-name = "floating-ui-dom"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "129ccdde91a971c47d0fe7a0e8c2eafa068919d0e308deaf7467ea734a3cb299"
-dependencies = [
- "floating-ui-core 0.5.0",
- "floating-ui-utils 0.5.0",
- "web-sys",
 ]
 
 [[package]]
@@ -1453,34 +1429,21 @@ version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bee9905ea1dd0f188a06bef6400e3148e2460215d4cc80b68b475e58be6eb55c"
 dependencies = [
- "floating-ui-core 0.6.0",
- "floating-ui-utils 0.6.0",
+ "floating-ui-core",
+ "floating-ui-utils",
  "web-sys",
 ]
 
 [[package]]
 name = "floating-ui-leptos"
-version = "0.5.1"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd7b81a54e6adf48ad698e8fc242fdcda312b3e372cb73b4374008d57862200f"
+checksum = "27bbc6eca6ce802ee2961579b1a51b1300ef02e20628297ebfcbb013de0c3b76"
 dependencies = [
- "floating-ui-dom 0.5.0",
+ "floating-ui-dom",
  "leptos",
  "leptos-node-ref",
  "send_wrapper",
- "web-sys",
-]
-
-[[package]]
-name = "floating-ui-utils"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a44e3bcef1a851d6d440606075b6ee234d062edc12350128bf31287c03fd1fdf"
-dependencies = [
- "cfg-if",
- "dyn_derive",
- "dyn_std",
- "serde",
  "web-sys",
 ]
 
@@ -1503,7 +1466,7 @@ version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a725e4d13b0ecaa0fc06d7d5d91e1dc12775028182d19d7071c7b94646164e32"
 dependencies = [
- "floating-ui-dom 0.6.0",
+ "floating-ui-dom",
  "web-sys",
  "yew",
 ]
