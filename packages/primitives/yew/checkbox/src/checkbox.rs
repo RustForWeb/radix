@@ -10,7 +10,7 @@ use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
 use web_sys::wasm_bindgen::{JsCast, closure::Closure};
 use yew::prelude::*;
-use yew_struct_component::{Attributes, StructComponent, struct_component};
+use yew_struct_component::{Attributes, StructComponent};
 use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
