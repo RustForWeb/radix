@@ -3,7 +3,7 @@ use radix_yew_use_controllable_state::{UseControllableStateParams, use_controlla
 use radix_yew_use_previous::use_previous;
 use radix_yew_use_size::use_size;
 use yew::prelude::*;
-use yew_struct_component::{Attributes, StructComponent, struct_component};
+use yew_struct_component::{Attributes, StructComponent};
 use yew_style::Style;
 
 #[derive(Clone, Debug, PartialEq)]

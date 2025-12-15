@@ -28,7 +28,7 @@ use web_sys::{
     window,
 };
 use yew::{prelude::*, virtual_dom::VNode};
-use yew_struct_component::{Attributes, StructComponent, struct_component};
+use yew_struct_component::{Attributes, StructComponent};
 use yew_style::Style;
 
 const OPEN_KEYS: [&str; 4] = [" ", "Enter", "ArrowUp", "ArrowDown"];

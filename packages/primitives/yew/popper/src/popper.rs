@@ -11,7 +11,7 @@ use radix_yew_use_size::use_size;
 use serde::{Deserialize, Serialize};
 use web_sys::{wasm_bindgen::JsCast, window};
 use yew::prelude::*;
-use yew_struct_component::{Attributes, StructComponent, struct_component};
+use yew_struct_component::{Attributes, StructComponent};
 use yew_style::Style;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]

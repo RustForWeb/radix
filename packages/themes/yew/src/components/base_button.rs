@@ -1,5 +1,5 @@
 use yew::prelude::*;
-use yew_struct_component::{Attributes, StructComponent, struct_component};
+use yew_struct_component::{Attributes, StructComponent};
 use yew_style::Style;
 
 use crate::{

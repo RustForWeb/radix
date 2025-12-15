@@ -12,7 +12,7 @@ use web_sys::{
     wasm_bindgen::{JsCast, closure::Closure},
 };
 use yew::prelude::*;
-use yew_struct_component::{Attributes, StructComponent, struct_component};
+use yew_struct_component::{Attributes, StructComponent};
 use yew_style::Style;
 
 const AUTOFOCUS_ON_MOUNT: &str = "focusScope.autoFocusOnMount";
